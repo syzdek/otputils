@@ -2,8 +2,6 @@
 #   TOTP Port Knocking Suite
 #   Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.
 #
-#   @SYZDEK_BSD_LICENSE_START@
-#
 #   Redistribution and use in source and binary forms, with or without
 #   modification, are permitted provided that the following conditions are
 #   met:
@@ -28,8 +26,6 @@
 #   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 #   OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #   SUCH DAMAGE.
-#
-#   @SYZDEK_BSD_LICENSE_END@
 #
 #   @configure_input@
 #
