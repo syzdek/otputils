@@ -84,8 +84,13 @@ BUILT_SOURCES				=
 TESTS					=
 XFAIL_TESTS				=
 EXTRA_MANS				=
-EXTRA_DIST				= \
-					  $(doc_DATA)
+EXTRA_DIST				= $(noinst_HEADERS) \
+					  AUTHORS.md \
+					  ChangeLog.md \
+					  COPYING.md \
+					  NEWS.md \
+					  README.md \
+					  TODO.md
 CLEANFILES				= \
 					  $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
