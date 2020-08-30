@@ -1,6 +1,6 @@
 
-TOTP Port Knocking Suite
-========================
+TOTP Utilities
+==============
 
 Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.
 All rights reserved.
@@ -46,21 +46,21 @@ repository.
 
 Browse Source:
 
-      https://github.com/syzdek/totpknock
+      https://github.com/syzdek/totputils
 
 Git URLs:
 
-      git://github.com/syzdek/totpknock.git
-      https://github.com/syzdek/totpknock.git
-      git@github.com:syzdek/totpknock.git
+      git://github.com/syzdek/totputils.git
+      https://github.com/syzdek/totputils.git
+      git@github.com:syzdek/totputils.git
 
 Downloading Source:
 
-      $ git clone git://github.com/syzdek/totpknock.git
+      $ git clone git://github.com/syzdek/totputils.git
 
 Preparing Source:
 
-      $ cd totpknock
+      $ cd totputils
       $ ./autogen.sh
 
 Git Branches:
