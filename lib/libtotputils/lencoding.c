@@ -167,6 +167,15 @@ ssize_t totputils_decode(
       *errp = TOTPUTILS_SUCCESS;
 
 
+   // validates buffer is big enough
+   if (s < totputils_decode_size(method, n))
+   {
+      if ((errp))
+         *errp = TOTPUTILS_ENOBUFS;
+      return(-1);
+   };
+
+
    switch(method)
    {
       case TOTPUTILS_BASE32:
@@ -202,15 +211,6 @@ ssize_t totputils_decode_base32(
 
    assert(dst != NULL);
    assert(src != NULL);
-
-
-   // validates buffer is big enough
-   if (s < totputils_decode_size(TOTPUTILS_BASE32, n))
-   {
-      if ((errp))
-         *errp = TOTPUTILS_ENOBUFS;
-      return(-1);
-   };
 
 
    // validates length of base32 data
@@ -377,6 +377,15 @@ totputils_encode(
       *errp = TOTPUTILS_SUCCESS;
 
 
+   // validates buffer is big enough
+   if (s < totputils_encode_size(method, n))
+   {
+      if ((errp))
+         *errp = TOTPUTILS_ENOBUFS;
+      return(-1);
+   };
+
+
    switch(method)
    {
       case TOTPUTILS_BASE32:
@@ -413,15 +422,6 @@ ssize_t totputils_encode_base32(
 
    assert(dst != NULL);
    assert(src != NULL);
-
-
-   // validates buffer is big enough
-   if (s <  totputils_decode_size(TOTPUTILS_BASE32, n))
-   {
-      if ((errp))
-         *errp = TOTPUTILS_ENOBUFS;
-      return(-1);
-   };
 
 
    // calculates each digit's value
