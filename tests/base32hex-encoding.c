@@ -94,14 +94,14 @@ int main(void)
 
    exit_code = 0;
 
-   for(pos = 0; ((base32_strings[pos].dec)); pos++)
+   for(pos = 0; ((base32hex_strings[pos].dec)); pos++)
    {
-      dec = base32_strings[pos].dec;
-      enc = base32_strings[pos].enc;
+      dec = base32hex_strings[pos].dec;
+      enc = base32hex_strings[pos].enc;
 
       printf("encoding \"%s\" ... ", dec);
 
-      len = totputils_encode(TOTPUTILS_BASE32, buff, sizeof(buff), dec, strlen(dec), &err);
+      len = totputils_encode(TOTPUTILS_BASE32HEX, buff, sizeof(buff), dec, strlen(dec), &err);
       if (len == -1)
       {
          printf("FAIL -- %s\n", totputils_err2string(err));

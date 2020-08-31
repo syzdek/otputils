@@ -55,6 +55,7 @@
 #pragma mark - Prototypes
 
 ssize_t totputils_decode_base32(
+   const int8_t *                map,
    uint8_t *                     dst,
    size_t                        s,
    const int8_t *                src,
@@ -64,6 +65,7 @@ ssize_t totputils_decode_base32(
 
 
 ssize_t totputils_encode_base32(
+   const char *                  map,
    uint8_t *                     dst,
    size_t                        s,
    const int8_t *                src,
@@ -106,6 +108,29 @@ static const int8_t base32_vals[256] =
 static const char * base32_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=";
 
 
+static const int8_t base32hex_vals[256] =
+{
+// 00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x00
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x10
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x20
+    0,  1,  2,  3,  4,  5,  6,  7,  8,  9, -1, -1, -1,  0, -1, -1, // 0x30
+   -1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, // 0x40
+   25, 26, 27, 28, 29, 30, 31, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x50
+   -1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, // 0x60
+   25, 26, 27, 28, 29, 30, 31, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x70
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x80
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x90
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xA0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xB0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xC0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xD0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xE0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xF0
+};
+static const char * base32hex_chars = "0123456789ABCDEFGHIJKLMNOPQRSTUV=";
+
+
 /////////////////
 //             //
 //  Functions  //
@@ -145,7 +170,10 @@ ssize_t totputils_decode(
    switch(method)
    {
       case TOTPUTILS_BASE32:
-      return(totputils_decode_base32(dst, s, src, n, errp));
+      return(totputils_decode_base32(base32_vals, dst, s, src, n, errp));
+
+      case TOTPUTILS_BASE32HEX:
+      return(totputils_decode_base32(base32hex_vals, dst, s, src, n, errp));
 
       default:
       break;
@@ -159,6 +187,7 @@ ssize_t totputils_decode(
 
 
 ssize_t totputils_decode_base32(
+   const int8_t *                map,
    uint8_t *                     dst,
    size_t                        s,
    const int8_t *                src,
@@ -199,7 +228,7 @@ ssize_t totputils_decode_base32(
    for(pos = 0; (pos < n); pos++)
    {
       // verifies base32 character
-      if (base32_vals[src[pos]] == -1)
+      if (map[src[pos]] == -1)
       {
          if ((errp))
             *errp = TOTPUTILS_EBADDATA;
@@ -262,8 +291,8 @@ ssize_t totputils_decode_base32(
       // LSB is Least Significant Bits (0x01 == 00000001 ~= LSB)
 
       // byte 0
-      dst[datlen+0]  = (base32_vals[src[pos+0]] << 3) & 0xF8; // 5 MSB
-      dst[datlen+0] |= (base32_vals[src[pos+1]] >> 2) & 0x07; // 3 LSB
+      dst[datlen+0]  = (map[src[pos+0]] << 3) & 0xF8; // 5 MSB
+      dst[datlen+0] |= (map[src[pos+1]] >> 2) & 0x07; // 3 LSB
       if (src[pos+2] == '=')
       {
           datlen += 1;
@@ -271,9 +300,9 @@ ssize_t totputils_decode_base32(
       };
 
       // byte 1
-      dst[datlen+1]  = (base32_vals[src[pos+1]] << 6) & 0xC0; // 2 MSB
-      dst[datlen+1] |= (base32_vals[src[pos+2]] << 1) & 0x3E; // 5  MB
-      dst[datlen+1] |= (base32_vals[src[pos+3]] >> 4) & 0x01; // 1 LSB
+      dst[datlen+1]  = (map[src[pos+1]] << 6) & 0xC0; // 2 MSB
+      dst[datlen+1] |= (map[src[pos+2]] << 1) & 0x3E; // 5  MB
+      dst[datlen+1] |= (map[src[pos+3]] >> 4) & 0x01; // 1 LSB
       if (src[pos+4] == '=')
       {
           datlen += 2;
@@ -281,8 +310,8 @@ ssize_t totputils_decode_base32(
       };
 
       // byte 2
-      dst[datlen+2]  = (base32_vals[src[pos+3]] << 4) & 0xF0; // 4 MSB
-      dst[datlen+2] |= (base32_vals[src[pos+4]] >> 1) & 0x0F; // 4 LSB
+      dst[datlen+2]  = (map[src[pos+3]] << 4) & 0xF0; // 4 MSB
+      dst[datlen+2] |= (map[src[pos+4]] >> 1) & 0x0F; // 4 LSB
       if (src[pos+5] == '=')
       {
           datlen += 3;
@@ -290,9 +319,9 @@ ssize_t totputils_decode_base32(
       };
 
       // byte 3
-      dst[datlen+3]  = (base32_vals[src[pos+4]] << 7) & 0x80; // 1 MSB
-      dst[datlen+3] |= (base32_vals[src[pos+5]] << 2) & 0x7C; // 5  MB
-      dst[datlen+3] |= (base32_vals[src[pos+6]] >> 3) & 0x03; // 2 LSB
+      dst[datlen+3]  = (map[src[pos+4]] << 7) & 0x80; // 1 MSB
+      dst[datlen+3] |= (map[src[pos+5]] << 2) & 0x7C; // 5  MB
+      dst[datlen+3] |= (map[src[pos+6]] >> 3) & 0x03; // 2 LSB
       if (src[pos+7] == '=')
       {
           datlen += 4;
@@ -300,8 +329,8 @@ ssize_t totputils_decode_base32(
       };
 
       // byte 4
-      dst[datlen+4]  = (base32_vals[src[pos+6]] << 5) & 0xE0; // 3 MSB
-      dst[datlen+4] |= (base32_vals[src[pos+7]] >> 0) & 0x1F; // 5 LSB
+      dst[datlen+4]  = (map[src[pos+6]] << 5) & 0xE0; // 3 MSB
+      dst[datlen+4] |= (map[src[pos+7]] >> 0) & 0x1F; // 5 LSB
       datlen += 5;
    };
 
@@ -318,6 +347,7 @@ totputils_decode_size(
    switch(method)
    {
       case TOTPUTILS_BASE32:
+      case TOTPUTILS_BASE32HEX:
       return( ((n / 8) + (((n%8)) ? 1 : 0)) * 5 );
 
 
@@ -350,7 +380,10 @@ totputils_encode(
    switch(method)
    {
       case TOTPUTILS_BASE32:
-      return(totputils_encode_base32(dst, s, src, n, errp));
+      return(totputils_encode_base32(base32_chars, dst, s, src, n, errp));
+
+      case TOTPUTILS_BASE32HEX:
+      return(totputils_encode_base32(base32hex_chars, dst, s, src, n, errp));
 
       default:
       break;
@@ -364,6 +397,7 @@ totputils_encode(
 
 
 ssize_t totputils_encode_base32(
+   const char *                  map,
    uint8_t *                     dst,
    size_t                        s,
    const int8_t *                src,
@@ -443,7 +477,7 @@ ssize_t totputils_encode_base32(
 
    // encodes each value
    for(len = 0; ((size_t)len) < dpos; len++)
-      dst[len] = base32_chars[dst[len]];
+      dst[len] = map[dst[len]];
 
 
    // add padding
@@ -466,6 +500,7 @@ totputils_encode_size(
    switch(method)
    {
       case TOTPUTILS_BASE32:
+      case TOTPUTILS_BASE32HEX:
       return( ((n / 5) + (((n%5)) ? 1 : 0)) * 8 );
 
 

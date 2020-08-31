@@ -46,7 +46,7 @@
 
 #include <totputils.h>
 
-#include "tests.h"
+#include "test-strings.h"
 
 
 /////////////////
@@ -94,10 +94,10 @@ int main(void)
 
    exit_code = 0;
 
-   for(pos = 0; ((test_strings[pos].dec)); pos++)
+   for(pos = 0; ((base32_strings[pos].dec)); pos++)
    {
-      dec = test_strings[pos].dec;
-      enc = test_strings[pos].enc;
+      dec = base32_strings[pos].dec;
+      enc = base32_strings[pos].enc;
 
       printf("decoding \"%s\" ... ", enc);
 

@@ -57,7 +57,9 @@ DEFS					=
 
 # automake targets
 check_PROGRAMS				= tests/base32-decoding \
-					  tests/base32-encoding
+					  tests/base32-encoding \
+					  tests/base32hex-decoding \
+					  tests/base32hex-encoding
 doc_DATA				= \
 					  AUTHORS.md \
 					  ChangeLog.md \
@@ -84,7 +86,9 @@ sbin_PROGRAMS				=
 AM_INSTALLCHECK_STD_OPTIONS_EXEMPT	=
 BUILT_SOURCES				=
 TESTS					= tests/base32-decoding \
-					  tests/base32-encoding
+					  tests/base32-encoding \
+					  tests/base32hex-decoding \
+					  tests/base32hex-encoding
 XFAIL_TESTS				=
 EXTRA_MANS				=
 EXTRA_DIST				= $(noinst_HEADERS) \
@@ -142,17 +146,33 @@ lib_libtotputils_la_SOURCES		= $(noinst_HEADERS) \
 # macros for tests/base32-decoding
 tests_base32_decoding_DEPENDENCIES	= Makefile lib/libtotputils.a
 tests_base32_decoding_LDADD		= lib/libtotputils.a
-tests_base32_decoding_SOURCES		= tests/tests.c \
-					  tests/tests.h \
+tests_base32_decoding_SOURCES		= tests/test-strings.c \
+					  tests/test-strings.h \
 					  tests/base32-decoding.c
 
 
 # macros for tests/base32-encoding
 tests_base32_encoding_DEPENDENCIES	= Makefile lib/libtotputils.a
 tests_base32_encoding_LDADD		= lib/libtotputils.a
-tests_base32_encoding_SOURCES		= tests/tests.c \
-					  tests/tests.h \
+tests_base32_encoding_SOURCES		= tests/test-strings.c \
+					  tests/test-strings.h \
 					  tests/base32-encoding.c
+
+
+# macros for tests/base32hex-decoding
+tests_base32hex_decoding_DEPENDENCIES	= Makefile lib/libtotputils.a
+tests_base32hex_decoding_LDADD		= lib/libtotputils.a
+tests_base32hex_decoding_SOURCES	= tests/test-strings.c \
+					  tests/test-strings.h \
+					  tests/base32hex-decoding.c
+
+
+# macros for tests/base32hex-encoding
+tests_base32hex_encoding_DEPENDENCIES	= Makefile lib/libtotputils.a
+tests_base32hex_encoding_LDADD		= lib/libtotputils.a
+tests_base32hex_encoding_SOURCES	= tests/test-strings.c \
+					  tests/test-strings.h \
+					  tests/base32hex-encoding.c
 
 
 # Makefile includes

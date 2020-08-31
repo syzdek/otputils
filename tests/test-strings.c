@@ -30,8 +30,8 @@
 /*
  *  @file tests/base32-decoding.c
  */
-#define _TESTS_TESTS_C 1
-#include "tests.h"
+#define _TESTS_TEST_STRINGS_C 1
+#include "test-strings.h"
 
 ///////////////
 //           //
@@ -52,7 +52,7 @@
 /////////////////
 #pragma mark - Datatypes
 
-struct test_data test_strings[] =
+struct test_data base32_strings[] =
 {
    { "",       ""                 },
    { "f",      "MY======"         },
@@ -61,6 +61,19 @@ struct test_data test_strings[] =
    { "foob",   "MZXW6YQ="         },
    { "fooba",  "MZXW6YTB"         },
    { "foobar", "MZXW6YTBOI======" },
+   { NULL,     NULL               }
+};
+
+
+struct test_data base32hex_strings[] =
+{
+   { "",       ""                 },
+   { "f",      "CO======"         },
+   { "fo",     "CPNG===="         },
+   { "foo",    "CPNMU==="         },
+   { "foob",   "CPNMUOG="         },
+   { "fooba",  "CPNMUOJ1"         },
+   { "foobar", "CPNMUOJ1E8======" },
    { NULL,     NULL               }
 };
 

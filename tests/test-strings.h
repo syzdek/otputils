@@ -30,8 +30,8 @@
 /*
  *  @file tests/base32-decoding.c
  */
-#ifndef _TESTS_TESTS_H
-#define _TESTS_TESTS_H 1
+#ifndef _TESTS_TEST_STRINGS_H
+#define _TESTS_TEST_STRINGS_H 1
 
 ///////////////
 //           //
@@ -66,7 +66,8 @@ struct test_data
 //////////////////
 #pragma mark - Prototypes
 
-extern struct test_data test_strings[];
+extern struct test_data base32_strings[];
+extern struct test_data base32hex_strings[];
 
 
 #endif /* end of header file */

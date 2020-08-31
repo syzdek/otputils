@@ -94,25 +94,25 @@ int main(void)
 
    exit_code = 0;
 
-   for(pos = 0; ((base32_strings[pos].dec)); pos++)
+   for(pos = 0; ((base32hex_strings[pos].dec)); pos++)
    {
-      dec = base32_strings[pos].dec;
-      enc = base32_strings[pos].enc;
+      dec = base32hex_strings[pos].dec;
+      enc = base32hex_strings[pos].enc;
 
-      printf("encoding \"%s\" ... ", dec);
+      printf("decoding \"%s\" ... ", enc);
 
-      len = totputils_encode(TOTPUTILS_BASE32, buff, sizeof(buff), dec, strlen(dec), &err);
+      len = totputils_decode(TOTPUTILS_BASE32HEX, buff, sizeof(buff), enc, strlen(enc), &err);
       if (len == -1)
       {
          printf("FAIL -- %s\n", totputils_err2string(err));
          exit_code = 1;
       } else {
          buff[len] = '\0';
-         if (!(strcmp(enc, buff)))
+         if (!(strcmp(dec, buff)))
          {
             printf("PASS\n");
          } else {
-            printf("FAIL expected: \"%s\"; received: \"%s\"\n", enc, buff);
+            printf("FAIL \"%s\"\n", buff);
             exit_code = 1;
          };
       };
