@@ -75,7 +75,7 @@ noinst_LTLIBRARIES			=
 noinst_LIBRARIES			=
 noinst_HEADERS				=
 noinst_PROGRAMS				=
-bin_PROGRAMS				=
+bin_PROGRAMS				= src/totp/totp
 bin_SCRIPTS				=
 pkgdata_DATA				=
 sbin_SCRIPTS				=
@@ -141,6 +141,16 @@ lib_libtotputils_la_SOURCES		= $(noinst_HEADERS) \
 					  lib/libtotputils/lencoding.h \
 					  lib/libtotputils/lerror.c \
 					  lib/libtotputils/lerror.h
+
+
+# macros for src/totp/totp
+src_totp_totp_DEPENDENCIES		= Makefile lib/libtotputils.a
+src_totp_totp_CPPFLAGS			= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtotputils
+src_totp_totp_CFLAGS			= $(AM_CFLAGS)
+src_totp_totp_LDFLAGS			= $(AM_LDFLAGS) lib/libtotputils.a
+src_totp_totp_LDADD			= $(AM_LIBS)
+src_totp_totp_SOURCES			= src/totp/main.c \
+					  src/totp/main.h
 
 
 # macros for tests/base32-decoding
