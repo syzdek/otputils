@@ -30,8 +30,8 @@
 /*
  *  @file lib/libtotputils/lencoding.h
  */
-#ifndef _SRC_TOTP_MAIN_H
-#define _SRC_TOTP_MAIN_H 1
+#ifndef _SRC_TOTP_TOTPUTILITIES_H
+#define _SRC_TOTP_TOTPUTILITIES_H 1
 
 
 ///////////////
@@ -51,6 +51,40 @@
 ///////////////////
 #pragma mark - Definitions
 
+#ifndef TOTP_PREFIX
+#define TOTP_PREFIX "totp-"
+#endif
+
+
+/////////////////
+//             //
+//  Datatypes  //
+//             //
+/////////////////
+#pragma mark - Datatypes
+
+typedef struct totp_config totp_config;
+typedef struct totp_widget totp_widget;
+
+
+struct totp_widget
+{
+   const char *           name;
+   const char *           desc;
+   int  (*func)(totp_config * cnf);
+};
+
+
+struct totp_config
+{
+   int                      quiet;
+   int                      verbose;
+   int                      opt_index;
+   int                      argc;
+   char **                  argv;
+   const totp_widget *      widget;
+};
+
 
 //////////////////
 //              //
@@ -58,6 +92,11 @@
 //              //
 //////////////////
 #pragma mark - Prototypes
+
+const char * totp_basename(const char * path);
+
+// displays version information
+int totp_version(totp_config * cnf);
 
 
 #endif /* end of header file */

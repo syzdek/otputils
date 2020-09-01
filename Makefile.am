@@ -149,8 +149,8 @@ src_totp_totp_CPPFLAGS			= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtotputils
 src_totp_totp_CFLAGS			= $(AM_CFLAGS)
 src_totp_totp_LDFLAGS			= $(AM_LDFLAGS) lib/libtotputils.a
 src_totp_totp_LDADD			= $(AM_LIBS)
-src_totp_totp_SOURCES			= src/totp/main.c \
-					  src/totp/main.h
+src_totp_totp_SOURCES			= src/totp/totputilities.c \
+					  src/totp/totputilities.h
 
 
 # macros for tests/base32-decoding
