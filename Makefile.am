@@ -82,7 +82,7 @@ bin_SCRIPTS				=
 pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
-EXTRA_PROGRAMS				=
+EXTRA_PROGRAMS				= examples/totp-example
 EXTRA					=
 
 
@@ -117,6 +117,13 @@ DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings
 
 
 # conditional build
+if ENABLE_EXAMPLES
+   noinst_PROGRAMS			+= examples/totp-example
+endif
+
+
+# macros for examples/totp-example
+examples_totp_example_SOURCES		= examples/totp-example.c
 
 
 # macros for lib/libtotputils.a
