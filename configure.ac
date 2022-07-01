@@ -156,6 +156,12 @@ AC_CHECK_HEADERS([termios.h],   [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([time.h],      [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([unistd.h],    [], [AC_MSG_ERROR([missing required headers])])
 
+# check for OpenSSL library
+AC_CHECK_HEADERS([openssl/evp.h],      [], [AC_MSG_ERROR([OpenSSL is required])])
+AC_CHECK_HEADERS([openssl/hmac.h],     [], [AC_MSG_ERROR([OpenSSL is required])])
+AC_CHECK_LIB([crypto], [EVP_sha1],     [], [AC_MSG_ERROR([OpenSSL is required])], [])
+AC_CHECK_LIB([crypto], [HMAC],         [], [AC_MSG_ERROR([OpenSSL is required])], [])
+
 # GNU Libtool Support
 LT_INIT(dlopen disable-fast-install)
 
