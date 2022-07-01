@@ -107,6 +107,8 @@
 
 #define TOTPUTILS_BASE32            0x0001
 #define TOTPUTILS_BASE32HEX         0x0002
+#define TOTPUTILS_BASE64            0x0003
+#define TOTPUTILS_HEX               0x0004
 
 
 /////////////////

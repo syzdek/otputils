@@ -364,8 +364,13 @@ totputils_decode_size(
    {
       case TOTPUTILS_BASE32:
       case TOTPUTILS_BASE32HEX:
-      return( ((n / 8) + (((n%8)) ? 1 : 0)) * 5 );
+      return( ((n / 8) + (((n % 8)) ? 1 : 0)) * 5 );
 
+      case TOTPUTILS_BASE64:
+      return( ((n / 4) + (((n % 4)) ? 1 : 0)) * 3 );
+
+      case TOTPUTILS_HEX:
+      return( (n / 2) + (((n % 2)) ? 1 : 0) );
 
       default:
       break;
@@ -529,6 +534,8 @@ totputils_encode_method(
    {
       case TOTPUTILS_BASE32:
       case TOTPUTILS_BASE32HEX:
+      case TOTPUTILS_BASE64:
+      case TOTPUTILS_HEX:
       return(method);
 
       default:
@@ -552,8 +559,13 @@ totputils_encode_size(
    {
       case TOTPUTILS_BASE32:
       case TOTPUTILS_BASE32HEX:
-      return( ((n / 5) + (((n%5)) ? 1 : 0)) * 8 );
+      return( ((n / 5) + (((n % 5)) ? 1 : 0)) * 8 );
 
+      case TOTPUTILS_BASE64:
+      return( ((n / 3) + (((n % 3)) ? 1 : 0)) * 4 );
+
+      case TOTPUTILS_HEX:
+      return( n * 2 );
 
       default:
       break;
