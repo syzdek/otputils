@@ -160,7 +160,7 @@ static const char * base32hex_chars = "0123456789ABCDEFGHIJKLMNOPQRSTUV=";
 ///            totputils_err2str
 ssize_t
 totputils_decode(
-         uint32_t                      method,
+         int                           method,
          void *                        dst,
          size_t                        s,
          const void *                  src,
@@ -359,7 +359,7 @@ totputils_decode_base32(
 
 ssize_t
 totputils_decode_size(
-         uint32_t                      method,
+         int                           method,
          size_t                        n
 )
 {
@@ -380,7 +380,7 @@ totputils_decode_size(
 
 ssize_t
 totputils_encode(
-         uint32_t                      method,
+         int                           method,
          void *                        dst,
          size_t                        s,
          const void *                  src,
@@ -543,7 +543,7 @@ totputils_encode_method(
 
 ssize_t
 totputils_encode_size(
-         uint32_t                      method,
+         int                           method,
          size_t                        n
 )
 {

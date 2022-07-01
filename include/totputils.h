@@ -136,7 +136,7 @@ TOTPUTILS_BEGIN_C_DECLS
 
 _TOTPUTILS_F ssize_t
 totputils_decode(
-         uint32_t                      method,
+         int                           method,
          void *                        dst,
          size_t                        s,
          const void *                  src,
@@ -147,14 +147,14 @@ totputils_decode(
 
 _TOTPUTILS_F ssize_t
 totputils_decode_size(
-         uint32_t                      method,
+         int                           method,
          size_t                        n
          );
 
 
 _TOTPUTILS_F ssize_t
 totputils_encode(
-         uint32_t                      method,
+         int                           method,
          void *                        dst,
          size_t                        s,
          const void *                  src,
@@ -165,7 +165,7 @@ totputils_encode(
 
 _TOTPUTILS_F ssize_t
 totputils_encode_size(
-         uint32_t                      method,
+         int                           method,
          size_t                        n
          );
 
