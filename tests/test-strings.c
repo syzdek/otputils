@@ -54,27 +54,41 @@
 
 struct test_data base32_strings[] =
 {
-   { "",       ""                 },
-   { "f",      "MY======"         },
-   { "fo",     "MZXQ===="         },
-   { "foo",    "MZXW6==="         },
-   { "foob",   "MZXW6YQ="         },
-   { "fooba",  "MZXW6YTB"         },
-   { "foobar", "MZXW6YTBOI======" },
-   { NULL,     NULL               }
+   { "",       "",                 0 },
+   { "f",      "MY======",         0 },
+   { "fo",     "MZXQ====",         0 },
+   { "foo",    "MZXW6===",         0 },
+   { "foob",   "MZXW6YQ=",         0 },
+   { "fooba",  "MZXW6YTB",         0 },
+   { "foobar", "MZXW6YTBOI======", 0 },
+   { "",       "",                 1 },
+   { "f",      "MY",               1 },
+   { "fo",     "MZXQ",             1 },
+   { "foo",    "MZXW6",            1 },
+   { "foob",   "MZXW6YQ",          1 },
+   { "fooba",  "MZXW6YTB",         1 },
+   { "foobar", "MZXW6YTBOI",       1 },
+   { NULL,     NULL,               0 }
 };
 
 
 struct test_data base32hex_strings[] =
 {
-   { "",       ""                 },
-   { "f",      "CO======"         },
-   { "fo",     "CPNG===="         },
-   { "foo",    "CPNMU==="         },
-   { "foob",   "CPNMUOG="         },
-   { "fooba",  "CPNMUOJ1"         },
-   { "foobar", "CPNMUOJ1E8======" },
-   { NULL,     NULL               }
+   { "",       "",                 0 },
+   { "f",      "CO======",         0 },
+   { "fo",     "CPNG====",         0 },
+   { "foo",    "CPNMU===",         0 },
+   { "foob",   "CPNMUOG=",         0 },
+   { "fooba",  "CPNMUOJ1",         0 },
+   { "foobar", "CPNMUOJ1E8======", 0 },
+   { "",       "",                 1 },
+   { "f",      "CO",               1 },
+   { "fo",     "CPNG",             1 },
+   { "foo",    "CPNMU",            1 },
+   { "foob",   "CPNMUOG",          1 },
+   { "fooba",  "CPNMUOJ1",         1 },
+   { "foobar", "CPNMUOJ1E8",       1 },
+   { NULL,     NULL,               0 }
 };
 
 

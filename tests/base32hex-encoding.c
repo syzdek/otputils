@@ -91,17 +91,19 @@ int main(void)
    const char    * dec;
    const char    * enc;
    int             exit_code;
+   int             nopad;
 
    exit_code = 0;
 
    for(pos = 0; ((base32hex_strings[pos].dec)); pos++)
    {
-      dec = base32hex_strings[pos].dec;
-      enc = base32hex_strings[pos].enc;
+      dec   = base32hex_strings[pos].dec;
+      enc   = base32hex_strings[pos].enc;
+      nopad = (int)base32hex_strings[pos].nopad;
 
       printf("encoding \"%s\" ... ", dec);
 
-      len = totputils_encode(TOTPUTILS_BASE32HEX, buff, sizeof(buff), dec, strlen(dec), &err);
+      len = totputils_encode(TOTPUTILS_BASE32HEX, buff, sizeof(buff), dec, strlen(dec), nopad, &err);
       if (len == -1)
       {
          printf("FAIL -- %s\n", totputils_err2string(err));

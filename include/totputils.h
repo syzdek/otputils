@@ -162,6 +162,7 @@ totputils_encode(
          size_t                        s,
          const void *                  src,
          size_t                        n,
+         int                           nopad,
          int *                         errp
          );
 

@@ -72,6 +72,7 @@ totp_base32_encode(
          size_t                        s,
          const int8_t *                src,
          size_t                        n,
+         int                           nopad,
          int *                         errp
 );
 
@@ -299,6 +300,7 @@ totp_base32_encode(
          size_t                        s,
          const int8_t *                src,
          size_t                        n,
+         int                           nopad,
          int *                         errp
 )
 {
@@ -374,9 +376,11 @@ totp_base32_encode(
 
 
    // add padding
-   for(; ((len % 8)); len++)
+   if (!(nopad))
+      for(; ((len % 8)); len++)
          dst[len] = '=';
 
+   dst[len] = '\0';
 
    return(len);
 }
@@ -477,6 +481,7 @@ totputils_encode(
          size_t                        s,
          const void *                  src,
          size_t                        n,
+         int                           nopad,
          int *                         errp
 )
 {
@@ -505,10 +510,10 @@ totputils_encode(
    switch(method)
    {
       case TOTPUTILS_BASE32:
-      return(totp_base32_encode(base32_chars, dst, s, src, n, errp));
+      return(totp_base32_encode(base32_chars, dst, s, src, n, nopad, errp));
 
       case TOTPUTILS_BASE32HEX:
-      return(totp_base32_encode(base32hex_chars, dst, s, src, n, errp));
+      return(totp_base32_encode(base32hex_chars, dst, s, src, n, nopad, errp));
 
       default:
       break;
