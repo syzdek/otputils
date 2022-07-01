@@ -78,7 +78,8 @@ totputils_encode_base32(
 
 static int
 totputils_encode_method(
-         int                           method
+         int                           method,
+         int *                         errp
 );
 
 
@@ -177,12 +178,8 @@ totputils_decode(
 
 
    // validate encoding method
-   if (totputils_encode_method(method) == -1)
-   {
-      if ((errp))
-         *errp = TOTPUTILS_ENOTSUP;
+   if (totputils_encode_method(method, errp) == -1)
       return(-1);
-   };
 
    // validates buffer is big enough
    if (s < (size_t)totputils_decode_size(method, n))
@@ -397,12 +394,8 @@ totputils_encode(
 
 
    // validate encoding method
-   if (totputils_encode_method(method) == -1)
-   {
-      if ((errp))
-         *errp = TOTPUTILS_ENOTSUP;
+   if (totputils_encode_method(method, errp) == -1)
       return(-1);
-   };
 
 
    // validates buffer is big enough
@@ -525,9 +518,13 @@ totputils_encode_base32(
 
 int
 totputils_encode_method(
-         int                           method
+         int                           method,
+         int *                         errp
 )
 {
+   if ((errp))
+      *errp = TOTPUTILS_SUCCESS;
+
    switch(method)
    {
       case TOTPUTILS_BASE32:
@@ -537,6 +534,10 @@ totputils_encode_method(
       default:
       break;
    };
+
+   if ((errp))
+      *errp = TOTPUTILS_ENOTSUP;
+
    return(-1);
 }
 
