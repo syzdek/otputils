@@ -54,28 +54,31 @@
 //////////////////
 #pragma mark - Prototypes
 
-ssize_t totputils_decode_base32(
-   const int8_t *                map,
-   uint8_t *                     dst,
-   size_t                        s,
-   const int8_t *                src,
-   size_t                        n,
-   int *                         errp
+static ssize_t
+totputils_decode_base32(
+         const int8_t *                map,
+         uint8_t *                     dst,
+         size_t                        s,
+         const int8_t *                src,
+         size_t                        n,
+         int *                         errp
 );
 
 
-ssize_t totputils_encode_base32(
-   const char *                  map,
-   uint8_t *                     dst,
-   size_t                        s,
-   const int8_t *                src,
-   size_t                        n,
-   int *                         errp
+static ssize_t
+totputils_encode_base32(
+         const char *                  map,
+         uint8_t *                     dst,
+         size_t                        s,
+         const int8_t *                src,
+         size_t                        n,
+         int *                         errp
 );
 
 
-int totputils_encode_method(
-   int                           method
+static int
+totputils_encode_method(
+         int                           method
 );
 
 
@@ -155,13 +158,14 @@ static const char * base32hex_chars = "0123456789ABCDEFGHIJKLMNOPQRSTUV=";
 ///            If an error occurs, returns -1 and sets errp to error code.
 /// @see       totputils_decode_size, totputils_encode, totputils_encode_size,
 ///            totputils_err2str
-ssize_t totputils_decode(
-   uint32_t                      method,
-   void *                        dst,
-   size_t                        s,
-   const void *                  src,
-   size_t                        n,
-   int *                         errp
+ssize_t
+totputils_decode(
+         uint32_t                      method,
+         void *                        dst,
+         size_t                        s,
+         const void *                  src,
+         size_t                        n,
+         int *                         errp
 )
 {
    assert(dst != NULL);
@@ -208,13 +212,14 @@ ssize_t totputils_decode(
 }
 
 
-ssize_t totputils_decode_base32(
-   const int8_t *                map,
-   uint8_t *                     dst,
-   size_t                        s,
-   const int8_t *                src,
-   size_t                        n,
-   int *                         errp
+ssize_t
+totputils_decode_base32(
+         const int8_t *                map,
+         uint8_t *                     dst,
+         size_t                        s,
+         const int8_t *                src,
+         size_t                        n,
+         int *                         errp
 )
 {
 
@@ -354,8 +359,8 @@ ssize_t totputils_decode_base32(
 
 ssize_t
 totputils_decode_size(
-   uint32_t  method,
-   size_t    n
+         uint32_t                      method,
+         size_t                        n
 )
 {
    switch(method)
@@ -375,12 +380,12 @@ totputils_decode_size(
 
 ssize_t
 totputils_encode(
-   uint32_t      method,
-   void *        dst,
-   size_t        s,
-   const void *  src,
-   size_t        n,
-   int *         errp
+         uint32_t                      method,
+         void *                        dst,
+         size_t                        s,
+         const void *                  src,
+         size_t                        n,
+         int *                         errp
 )
 {
    assert(dst != NULL);
@@ -428,13 +433,14 @@ totputils_encode(
 }
 
 
-ssize_t totputils_encode_base32(
-   const char *                  map,
-   uint8_t *                     dst,
-   size_t                        s,
-   const int8_t *                src,
-   size_t                        n,
-   int *                         errp
+ssize_t
+totputils_encode_base32(
+         const char *                  map,
+         uint8_t *                     dst,
+         size_t                        s,
+         const int8_t *                src,
+         size_t                        n,
+         int *                         errp
 )
 {
    ssize_t   len;
@@ -517,8 +523,9 @@ ssize_t totputils_encode_base32(
 }
 
 
-int totputils_encode_method(
-   int      method
+int
+totputils_encode_method(
+         int                           method
 )
 {
    switch(method)
@@ -536,8 +543,8 @@ int totputils_encode_method(
 
 ssize_t
 totputils_encode_size(
-   uint32_t  method,
-   size_t    n
+         uint32_t                      method,
+         size_t                        n
 )
 {
    switch(method)

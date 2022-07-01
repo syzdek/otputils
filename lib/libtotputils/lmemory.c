@@ -60,7 +60,9 @@
 /// @return    Upon successful completetion, this function returns 0,
 ///            otherwise an error code is returned.
 /// @see       totputils_free
-int totputils_initialize(TOTPUtils ** tkdp)
+int
+totputils_initialize(
+         TOTPUtils **                  tkdp)
 {
    TOTPUtils * tkd;
 

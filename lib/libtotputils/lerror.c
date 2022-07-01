@@ -59,7 +59,9 @@
 ///
 /// @return    Returns a string representation of the error code.
 /// @see       totputils_free, totputils_initialize, totputils_errno
-const char * totputils_err2string( int32_t err )
+const char *
+totputils_err2string(
+         int32_t                       err )
 {
    switch(err)
    {
@@ -79,7 +81,9 @@ const char * totputils_err2string( int32_t err )
 ///
 /// @return    Returns a numeric code of last error
 /// @see       totputils_free, totputils_initialize, totputils_err2string
-int32_t totputils_errno( TOTPUtils * tkd )
+int32_t
+totputils_errno(
+         TOTPUtils *                   tkd )
 {
    assert(tkd != NULL);
    return(tkd->errcode);

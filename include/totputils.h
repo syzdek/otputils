@@ -41,21 +41,11 @@
 ///////////////
 #pragma mark - Headers
 
-#ifdef WIN32
-#include <windows.h>
-#endif
-
-#ifdef __APPLE__
-#  include "TargetConditionals.h"
-#  ifdef TARGET_OS_MAC
-#     include <libkern/OSAtomic.h>
-#  endif
-#endif
-
+#include <stddef.h>
 #include <inttypes.h>
 #include <sys/types.h>
+#include <stdio.h>
 #include <regex.h>
-#include <assert.h>
 
 
 //////////////
@@ -109,14 +99,14 @@
 ///////////////////
 #pragma mark - Definitions
 
-#define TOTPUTILS_SUCCESS                            0x00     ///< operation was successful
-#define TOTPUTILS_ENOTSUP                            0x01     ///< methd or feature not supported
-#define TOTPUTILS_EBADDATA                           0x02     ///< invalid data
-#define TOTPUTILS_ENOBUFS                            0x03     ///< no buffer space available
+#define TOTPUTILS_SUCCESS           0x0000 ///< operation was successful
+#define TOTPUTILS_ENOTSUP           0x0001 ///< methd or feature not supported
+#define TOTPUTILS_EBADDATA          0x0002 ///< invalid data
+#define TOTPUTILS_ENOBUFS           0x0003 ///< no buffer space available
 
 
-#define TOTPUTILS_BASE32                             0x01
-#define TOTPUTILS_BASE32HEX                          0x02
+#define TOTPUTILS_BASE32            0x0001
+#define TOTPUTILS_BASE32HEX         0x0002
 
 
 /////////////////
@@ -188,6 +178,7 @@ totputils_encode_size(
 _TOTPUTILS_F const char *
 totputils_err2string(
          int                           err );
+
 
 _TOTPUTILS_F int
 totputils_errno(
