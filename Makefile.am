@@ -1,6 +1,6 @@
 #
 #   TOTP Utilities
-#   Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.
+#   Copyright (C) 2020, 2022 David M. Syzdek <david@syzdek.net>.
 #
 #   Redistribution and use in source and binary forms, with or without
 #   modification, are permitted provided that the following conditions are
@@ -37,6 +37,10 @@ SUBDIRS					=
 DIST_SUBDIRS				=
 
 
+# GNU make options
+V					= 0
+
+
 # Global flags
 AM_LIBS					=
 AM_LDFLAGS				=
@@ -44,7 +48,6 @@ AM_CFLAGS				= -O2 $(CFLAGS_WARNINGS)
 AM_CXXFLAGS				= -O2 @AM_CXXFLAGS@
 AM_OBJCFLAGS				= -O2 @AM_OBJCFLAGS@
 AM_CPPFLAGS				= -O2 \
-					  -U__TOTPUTILS_PMARK \
 					  -DHAVE_CONFIG_H=1 \
 					  -I$(top_builddir)/include \
 					  -I$(top_srcdir)/include \
@@ -80,6 +83,8 @@ bin_SCRIPTS				=
 pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
+EXTRA_PROGRAMS				=
+EXTRA					=
 
 
 # lists
@@ -111,6 +116,9 @@ CLEANFILES				= \
 					  @PACKAGE_TARNAME@-*.txz \
 					  @PACKAGE_TARNAME@-*.zip
 DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings
+
+
+# conditional build
 
 
 # macros for lib/libtotputils.a
@@ -188,13 +196,18 @@ tests_base32hex_encoding_SOURCES	= tests/test-strings.c \
 # Makefile includes
 GIT_PACKAGE_VERSION_DIR=include
 SUBST_EXPRESSIONS =
-include $(srcdir)/@bindletools_srcdir@/build-aux/makefile-autotools.am
-include $(srcdir)/@bindletools_srcdir@/build-aux/makefile-subst.am
-include $(srcdir)/@bindletools_srcdir@/build-aux/makefile-version.am
+include contrib/bindletools/build-aux/makefile-subst.am
+include contrib/bindletools/build-aux/makefile-version.am
+include contrib/bindletools/build-aux/makefile-libbindle.am
 
 
 # custom targets
 .PHONY:
+
+git-clean:
+	git fsck --full --unreachable
+	git gc --auto --aggressive
+
 
 # local targets
 install-exec-local:
@@ -204,6 +217,8 @@ install-data-local:
 install-data-hook:
 
 uninstall-local:
+
+uninstall-hook:
 
 clean-local:
 
