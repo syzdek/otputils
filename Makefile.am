@@ -63,8 +63,7 @@ check_PROGRAMS				= tests/base32-decoding \
 					  tests/base32-encoding \
 					  tests/base32hex-decoding \
 					  tests/base32hex-encoding
-doc_DATA				= \
-					  AUTHORS.md \
+doc_DATA				= AUTHORS.md \
 					  ChangeLog.md \
 					  COPYING.md \
 					  README.md \
@@ -104,8 +103,7 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  README.md \
 					  TODO.md \
 					  lib/libtotputils/libtotputils.sym
-CLEANFILES				= \
-					  $(builddir)/a.out   $(srcdir)/a.out \
+CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
 					  config.h.in~ $(srcdir)/config.h.in~ \
 					  $(man_MANS) \
