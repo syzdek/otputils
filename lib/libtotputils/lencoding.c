@@ -55,7 +55,7 @@
 #pragma mark - Prototypes
 
 static ssize_t
-totputils_decode_base32(
+totp_base32_decode(
          const int8_t *                map,
          uint8_t *                     dst,
          size_t                        s,
@@ -66,7 +66,7 @@ totputils_decode_base32(
 
 
 static ssize_t
-totputils_encode_base32(
+totp_base32_encode(
          const char *                  map,
          uint8_t *                     dst,
          size_t                        s,
@@ -147,70 +147,8 @@ static const char * base32hex_chars = "0123456789ABCDEFGHIJKLMNOPQRSTUV=";
 /////////////////
 #pragma mark - Functions
 
-/// decodes encoded data
-/// @param[in]    method      Encoding method
-/// @param[out]   dst         output buffer
-/// @param[in]    s           size of output buffer
-/// @param[in]    src         input buffer
-/// @param[in]    n           number of bytes to read from input buffer
-/// @param[out]   errp        numeric error code
-///
-/// @return    On success, returns number of bytes written to output buffer.
-///            If an error occurs, returns -1 and sets errp to error code.
-/// @see       totputils_decode_size, totputils_encode, totputils_encode_size,
-///            totputils_err2str
 ssize_t
-totputils_decode(
-         int                           method,
-         void *                        dst,
-         size_t                        s,
-         const void *                  src,
-         size_t                        n,
-         int *                         errp
-)
-{
-   assert(dst != NULL);
-   assert(src != NULL);
-
-
-   if ((errp))
-      *errp = TOTPUTILS_SUCCESS;
-
-
-   // validate encoding method
-   if (totputils_encode_method(method, errp) == -1)
-      return(-1);
-
-   // validates buffer is big enough
-   if (s < (size_t)totputils_decode_size(method, n))
-   {
-      if ((errp))
-         *errp = TOTPUTILS_ENOBUFS;
-      return(-1);
-   };
-
-
-   switch(method)
-   {
-      case TOTPUTILS_BASE32:
-      return(totputils_decode_base32(base32_vals, dst, s, src, n, errp));
-
-      case TOTPUTILS_BASE32HEX:
-      return(totputils_decode_base32(base32hex_vals, dst, s, src, n, errp));
-
-      default:
-      break;
-   };
-
-
-   if ((errp))
-      *errp = ENOTSUP;
-   return(-1);
-}
-
-
-ssize_t
-totputils_decode_base32(
+totp_base32_decode(
          const int8_t *                map,
          uint8_t *                     dst,
          size_t                        s,
@@ -355,84 +293,7 @@ totputils_decode_base32(
 
 
 ssize_t
-totputils_decode_size(
-         int                           method,
-         size_t                        n
-)
-{
-   switch(method)
-   {
-      case TOTPUTILS_BASE32:
-      case TOTPUTILS_BASE32HEX:
-      return( ((n / 8) + (((n % 8)) ? 1 : 0)) * 5 );
-
-      case TOTPUTILS_BASE64:
-      return( ((n / 4) + (((n % 4)) ? 1 : 0)) * 3 );
-
-      case TOTPUTILS_HEX:
-      return( (n / 2) + (((n % 2)) ? 1 : 0) );
-
-      default:
-      break;
-   };
-
-   return(-1);
-}
-
-
-ssize_t
-totputils_encode(
-         int                           method,
-         void *                        dst,
-         size_t                        s,
-         const void *                  src,
-         size_t                        n,
-         int *                         errp
-)
-{
-   assert(dst != NULL);
-   assert(src != NULL);
-
-
-   if ((errp))
-      *errp = TOTPUTILS_SUCCESS;
-
-
-   // validate encoding method
-   if (totputils_encode_method(method, errp) == -1)
-      return(-1);
-
-
-   // validates buffer is big enough
-   if (s < (size_t)totputils_encode_size(method, n))
-   {
-      if ((errp))
-         *errp = TOTPUTILS_ENOBUFS;
-      return(-1);
-   };
-
-
-   switch(method)
-   {
-      case TOTPUTILS_BASE32:
-      return(totputils_encode_base32(base32_chars, dst, s, src, n, errp));
-
-      case TOTPUTILS_BASE32HEX:
-      return(totputils_encode_base32(base32hex_chars, dst, s, src, n, errp));
-
-      default:
-      break;
-   };
-
-
-   if ((errp))
-      *errp = ENOTSUP;
-   return(-1);
-}
-
-
-ssize_t
-totputils_encode_base32(
+totp_base32_encode(
          const char *                  map,
          uint8_t *                     dst,
          size_t                        s,
@@ -518,6 +379,145 @@ totputils_encode_base32(
 
 
    return(len);
+}
+
+
+/// decodes encoded data
+/// @param[in]    method      Encoding method
+/// @param[out]   dst         output buffer
+/// @param[in]    s           size of output buffer
+/// @param[in]    src         input buffer
+/// @param[in]    n           number of bytes to read from input buffer
+/// @param[out]   errp        numeric error code
+///
+/// @return    On success, returns number of bytes written to output buffer.
+///            If an error occurs, returns -1 and sets errp to error code.
+/// @see       totputils_decode_size, totputils_encode, totputils_encode_size,
+///            totputils_err2str
+ssize_t
+totputils_decode(
+         int                           method,
+         void *                        dst,
+         size_t                        s,
+         const void *                  src,
+         size_t                        n,
+         int *                         errp
+)
+{
+   assert(dst != NULL);
+   assert(src != NULL);
+
+
+   if ((errp))
+      *errp = TOTPUTILS_SUCCESS;
+
+
+   // validate encoding method
+   if (totputils_encode_method(method, errp) == -1)
+      return(-1);
+
+   // validates buffer is big enough
+   if (s < (size_t)totputils_decode_size(method, n))
+   {
+      if ((errp))
+         *errp = TOTPUTILS_ENOBUFS;
+      return(-1);
+   };
+
+
+   switch(method)
+   {
+      case TOTPUTILS_BASE32:
+      return(totp_base32_decode(base32_vals, dst, s, src, n, errp));
+
+      case TOTPUTILS_BASE32HEX:
+      return(totp_base32_decode(base32hex_vals, dst, s, src, n, errp));
+
+      default:
+      break;
+   };
+
+
+   if ((errp))
+      *errp = ENOTSUP;
+   return(-1);
+}
+
+
+ssize_t
+totputils_decode_size(
+         int                           method,
+         size_t                        n
+)
+{
+   switch(method)
+   {
+      case TOTPUTILS_BASE32:
+      case TOTPUTILS_BASE32HEX:
+      return( ((n / 8) + (((n % 8)) ? 1 : 0)) * 5 );
+
+      case TOTPUTILS_BASE64:
+      return( ((n / 4) + (((n % 4)) ? 1 : 0)) * 3 );
+
+      case TOTPUTILS_HEX:
+      return( (n / 2) + (((n % 2)) ? 1 : 0) );
+
+      default:
+      break;
+   };
+
+   return(-1);
+}
+
+
+ssize_t
+totputils_encode(
+         int                           method,
+         void *                        dst,
+         size_t                        s,
+         const void *                  src,
+         size_t                        n,
+         int *                         errp
+)
+{
+   assert(dst != NULL);
+   assert(src != NULL);
+
+
+   if ((errp))
+      *errp = TOTPUTILS_SUCCESS;
+
+
+   // validate encoding method
+   if (totputils_encode_method(method, errp) == -1)
+      return(-1);
+
+
+   // validates buffer is big enough
+   if (s < (size_t)totputils_encode_size(method, n))
+   {
+      if ((errp))
+         *errp = TOTPUTILS_ENOBUFS;
+      return(-1);
+   };
+
+
+   switch(method)
+   {
+      case TOTPUTILS_BASE32:
+      return(totp_base32_encode(base32_chars, dst, s, src, n, errp));
+
+      case TOTPUTILS_BASE32HEX:
+      return(totp_base32_encode(base32hex_chars, dst, s, src, n, errp));
+
+      default:
+      break;
+   };
+
+
+   if ((errp))
+      *errp = ENOTSUP;
+   return(-1);
 }
 
 
