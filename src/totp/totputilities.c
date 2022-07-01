@@ -158,7 +158,7 @@ int totp_whoami(totp_config * cnf)
 {
    printf("Widget: %s\n", cnf->widget->name);
    return(0);
-};
+}
 
 
 int main(int argc, char * argv[])
