@@ -70,7 +70,7 @@ totputils_initialize(
 
    // allocate initial memory
    if ((tkd = malloc(sizeof(TOTPUtils))) == NULL)
-      return(LDAPSCHEMA_NO_MEMORY);
+      return(TOTPUTILS_ENOMEM);
    bzero(tkd, sizeof(TOTPUtils));
 
    // saves structure

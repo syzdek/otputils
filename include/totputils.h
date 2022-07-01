@@ -103,6 +103,7 @@
 #define TOTPUTILS_ENOTSUP           0x0001 ///< methd or feature not supported
 #define TOTPUTILS_EBADDATA          0x0002 ///< invalid data
 #define TOTPUTILS_ENOBUFS           0x0003 ///< no buffer space available
+#define TOTPUTILS_ENOMEM            0x0004 ///< out of virtual memory
 
 
 #define TOTPUTILS_BASE32            0x0001

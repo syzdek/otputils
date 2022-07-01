@@ -69,6 +69,7 @@ totputils_err2string(
       case TOTPUTILS_ENOTSUP:        return("method or feature is not supported");
       case TOTPUTILS_EBADDATA:       return("invalid data");
       case TOTPUTILS_ENOBUFS:        return("no buffer space available");
+      case TOTPUTILS_ENOMEM:         return("out of virtual memory");
       default:                       return("unknown error");
    };
 
