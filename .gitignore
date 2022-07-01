@@ -4,6 +4,7 @@
 *.o
 *.pbxuser
 *.swp
+*.xcodeproj
 .DS_Store
 .deps
 .dirstamp
