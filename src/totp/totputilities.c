@@ -89,14 +89,27 @@
 //////////////////
 #pragma mark - Prototypes
 
-int main(int argc, char * argv[]);
+int
+main(
+         int                           argc,
+         char *                        argv[] );
+
 
 //displays usage information
-int totp_usage(totp_config * cnf);
+int
+totp_usage(
+         totp_config *                 cnf );
 
-int totp_whoami(totp_config * cnf);
 
-const totp_widget * totp_widget_lookup(const char * wname, int exact);
+int
+totp_whoami(
+         totp_config *                 cnf );
+
+
+const totp_widget *
+totp_widget_lookup(
+         const char *                  wname,
+         int                           exact );
 
 
 /////////////////
@@ -154,14 +167,19 @@ const totp_widget totp_widget_map[] =
 /////////////////
 #pragma mark - Functions
 
-int totp_whoami(totp_config * cnf)
+int
+totp_whoami(
+         totp_config *                 cnf )
 {
    printf("Widget: %s\n", cnf->widget->name);
    return(0);
 }
 
 
-int main(int argc, char * argv[])
+int
+main(
+         int                           argc,
+         char *                        argv[] )
 {
    //int              i;
    int              c;
@@ -269,7 +287,9 @@ int main(int argc, char * argv[])
 }
 
 
-const char * totp_basename(const char * path)
+const char *
+totp_basename(
+         const char *                  path )
 {
    const char * ptr;
    assert(path != NULL);
@@ -279,7 +299,10 @@ const char * totp_basename(const char * path)
 }
 
 
-const totp_widget * totp_widget_lookup(const char * wname, int exact)
+const totp_widget *
+totp_widget_lookup(
+         const char *                  wname,
+         int                           exact )
 {
    int                    x;
    size_t                 wname_len;
@@ -334,7 +357,9 @@ const totp_widget * totp_widget_lookup(const char * wname, int exact)
 
 
 /// displays usage information
-int totp_usage(totp_config * cnf)
+int
+totp_usage(
+         totp_config *                 cnf )
 {
    int  x;
 
@@ -366,7 +391,9 @@ int totp_usage(totp_config * cnf)
 
 
 /// displays version information
-int totp_version(totp_config * cnf)
+int
+totp_version(
+         totp_config *                 cnf )
 {
    assert(cnf != NULL);
    printf(

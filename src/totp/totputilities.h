@@ -93,10 +93,15 @@ struct totp_config
 //////////////////
 #pragma mark - Prototypes
 
-const char * totp_basename(const char * path);
+const char *
+totp_basename(
+         const char *                  path );
+
 
 // displays version information
-int totp_version(totp_config * cnf);
+int
+totp_version(
+         totp_config *                 cnf );
 
 
 #endif /* end of header file */
