@@ -203,7 +203,7 @@ GIT_PACKAGE_VERSION_DIR=include
 SUBST_EXPRESSIONS =
 include contrib/bindletools/build-aux/makefile-subst.am
 include contrib/bindletools/build-aux/makefile-version.am
-include contrib/bindletools/build-aux/makefile-libbindle.am
+#include contrib/bindletools/build-aux/makefile-libbindle.am
 
 
 # custom targets
