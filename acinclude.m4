@@ -31,4 +31,48 @@
 #
 
 
+# AC_TOTPUTILS_DOCUMENTATION()
+# ______________________________________________________________________________
+AC_DEFUN([AC_TOTPUTILS_DOCUMENTATION],[dnl
+   enableval=""
+   AC_ARG_ENABLE(
+      documentation,
+      [AS_HELP_STRING([--enable-documentation], [install extra documentation])],
+      [ EDOCUMENATION=$enableval ],
+      [ EDOCUMENATION=$enableval ]
+   )
+
+   if test "x${EDOCUMENATION}" == "xyes";then
+      ENABLE_DOCUMENATION="yes"
+   else
+      ENABLE_DOCUMENATION="no"
+   fi
+
+   AM_CONDITIONAL([ENABLE_DOCUMENATION],  [test "$ENABLE_DOCUMENATION" = "yes"])
+   AM_CONDITIONAL([DISABLE_DOCUMENATION], [test "$ENABLE_DOCUMENATION" = "no"])
+])dnl
+
+
+# AC_TOTPUTILS_EXAMPLES()
+# ______________________________________________________________________________
+AC_DEFUN([AC_TOTPUTILS_EXAMPLES],[dnl
+   enableval=""
+   AC_ARG_ENABLE(
+      examples,
+      [AS_HELP_STRING([--enable-examples], [build TOTP utility examples])],
+      [ EEXAMPLES=$enableval ],
+      [ EEXAMPLES=$enableval ]
+   )
+
+   if test "x${EEXAMPLES}" == "xyes";then
+      ENABLE_EXAMPLES="yes"
+   else
+      ENABLE_EXAMPLES="no"
+   fi
+
+   AM_CONDITIONAL([ENABLE_EXAMPLES],  [test "$ENABLE_EXAMPLES" = "yes"])
+   AM_CONDITIONAL([DISABLE_EXAMPLES], [test "$ENABLE_EXAMPLES" = "no"])
+])dnl
+
+
 # end of m4 file

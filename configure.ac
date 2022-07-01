@@ -33,7 +33,7 @@
 AC_PREREQ([2.65])
 
 
-AC_COPYRIGHT([Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.])
+AC_COPYRIGHT([Copyright (C) 2020, 2022 David M. Syzdek <david@syzdek.net>.])
 AC_REVISION(0.1)
 AC_INIT([TOTP Utilities],[0.0],[david@syzdek.net],[totputils],[https://github.com/syzdek/totputils/])
 
@@ -68,6 +68,8 @@ AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 AC_USE_SYSTEM_EXTENSIONS # replaces AC_AIX AC_GNU_SOURCE AC_MINIX
 AC_C_BIGENDIAN
+AC_C_INLINE
+AC_C_RESTRICT
 
 
 # Version Info:
@@ -94,8 +96,9 @@ AC_CHECK_TOOLS(STRIP,   strip gstrip,   [AC_MSG_ERROR([missing binutil "strip"])
 AC_PROG_AWK
 AC_PROG_EGREP
 AC_PROG_FGREP
-AM_PROG_LEX
+#AM_PROG_LEX
 AC_PROG_LN_S
+AC_PROG_CPP
 
 
 # check for common functions
@@ -110,6 +113,7 @@ AC_TYPE_INT8_T
 AC_TYPE_INT16_T
 AC_TYPE_INT32_T
 AC_TYPE_INT64_T
+AC_TYPE_MODE_T
 AC_TYPE_OFF_T
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
@@ -153,7 +157,7 @@ AC_CHECK_HEADERS([time.h],      [], [AC_MSG_ERROR([missing required headers])])
 AC_CHECK_HEADERS([unistd.h],    [], [AC_MSG_ERROR([missing required headers])])
 
 # GNU Libtool Support
-LT_INIT(dlopen disable-fast-install win32-dll)
+LT_INIT(dlopen disable-fast-install)
 
 
 # initiates bindle tools macros
@@ -165,8 +169,9 @@ AC_BINDLE_GIT_PACKAGE_VERSION([contrib/bindletools/build-aux/git-package-version
 
 
 # custom configure options
-AC_BINDLE_ENABLE_WARNINGS
-
+AC_BINDLE_ENABLE_WARNINGS([-Wno-unknown-pragmas -Wno-missing-format-attribute -Wno-poison-system-directories], [], [c11])
+AC_TOTPUTILS_EXAMPLES
+AC_TOTPUTILS_DOCUMENTATION
 
 # Creates outputs
 AC_CONFIG_FILES([Makefile])
@@ -176,6 +181,13 @@ AC_OUTPUT
 # Show local config
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   TOTP Utilities $GIT_PACKAGE_VERSION ($GIT_PACKAGE_BUILD)])
+AC_MSG_NOTICE([ ])
+AC_MSG_NOTICE([   Features:])
+AC_MSG_NOTICE([      Debug Output               ${USE_DEBUG}])
+AC_MSG_NOTICE([ ])
+AC_MSG_NOTICE([   Options:])
+AC_MSG_NOTICE([      Build examples             ${ENABLE_EXAMPLES}])
+AC_MSG_NOTICE([      Install extra docs         ${ENABLE_DOCUMENATION}])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Please send suggestions to:   $PACKAGE_BUGREPORT])
 AC_MSG_NOTICE([ ])
