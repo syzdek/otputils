@@ -74,6 +74,11 @@ ssize_t totputils_encode_base32(
 );
 
 
+int totputils_encode_method(
+   int                           method
+);
+
+
 /////////////////
 //             //
 //  Variables  //
@@ -167,8 +172,16 @@ ssize_t totputils_decode(
       *errp = TOTPUTILS_SUCCESS;
 
 
+   // validate encoding method
+   if (totputils_encode_method(method) == -1)
+   {
+      if ((errp))
+         *errp = TOTPUTILS_ENOTSUP;
+      return(-1);
+   };
+
    // validates buffer is big enough
-   if (s < totputils_decode_size(method, n))
+   if (s < (size_t)totputils_decode_size(method, n))
    {
       if ((errp))
          *errp = TOTPUTILS_ENOBUFS;
@@ -211,6 +224,7 @@ ssize_t totputils_decode_base32(
 
    assert(dst != NULL);
    assert(src != NULL);
+   assert(s   >  0);
 
 
    // validates length of base32 data
@@ -377,8 +391,17 @@ totputils_encode(
       *errp = TOTPUTILS_SUCCESS;
 
 
+   // validate encoding method
+   if (totputils_encode_method(method) == -1)
+   {
+      if ((errp))
+         *errp = TOTPUTILS_ENOTSUP;
+      return(-1);
+   };
+
+
    // validates buffer is big enough
-   if (s < totputils_encode_size(method, n))
+   if (s < (size_t)totputils_encode_size(method, n))
    {
       if ((errp))
          *errp = TOTPUTILS_ENOBUFS;
@@ -422,6 +445,11 @@ ssize_t totputils_encode_base32(
 
    assert(dst != NULL);
    assert(src != NULL);
+   assert(s   >  0);
+
+
+   if ((errp))
+      *errp = TOTPUTILS_SUCCESS;
 
 
    // calculates each digit's value
@@ -489,14 +517,29 @@ ssize_t totputils_encode_base32(
 }
 
 
+int totputils_encode_method(
+   int      method
+)
+{
+   switch(method)
+   {
+      case TOTPUTILS_BASE32:
+      case TOTPUTILS_BASE32HEX:
+      return(method);
+
+      default:
+      break;
+   };
+   return(-1);
+}
+
+
 ssize_t
 totputils_encode_size(
    uint32_t  method,
    size_t    n
 )
 {
-   ssize_t s;
-
    switch(method)
    {
       case TOTPUTILS_BASE32:

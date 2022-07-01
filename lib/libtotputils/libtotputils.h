@@ -70,13 +70,14 @@
 /// TOTP Knock descriptor state
 struct totp_utils
 {
-   int32_t                 errcode;   ///< last error code
-   time_t                  epoch;
    uint64_t                step;
-   uint8_t                 key;
-   size_t                  key_len;
-   uint8_t                 salt;
    size_t                  salt_len;
+   size_t                  key_len;
+   time_t                  epoch;
+   int32_t                 errcode;   ///< last error code
+   uint8_t                 key;
+   uint8_t                 salt;
+   uint16_t                pad16;
 };
 
 
