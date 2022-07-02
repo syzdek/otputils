@@ -28,10 +28,11 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file tests/base32-decoding.c
+ *  @file lib/libtotputils/lencoding.h
  */
-#ifndef _TESTS_TEST_STRINGS_H
-#define _TESTS_TEST_STRINGS_H 1
+#ifndef _SRC_TOTP_TOTPUTILITIES_H
+#define _SRC_TOTP_TOTPUTILITIES_H 1
+
 
 ///////////////
 //           //
@@ -40,9 +41,19 @@
 ///////////////
 #pragma mark - Headers
 
-#include <string.h>
-#include <strings.h>
-#include <stdlib.h>
+#include <totputils.h>
+
+
+///////////////////
+//               //
+//  Definitions  //
+//               //
+///////////////////
+#pragma mark - Definitions
+
+#ifndef TOTP_PREFIX
+#define TOTP_PREFIX "totp-"
+#endif
 
 
 /////////////////
@@ -52,24 +63,27 @@
 /////////////////
 #pragma mark - Datatypes
 
-struct test_data
+typedef struct totp_config totp_config;
+typedef struct totp_widget totp_widget;
+
+
+struct totp_widget
 {
-   const char * dec;
-   const char * enc;
-   intptr_t     nopad;
-   intptr_t     bad;
+   const char *           name;
+   const char *           desc;
+   int  (*func)(totp_config * cnf);
 };
 
 
-/////////////////
-//             //
-//  Variables  //
-//             //
-/////////////////
-#pragma mark - Variables
-
-extern struct test_data base32_strings[];
-extern struct test_data base32hex_strings[];
+struct totp_config
+{
+   int                      quiet;
+   int                      verbose;
+   int                      opt_index;
+   int                      argc;
+   char **                  argv;
+   const totp_widget *      widget;
+};
 
 
 //////////////////
@@ -79,21 +93,15 @@ extern struct test_data base32hex_strings[];
 //////////////////
 #pragma mark - Prototypes
 
+const char *
+totp_basename(
+         const char *                  path );
+
+
+// displays version information
 int
-totputils_test_decode(
-         int                           method,
-         struct test_data *            data );
+totp_version(
+         totp_config *                 cnf );
 
-
-int
-totputils_test_encode(
-         int                           method,
-         struct test_data *            data );
-
-
-int
-totputils_test_validate(
-         int                           method,
-         struct test_data *            data );
 
 #endif /* end of header file */

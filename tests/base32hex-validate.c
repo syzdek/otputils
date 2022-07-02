@@ -28,10 +28,9 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file tests/base32-decoding.c
+ *  @file tests/base32hex-validate.c
  */
-#ifndef _TESTS_TEST_STRINGS_H
-#define _TESTS_TEST_STRINGS_H 1
+#define _TESTS_BASE32HEX_VALIDATE_C 1
 
 ///////////////
 //           //
@@ -40,36 +39,9 @@
 ///////////////
 #pragma mark - Headers
 
-#include <string.h>
-#include <strings.h>
-#include <stdlib.h>
+#include <totputils.h>
 
-
-/////////////////
-//             //
-//  Datatypes  //
-//             //
-/////////////////
-#pragma mark - Datatypes
-
-struct test_data
-{
-   const char * dec;
-   const char * enc;
-   intptr_t     nopad;
-   intptr_t     bad;
-};
-
-
-/////////////////
-//             //
-//  Variables  //
-//             //
-/////////////////
-#pragma mark - Variables
-
-extern struct test_data base32_strings[];
-extern struct test_data base32hex_strings[];
+#include "test-strings.h"
 
 
 //////////////////
@@ -79,21 +51,19 @@ extern struct test_data base32hex_strings[];
 //////////////////
 #pragma mark - Prototypes
 
-int
-totputils_test_decode(
-         int                           method,
-         struct test_data *            data );
+int main(void);
 
 
-int
-totputils_test_encode(
-         int                           method,
-         struct test_data *            data );
+/////////////////
+//             //
+//  Functions  //
+//             //
+/////////////////
+#pragma mark - Functions
 
+int main(void)
+{
+   return(totputils_test_validate(TOTPUTILS_BASE32HEX, base32hex_strings));
+}
 
-int
-totputils_test_validate(
-         int                           method,
-         struct test_data *            data );
-
-#endif /* end of header file */
+/* end of source file */

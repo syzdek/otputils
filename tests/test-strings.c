@@ -57,7 +57,10 @@
 struct test_data base32_strings[] =
 {
    { .dec = "",             .enc = "",                         .nopad = 0, .bad = 0 },
+   { .dec = NULL,           .enc = "M=======",                 .nopad = 0, .bad = 0 },
+   { .dec = NULL,           .enc = "MY=====",                  .nopad = 0, .bad = 0 },
    { .dec = "f",            .enc = "MY======",                 .nopad = 0, .bad = 0 },
+   { .dec = NULL,           .enc = "MZX=====",                 .nopad = 0, .bad = 0 },
    { .dec = "fo",           .enc = "MZXQ====",                 .nopad = 0, .bad = 0 },
    { .dec = "foo",          .enc = "MZXW6===",                 .nopad = 0, .bad = 0 },
    { .dec = "foob",         .enc = "MZXW6YQ=",                 .nopad = 0, .bad = 0 },
@@ -206,6 +209,54 @@ totputils_test_encode(
             printf("FAIL expected: \"%s\"; received: \"%s\"\n", enc, buff);
             exit_code = 1;
          };
+      };
+   };
+
+   return(exit_code);
+}
+
+
+int
+totputils_test_validate(
+         int                           method,
+         struct test_data *            data )
+{
+   size_t         pos;
+   ssize_t        rc;
+   ssize_t        len;
+   const char *   dec;
+   const char *   enc;
+   int            exit_code;
+   int            nopad;
+   int            bad;
+   char           msg[128];
+
+   exit_code = 0;
+
+   for(pos = 0; ((data[pos].enc)); pos++)
+   {
+      dec   = data[pos].dec;
+      enc   = data[pos].enc;
+      nopad = (int)data[pos].nopad;
+      bad   = (int)data[pos].bad;
+
+      snprintf(msg, sizeof(msg), "validating \"%s\" ... ", enc);
+      printf("%-45s", msg);
+
+      rc  = totputils_encoding_verify(method, enc, strlen(enc));
+      len = ((dec)) ? ((ssize_t)strlen(dec)) : -1;
+
+      if ( (!(dec)) && (len >= 0) )
+      {
+         printf("FAIL -- validate passed bad string\n");
+         exit_code = 1;
+      } else if (len != rc)
+      {
+         printf("FAIL -- validate reported incorrect length\n");
+         exit_code = 1;
+      } else
+      {
+         printf(((dec)) ? "PASS\n" : "PASS (caught bad encoding)\n");
       };
    };
 
