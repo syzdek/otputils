@@ -429,6 +429,22 @@ totp_base32_verify(
    if (!(datlen))
       datlen = pos;
 
+   switch(datlen % 8)
+   {
+      case 0:
+      case 2:
+      case 4:
+      case 5:
+      case 7:
+      break;
+
+      case 1:
+      case 3:
+      case 6:
+      default:
+      return(-1);
+   };
+
    return((datlen * 5) / 8);
 }
 
