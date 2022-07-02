@@ -59,7 +59,7 @@ totp_base32_decode(
          const int8_t *                map,
          uint8_t *                     dst,
          size_t                        s,
-         const int8_t *                src,
+         const char *                  src,
          size_t                        n,
          int *                         errp
 );
@@ -68,7 +68,7 @@ totp_base32_decode(
 static ssize_t
 totp_base32_encode(
          const char *                  map,
-         uint8_t *                     dst,
+         char *                        dst,
          size_t                        s,
          const int8_t *                src,
          size_t                        n,
@@ -160,7 +160,7 @@ totp_base32_decode(
          const int8_t *                map,
          uint8_t *                     dst,
          size_t                        s,
-         const int8_t *                src,
+         const char *                  src,
          size_t                        n,
          int *                         errp )
 {
@@ -197,38 +197,38 @@ totp_base32_decode(
       {
          // byte 0
          case 1:
-         dst[datlen]  = (map[src[pos-1]] << 3) & 0xF8; // 5 MSB
-         dst[datlen] |= (map[src[pos-0]] >> 2) & 0x07; // 3 LSB
+         dst[datlen]  = (map[(unsigned char)src[pos-1]] << 3) & 0xF8; // 5 MSB
+         dst[datlen] |= (map[(unsigned char)src[pos-0]] >> 2) & 0x07; // 3 LSB
          datlen++;
          break;
 
          // byte 1
          case 3:
-         dst[datlen]  = (map[src[pos-2]] << 6) & 0xC0; // 2 MSB
-         dst[datlen] |= (map[src[pos-1]] << 1) & 0x3E; // 5  MB
-         dst[datlen] |= (map[src[pos-0]] >> 4) & 0x01; // 1 LSB
+         dst[datlen]  = (map[(unsigned char)src[pos-2]] << 6) & 0xC0; // 2 MSB
+         dst[datlen] |= (map[(unsigned char)src[pos-1]] << 1) & 0x3E; // 5  MB
+         dst[datlen] |= (map[(unsigned char)src[pos-0]] >> 4) & 0x01; // 1 LSB
          datlen++;
          break;
 
          // byte 2
          case 4:
-         dst[datlen]  = (map[src[pos-1]] << 4) & 0xF0; // 4 MSB
-         dst[datlen] |= (map[src[pos-0]] >> 1) & 0x0F; // 4 LSB
+         dst[datlen]  = (map[(unsigned char)src[pos-1]] << 4) & 0xF0; // 4 MSB
+         dst[datlen] |= (map[(unsigned char)src[pos-0]] >> 1) & 0x0F; // 4 LSB
          datlen++;
          break;
 
          // byte 3
          case 6:
-         dst[datlen]  = (map[src[pos-2]] << 7) & 0x80; // 1 MSB
-         dst[datlen] |= (map[src[pos-1]] << 2) & 0x7C; // 5  MB
-         dst[datlen] |= (map[src[pos-0]] >> 3) & 0x03; // 2 LSB
+         dst[datlen]  = (map[(unsigned char)src[pos-2]] << 7) & 0x80; // 1 MSB
+         dst[datlen] |= (map[(unsigned char)src[pos-1]] << 2) & 0x7C; // 5  MB
+         dst[datlen] |= (map[(unsigned char)src[pos-0]] >> 3) & 0x03; // 2 LSB
          datlen++;
          break;
 
          // byte 4
          case 7:
-         dst[datlen]  = (map[src[pos-1]] << 5) & 0xE0; // 3 MSB
-         dst[datlen] |= (map[src[pos-0]] >> 0) & 0x1F; // 5 LSB
+         dst[datlen]  = (map[(unsigned char)src[pos-1]] << 5) & 0xE0; // 3 MSB
+         dst[datlen] |= (map[(unsigned char)src[pos-0]] >> 0) & 0x1F; // 5 LSB
          datlen++;
 
          default:
@@ -245,7 +245,7 @@ totp_base32_decode(
 ssize_t
 totp_base32_encode(
          const char *                  map,
-         uint8_t *                     dst,
+         char *                        dst,
          size_t                        s,
          const int8_t *                src,
          size_t                        n,
@@ -310,7 +310,7 @@ totp_base32_encode(
 
    // encodes each value
    for(len = 0; ((size_t)len) < dpos; len++)
-      dst[len] = map[dst[len]];
+      dst[len] = map[(unsigned char)dst[len]];
 
    // add padding
    if (!(nopad))
@@ -397,7 +397,7 @@ totputils_decode(
          int                           method,
          void *                        dst,
          size_t                        s,
-         const void *                  src,
+         const char *                  src,
          size_t                        n,
          int *                         errp
 )
@@ -466,7 +466,7 @@ totputils_decode_size(
 ssize_t
 totputils_encode(
          int                           method,
-         void *                        dst,
+         char *                        dst,
          size_t                        s,
          const void *                  src,
          size_t                        n,

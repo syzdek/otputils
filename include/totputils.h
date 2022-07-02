@@ -142,7 +142,7 @@ totputils_decode(
          int                           method,
          void *                        dst,
          size_t                        s,
-         const void *                  src,
+         const char *                  src,
          size_t                        n,
          int *                         errp
          );
@@ -158,7 +158,7 @@ totputils_decode_size(
 _TOTPUTILS_F ssize_t
 totputils_encode(
          int                           method,
-         void *                        dst,
+         char *                        dst,
          size_t                        s,
          const void *                  src,
          size_t                        n,
