@@ -140,7 +140,7 @@ totputils_test_decode(
 
    exit_code = 0;
 
-   for(pos = 0; ((data[pos].dec)); pos++)
+   for(pos = 0; (((data[pos].dec)) && ((data[pos].enc))); pos++)
    {
       dec = data[pos].dec;
       enc = data[pos].enc;
@@ -184,7 +184,7 @@ totputils_test_encode(
 
    exit_code = 0;
 
-   for(pos = 0; ((data[pos].dec)); pos++)
+   for(pos = 0; (((data[pos].dec)) && ((data[pos].enc))); pos++)
    {
       dec   = data[pos].dec;
       enc   = data[pos].enc;
