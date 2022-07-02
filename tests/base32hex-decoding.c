@@ -28,9 +28,9 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file tests/base32-decoding.c
+ *  @file tests/base32hex-decoding.c
  */
-#define _TESTS_BASE32_DECODING_C 1
+#define _TESTS_BASE32HEX_DECODING_C 1
 
 ///////////////
 //           //
@@ -39,22 +39,9 @@
 ///////////////
 #pragma mark - Headers
 
-#include <string.h>
-#include <strings.h>
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <totputils.h>
 
 #include "test-strings.h"
-
-
-/////////////////
-//             //
-//  Datatypes  //
-//             //
-/////////////////
-#pragma mark - Datatypes
 
 
 //////////////////
@@ -69,14 +56,6 @@ int main(void);
 
 /////////////////
 //             //
-//  Variables  //
-//             //
-/////////////////
-#pragma mark - Variables
-
-
-/////////////////
-//             //
 //  Functions  //
 //             //
 /////////////////
@@ -84,42 +63,7 @@ int main(void);
 
 int main(void)
 {
-   size_t          pos;
-   char            buff[24];
-   int             err;
-   ssize_t         len;
-   const char    * dec;
-   const char    * enc;
-   int             exit_code;
-
-   exit_code = 0;
-
-   for(pos = 0; ((base32hex_strings[pos].dec)); pos++)
-   {
-      dec = base32hex_strings[pos].dec;
-      enc = base32hex_strings[pos].enc;
-
-      printf("decoding \"%s\" ... ", enc);
-
-      len = totputils_decode(TOTPUTILS_BASE32HEX, buff, sizeof(buff), enc, strlen(enc), &err);
-      if (len == -1)
-      {
-         printf("FAIL -- %s\n", totputils_err2string(err));
-         exit_code = 1;
-      } else {
-         buff[len] = '\0';
-         if (!(strcmp(dec, buff)))
-         {
-            printf("PASS\n");
-         } else {
-            printf("FAIL \"%s\"\n", buff);
-            exit_code = 1;
-         };
-      };
-   };
-
-   return(exit_code);
+   return(totputils_test_decode(TOTPUTILS_BASE32HEX, base32hex_strings));
 }
-
 
 /* end of source file */

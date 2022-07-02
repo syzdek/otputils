@@ -39,22 +39,9 @@
 ///////////////
 #pragma mark - Headers
 
-#include <string.h>
-#include <strings.h>
-#include <stdlib.h>
-#include <stdio.h>
-
 #include <totputils.h>
 
 #include "test-strings.h"
-
-
-/////////////////
-//             //
-//  Datatypes  //
-//             //
-/////////////////
-#pragma mark - Datatypes
 
 
 //////////////////
@@ -69,14 +56,6 @@ int main(void);
 
 /////////////////
 //             //
-//  Variables  //
-//             //
-/////////////////
-#pragma mark - Variables
-
-
-/////////////////
-//             //
 //  Functions  //
 //             //
 /////////////////
@@ -84,44 +63,7 @@ int main(void);
 
 int main(void)
 {
-   size_t          pos;
-   char            buff[24];
-   int             err;
-   ssize_t         len;
-   const char    * dec;
-   const char    * enc;
-   int             exit_code;
-   int             nopad;
-
-   exit_code = 0;
-
-   for(pos = 0; ((base32hex_strings[pos].dec)); pos++)
-   {
-      dec   = base32hex_strings[pos].dec;
-      enc   = base32hex_strings[pos].enc;
-      nopad = (int)base32hex_strings[pos].nopad;
-
-      printf("encoding \"%s\" ... ", dec);
-
-      len = totputils_encode(TOTPUTILS_BASE32HEX, buff, sizeof(buff), dec, strlen(dec), nopad, &err);
-      if (len == -1)
-      {
-         printf("FAIL -- %s\n", totputils_err2string(err));
-         exit_code = 1;
-      } else {
-         buff[len] = '\0';
-         if (!(strcmp(enc, buff)))
-         {
-            printf("PASS\n");
-         } else {
-            printf("FAIL expected: \"%s\"; received: \"%s\"\n", enc, buff);
-            exit_code = 1;
-         };
-      };
-   };
-
-   return(exit_code);
+   return(totputils_test_encode(TOTPUTILS_BASE32HEX, base32hex_strings));
 }
-
 
 /* end of source file */

@@ -60,6 +60,17 @@ struct test_data
 };
 
 
+/////////////////
+//             //
+//  Variables  //
+//             //
+/////////////////
+#pragma mark - Variables
+
+extern struct test_data base32_strings[];
+extern struct test_data base32hex_strings[];
+
+
 //////////////////
 //              //
 //  Prototypes  //
@@ -67,8 +78,15 @@ struct test_data
 //////////////////
 #pragma mark - Prototypes
 
-extern struct test_data base32_strings[];
-extern struct test_data base32hex_strings[];
+int
+totputils_test_decode(
+         int                           method,
+         struct test_data *            data );
 
+
+int
+totputils_test_encode(
+         int                           method,
+         struct test_data *            data );
 
 #endif /* end of header file */

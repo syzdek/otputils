@@ -44,6 +44,8 @@
 #include <strings.h>
 #include <stdlib.h>
 
+#include <totputils.h>
+
 
 /////////////////
 //             //
@@ -91,5 +93,99 @@ struct test_data base32hex_strings[] =
    { NULL,     NULL,               0 }
 };
 
+
+/////////////////
+//             //
+//  Functions  //
+//             //
+/////////////////
+#pragma mark - Functions
+
+int
+totputils_test_decode(
+         int                           method,
+         struct test_data *            data )
+{
+   size_t          pos;
+   char            buff[24];
+   int             err;
+   ssize_t         len;
+   const char    * dec;
+   const char    * enc;
+   int             exit_code;
+
+   exit_code = 0;
+
+   for(pos = 0; ((data[pos].dec)); pos++)
+   {
+      dec = data[pos].dec;
+      enc = data[pos].enc;
+
+      printf("decoding \"%s\" ... ", enc);
+
+      len = totputils_decode(method, buff, sizeof(buff), enc, strlen(enc), &err);
+      if (len == -1)
+      {
+         printf("FAIL -- %s\n", totputils_err2string(err));
+         exit_code = 1;
+      } else {
+         buff[len] = '\0';
+         if (!(strcmp(dec, buff)))
+         {
+            printf("PASS\n");
+         } else {
+            printf("FAIL \"%s\"\n", buff);
+            exit_code = 1;
+         };
+      };
+   };
+
+   return(exit_code);
+}
+
+
+int
+totputils_test_encode(
+         int                           method,
+         struct test_data *            data )
+{
+   size_t          pos;
+   char            buff[24];
+   int             err;
+   ssize_t         len;
+   const char    * dec;
+   const char    * enc;
+   int             exit_code;
+   int             nopad;
+
+   exit_code = 0;
+
+   for(pos = 0; ((data[pos].dec)); pos++)
+   {
+      dec   = data[pos].dec;
+      enc   = data[pos].enc;
+      nopad = (int)data[pos].nopad;
+
+      printf("encoding \"%s\" ... ", dec);
+
+      len = totputils_encode(method, buff, sizeof(buff), dec, strlen(dec), nopad, &err);
+      if (len == -1)
+      {
+         printf("FAIL -- %s\n", totputils_err2string(err));
+         exit_code = 1;
+      } else {
+         buff[len] = '\0';
+         if (!(strcmp(enc, buff)))
+         {
+            printf("PASS\n");
+         } else {
+            printf("FAIL expected: \"%s\"; received: \"%s\"\n", enc, buff);
+            exit_code = 1;
+         };
+      };
+   };
+
+   return(exit_code);
+}
 
 /* end of source file */
