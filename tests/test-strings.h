@@ -57,6 +57,7 @@ struct test_data
    const char * dec;
    const char * enc;
    intptr_t     nopad;
+   intptr_t     bad;
 };
 
 

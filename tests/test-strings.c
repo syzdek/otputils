@@ -56,41 +56,41 @@
 
 struct test_data base32_strings[] =
 {
-   { "",       "",                 0 },
-   { "f",      "MY======",         0 },
-   { "fo",     "MZXQ====",         0 },
-   { "foo",    "MZXW6===",         0 },
-   { "foob",   "MZXW6YQ=",         0 },
-   { "fooba",  "MZXW6YTB",         0 },
-   { "foobar", "MZXW6YTBOI======", 0 },
-   { "",       "",                 1 },
-   { "f",      "MY",               1 },
-   { "fo",     "MZXQ",             1 },
-   { "foo",    "MZXW6",            1 },
-   { "foob",   "MZXW6YQ",          1 },
-   { "fooba",  "MZXW6YTB",         1 },
-   { "foobar", "MZXW6YTBOI",       1 },
-   { NULL,     NULL,               0 }
+   { .dec = "",       .enc = "",                 .nopad = 0, .bad = 0 },
+   { .dec = "f",      .enc = "MY======",         .nopad = 0, .bad = 0 },
+   { .dec = "fo",     .enc = "MZXQ====",         .nopad = 0, .bad = 0 },
+   { .dec = "foo",    .enc = "MZXW6===",         .nopad = 0, .bad = 0 },
+   { .dec = "foob",   .enc = "MZXW6YQ=",         .nopad = 0, .bad = 0 },
+   { .dec = "fooba",  .enc = "MZXW6YTB",         .nopad = 0, .bad = 0 },
+   { .dec = "foobar", .enc = "MZXW6YTBOI======", .nopad = 0, .bad = 0 },
+   { .dec = "",       .enc = "",                 .nopad = 1, .bad = 0 },
+   { .dec = "f",      .enc = "MY",               .nopad = 1, .bad = 0 },
+   { .dec = "fo",     .enc = "MZXQ",             .nopad = 1, .bad = 0 },
+   { .dec = "foo",    .enc = "MZXW6",            .nopad = 1, .bad = 0 },
+   { .dec = "foob",   .enc = "MZXW6YQ",          .nopad = 1, .bad = 0 },
+   { .dec = "fooba",  .enc = "MZXW6YTB",         .nopad = 1, .bad = 0 },
+   { .dec = "foobar", .enc = "MZXW6YTBOI",       .nopad = 1, .bad = 0 },
+   { .dec = NULL,     .enc = NULL,               .nopad = 0, .bad = 0 }
 };
 
 
 struct test_data base32hex_strings[] =
 {
-   { "",       "",                 0 },
-   { "f",      "CO======",         0 },
-   { "fo",     "CPNG====",         0 },
-   { "foo",    "CPNMU===",         0 },
-   { "foob",   "CPNMUOG=",         0 },
-   { "fooba",  "CPNMUOJ1",         0 },
-   { "foobar", "CPNMUOJ1E8======", 0 },
-   { "",       "",                 1 },
-   { "f",      "CO",               1 },
-   { "fo",     "CPNG",             1 },
-   { "foo",    "CPNMU",            1 },
-   { "foob",   "CPNMUOG",          1 },
-   { "fooba",  "CPNMUOJ1",         1 },
-   { "foobar", "CPNMUOJ1E8",       1 },
-   { NULL,     NULL,               0 }
+   { .dec = "",       .enc = "",                 .nopad = 0, .bad = 0 },
+   { .dec = "f",      .enc = "CO======",         .nopad = 0, .bad = 0 },
+   { .dec = "fo",     .enc = "CPNG====",         .nopad = 0, .bad = 0 },
+   { .dec = "foo",    .enc = "CPNMU===",         .nopad = 0, .bad = 0 },
+   { .dec = "foob",   .enc = "CPNMUOG=",         .nopad = 0, .bad = 0 },
+   { .dec = "fooba",  .enc = "CPNMUOJ1",         .nopad = 0, .bad = 0 },
+   { .dec = "foobar", .enc = "CPNMUOJ1E8======", .nopad = 0, .bad = 0 },
+   { .dec = "",       .enc = "",                 .nopad = 1, .bad = 0 },
+   { .dec = "f",      .enc = "CO",               .nopad = 1, .bad = 0 },
+   { .dec = "fo",     .enc = "CPNG",             .nopad = 1, .bad = 0 },
+   { .dec = "foo",    .enc = "CPNMU",            .nopad = 1, .bad = 0 },
+   { .dec = "foob",   .enc = "CPNMUOG",          .nopad = 1, .bad = 0 },
+   { .dec = "fooba",  .enc = "CPNMUOJ1",         .nopad = 1, .bad = 0 },
+   { .dec = "foobar", .enc = "CPNMUOJ1E8",       .nopad = 1, .bad = 0 },
+   { .dec = NULL,     .enc = NULL,               .nopad = 0, .bad = 0 }
 };
 
 
