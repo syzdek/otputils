@@ -162,14 +162,11 @@ totp_base32_decode(
          size_t                        s,
          const int8_t *                src,
          size_t                        n,
-         int *                         errp
-)
+         int *                         errp )
 {
-
    size_t    datlen;
    size_t    pos;
    ssize_t     rc;
-
 
    assert(dst != NULL);
    assert(src != NULL);
@@ -198,7 +195,6 @@ totp_base32_decode(
    } else if (!(n)) {
       return(0);
    };
-
 
    // decodes data
    for(pos = 0; (pos < n); pos++)
@@ -256,7 +252,6 @@ totp_base32_decode(
          };
       };
    };
-
 
    // decodes base32 encoded data
    datlen = 0;
@@ -322,23 +317,19 @@ totp_base32_encode(
          const int8_t *                src,
          size_t                        n,
          int                           nopad,
-         int *                         errp
-)
+         int *                         errp )
 {
    ssize_t   len;
    size_t    dpos;
    size_t    spos;
    size_t    byte;
 
-
    assert(dst != NULL);
    assert(src != NULL);
    assert(s   >  0);
 
-
    if ((errp))
       *errp = TOTPUTILS_SUCCESS;
-
 
    // calculates each digit's value
    byte = 0;
@@ -358,7 +349,6 @@ totp_base32_encode(
          byte++;
          break;
 
-
          case 1:
          dst[dpos-1] |= (src[spos] >> 6) & 0x03;  // 2 MSB
          dst[dpos++]  = (src[spos] >> 1) & 0x1f ; // 5 MB
@@ -366,13 +356,11 @@ totp_base32_encode(
          byte++;
          break;
 
-
          case 2:
          dst[dpos-1] |=  src[spos] >> 4;          // 4 MSB
          dst[dpos++]  = (src[spos] << 1) & 0x1e ; // 4 LSB   1 bits unused
          byte++;
          break;
-
 
          case 3:
          dst[dpos-1] |=  src[spos] >> 7;          // 1 MSB
@@ -380,7 +368,6 @@ totp_base32_encode(
          dst[dpos++]  = (src[spos] << 3) & 0x18 ; // 2 LSB   3 bits unused
          byte++;
          break;
-
 
          case 4:
          dst[dpos-1] |=  src[spos] >> 5;          // 3 MSB
@@ -390,11 +377,9 @@ totp_base32_encode(
       };
    };
 
-
    // encodes each value
    for(len = 0; ((size_t)len) < dpos; len++)
       dst[len] = map[dst[len]];
-
 
    // add padding
    if (!(nopad))
@@ -473,10 +458,8 @@ totputils_decode(
    assert(dst != NULL);
    assert(src != NULL);
 
-
    if ((errp))
       *errp = TOTPUTILS_SUCCESS;
-
 
    // validate encoding method
    if (totputils_encode_method(method, errp) == -1)
@@ -490,7 +473,6 @@ totputils_decode(
       return(-1);
    };
 
-
    switch(method)
    {
       case TOTPUTILS_BASE32:
@@ -503,7 +485,6 @@ totputils_decode(
       break;
    };
 
-
    if ((errp))
       *errp = ENOTSUP;
    return(-1);
@@ -513,8 +494,7 @@ totputils_decode(
 ssize_t
 totputils_decode_size(
          int                           method,
-         size_t                        n
-)
+         size_t                        n)
 {
    switch(method)
    {
@@ -544,21 +524,17 @@ totputils_encode(
          const void *                  src,
          size_t                        n,
          int                           nopad,
-         int *                         errp
-)
+         int *                         errp )
 {
    assert(dst != NULL);
    assert(src != NULL);
 
-
    if ((errp))
       *errp = TOTPUTILS_SUCCESS;
-
 
    // validate encoding method
    if (totputils_encode_method(method, errp) == -1)
       return(-1);
-
 
    // validates buffer is big enough
    if (s < (size_t)totputils_encode_size(method, n))
@@ -567,7 +543,6 @@ totputils_encode(
          *errp = TOTPUTILS_ENOBUFS;
       return(-1);
    };
-
 
    switch(method)
    {
@@ -581,9 +556,9 @@ totputils_encode(
       break;
    };
 
-
    if ((errp))
       *errp = ENOTSUP;
+
    return(-1);
 }
 
@@ -591,8 +566,7 @@ totputils_encode(
 int
 totputils_encode_method(
          int                           method,
-         int *                         errp
-)
+         int *                         errp )
 {
    if ((errp))
       *errp = TOTPUTILS_SUCCESS;
@@ -619,8 +593,7 @@ totputils_encode_method(
 ssize_t
 totputils_encode_size(
          int                           method,
-         size_t                        n
-)
+         size_t                        n )
 {
    switch(method)
    {
