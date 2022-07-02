@@ -269,13 +269,11 @@ totp_base32_encode(
    dpos = 0;
    for(spos = 0; (spos < n); spos++)
    {
+      // MSB is Most Significant Bits  (0x80 == 10000000 ~= MSB)
+      // MB is middle bits             (0x7E == 01111110 ~= MB)
+      // LSB is Least Significant Bits (0x01 == 00000001 ~= LSB)
       switch(byte)
       {
-         // MSB is Most Significant Bits  (0x80 == 10000000 ~= MSB)
-         // MB is middle bits             (0x7E == 01111110 ~= MB)
-         // LSB is Least Significant Bits (0x01 == 00000001 ~= LSB)
-
-         // byte 0
          case 0:
          dst[dpos++]  =  src[spos] >> 3;         // 5 MSB
          dst[dpos++]  = (src[spos] & 0x07) << 2; // 3 LSB   2 bits unused
