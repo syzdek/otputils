@@ -186,123 +186,56 @@ totp_base32_decode(
       return(-1);
    };
 
-   // validates length of base32 data
-   if (((n & 0xF) != 0) && ((n & 0xF) != 8))
-   {
-      if ((errp))
-         *errp = TOTPUTILS_EBADDATA;
-      return(-1);
-   } else if (!(n)) {
-      return(0);
-   };
-
-   // decodes data
-   for(pos = 0; (pos < n); pos++)
-   {
-      // verifies base32 character
-      if (map[src[pos]] == -1)
-      {
-         if ((errp))
-            *errp = TOTPUTILS_EBADDATA;
-         return(-1);
-      };
-
-      // checks padding
-      if (src[pos] == '=')
-      {
-         if (((pos & 0xF) == 0) || ((pos & 0xF) == 8))
-         {
-            if ((errp))
-               *errp = TOTPUTILS_EBADDATA;
-            return(-1);
-         }
-         if ((n - pos) > 6)
-         {
-            if ((errp))
-               *errp = TOTPUTILS_EBADDATA;
-            return(-1);
-         };
-         switch(pos%8)
-         {
-            case 2:
-            case 4:
-            case 5:
-            case 7:
-            break;
-
-            case 0:
-            case 1:
-            case 3:
-            case 6:
-            default:
-            if ((errp))
-               *errp = TOTPUTILS_EBADDATA;
-            return(-1);
-         };
-
-         // fast forward to end of padding
-         for(; (pos < n); pos++)
-         {
-            if (src[pos] != '=')
-            {
-               if ((errp))
-                  *errp = TOTPUTILS_EBADDATA;
-               return(-1);
-            };
-         };
-      };
-   };
-
    // decodes base32 encoded data
    datlen = 0;
-   for(pos = 0; pos <= (n - 8); pos += 8)
+   for(pos = 0; (pos < n); pos++)
    {
       // MSB is Most Significant Bits  (0x80 == 10000000 ~= MSB)
       // MB is middle bits             (0x7E == 01111110 ~= MB)
       // LSB is Least Significant Bits (0x01 == 00000001 ~= LSB)
-
-      // byte 0
-      dst[datlen+0]  = (map[src[pos+0]] << 3) & 0xF8; // 5 MSB
-      dst[datlen+0] |= (map[src[pos+1]] >> 2) & 0x07; // 3 LSB
-      if (src[pos+2] == '=')
+      switch(pos%8)
       {
-          datlen += 1;
-          break;
-      };
+         // byte 0
+         case 1:
+         dst[datlen]  = (map[src[pos-1]] << 3) & 0xF8; // 5 MSB
+         dst[datlen] |= (map[src[pos-0]] >> 2) & 0x07; // 3 LSB
+         datlen++;
+         break;
 
-      // byte 1
-      dst[datlen+1]  = (map[src[pos+1]] << 6) & 0xC0; // 2 MSB
-      dst[datlen+1] |= (map[src[pos+2]] << 1) & 0x3E; // 5  MB
-      dst[datlen+1] |= (map[src[pos+3]] >> 4) & 0x01; // 1 LSB
-      if (src[pos+4] == '=')
-      {
-          datlen += 2;
-          break;
-      };
+         // byte 1
+         case 3:
+         dst[datlen]  = (map[src[pos-2]] << 6) & 0xC0; // 2 MSB
+         dst[datlen] |= (map[src[pos-1]] << 1) & 0x3E; // 5  MB
+         dst[datlen] |= (map[src[pos-0]] >> 4) & 0x01; // 1 LSB
+         datlen++;
+         break;
 
-      // byte 2
-      dst[datlen+2]  = (map[src[pos+3]] << 4) & 0xF0; // 4 MSB
-      dst[datlen+2] |= (map[src[pos+4]] >> 1) & 0x0F; // 4 LSB
-      if (src[pos+5] == '=')
-      {
-          datlen += 3;
-          break;
-      };
+         // byte 2
+         case 4:
+         dst[datlen]  = (map[src[pos-1]] << 4) & 0xF0; // 4 MSB
+         dst[datlen] |= (map[src[pos-0]] >> 1) & 0x0F; // 4 LSB
+         datlen++;
+         break;
 
-      // byte 3
-      dst[datlen+3]  = (map[src[pos+4]] << 7) & 0x80; // 1 MSB
-      dst[datlen+3] |= (map[src[pos+5]] << 2) & 0x7C; // 5  MB
-      dst[datlen+3] |= (map[src[pos+6]] >> 3) & 0x03; // 2 LSB
-      if (src[pos+7] == '=')
-      {
-          datlen += 4;
-          break;
-      };
+         // byte 3
+         case 6:
+         dst[datlen]  = (map[src[pos-2]] << 7) & 0x80; // 1 MSB
+         dst[datlen] |= (map[src[pos-1]] << 2) & 0x7C; // 5  MB
+         dst[datlen] |= (map[src[pos-0]] >> 3) & 0x03; // 2 LSB
+         datlen++;
+         break;
 
-      // byte 4
-      dst[datlen+4]  = (map[src[pos+6]] << 5) & 0xE0; // 3 MSB
-      dst[datlen+4] |= (map[src[pos+7]] >> 0) & 0x1F; // 5 LSB
-      datlen += 5;
+         // byte 4
+         case 7:
+         dst[datlen]  = (map[src[pos-1]] << 5) & 0xE0; // 3 MSB
+         dst[datlen] |= (map[src[pos-0]] >> 0) & 0x1F; // 5 LSB
+         datlen++;
+
+         default:
+         if (src[pos] == '=')
+            return(datlen);
+         break;
+      };
    };
 
    return(datlen);
