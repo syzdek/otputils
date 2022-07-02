@@ -77,6 +77,13 @@ totp_base32_encode(
 );
 
 
+static ssize_t
+totp_base32_verify(
+         const int8_t *                map,
+         const char *                  src,
+         size_t                        n );
+
+
 static int
 totputils_encode_method(
          int                           method,
@@ -161,12 +168,26 @@ totp_base32_decode(
 
    size_t    datlen;
    size_t    pos;
+   ssize_t     rc;
 
 
    assert(dst != NULL);
    assert(src != NULL);
    assert(s   >  0);
 
+   // verifies encoded data contains only valid characters
+   if ((rc = totp_base32_verify(map, (const char *)src, n)) == -1)
+   {
+      if ((errp))
+         *errp = TOTPUTILS_EBADDATA;
+      return(-1);
+   };
+   if ( (rc > (ssize_t)s) && ((dst)) )
+   {
+      if ((errp))
+         *errp = TOTPUTILS_ENOBUFS;
+      return(-1);
+   };
 
    // validates length of base32 data
    if (((n & 0xF) != 0) && ((n & 0xF) != 8))
@@ -386,6 +407,47 @@ totp_base32_encode(
 }
 
 
+ssize_t
+totp_base32_verify(
+         const int8_t *                map,
+         const char *                  src,
+         size_t                        n )
+{
+   size_t   pos;
+   size_t   datlen;
+
+   assert(map != NULL);
+   assert(src != NULL);
+
+   datlen = 0;
+
+   // verifies encoded data contains only valid characters
+   for(pos = 0; (pos < n); pos++)
+   {
+      // verify that data is valid character
+      if (map[(unsigned char)src[pos]] == -1)
+         return(-1);
+      // verify valid use of padding
+      if (src[pos] != '=')
+         continue;
+      if (!(datlen))
+         datlen = pos;
+      if ((pos % 8) < 2)
+         return(-1);
+      if ((pos + (8-(pos%8))) != n)
+         return(-1);
+      for(; (pos < n); pos++)
+         if (src[pos] != '=')
+            return(-1);
+   };
+
+   if (!(datlen))
+      datlen = pos;
+
+   return((datlen * 5) / 8);
+}
+
+
 /// decodes encoded data
 /// @param[in]    method      Encoding method
 /// @param[out]   dst         output buffer
@@ -571,6 +633,28 @@ totputils_encode_size(
 
       case TOTPUTILS_HEX:
       return( n * 2 );
+
+      default:
+      break;
+   };
+
+   return(-1);
+}
+
+
+ssize_t
+totputils_encoding_verify(
+         int                           method,
+         const char *                  src,
+         size_t                        n )
+{
+   switch(method)
+   {
+      case TOTPUTILS_BASE32:
+      return(totp_base32_verify(base32_vals, src, n));
+
+      case TOTPUTILS_BASE32HEX:
+      return(totp_base32_verify(base32hex_vals, src, n));
 
       default:
       break;

@@ -174,6 +174,13 @@ totputils_encode_size(
          );
 
 
+_TOTPUTILS_F ssize_t
+totputils_encoding_verify(
+         int                           method,
+         const char *                  src,
+         size_t                        n );
+
+
 //-----------------//
 // error functions //
 //-----------------//

@@ -62,6 +62,7 @@ totputils_decode
 totputils_decode_size
 totputils_encode
 totputils_encode_size
+totputils_encoding_verify
 #
 # error functions
 totputils_err2string
