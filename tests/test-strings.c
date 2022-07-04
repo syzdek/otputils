@@ -140,6 +140,7 @@ totputils_test_decode(
    const char    * dec;
    const char    * enc;
    int             exit_code;
+   char            msg[128];
 
    exit_code = 0;
 
@@ -148,7 +149,8 @@ totputils_test_decode(
       dec = data[pos].dec;
       enc = data[pos].enc;
 
-      printf("decoding \"%s\" ... ", enc);
+      snprintf(msg, sizeof(msg), "decoding \"%s\" ... ", enc);
+      printf("%-40s", msg);
 
       len = totputils_decode(method, buff, sizeof(buff), enc, strlen(enc), &err);
       if (len == -1)
