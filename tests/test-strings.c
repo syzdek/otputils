@@ -168,6 +168,26 @@ struct test_data base64_strings[] =
 };
 
 
+#pragma mark crockford_strings[]
+struct test_data crockford_strings[] =
+{
+   { .dec = "",             .enc = "",                         .nopad = 0 },
+   { .dec = "f",            .enc = "CR",                       .nopad = 0 },
+   { .dec = "fo",           .enc = "CSQG",                     .nopad = 0 },
+   { .dec = "foo",          .enc = "CSQPY",                    .nopad = 0 },
+   { .dec = "foob",         .enc = "CSQPYRG",                  .nopad = 0 },
+   { .dec = "fooba",        .enc = "CSQPYRK1",                 .nopad = 0 },
+   { .dec = "foobar",       .enc = "CSQPYRK1E8",               .nopad = 0 },
+   { .dec = "foobarb",      .enc = "CSQPYRK1E9H0",             .nopad = 0 },
+   { .dec = "foobarba",     .enc = "CSQPYRK1E9H62",            .nopad = 0 },
+   { .dec = "foobarbar",    .enc = "CSQPYRK1E9H62WG",          .nopad = 0 },
+   { .dec = "foobarbarf",   .enc = "CSQPYRK1E9H62WK6",         .nopad = 0 },
+   { .dec = "foobarbarfo",  .enc = "CSQPYRK1E9H62WK6DW",       .nopad = 0 },
+   { .dec = "foobarbarfoo", .enc = "CSQPYRK1E9H62WK6DXQG",     .nopad = 0 },
+   { .dec = NULL,           .enc = NULL,                       .nopad = 0 }
+};
+
+
 #pragma mark hex_strings[]
 struct test_data hex_strings[] =
 {

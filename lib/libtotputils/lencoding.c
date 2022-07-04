@@ -230,6 +230,31 @@ static const int8_t base64_vals[256] =
 static const char * base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
 
+#pragma mark crockford_vals[]
+static const int8_t crockford_vals[256] =
+{
+// 00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x00
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x10
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x20
+    0,  1,  2,  3,  4,  5,  6,  7,  8,  9, -1, -1, -1, -1, -1, -1, // 0x30
+   -1, 10, 11, 12, 13, 14, 15, 16, 17,  1, 18, 19,  1, 20, 21,  0, // 0x40
+   22, 23, 24, 25, 26, -1, 27, 28, 29, 30, 31, -1, -1, -1, -1, -1, // 0x50
+   -1, 10, 11, 12, 13, 14, 15, 16, 17,  1, 18, 19,  1, 20, 21,  0, // 0x60
+   22, 23, 24, 25, 26, -1, 27, 28, 29, 30, 31, -1, -1, -1, -1, -1, // 0x70
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x80
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x90
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xA0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xB0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xC0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xD0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xE0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xF0
+};
+#pragma mark crockford_chars[]
+static const char * crockford_chars = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
+
+
 #pragma mark hex_vals[]
 static const int8_t hex_vals[256] =
 {
@@ -859,6 +884,9 @@ totputils_decode(
       case TOTPUTILS_BASE64:
       return(totp_base64_decode(base64_vals, dst, s, src, n, errp));
 
+      case TOTPUTILS_CROCKFORD:
+      return(totp_base32_decode(crockford_vals, dst, s, src, n, errp));
+
       case TOTPUTILS_HEX:
       return(totp_hex_decode(hex_vals, dst, s, src, n, errp));
 
@@ -881,6 +909,7 @@ totputils_decode_size(
    {
       case TOTPUTILS_BASE32:
       case TOTPUTILS_BASE32HEX:
+      case TOTPUTILS_CROCKFORD:
       return( ((n / 8) + (((n % 8)) ? 1 : 0)) * 5 );
 
       case TOTPUTILS_BASE64:
@@ -936,6 +965,9 @@ totputils_encode(
       case TOTPUTILS_BASE64:
       return(totp_base64_encode(base64_chars, dst, s, src, n, nopad, errp));
 
+      case TOTPUTILS_CROCKFORD:
+      return(totp_base32_encode(crockford_chars, dst, s, src, n, 1, errp));
+
       case TOTPUTILS_HEX:
       return(totp_hex_encode(hex_chars, dst, s, src, n, nopad, errp));
 
@@ -963,6 +995,7 @@ totputils_encode_method(
       case TOTPUTILS_BASE32:
       case TOTPUTILS_BASE32HEX:
       case TOTPUTILS_BASE64:
+      case TOTPUTILS_CROCKFORD:
       case TOTPUTILS_HEX:
       return(method);
 
@@ -986,6 +1019,7 @@ totputils_encode_size(
    {
       case TOTPUTILS_BASE32:
       case TOTPUTILS_BASE32HEX:
+      case TOTPUTILS_CROCKFORD:
       return( ((n / 5) + (((n % 5)) ? 1 : 0)) * 8 );
 
       case TOTPUTILS_BASE64:
@@ -1018,6 +1052,9 @@ totputils_encoding_verify(
 
       case TOTPUTILS_BASE64:
       return(totp_base64_verify(base64_vals, src, n));
+
+      case TOTPUTILS_CROCKFORD:
+      return(totp_base32_verify(crockford_vals, src, n));
 
       case TOTPUTILS_HEX:
       return(totp_hex_verify(hex_vals, src, n));

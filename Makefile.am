@@ -68,6 +68,9 @@ check_PROGRAMS				= tests/base32-decoding \
 					  tests/base64-decoding \
 					  tests/base64-encoding \
 					  tests/base64-validate \
+					  tests/crockford-decoding \
+					  tests/crockford-encoding \
+					  tests/crockford-validate \
 					  tests/hex-decoding \
 					  tests/hex-encoding \
 					  tests/hex-validate
@@ -106,6 +109,9 @@ TESTS					= tests/base32-decoding \
 					  tests/base64-decoding \
 					  tests/base64-encoding \
 					  tests/base64-validate \
+					  tests/crockford-decoding \
+					  tests/crockford-encoding \
+					  tests/crockford-validate \
 					  tests/hex-decoding \
 					  tests/hex-encoding \
 					  tests/hex-validate
@@ -255,6 +261,30 @@ tests_base64_validate_LDADD		= lib/libtotputils.a
 tests_base64_validate_SOURCES		= tests/test-strings.c \
 					  tests/test-strings.h \
 					  tests/base64-validate.c
+
+
+# macros for tests/crockford-decoding
+tests_crockford_decoding_DEPENDENCIES	= Makefile lib/libtotputils.a
+tests_crockford_decoding_LDADD		= lib/libtotputils.a
+tests_crockford_decoding_SOURCES	= tests/test-strings.c \
+					  tests/test-strings.h \
+					  tests/crockford-decoding.c
+
+
+# macros for tests/crockford-encoding
+tests_crockford_encoding_DEPENDENCIES	= Makefile lib/libtotputils.a
+tests_crockford_encoding_LDADD		= lib/libtotputils.a
+tests_crockford_encoding_SOURCES	= tests/test-strings.c \
+					  tests/test-strings.h \
+					  tests/crockford-encoding.c
+
+
+# macros for tests/crockford-validate
+tests_crockford_validate_DEPENDENCIES	= Makefile lib/libtotputils.a
+tests_crockford_validate_LDADD		= lib/libtotputils.a
+tests_crockford_validate_SOURCES	= tests/test-strings.c \
+					  tests/test-strings.h \
+					  tests/crockford-validate.c
 
 
 # macros for tests/hex-decoding

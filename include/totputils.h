@@ -110,6 +110,7 @@
 #define TOTPUTILS_BASE32HEX         0x0002
 #define TOTPUTILS_BASE64            0x0003
 #define TOTPUTILS_HEX               0x0004
+#define TOTPUTILS_CROCKFORD         0x0005
 
 
 /////////////////
