@@ -184,6 +184,7 @@ totputils_test_encode(
    const char    * enc;
    int             exit_code;
    int             nopad;
+   char            msg[128];
 
    exit_code = 0;
 
@@ -193,7 +194,8 @@ totputils_test_encode(
       enc   = data[pos].enc;
       nopad = (int)data[pos].nopad;
 
-      printf("encoding \"%s\" ... ", dec);
+      snprintf(msg, sizeof(msg), "encoding \"%s\" ... ", dec);
+      printf("%-35s", msg);
 
       len = totputils_encode(method, buff, sizeof(buff), dec, strlen(dec), nopad, &err);
       if (len == -1)
