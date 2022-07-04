@@ -144,10 +144,13 @@ totputils_test_decode(
 
    exit_code = 0;
 
-   for(pos = 0; (((data[pos].dec)) && ((data[pos].enc))); pos++)
+   for(pos = 0; (((data[pos].dec)) || ((data[pos].enc))); pos++)
    {
       dec = data[pos].dec;
       enc = data[pos].enc;
+
+      if ( (!(dec)) || (!(enc)) )
+         continue;
 
       snprintf(msg, sizeof(msg), "decoding \"%s\" ... ", enc);
       printf("%-40s", msg);
@@ -190,11 +193,14 @@ totputils_test_encode(
 
    exit_code = 0;
 
-   for(pos = 0; (((data[pos].dec)) && ((data[pos].enc))); pos++)
+   for(pos = 0; (((data[pos].dec)) || ((data[pos].enc))); pos++)
    {
       dec   = data[pos].dec;
       enc   = data[pos].enc;
       nopad = (int)data[pos].nopad;
+
+      if ( (!(dec)) || (!(enc)) )
+         continue;
 
       snprintf(msg, sizeof(msg), "encoding \"%s\" ... ", dec);
       printf("%-35s", msg);
