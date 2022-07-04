@@ -151,6 +151,7 @@ totputils_encode_method(
 /////////////////
 #pragma mark - Variables
 
+#pragma mark base32_vals[]
 static const int8_t base32_vals[256] =
 {
 //    This map cheats and interprets:
@@ -175,9 +176,11 @@ static const int8_t base32_vals[256] =
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xE0
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xF0
 };
+#pragma mark base32_chars[]
 static const char * base32_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=";
 
 
+#pragma mark base32hex_vals[]
 static const int8_t base32hex_vals[256] =
 {
 // 00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
@@ -198,9 +201,11 @@ static const int8_t base32hex_vals[256] =
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xE0
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xF0
 };
+#pragma mark base32hex_chars[]
 static const char * base32hex_chars = "0123456789ABCDEFGHIJKLMNOPQRSTUV=";
 
 
+#pragma mark base64_vals[]
 static const int8_t base64_vals[256] =
 {
 // 00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
@@ -221,9 +226,11 @@ static const int8_t base64_vals[256] =
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xE0
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xF0
 };
+#pragma mark base64_chars[]
 static const char * base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
 
+#pragma mark hex_vals[]
 static const int8_t hex_vals[256] =
 {
 // 00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
@@ -244,6 +251,7 @@ static const int8_t hex_vals[256] =
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xE0
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xF0
 };
+#pragma mark hex_chars[]
 static const char * hex_chars = "0123456789abcdef";
 
 
