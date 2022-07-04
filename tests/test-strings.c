@@ -49,11 +49,12 @@
 
 /////////////////
 //             //
-//  Datatypes  //
+//  Variables  //
 //             //
 /////////////////
-#pragma mark - Datatypes
+#pragma mark - Variables
 
+#pragma mark base32_strings[]
 struct test_data base32_strings[] =
 {
    { .dec = "",             .enc = "",                         .nopad = 0 },
@@ -89,6 +90,7 @@ struct test_data base32_strings[] =
 };
 
 
+#pragma mark base32hex_strings[]
 struct test_data base32hex_strings[] =
 {
    { .dec = "",             .enc = "",                         .nopad = 0 },
@@ -121,6 +123,7 @@ struct test_data base32hex_strings[] =
 };
 
 
+#pragma mark base64_strings[]
 struct test_data base64_strings[] =
 {
    { .dec = "",             .enc = "",                               .nopad = 0 },
@@ -165,6 +168,7 @@ struct test_data base64_strings[] =
 };
 
 
+#pragma mark hex_strings[]
 struct test_data hex_strings[] =
 {
    { .dec = "",             .enc = "",                         .nopad = 0 },
