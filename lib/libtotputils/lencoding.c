@@ -114,6 +114,33 @@ totp_base64_verify(
          size_t                        n );
 
 
+static ssize_t
+totp_hex_decode(
+         const int8_t *                map,
+         uint8_t *                     dst,
+         size_t                        s,
+         const char *                  src,
+         size_t                        n,
+         int *                         errp );
+
+
+static ssize_t
+totp_hex_encode(
+         const char *                  map,
+         char *                        dst,
+         size_t                        s,
+         const int8_t *                src,
+         size_t                        n,
+         int                           nopad,
+         int *                         errp );
+
+
+static ssize_t
+totp_hex_verify(
+         const int8_t *                map,
+         const char *                  src,
+         size_t                        n );
+
 
 static int
 totputils_encode_method(
@@ -200,6 +227,29 @@ static const int8_t base64_vals[256] =
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xF0
 };
 static const char * base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+
+static const int8_t hex_vals[256] =
+{
+// 00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x00
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x10
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x20
+    0,  1,  2,  3,  4,  5,  6,  7,  8,  9, -1, -1, -1, -1, -1, -1, // 0x30
+   -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x40
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x50
+   -1, 10, 11, 12, 13, 14, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x60
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x70
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x80
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x90
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xA0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xB0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xC0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xD0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xE0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xF0
+};
+static const char * hex_chars = "0123456789abcdef";
 
 
 /////////////////
@@ -631,6 +681,126 @@ totp_base64_verify(
 }
 
 
+//---------------//
+// hex functions //
+//---------------//
+#pragma mark hex functions
+
+ssize_t
+totp_hex_decode(
+         const int8_t *                map,
+         uint8_t *                     dst,
+         size_t                        s,
+         const char *                  src,
+         size_t                        n,
+         int *                         errp )
+{
+   size_t      datlen;
+   size_t      pos;
+   ssize_t     rc;
+
+   assert(dst != NULL);
+   assert(src != NULL);
+   assert(s   >  0);
+
+   // verifies encoded data contains only valid characters
+   if ((rc = totp_base64_verify(map, (const char *)src, n)) == -1)
+   {
+      if ((errp))
+         *errp = TOTPUTILS_EBADDATA;
+      return(-1);
+   };
+   if ( (rc > (ssize_t)s) && ((dst)) )
+   {
+      if ((errp))
+         *errp = TOTPUTILS_ENOBUFS;
+      return(-1);
+   };
+
+   // decodes base64 encoded data
+   datlen = 0;
+   for(pos = 0; (pos < n); pos++)
+   {
+      switch(pos%2)
+      {
+         // byte 0
+         case 0:
+         dst[datlen++]  = (map[(unsigned char)src[pos]] & 0x0f) << 4;
+         break;
+
+         // byte 1
+         case 1:
+         dst[datlen-1] |=  map[(unsigned char)src[pos]] & 0x0f;
+         break;
+      };
+   };
+   return(datlen);
+
+   return(0);
+}
+
+
+ssize_t
+totp_hex_encode(
+         const char *                  map,
+         char *                        dst,
+         size_t                        s,
+         const int8_t *                src,
+         size_t                        n,
+         int                           nopad,
+         int *                         errp )
+{
+   ssize_t   len;
+   size_t    dpos;
+   size_t    spos;
+
+   assert(dst != NULL);
+   assert(src != NULL);
+   assert(s   >  0);
+
+   if ((errp))
+      *errp = TOTPUTILS_SUCCESS;
+
+   // calculates each digit's value
+   dpos = 0;
+   for(spos = 0; (spos < n); spos++)
+   {
+      dst[dpos++]  = (src[spos] & 0xf0) >> 4;
+      dst[dpos++]  = (src[spos] & 0x0f);
+   };
+
+   // encodes each value
+   for(len = 0; ((size_t)len) < dpos; len++)
+      dst[len] = map[(unsigned char)dst[len]];
+
+   dst[len] = '\0';
+
+   return(((nopad)) ? len : len);
+}
+
+
+ssize_t
+totp_hex_verify(
+         const int8_t *                map,
+         const char *                  src,
+         size_t                        n )
+{
+   size_t   pos;
+
+   assert(map != NULL);
+   assert(src != NULL);
+
+   if ((n%2))
+      return(-1);
+
+   for(pos = 0; (pos < n); pos++)
+      if (map[(unsigned char)src[pos]] == -1)
+         return(-1);
+
+   return(n/2);
+}
+
+
 //--------------------//
 // frontend functions //
 //--------------------//
@@ -686,6 +856,9 @@ totputils_decode(
 
       case TOTPUTILS_BASE64:
       return(totp_base64_decode(base64_vals, dst, s, src, n, errp));
+
+      case TOTPUTILS_HEX:
+      return(totp_hex_decode(hex_vals, dst, s, src, n, errp));
 
       default:
       break;
@@ -760,6 +933,9 @@ totputils_encode(
 
       case TOTPUTILS_BASE64:
       return(totp_base64_encode(base64_chars, dst, s, src, n, nopad, errp));
+
+      case TOTPUTILS_HEX:
+      return(totp_hex_encode(hex_chars, dst, s, src, n, nopad, errp));
 
       default:
       break;
@@ -840,6 +1016,9 @@ totputils_encoding_verify(
 
       case TOTPUTILS_BASE64:
       return(totp_base64_verify(base64_vals, src, n));
+
+      case TOTPUTILS_HEX:
+      return(totp_hex_verify(hex_vals, src, n));
 
       default:
       break;

@@ -165,6 +165,25 @@ struct test_data base64_strings[] =
 };
 
 
+struct test_data hex_strings[] =
+{
+   { .dec = "",             .enc = "",                         .nopad = 0, .bad = 0 },
+   { .dec = "f",            .enc = "66",                       .nopad = 0, .bad = 0 },
+   { .dec = "fo",           .enc = "666f",                     .nopad = 0, .bad = 0 },
+   { .dec = "foo",          .enc = "666f6f",                   .nopad = 0, .bad = 0 },
+   { .dec = "foob",         .enc = "666f6f62",                 .nopad = 0, .bad = 0 },
+   { .dec = "fooba",        .enc = "666f6f6261",               .nopad = 0, .bad = 0 },
+   { .dec = "foobar",       .enc = "666f6f626172",             .nopad = 0, .bad = 0 },
+   { .dec = "foobarb",      .enc = "666f6f62617262",           .nopad = 0, .bad = 0 },
+   { .dec = "foobarba",     .enc = "666f6f6261726261",         .nopad = 0, .bad = 0 },
+   { .dec = "foobarbar",    .enc = "666f6f626172626172",       .nopad = 0, .bad = 0 },
+   { .dec = "foobarbarf",   .enc = "666f6f62617262617266",     .nopad = 0, .bad = 0 },
+   { .dec = "foobarbarfo",  .enc = "666f6f626172626172666f",   .nopad = 0, .bad = 0 },
+   { .dec = "foobarbarfoo", .enc = "666f6f626172626172666f6f", .nopad = 0, .bad = 0 },
+   { .dec = NULL,           .enc = NULL,                       .nopad = 0, .bad = 0 }
+};
+
+
 /////////////////
 //             //
 //  Functions  //
