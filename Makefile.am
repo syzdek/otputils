@@ -64,7 +64,10 @@ check_PROGRAMS				= tests/base32-decoding \
 					  tests/base32-validate \
 					  tests/base32hex-decoding \
 					  tests/base32hex-encoding \
-					  tests/base32hex-validate
+					  tests/base32hex-validate \
+					  tests/base64-decoding \
+					  tests/base64-encoding \
+					  tests/base64-validate
 doc_DATA				= AUTHORS.md \
 					  ChangeLog.md \
 					  COPYING.md \
@@ -96,7 +99,10 @@ TESTS					= tests/base32-decoding \
 					  tests/base32-validate \
 					  tests/base32hex-decoding \
 					  tests/base32hex-encoding \
-					  tests/base32hex-validate
+					  tests/base32hex-validate \
+					  tests/base64-decoding \
+					  tests/base64-encoding \
+					  tests/base64-validate
 XFAIL_TESTS				=
 EXTRA_MANS				=
 EXTRA_DIST				= $(noinst_HEADERS) \
@@ -219,6 +225,30 @@ tests_base32hex_validate_LDADD		= lib/libtotputils.a
 tests_base32hex_validate_SOURCES	= tests/test-strings.c \
 					  tests/test-strings.h \
 					  tests/base32hex-validate.c
+
+
+# macros for tests/base64-decoding
+tests_base64_decoding_DEPENDENCIES	= Makefile lib/libtotputils.a
+tests_base64_decoding_LDADD		= lib/libtotputils.a
+tests_base64_decoding_SOURCES		= tests/test-strings.c \
+					  tests/test-strings.h \
+					  tests/base64-decoding.c
+
+
+# macros for tests/base64-encoding
+tests_base64_encoding_DEPENDENCIES	= Makefile lib/libtotputils.a
+tests_base64_encoding_LDADD		= lib/libtotputils.a
+tests_base64_encoding_SOURCES		= tests/test-strings.c \
+					  tests/test-strings.h \
+					  tests/base64-encoding.c
+
+
+# macros for tests/base64-validate
+tests_base64_validate_DEPENDENCIES	= Makefile lib/libtotputils.a
+tests_base64_validate_LDADD		= lib/libtotputils.a
+tests_base64_validate_SOURCES		= tests/test-strings.c \
+					  tests/test-strings.h \
+					  tests/base64-validate.c
 
 
 # Makefile includes

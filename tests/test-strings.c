@@ -121,6 +121,50 @@ struct test_data base32hex_strings[] =
 };
 
 
+struct test_data base64_strings[] =
+{
+   { .dec = "",             .enc = "",                         .nopad = 0, .bad = 0 },
+   { .dec = "f",            .enc = "Zg==",                     .nopad = 0, .bad = 0 },
+   { .dec = "fo",           .enc = "Zm8=",                     .nopad = 0, .bad = 0 },
+   { .dec = "foo",          .enc = "Zm9v",                     .nopad = 0, .bad = 0 },
+   { .dec = "foob",         .enc = "Zm9vYg==",                 .nopad = 0, .bad = 0 },
+   { .dec = "fooba",        .enc = "Zm9vYmE=",                 .nopad = 0, .bad = 0 },
+   { .dec = "foobar",       .enc = "Zm9vYmFy",                 .nopad = 0, .bad = 0 },
+   { .dec = "foobarb",      .enc = "Zm9vYmFyYg==",             .nopad = 0, .bad = 0 },
+   { .dec = "foobarba",     .enc = "Zm9vYmFyYmE=",             .nopad = 0, .bad = 0 },
+   { .dec = "foobarbar",    .enc = "Zm9vYmFyYmFy",             .nopad = 0, .bad = 0 },
+   { .dec = "foobarbarf",   .enc = "Zm9vYmFyYmFyZg==",         .nopad = 0, .bad = 0 },
+   { .dec = "foobarbarfo",  .enc = "Zm9vYmFyYmFyZm8=",         .nopad = 0, .bad = 0 },
+   { .dec = "foobarbarfoo", .enc = "Zm9vYmFyYmFyZm9v",         .nopad = 0, .bad = 0 },
+   { .dec = "",             .enc = "",                         .nopad = 1, .bad = 0 },
+   { .dec = "f",            .enc = "Zg",                       .nopad = 1, .bad = 0 },
+   { .dec = "fo",           .enc = "Zm8",                      .nopad = 1, .bad = 0 },
+   { .dec = "foo",          .enc = "Zm9v",                     .nopad = 1, .bad = 0 },
+   { .dec = "foob",         .enc = "Zm9vYg",                   .nopad = 1, .bad = 0 },
+   { .dec = "fooba",        .enc = "Zm9vYmE",                  .nopad = 1, .bad = 0 },
+   { .dec = "foobar",       .enc = "Zm9vYmFy",                 .nopad = 1, .bad = 0 },
+   { .dec = "foobarb",      .enc = "Zm9vYmFyYg",               .nopad = 1, .bad = 0 },
+   { .dec = "foobarba",     .enc = "Zm9vYmFyYmE",              .nopad = 1, .bad = 0 },
+   { .dec = "foobarbar",    .enc = "Zm9vYmFyYmFy",             .nopad = 1, .bad = 0 },
+   { .dec = "foobarbarf",   .enc = "Zm9vYmFyYmFyZg",           .nopad = 1, .bad = 0 },
+   { .dec = "foobarbarfo",  .enc = "Zm9vYmFyYmFyZm8",          .nopad = 1, .bad = 0 },
+   { .dec = "foobarbarfoo", .enc = "Zm9vYmFyYmFyZm9v",         .nopad = 1, .bad = 0 },
+   { .dec = "5nuvF7DY4/PY+APIzP", .enc = "NW51dkY3RFk0L1BZK0FQSXpQ", .nopad = 1 },
+   { .dec = "wpq83IwsEv3ci0hf2S", .enc = "d3BxODNJd3NFdjNjaTBoZjJT", .nopad = 1 },
+   { .dec = "4ltI0yv+ddKjyEN6IU", .enc = "NGx0STB5ditkZEtqeUVONklV", .nopad = 1 },
+   { .dec = "sLo8FOEOQGzDtXIE72", .enc = "c0xvOEZPRU9RR3pEdFhJRTcy", .nopad = 1 },
+   { .dec = "uQBsjzE1uZ287j0hIW", .enc = "dVFCc2p6RTF1WjI4N2owaElX", .nopad = 1 },
+   { .dec = "5OcM4X4uibUIsf0KF/", .enc = "NU9jTTRYNHVpYlVJc2YwS0Yv", .nopad = 1 },
+   { .dec = "2WGVwxQBvpMz6d/a+O", .enc = "MldHVnd4UUJ2cE16NmQvYStP", .nopad = 1 },
+   { .dec = "u1OAtBFMPKCWnS7fw8", .enc = "dTFPQXRCRk1QS0NXblM3Znc4", .nopad = 1 },
+   { .dec = "XsbP5uIZ1RMOLH8Tzo", .enc = "WHNiUDV1SVoxUk1PTEg4VHpv", .nopad = 1 },
+   { .dec = "L8C0IUt45j42ic36+k", .enc = "TDhDMElVdDQ1ajQyaWMzNitr", .nopad = 1 },
+   { .dec = "HqC2LnE2qxADXk3g7+", .enc = "SHFDMkxuRTJxeEFEWGszZzcr", .nopad = 1 },
+   { .dec = "ko4QuyAGFQD2IUPZU8", .enc = "a280UXV5QUdGUUQySVVQWlU4", .nopad = 1 },
+   { .dec = NULL,           .enc = NULL,                       .nopad = 0, .bad = 0 }
+};
+
+
 /////////////////
 //             //
 //  Functions  //

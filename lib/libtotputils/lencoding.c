@@ -84,6 +84,37 @@ totp_base32_verify(
          size_t                        n );
 
 
+static ssize_t
+totp_base64_decode(
+         const int8_t *                map,
+         uint8_t *                     dst,
+         size_t                        s,
+         const char *                  src,
+         size_t                        n,
+         int *                         errp
+);
+
+
+static ssize_t
+totp_base64_encode(
+         const char *                  map,
+         char *                        dst,
+         size_t                        s,
+         const int8_t *                src,
+         size_t                        n,
+         int                           nopad,
+         int *                         errp
+);
+
+
+static ssize_t
+totp_base64_verify(
+         const int8_t *                map,
+         const char *                  src,
+         size_t                        n );
+
+
+
 static int
 totputils_encode_method(
          int                           method,
@@ -148,12 +179,40 @@ static const int8_t base32hex_vals[256] =
 static const char * base32hex_chars = "0123456789ABCDEFGHIJKLMNOPQRSTUV=";
 
 
+static const int8_t base64_vals[256] =
+{
+// 00  01  02  03  04  05  06  07  08  09  0A  0B  0C  0D  0E  0F
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x00
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x10
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, // 0x20
+   52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1,  0, -1, -1, // 0x30
+   -1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, // 0x40
+   15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1, // 0x50
+   -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, // 0x60
+   41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1, // 0x70
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x80
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0x90
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xA0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xB0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xC0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xD0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xE0
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, // 0xF0
+};
+static const char * base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+
 /////////////////
 //             //
 //  Functions  //
 //             //
 /////////////////
 #pragma mark - Functions
+
+//------------------//
+// base32 functions //
+//------------------//
+#pragma mark base32 functions
 
 ssize_t
 totp_base32_decode(
@@ -380,6 +439,203 @@ totp_base32_verify(
 }
 
 
+//------------------//
+// base64 functions //
+//------------------//
+#pragma mark base64 functions
+
+ssize_t
+totp_base64_decode(
+         const int8_t *                map,
+         uint8_t *                     dst,
+         size_t                        s,
+         const char *                  src,
+         size_t                        n,
+         int *                         errp )
+{
+   size_t    datlen;
+   size_t    pos;
+   ssize_t     rc;
+
+   assert(dst != NULL);
+   assert(src != NULL);
+   assert(s   >  0);
+
+   // verifies encoded data contains only valid characters
+   if ((rc = totp_base64_verify(map, (const char *)src, n)) == -1)
+   {
+      if ((errp))
+         *errp = TOTPUTILS_EBADDATA;
+      return(-1);
+   };
+   if ( (rc > (ssize_t)s) && ((dst)) )
+   {
+      if ((errp))
+         *errp = TOTPUTILS_ENOBUFS;
+      return(-1);
+   };
+
+   // decodes base64 encoded data
+   datlen = 0;
+   for(pos = 0; (pos < n); pos++)
+   {
+      // MSB is Most Significant Bits  (0x80 == 10000000 ~= MSB)
+      // MB is middle bits             (0x7E == 01111110 ~= MB)
+      // LSB is Least Significant Bits (0x01 == 00000001 ~= LSB)
+      switch(pos%4)
+      {
+         // byte 0
+         case 0:
+         dst[datlen++]  = (map[(unsigned char)src[pos]] & 0x3f) << 2;  // 6 MSB
+         break;
+
+         // byte 1
+         case 1:
+         dst[datlen-1] |= (map[(unsigned char)src[pos]] & 0x30) >> 4; // 2 LSB
+         dst[datlen++]  = (map[(unsigned char)src[pos]] & 0x0f) << 4; // 4 MSB
+         break;
+
+         // byte 2
+         case 2:
+         dst[datlen-1] |= (map[(unsigned char)src[pos]] & 0x3c) >> 2; // 4 MSB
+         dst[datlen++]  = (map[(unsigned char)src[pos]] & 0x03) << 6; // 2 LSB
+         break;
+
+         // byte 3
+         case 3:
+         dst[datlen-1] |= (map[(unsigned char)src[pos]] & 0x3f);    // 1 MSB
+         break;
+      };
+   };
+   return(datlen);
+}
+
+
+ssize_t
+totp_base64_encode(
+         const char *                  map,
+         char *                        dst,
+         size_t                        s,
+         const int8_t *                src,
+         size_t                        n,
+         int                           nopad,
+         int *                         errp )
+{
+   ssize_t   len;
+   size_t    dpos;
+   size_t    spos;
+   size_t    byte;
+
+   assert(dst != NULL);
+   assert(src != NULL);
+   assert(s   >  0);
+
+   if ((errp))
+      *errp = TOTPUTILS_SUCCESS;
+
+   // calculates each digit's value
+   byte = 0;
+   dpos = 0;
+   for(spos = 0; (spos < n); spos++)
+   {
+      // MSB is Most Significant Bits  (0x80 == 10000000 ~= MSB)
+      // MB is middle bits             (0x7E == 01111110 ~= MB)
+      // LSB is Least Significant Bits (0x01 == 00000001 ~= LSB)
+      switch(byte)
+      {
+         case 0:
+         dst[dpos++]  = (src[spos] & 0xfc) >> 2;  // 6 MSB
+         dst[dpos++]  = (src[spos] & 0x03) << 4;  // 2 LSB
+         byte++;
+         break;
+
+         case 1:
+         dst[dpos-1] |= (src[spos] & 0xf0) >> 4;  // 4 MSB
+         dst[dpos++]  = (src[spos] & 0x0f) << 2;  // 4 LSB
+         byte++;
+         break;
+
+         case 2:
+         dst[dpos-1] |= (src[spos] & 0xc0) >> 6;  // 2 MSB
+         dst[dpos++]  =  src[spos] & 0x3f;        // 6 LSB
+         byte = 0;
+         break;
+      };
+   };
+
+   // encodes each value
+   for(len = 0; ((size_t)len) < dpos; len++)
+      dst[len] = map[(unsigned char)dst[len]];
+
+   // add padding
+   if (!(nopad))
+      for(; ((len % 4)); len++)
+         dst[len] = '=';
+
+   dst[len] = '\0';
+
+   return(len);
+}
+
+
+ssize_t
+totp_base64_verify(
+         const int8_t *                map,
+         const char *                  src,
+         size_t                        n )
+{
+   size_t   pos;
+   size_t   datlen;
+
+   assert(map != NULL);
+   assert(src != NULL);
+
+   datlen = 0;
+
+   // verifies encoded data contains only valid characters
+   for(pos = 0; (pos < n); pos++)
+   {
+      // verify that data is valid character
+      if (map[(unsigned char)src[pos]] == -1)
+         return(-1);
+      // verify valid use of padding
+      if (src[pos] != '=')
+         continue;
+      if (!(datlen))
+         datlen = pos;
+      if ((pos % 4) < 2)
+         return(-1);
+      if ((pos + (4-(pos%4))) != n)
+         return(-1);
+      for(; (pos < n); pos++)
+         if (src[pos] != '=')
+            return(-1);
+   };
+
+   if (!(datlen))
+      datlen = pos;
+
+   switch(datlen % 4)
+   {
+      case 0:
+      case 2:
+      case 3:
+      break;
+
+      case 1:
+      default:
+      return(-1);
+   };
+
+   return((datlen * 6) / 8);
+}
+
+
+//--------------------//
+// frontend functions //
+//--------------------//
+#pragma mark frontend functions
+
 /// decodes encoded data
 /// @param[in]    method      Encoding method
 /// @param[out]   dst         output buffer
@@ -427,6 +683,9 @@ totputils_decode(
 
       case TOTPUTILS_BASE32HEX:
       return(totp_base32_decode(base32hex_vals, dst, s, src, n, errp));
+
+      case TOTPUTILS_BASE64:
+      return(totp_base64_decode(base64_vals, dst, s, src, n, errp));
 
       default:
       break;
@@ -498,6 +757,9 @@ totputils_encode(
 
       case TOTPUTILS_BASE32HEX:
       return(totp_base32_encode(base32hex_chars, dst, s, src, n, nopad, errp));
+
+      case TOTPUTILS_BASE64:
+      return(totp_base64_encode(base64_chars, dst, s, src, n, nopad, errp));
 
       default:
       break;
@@ -575,6 +837,9 @@ totputils_encoding_verify(
 
       case TOTPUTILS_BASE32HEX:
       return(totp_base32_verify(base32hex_vals, src, n));
+
+      case TOTPUTILS_BASE64:
+      return(totp_base64_verify(base64_vals, src, n));
 
       default:
       break;
