@@ -144,6 +144,24 @@ totputils_encode_method(
          int *                         errp );
 
 
+ssize_t
+totp_none_decode(
+         uint8_t *                     dst,
+         size_t                        s,
+         const char *                  src,
+         size_t                        n,
+         int *                         errp );
+
+
+ssize_t
+totp_none_encode(
+         char *                        dst,
+         size_t                        s,
+         const int8_t *                src,
+         size_t                        n,
+         int *                         errp );
+
+
 /////////////////
 //             //
 //  Variables  //
@@ -829,6 +847,56 @@ totp_hex_verify(
 }
 
 
+//----------------//
+// none functions //
+//----------------//
+#pragma mark none functions
+
+ssize_t
+totp_none_decode(
+         uint8_t *                     dst,
+         size_t                        s,
+         const char *                  src,
+         size_t                        n,
+         int *                         errp )
+{
+   assert(dst != NULL);
+   assert(src != NULL);
+   if ((errp))
+      *errp = TOTPUTILS_SUCCESS;
+   if (n > s)
+   {
+      if ((errp))
+         *errp = TOTPUTILS_ENOBUFS;
+      return(-1);
+   };
+   memcpy(dst, src, n);
+   return(n);
+}
+
+
+ssize_t
+totp_none_encode(
+         char *                        dst,
+         size_t                        s,
+         const int8_t *                src,
+         size_t                        n,
+         int *                         errp )
+{
+   assert(dst != NULL);
+   assert(src != NULL);
+
+   if ((errp))
+      *errp = TOTPUTILS_SUCCESS;
+
+   if (n > s)
+      return(-1);
+   memcpy(dst, src, n);
+
+   return(n);
+}
+
+
 //--------------------//
 // frontend functions //
 //--------------------//
@@ -890,6 +958,9 @@ totputils_decode(
       case TOTPUTILS_HEX:
       return(totp_hex_decode(hex_vals, dst, s, src, n, errp));
 
+      case TOTPUTILS_NONE:
+      return(totp_none_decode(dst, s, src, n, errp));
+
       default:
       break;
    };
@@ -917,6 +988,9 @@ totputils_decode_size(
 
       case TOTPUTILS_HEX:
       return( (n / 2) + (((n % 2)) ? 1 : 0) );
+
+      case TOTPUTILS_NONE:
+      return(n);
 
       default:
       break;
@@ -971,6 +1045,9 @@ totputils_encode(
       case TOTPUTILS_HEX:
       return(totp_hex_encode(hex_chars, dst, s, src, n, nopad, errp));
 
+      case TOTPUTILS_NONE:
+      return(totp_none_encode(dst, s, src, n, errp));
+
       default:
       break;
    };
@@ -997,6 +1074,7 @@ totputils_encode_method(
       case TOTPUTILS_BASE64:
       case TOTPUTILS_CROCKFORD:
       case TOTPUTILS_HEX:
+      case TOTPUTILS_NONE:
       return(method);
 
       default:
@@ -1028,6 +1106,9 @@ totputils_encode_size(
       case TOTPUTILS_HEX:
       return( n * 2 );
 
+      case TOTPUTILS_NONE:
+      return(n);
+
       default:
       break;
    };
@@ -1058,6 +1139,9 @@ totputils_encoding_verify(
 
       case TOTPUTILS_HEX:
       return(totp_hex_verify(hex_vals, src, n));
+
+      case TOTPUTILS_NONE:
+      return((ssize_t)n);
 
       default:
       break;

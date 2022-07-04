@@ -106,6 +106,7 @@
 #define TOTPUTILS_ENOMEM            0x0004 ///< out of virtual memory
 
 
+#define TOTPUTILS_NONE              0x0000
 #define TOTPUTILS_BASE32            0x0001
 #define TOTPUTILS_BASE32HEX         0x0002
 #define TOTPUTILS_BASE64            0x0003
