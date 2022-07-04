@@ -62,7 +62,7 @@
 /// @see       totputils_free
 int
 totputils_initialize(
-         TOTPUtils **                  tkdp)
+         TOTPUtils **                  tkdp )
 {
    TOTPUtils * tkd;
 

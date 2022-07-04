@@ -61,8 +61,7 @@ totp_base32_decode(
          size_t                        s,
          const char *                  src,
          size_t                        n,
-         int *                         errp
-);
+         int *                         errp );
 
 
 static ssize_t
@@ -73,8 +72,7 @@ totp_base32_encode(
          const int8_t *                src,
          size_t                        n,
          int                           nopad,
-         int *                         errp
-);
+         int *                         errp );
 
 
 static ssize_t
@@ -91,8 +89,7 @@ totp_base64_decode(
          size_t                        s,
          const char *                  src,
          size_t                        n,
-         int *                         errp
-);
+         int *                         errp );
 
 
 static ssize_t
@@ -103,8 +100,7 @@ totp_base64_encode(
          const int8_t *                src,
          size_t                        n,
          int                           nopad,
-         int *                         errp
-);
+         int *                         errp );
 
 
 static ssize_t
@@ -145,8 +141,7 @@ totp_hex_verify(
 static int
 totputils_encode_method(
          int                           method,
-         int *                         errp
-);
+         int *                         errp );
 
 
 /////////////////
@@ -825,8 +820,7 @@ totputils_decode(
          size_t                        s,
          const char *                  src,
          size_t                        n,
-         int *                         errp
-)
+         int *                         errp )
 {
    assert(dst != NULL);
    assert(src != NULL);
@@ -873,7 +867,7 @@ totputils_decode(
 ssize_t
 totputils_decode_size(
          int                           method,
-         size_t                        n)
+         size_t                        n )
 {
    switch(method)
    {
