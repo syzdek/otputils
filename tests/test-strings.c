@@ -300,8 +300,6 @@ totputils_test_validate(
    const char *   dec;
    const char *   enc;
    int            exit_code;
-   int            nopad;
-   int            bad;
    char           msg[128];
 
    exit_code = 0;
@@ -310,8 +308,6 @@ totputils_test_validate(
    {
       dec   = data[pos].dec;
       enc   = data[pos].enc;
-      nopad = (int)data[pos].nopad;
-      bad   = (int)data[pos].bad;
 
       snprintf(msg, sizeof(msg), "validating \"%s\" ... ", enc);
       printf("%-45s", msg);
