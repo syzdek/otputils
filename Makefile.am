@@ -157,6 +157,7 @@ lib_libtotputils_a_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtotputils
 lib_libtotputils_a_CFLAGS		= $(AM_CFLAGS)
 lib_libtotputils_a_LIBADD		= $(AM_LIBS)
 lib_libtotputils_a_SOURCES		= $(noinst_HEADERS) \
+					  $(BINDLE_LIBBINDLE_SRCS) \
 					  lib/libtotputils/libtotputils.h \
 					  lib/libtotputils/lencoding.c \
 					  lib/libtotputils/lencoding.h \
@@ -316,7 +317,7 @@ GIT_PACKAGE_VERSION_DIR=include
 SUBST_EXPRESSIONS =
 include contrib/bindletools/build-aux/makefile-subst.am
 include contrib/bindletools/build-aux/makefile-version.am
-#include contrib/bindletools/build-aux/makefile-libbindle.am
+include contrib/bindletools/build-aux/makefile-libbindle.am
 
 
 # custom targets
