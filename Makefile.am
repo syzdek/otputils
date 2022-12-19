@@ -174,12 +174,7 @@ lib_libtotputils_la_LDFLAGS		= -rpath'$(libdir)' \
 					  $(AM_LDFLAGS) \
 					  -export-symbols $(srcdir)/lib/libtotputils/libtotputils.sym
 lib_libtotputils_la_LIBADD		= $(AM_LIBS)
-lib_libtotputils_la_SOURCES		= $(noinst_HEADERS) \
-					  lib/libtotputils/libtotputils.h \
-					  lib/libtotputils/lencoding.c \
-					  lib/libtotputils/lencoding.h \
-					  lib/libtotputils/lerror.c \
-					  lib/libtotputils/lerror.h
+lib_libtotputils_la_SOURCES		= $(lib_libtotputils_a_SOURCES)
 
 
 # macros for src/totp/totp
