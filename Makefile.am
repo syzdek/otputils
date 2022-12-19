@@ -59,21 +59,7 @@ DEFS					=
 
 
 # automake targets
-check_PROGRAMS				= tests/base32-decoding \
-					  tests/base32-encoding \
-					  tests/base32-validate \
-					  tests/base32hex-decoding \
-					  tests/base32hex-encoding \
-					  tests/base32hex-validate \
-					  tests/base64-decoding \
-					  tests/base64-encoding \
-					  tests/base64-validate \
-					  tests/crockford-decoding \
-					  tests/crockford-encoding \
-					  tests/crockford-validate \
-					  tests/hex-decoding \
-					  tests/hex-encoding \
-					  tests/hex-validate
+check_PROGRAMS				=
 doc_DATA				= AUTHORS.md \
 					  ChangeLog.md \
 					  COPYING.md \
@@ -100,21 +86,7 @@ EXTRA					=
 # lists
 AM_INSTALLCHECK_STD_OPTIONS_EXEMPT	=
 BUILT_SOURCES				=
-TESTS					= tests/base32-decoding \
-					  tests/base32-encoding \
-					  tests/base32-validate \
-					  tests/base32hex-decoding \
-					  tests/base32hex-encoding \
-					  tests/base32hex-validate \
-					  tests/base64-decoding \
-					  tests/base64-encoding \
-					  tests/base64-validate \
-					  tests/crockford-decoding \
-					  tests/crockford-encoding \
-					  tests/crockford-validate \
-					  tests/hex-decoding \
-					  tests/hex-encoding \
-					  tests/hex-validate
+TESTS					=
 XFAIL_TESTS				=
 EXTRA_MANS				=
 EXTRA_DIST				= $(noinst_HEADERS) \
@@ -185,126 +157,6 @@ src_totp_totp_LDFLAGS			= $(AM_LDFLAGS) lib/libtotputils.a
 src_totp_totp_LDADD			= $(AM_LIBS)
 src_totp_totp_SOURCES			= src/totp/totputilities.c \
 					  src/totp/totputilities.h
-
-
-# macros for tests/base32-decoding
-tests_base32_decoding_DEPENDENCIES	= Makefile lib/libtotputils.a
-tests_base32_decoding_LDADD		= lib/libtotputils.a
-tests_base32_decoding_SOURCES		= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/base32-decoding.c
-
-
-# macros for tests/base32-encoding
-tests_base32_encoding_DEPENDENCIES	= Makefile lib/libtotputils.a
-tests_base32_encoding_LDADD		= lib/libtotputils.a
-tests_base32_encoding_SOURCES		= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/base32-encoding.c
-
-
-# macros for tests/base32-validate
-tests_base32_validate_DEPENDENCIES	= Makefile lib/libtotputils.a
-tests_base32_validate_LDADD		= lib/libtotputils.a
-tests_base32_validate_SOURCES		= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/base32-validate.c
-
-
-# macros for tests/base32hex-decoding
-tests_base32hex_decoding_DEPENDENCIES	= Makefile lib/libtotputils.a
-tests_base32hex_decoding_LDADD		= lib/libtotputils.a
-tests_base32hex_decoding_SOURCES	= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/base32hex-decoding.c
-
-
-# macros for tests/base32hex-encoding
-tests_base32hex_encoding_DEPENDENCIES	= Makefile lib/libtotputils.a
-tests_base32hex_encoding_LDADD		= lib/libtotputils.a
-tests_base32hex_encoding_SOURCES	= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/base32hex-encoding.c
-
-
-# macros for tests/base32hex-validate
-tests_base32hex_validate_DEPENDENCIES	= Makefile lib/libtotputils.a
-tests_base32hex_validate_LDADD		= lib/libtotputils.a
-tests_base32hex_validate_SOURCES	= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/base32hex-validate.c
-
-
-# macros for tests/base64-decoding
-tests_base64_decoding_DEPENDENCIES	= Makefile lib/libtotputils.a
-tests_base64_decoding_LDADD		= lib/libtotputils.a
-tests_base64_decoding_SOURCES		= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/base64-decoding.c
-
-
-# macros for tests/base64-encoding
-tests_base64_encoding_DEPENDENCIES	= Makefile lib/libtotputils.a
-tests_base64_encoding_LDADD		= lib/libtotputils.a
-tests_base64_encoding_SOURCES		= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/base64-encoding.c
-
-
-# macros for tests/base64-validate
-tests_base64_validate_DEPENDENCIES	= Makefile lib/libtotputils.a
-tests_base64_validate_LDADD		= lib/libtotputils.a
-tests_base64_validate_SOURCES		= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/base64-validate.c
-
-
-# macros for tests/crockford-decoding
-tests_crockford_decoding_DEPENDENCIES	= Makefile lib/libtotputils.a
-tests_crockford_decoding_LDADD		= lib/libtotputils.a
-tests_crockford_decoding_SOURCES	= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/crockford-decoding.c
-
-
-# macros for tests/crockford-encoding
-tests_crockford_encoding_DEPENDENCIES	= Makefile lib/libtotputils.a
-tests_crockford_encoding_LDADD		= lib/libtotputils.a
-tests_crockford_encoding_SOURCES	= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/crockford-encoding.c
-
-
-# macros for tests/crockford-validate
-tests_crockford_validate_DEPENDENCIES	= Makefile lib/libtotputils.a
-tests_crockford_validate_LDADD		= lib/libtotputils.a
-tests_crockford_validate_SOURCES	= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/crockford-validate.c
-
-
-# macros for tests/hex-decoding
-tests_hex_decoding_DEPENDENCIES		= Makefile lib/libtotputils.a
-tests_hex_decoding_LDADD		= lib/libtotputils.a
-tests_hex_decoding_SOURCES		= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/hex-decoding.c
-
-
-# macros for tests/hex-encoding
-tests_hex_encoding_DEPENDENCIES		= Makefile lib/libtotputils.a
-tests_hex_encoding_LDADD		= lib/libtotputils.a
-tests_hex_encoding_SOURCES		= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/hex-encoding.c
-
-
-# macros for tests/hex-validate
-tests_hex_validate_DEPENDENCIES		= Makefile lib/libtotputils.a
-tests_hex_validate_LDADD		= lib/libtotputils.a
-tests_hex_validate_SOURCES		= tests/test-strings.c \
-					  tests/test-strings.h \
-					  tests/hex-validate.c
 
 
 # Makefile includes
