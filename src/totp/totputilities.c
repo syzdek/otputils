@@ -124,32 +124,32 @@ const totp_widget totp_widget_map[] =
    {
       "config",                                           // widget name
       "display configuration",                            // widget description
-      totp_whoami                                        // entry function
+      totp_whoami                                         // entry function
    },
    {
       "decode",                                           // widget name
       "decode data using specified encoding",             // widget description
-      totp_whoami                                        // entry function
+      totp_whoami                                         // entry function
    },
    {
       "encode",                                           // widget name
       "encode data using specified encoding",             // widget description
-      totp_whoami                                        // entry function
+      totp_whoami                                         // entry function
    },
    {
       "generate",                                         // widget name
       "generate TOTP secret",                             // widget description
-      totp_whoami                                        // entry function
+      totp_whoami                                         // entry function
    },
    {
       "info",                                             // widget name
       "display secret information",                       // widget description
-      totp_whoami                                        // entry function
+      totp_whoami                                         // entry function
    },
    {
       "verify",                                           // widget name
       "verify TOTP code",                                 // widget description
-      totp_whoami,                                       // entry function
+      totp_whoami,                                        // entry function
    },
    {
       "version",                                          // widget name
