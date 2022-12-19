@@ -69,8 +69,8 @@ typedef struct totp_widget totp_widget;
 
 struct totp_widget
 {
-   const char *           name;
-   const char *           desc;
+   const char *               name;
+   const char *               desc;
    int  (*func)(totp_config * cnf);
 };
 
