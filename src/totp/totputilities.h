@@ -71,7 +71,10 @@ struct totp_widget
 {
    const char *               name;
    const char *               desc;
+   const char *               usage;
+   const char * const *       aliases;
    int  (*func_exec)(totp_config * cnf);
+   int  (*func_usage)(totp_config * cnf);
 };
 
 

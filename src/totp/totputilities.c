@@ -121,32 +121,48 @@ totp_widget_lookup(
 
 const totp_widget totp_widget_map[] =
 {
-   {
-      "config",                                           // widget name
-      "display configuration",                            // widget description
-      totp_whoami                                         // entry function
+   {  .name       = "config",
+      .desc       = "display configuration",
+      .usage      = NULL,
+      .aliases    = NULL,
+      .func_exec  = totp_whoami,
+      .func_usage = NULL,
    },
-   {
-      "generate",                                         // widget name
-      "generate TOTP secret",                             // widget description
-      totp_whoami                                         // entry function
+   {  .name       = "generate",
+      .desc       = "generate TOTP secret",
+      .usage      = NULL,
+      .aliases    = NULL,
+      .func_exec  = totp_whoami,
+      .func_usage = NULL,
    },
-   {
-      "info",                                             // widget name
-      "display secret information",                       // widget description
-      totp_whoami                                         // entry function
+   {  .name       = "info",
+      .desc       = "display secret information",
+      .usage      = NULL,
+      .aliases    = NULL,
+      .func_exec  = totp_whoami,
+      .func_usage = NULL,
    },
-   {
-      "verify",                                           // widget name
-      "verify TOTP code",                                 // widget description
-      totp_whoami,                                        // entry function
+   {  .name       = "verify",
+      .desc       = "verify TOTP code",
+      .usage      = NULL,
+      .aliases    = NULL,
+      .func_exec  = totp_whoami,
+      .func_usage = NULL,
    },
-   {
-      "version",                                          // widget name
-      "display version",                                  // widget description
-      totp_version,                                       // entry function
+   {  .name       = "version",
+      .desc       = "display version",
+      .usage      = NULL,
+      .aliases    = NULL,
+      .func_exec  = totp_version,
+      .func_usage = NULL,
    },
-   { NULL, NULL, NULL }
+   {  .name       = NULL,
+      .desc       = NULL,
+      .usage      = NULL,
+      .aliases    = NULL,
+      .func_exec  = NULL,
+      .func_usage = NULL,
+   },
 };
 
 
