@@ -56,14 +56,6 @@
 #      libtool --mode=clean rm -f libtotputils.la \
 #              lerror.lo lmemory.lo
 #
-#
-# encoding functions
-totputils_decode
-totputils_decode_size
-totputils_encode
-totputils_encode_size
-totputils_encoding_verify
-#
 # error functions
 totputils_err2string
 totputils_errno

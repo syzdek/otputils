@@ -106,14 +106,6 @@
 #define TOTPUTILS_ENOMEM            0x0004 ///< out of virtual memory
 
 
-#define TOTPUTILS_NONE              0x0000
-#define TOTPUTILS_BASE32            0x0001
-#define TOTPUTILS_BASE32HEX         0x0002
-#define TOTPUTILS_BASE64            0x0003
-#define TOTPUTILS_HEX               0x0004
-#define TOTPUTILS_CROCKFORD         0x0005
-
-
 /////////////////
 //             //
 //  Datatypes  //
@@ -133,51 +125,6 @@ typedef struct totp_utils TOTPUtils;
 //////////////////
 #pragma mark - Prototypes
 TOTPUTILS_BEGIN_C_DECLS
-
-//--------------------//
-// encoding functions //
-//--------------------//
-#pragma mark encoding functions
-
-_TOTPUTILS_F ssize_t
-totputils_decode(
-         int                           method,
-         void *                        dst,
-         size_t                        s,
-         const char *                  src,
-         size_t                        n,
-         int *                         errp );
-
-
-_TOTPUTILS_F ssize_t
-totputils_decode_size(
-         int                           method,
-         size_t                        n );
-
-
-_TOTPUTILS_F ssize_t
-totputils_encode(
-         int                           method,
-         char *                        dst,
-         size_t                        s,
-         const void *                  src,
-         size_t                        n,
-         int                           nopad,
-         int *                         errp );
-
-
-_TOTPUTILS_F ssize_t
-totputils_encode_size(
-         int                           method,
-         size_t                        n );
-
-
-_TOTPUTILS_F ssize_t
-totputils_encoding_verify(
-         int                           method,
-         const char *                  src,
-         size_t                        n );
-
 
 //-----------------//
 // error functions //
