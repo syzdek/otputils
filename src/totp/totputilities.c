@@ -200,7 +200,7 @@ main(
    {
       cnf->argc = argc;
       cnf->argv = argv;
-      return(cnf->widget->func(cnf));
+      return(cnf->widget->func_exec(cnf));
    };
 
 
@@ -273,7 +273,7 @@ main(
    };
 
 
-   return(cnf->widget->func(cnf));
+   return(cnf->widget->func_exec(cnf));
 }
 
 
@@ -322,7 +322,7 @@ totp_widget_lookup(
       widget = &totp_widget_map[x];
 
       // skip place holders
-      if (widget->func == NULL)
+      if (widget->func_exec == NULL)
          continue;
 
       // compares widget name
@@ -368,7 +368,7 @@ totp_usage(
    printf("WIDGETS:\n");
    for (x = 0; totp_widget_map[x].name; x++)
    {
-      if (totp_widget_map[x].func == NULL)
+      if (totp_widget_map[x].func_exec == NULL)
          continue;
       if (totp_widget_map[x].desc == NULL)
          continue;

@@ -71,7 +71,7 @@ struct totp_widget
 {
    const char *               name;
    const char *               desc;
-   int  (*func)(totp_config * cnf);
+   int  (*func_exec)(totp_config * cnf);
 };
 
 
