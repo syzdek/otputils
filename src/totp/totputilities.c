@@ -106,7 +106,7 @@ totp_whoami(
          tuc_config_t *                 cnf );
 
 
-const totp_widget *
+const tuc_widget_t *
 totp_widget_lookup(
          const char *                  wname,
          int                           exact );
@@ -119,7 +119,7 @@ totp_widget_lookup(
 /////////////////
 #pragma mark - Variables
 
-const totp_widget totp_widget_map[] =
+const tuc_widget_t totp_widget_map[] =
 {
    {  .name       = "config",
       .desc       = "display configuration",
@@ -305,7 +305,7 @@ totp_basename(
 }
 
 
-const totp_widget *
+const tuc_widget_t *
 totp_widget_lookup(
          const char *                  wname,
          int                           exact )
@@ -313,8 +313,8 @@ totp_widget_lookup(
    int                    x;
    size_t                 wname_len;
    size_t                 matches;
-   const totp_widget *    matched_widget;
-   const totp_widget *    widget;
+   const tuc_widget_t *    matched_widget;
+   const tuc_widget_t *    widget;
 
    assert(wname != NULL);
 

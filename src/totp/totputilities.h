@@ -64,10 +64,10 @@
 #pragma mark - Datatypes
 
 typedef struct _totputils_cli_config tuc_config_t;
-typedef struct totp_widget totp_widget;
+typedef struct _totputils_cli_widget tuc_widget_t;
 
 
-struct totp_widget
+struct _totputils_cli_widget
 {
    const char *               name;
    const char *               desc;
@@ -85,7 +85,7 @@ struct _totputils_cli_config
    int                      opt_index;
    int                      argc;
    char **                  argv;
-   const totp_widget *      widget;
+   const tuc_widget_t *     widget;
 };
 
 
