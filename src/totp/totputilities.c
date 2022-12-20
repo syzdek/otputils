@@ -98,12 +98,12 @@ main(
 //displays usage information
 int
 totp_usage(
-         totp_config *                 cnf );
+         tuc_config_t *                 cnf );
 
 
 int
 totp_whoami(
-         totp_config *                 cnf );
+         tuc_config_t *                 cnf );
 
 
 const totp_widget *
@@ -175,7 +175,7 @@ const totp_widget totp_widget_map[] =
 
 int
 totp_whoami(
-         totp_config *                 cnf )
+         tuc_config_t *                 cnf )
 {
    printf("Widget: %s\n", cnf->widget->name);
    return(0);
@@ -190,8 +190,8 @@ main(
    //int              i;
    int              c;
    int              opt_index;
-   totp_config *    cnf;
-   totp_config      config;
+   tuc_config_t *    cnf;
+   tuc_config_t      config;
 
    // getopt options
    static char   short_opt[] = "+hqVv";
@@ -208,7 +208,7 @@ main(
 
    // initialize config
    cnf = &config;
-   bzero(cnf, sizeof(totp_config));
+   bzero(cnf, sizeof(tuc_config_t));
 
 
    // skip argument processing if called via alias
@@ -365,7 +365,7 @@ totp_widget_lookup(
 /// displays usage information
 int
 totp_usage(
-         totp_config *                 cnf )
+         tuc_config_t *                 cnf )
 {
    int  x;
 
@@ -399,7 +399,7 @@ totp_usage(
 /// displays version information
 int
 totp_version(
-         totp_config *                 cnf )
+         tuc_config_t *                 cnf )
 {
    assert(cnf != NULL);
    printf(

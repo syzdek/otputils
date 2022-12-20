@@ -63,7 +63,7 @@
 /////////////////
 #pragma mark - Datatypes
 
-typedef struct totp_config totp_config;
+typedef struct _totputils_cli_config tuc_config_t;
 typedef struct totp_widget totp_widget;
 
 
@@ -73,12 +73,12 @@ struct totp_widget
    const char *               desc;
    const char *               usage;
    const char * const *       aliases;
-   int  (*func_exec)(totp_config * cnf);
-   int  (*func_usage)(totp_config * cnf);
+   int  (*func_exec)(tuc_config_t * cnf);
+   int  (*func_usage)(tuc_config_t * cnf);
 };
 
 
-struct totp_config
+struct _totputils_cli_config
 {
    int                      quiet;
    int                      verbose;
@@ -104,7 +104,7 @@ totp_basename(
 // displays version information
 int
 totp_version(
-         totp_config *                 cnf );
+         tuc_config_t *                cnf );
 
 
 #endif /* end of header file */
