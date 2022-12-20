@@ -74,7 +74,7 @@ noinst_LTLIBRARIES			=
 noinst_LIBRARIES			=
 noinst_HEADERS				=
 noinst_PROGRAMS				=
-bin_PROGRAMS				= src/totp/totp
+bin_PROGRAMS				= src/totp
 bin_SCRIPTS				=
 pkgdata_DATA				=
 sbin_SCRIPTS				=
@@ -147,14 +147,14 @@ lib_libtotputils_la_LIBADD		= $(AM_LIBS)
 lib_libtotputils_la_SOURCES		= $(lib_libtotputils_a_SOURCES)
 
 
-# macros for src/totp/totp
-src_totp_totp_DEPENDENCIES		= Makefile lib/libtotputils.a
-src_totp_totp_CPPFLAGS			= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtotputils
-src_totp_totp_CFLAGS			= $(AM_CFLAGS)
-src_totp_totp_LDFLAGS			= $(AM_LDFLAGS) lib/libtotputils.a
-src_totp_totp_LDADD			= $(AM_LIBS)
-src_totp_totp_SOURCES			= src/totp/totputilities.c \
-					  src/totp/totputilities.h
+# macros for src/totp
+src_totp_DEPENDENCIES			= Makefile lib/libtotputils.a
+src_totp_CPPFLAGS			= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtotputils
+src_totp_CFLAGS				= $(AM_CFLAGS)
+src_totp_LDFLAGS			= $(AM_LDFLAGS) lib/libtotputils.a
+src_totp_LDADD				= $(AM_LIBS)
+src_totp_SOURCES			= src/totp.c \
+					  src/totp.h
 
 
 # Makefile includes

@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file lib/libtotputils/lencoding.h
+ *  @file src/totp.h
  */
-#ifndef _SRC_TOTP_TOTPUTILITIES_H
-#define _SRC_TOTP_TOTPUTILITIES_H 1
+#ifndef _SRC_TOTP_H
+#define _SRC_TOTP_H 1
 
 
 ///////////////

@@ -28,9 +28,9 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file src/totp/totp.c
+ *  @file src/totp.c
  */
-#define _SRC_TOTP_TOTPUTILITIES_C 1
+#define _SRC_TOTP_C 1
 
 ///////////////
 //           //
@@ -52,7 +52,7 @@
 #include <getopt.h>
 #include <stdio.h>
 
-#include "totputilities.h"
+#include "totp.h"
 
 
 ///////////////////
