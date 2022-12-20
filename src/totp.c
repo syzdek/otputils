@@ -95,7 +95,22 @@ main(
          char *                        argv[] );
 
 
-//displays usage information
+//--------------------------//
+// miscellaneous prototypes //
+//--------------------------//
+#pragma mark miscellaneous prototypes
+
+const tuc_widget_t *
+totp_widget_lookup(
+         const char *                  wname,
+         int                           exact );
+
+
+//--------------------------//
+// widgets prototypes //
+//--------------------------//
+#pragma mark widgets prototypes
+
 int
 totp_usage(
          tuc_config_t *                 cnf );
@@ -104,12 +119,6 @@ totp_usage(
 int
 totp_whoami(
          tuc_config_t *                 cnf );
-
-
-const tuc_widget_t *
-totp_widget_lookup(
-         const char *                  wname,
-         int                           exact );
 
 
 /////////////////
@@ -173,14 +182,11 @@ const tuc_widget_t totp_widget_map[] =
 /////////////////
 #pragma mark - Functions
 
-int
-totp_whoami(
-         tuc_config_t *                 cnf )
-{
-   printf("Widget: %s\n", cnf->widget->name);
-   return(0);
-}
 
+//---------------//
+// main function //
+//---------------//
+#pragma mark main function
 
 int
 main(
@@ -293,6 +299,11 @@ main(
 }
 
 
+//-------------------------//
+// miscellaneous functions //
+//-------------------------//
+#pragma mark miscellaneous functions
+
 const char *
 totp_basename(
          const char *                  path )
@@ -362,6 +373,11 @@ totp_widget_lookup(
 }
 
 
+//-------------------//
+// widgets functions //
+//-------------------//
+#pragma mark widgets functions
+
 /// displays usage information
 int
 totp_usage(
@@ -408,6 +424,15 @@ totp_version(
          "Written by David M. Syzdek.\n"
       ), PROGRAM_NAME, PACKAGE_NAME, PACKAGE_VERSION
    );
+   return(0);
+}
+
+
+int
+totp_whoami(
+         tuc_config_t *                 cnf )
+{
+   printf("Widget: %s\n", cnf->widget->name);
    return(0);
 }
 
