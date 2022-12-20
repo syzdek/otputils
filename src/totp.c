@@ -100,7 +100,7 @@ main(
 //--------------------------//
 #pragma mark miscellaneous prototypes
 
-const tuc_widget_t *
+tuc_widget_t *
 totp_widget_lookup(
          const char *                  wname,
          int                           exact );
@@ -128,7 +128,8 @@ totp_whoami(
 /////////////////
 #pragma mark - Variables
 
-const tuc_widget_t totp_widget_map[] =
+#pragma mark totp_widget_map[]
+static tuc_widget_t totp_widget_map[] =
 {
    {  .name       = "config",
       .desc       = "display configuration",
@@ -316,60 +317,68 @@ totp_basename(
 }
 
 
-const tuc_widget_t *
+tuc_widget_t *
 totp_widget_lookup(
          const char *                  wname,
          int                           exact )
 {
-   int                    x;
-   size_t                 wname_len;
-   size_t                 matches;
-   const tuc_widget_t *    matched_widget;
-   const tuc_widget_t *    widget;
+   size_t                     x;
+   size_t                     y;
+   size_t                     len;
+   size_t                     wname_len;
+   const char *               alias;
+   tuc_widget_t *             match;
+   tuc_widget_t *             widget;
 
-   assert(wname != NULL);
-
-
-   if (!(strcasecmp(PROGRAM_NAME, wname)))
+   // strip program prefix from widget name
+   len = strlen(PROGRAM_NAME);
+   if (!(strncasecmp(wname, PROGRAM_NAME, len)))
+      wname = &wname[len];
+   if (wname[0] == '-')
+      wname = &wname[1];
+   if (!(wname[0]))
       return(NULL);
 
-
-   // adjusts wname
-   if (!(strncmp(_PREFIX, wname, strlen(_PREFIX))))
-      wname = &wname[strlen(_PREFIX)];
-
-
-   matches        = 0;
-   matched_widget = NULL;
-   wname_len      = strlen(wname);
-
+   match       = NULL;
+   wname_len   = strlen(wname);
 
    for(x = 0; ((totp_widget_map[x].name)); x++)
    {
+      // check widget
       widget = &totp_widget_map[x];
-
-      // skip place holders
       if (widget->func_exec == NULL)
          continue;
 
-      // compares widget name
-      if (!(strcmp(widget->name, wname)))
-         return(widget);
+      // compare widget name for match
       if (!(strncmp(widget->name, wname, wname_len)))
       {
-         matches++;
-         matched_widget = widget;
+         if (widget->name[wname_len] == '\0')
+            return(widget);
+         if ( ((match)) && (match != widget) )
+            return(NULL);
+         if (exact == 0)
+            match = widget;
+      };
+
+      if (!(widget->aliases))
+         continue;
+
+      for(y = 0; ((widget->aliases[y])); y++)
+      {
+         alias = widget->aliases[y];
+         if (!(strncmp(alias, wname, wname_len)))
+         {
+            if (alias[wname_len] == '\0')
+               return(widget);
+            if ( ((match)) && (match != widget) )
+               return(NULL);
+            if (exact == 0)
+               match = widget;
+         };
       };
    };
 
-
-   if ((exact))
-      return(NULL);
-   if (matches > 1)
-      return(NULL);
-
-
-   return(matched_widget);
+   return((exact == 0) ? match : NULL);
 }
 
 
