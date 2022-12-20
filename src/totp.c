@@ -100,7 +100,7 @@ main(
 //--------------------------//
 #pragma mark miscellaneous prototypes
 
-tuc_widget_t *
+totp_widget_t *
 totp_widget_lookup(
          const char *                  wname,
          int                           exact );
@@ -113,12 +113,12 @@ totp_widget_lookup(
 
 int
 totp_usage(
-         tuc_config_t *                 cnf );
+         totp_config_t *               cnf );
 
 
 int
 totp_whoami(
-         tuc_config_t *                 cnf );
+         totp_config_t *               cnf );
 
 
 /////////////////
@@ -129,7 +129,7 @@ totp_whoami(
 #pragma mark - Variables
 
 #pragma mark totp_widget_map[]
-static tuc_widget_t totp_widget_map[] =
+static totp_widget_t totp_widget_map[] =
 {
    {  .name       = "config",
       .desc       = "display configuration",
@@ -197,8 +197,8 @@ main(
    //int              i;
    int              c;
    int              opt_index;
-   tuc_config_t *    cnf;
-   tuc_config_t      config;
+   totp_config_t *  cnf;
+   totp_config_t    config;
 
    // getopt options
    static char   short_opt[] = "+hqVv";
@@ -215,7 +215,7 @@ main(
 
    // initialize config
    cnf = &config;
-   bzero(cnf, sizeof(tuc_config_t));
+   bzero(cnf, sizeof(totp_config_t));
 
 
    // skip argument processing if called via alias
@@ -317,7 +317,7 @@ totp_basename(
 }
 
 
-tuc_widget_t *
+totp_widget_t *
 totp_widget_lookup(
          const char *                  wname,
          int                           exact )
@@ -327,8 +327,8 @@ totp_widget_lookup(
    size_t                     len;
    size_t                     wname_len;
    const char *               alias;
-   tuc_widget_t *             match;
-   tuc_widget_t *             widget;
+   totp_widget_t *            match;
+   totp_widget_t *            widget;
 
    // strip program prefix from widget name
    len = strlen(PROGRAM_NAME);
@@ -390,7 +390,7 @@ totp_widget_lookup(
 /// displays usage information
 int
 totp_usage(
-         tuc_config_t *                 cnf )
+         totp_config_t *                cnf )
 {
    int  x;
 
@@ -424,7 +424,7 @@ totp_usage(
 /// displays version information
 int
 totp_version(
-         tuc_config_t *                 cnf )
+         totp_config_t *                cnf )
 {
    assert(cnf != NULL);
    printf(
@@ -439,7 +439,7 @@ totp_version(
 
 int
 totp_whoami(
-         tuc_config_t *                 cnf )
+         totp_config_t *                cnf )
 {
    printf("Widget: %s\n", cnf->widget->name);
    return(0);
