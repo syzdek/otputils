@@ -65,17 +65,15 @@ totputils_bvalloc(
 
    if ((bv = malloc(sizeof(totputils_bv_t))) == NULL)
       return(NULL);
-   memset(bv, 0, sizeof(totputils_bv_t));
-   if (!(len))
-      return(bv);
+   bv->bv_len = len;
 
-   if ((bv->bv_val = malloc(len)) == NULL)
+   if ((bv->bv_val = malloc( (((len))?len:sizeof(uint8_t)) )) == NULL)
    {
-      totputils_bvfree(bv);
+      free(bv);
       return(NULL);
    };
-   memcpy(bv->bv_val, val, len);
-   bv->bv_len = len;
+   if ((len))
+      memcpy(bv->bv_val, val, len);
 
    return(bv);
 }
