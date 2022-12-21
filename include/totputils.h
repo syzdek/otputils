@@ -187,6 +187,13 @@ totputils_bvfree(
 
 
 _TOTPUTILS_F int
+totputils_get_param(
+         totputils_t *                 tud,
+         int                           option,
+         void *                        outvalue );
+
+
+_TOTPUTILS_F int
 
 
 _TOTPUTILS_F int

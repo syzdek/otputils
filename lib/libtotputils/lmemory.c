@@ -106,6 +106,62 @@ totputils_bvfree(
 
 
 int
+totputils_get_param(
+         totputils_t *                 tud,
+         int                           option,
+         void *                        outvalue )
+{
+   totputils_bv_t *     bv;
+
+   assert(tud != NULL);
+
+   switch(option)
+   {
+      case TOTPUTILS_OPT_K:
+      if ((bv = totputils_bvdup(tud->totp_k)) == NULL)
+         return(TOTPUTILS_ENOMEM);
+      *((totputils_bv_t **)outvalue) = bv;
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_T0:
+      *((uint64_t *)outvalue) = tud->totp_t0;
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_TX:
+      *((uint64_t *)outvalue) = tud->totp_tx;
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_TIME:
+      *((uint64_t *)outvalue) = tud->totp_tx;
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_C:
+      *((uint64_t *)outvalue) =  tud->totp_t0;
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_DESC:
+      if (!(tud->totp_desc))
+      {
+         *((char **)outvalue) = NULL;
+         return(TOTPUTILS_SUCCESS);
+      };
+      if (( *((char **)outvalue) = strdup(tud->totp_desc)) == NULL)
+         return(TOTPUTILS_ENOMEM);
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_HMAC:
+      *((uint64_t *)outvalue) = tud->totp_hmac;
+      return(TOTPUTILS_SUCCESS);
+
+      default:
+      break;
+   };
+
+   return(TOTPUTILS_EOPTION);
+}
+
+
+int
 totputils_initialize(
          TOTPUtils **                  tkdp )
 {
