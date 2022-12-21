@@ -117,6 +117,11 @@
 #define TOTPUTILS_OPT_C             0x0006
 #define TOTPUTILS_OPT_DESC          0x0007
 #define TOTPUTILS_OPT_HMAC          0x0008
+#define TOTPUTILS_OPT_METHOD        0x0009
+
+
+#define TOTPUTILS_HOTP              0x0001
+#define TOTPUTILS_TOTP              0x0002
 
 
 #define TOTPUTILS_HMAC_SHA1         0x0000ULL

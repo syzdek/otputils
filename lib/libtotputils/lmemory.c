@@ -173,6 +173,10 @@ totputils_get_param(
       *((uint64_t *)outvalue) = tud->totp_hmac;
       return(TOTPUTILS_SUCCESS);
 
+      case TOTPUTILS_OPT_METHOD:
+      *((uint64_t *)outvalue) = ((tud->totp_tx)) ? TOTPUTILS_TOTP : TOTPUTILS_HOTP;
+      return(TOTPUTILS_SUCCESS);
+
       default:
       break;
    };
@@ -303,6 +307,9 @@ totputils_set_param(
          return(TOTPUTILS_EOPTVAL);
       };
       return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_METHOD:
+      return(TOTPUTILS_EOPTION); // cannot explicitly set OTP method
 
       default:
       break;
