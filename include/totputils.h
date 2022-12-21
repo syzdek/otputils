@@ -123,6 +123,7 @@
 /////////////////
 #pragma mark - Datatypes
 
+typedef struct totputils_secret totputils_t;
 
 /// TOTP Utils descriptor state
 typedef struct totp_utils TOTPUtils;

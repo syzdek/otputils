@@ -87,6 +87,23 @@ struct totp_utils
 };
 
 
+// format of TOTP secret (RFC 6238)
+//   k:t0:tx:hmac:desc
+//
+// format of HOTP secret (RFC 4226)
+//   k:c:0:hmac:desc
+struct totputils_secret
+{
+   uint64_t                totp_hmac;     // TOTP hash mechanism
+   uint64_t                totp_tcur;     // current Unix time
+   uint64_t                totp_t0;       // Unix time from which to start counting time steps
+   uint64_t                totp_tx;       // step in seconds
+   totputils_bv_t *        totp_k;
+   char *                  totp_k_str;    // string representation of user's secret key
+   char *                  totp_desc;     // description of secret
+};
+
+
 //////////////////
 //              //
 //  Prototypes  //
