@@ -161,7 +161,11 @@ src_totp_CFLAGS				= $(AM_CFLAGS)
 src_totp_LDFLAGS			= $(AM_LDFLAGS)
 src_totp_LDADD				= $(AM_LIBS) $(lib_LIBRARIES) $(lib_LTLIBRARIES)
 src_totp_SOURCES			= src/totp.c \
-					  src/totp.h
+					  src/totp.h \
+					  src/widget-code.c \
+					  src/widget-generate.c \
+					  src/widget-info.c \
+					  src/widget-verify.c
 
 
 # Makefile includes

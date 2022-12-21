@@ -81,6 +81,9 @@
 #undef _PREFIX
 #define _PREFIX TOTP_PREFIX
 
+#undef TOTP_SHORT_OPT
+#define TOTP_SHORT_OPT "hqVv"
+
 
 //////////////////
 //              //
@@ -100,7 +103,12 @@ main(
 //--------------------------//
 #pragma mark miscellaneous prototypes
 
-totp_widget_t *
+static void
+totp_cleanup(
+         totp_config_t *               cnf );
+
+
+static totp_widget_t *
 totp_widget_lookup(
          const char *                  wname,
          int                           exact );
@@ -111,13 +119,14 @@ totp_widget_lookup(
 //--------------------------//
 #pragma mark widgets prototypes
 
-int
-totp_usage(
+static int
+totp_widget_usage(
          totp_config_t *               cnf );
 
 
-int
-totp_whoami(
+// displays version information
+static int
+totp_widget_version(
          totp_config_t *               cnf );
 
 
@@ -131,44 +140,58 @@ totp_whoami(
 #pragma mark totp_widget_map[]
 static totp_widget_t totp_widget_map[] =
 {
-   {  .name       = "config",
-      .desc       = "display configuration",
+   {  .name       = "code",
+      .desc       = "generate TOTP code",
       .usage      = NULL,
+      .short_opt  = NULL,
       .aliases    = NULL,
-      .func_exec  = totp_whoami,
+      .func_exec  = &totp_widget_code,
       .func_usage = NULL,
    },
    {  .name       = "generate",
       .desc       = "generate TOTP secret",
       .usage      = NULL,
+      .short_opt  = NULL,
+      .aliases    = (const char * const[]) { "keygen", NULL },
+      .func_exec  = &totp_widget_generate,
+      .func_usage = NULL,
+   },
+   {  .name       = "help",
+      .desc       = "display help",
+      .usage      = NULL,
+      .short_opt  = NULL,
       .aliases    = NULL,
-      .func_exec  = totp_whoami,
+      .func_exec  = &totp_widget_usage,
       .func_usage = NULL,
    },
    {  .name       = "info",
       .desc       = "display secret information",
       .usage      = NULL,
+      .short_opt  = NULL,
       .aliases    = NULL,
-      .func_exec  = totp_whoami,
+      .func_exec  = &totp_widget_info,
       .func_usage = NULL,
    },
    {  .name       = "verify",
       .desc       = "verify TOTP code",
       .usage      = NULL,
+      .short_opt  = NULL,
       .aliases    = NULL,
-      .func_exec  = totp_whoami,
+      .func_exec  = &totp_widget_verify,
       .func_usage = NULL,
    },
    {  .name       = "version",
       .desc       = "display version",
       .usage      = NULL,
+      .short_opt  = NULL,
       .aliases    = NULL,
-      .func_exec  = totp_version,
+      .func_exec  = &totp_widget_version,
       .func_usage = NULL,
    },
    {  .name       = NULL,
       .desc       = NULL,
       .usage      = NULL,
+      .short_opt  = NULL,
       .aliases    = NULL,
       .func_exec  = NULL,
       .func_usage = NULL,
@@ -194,14 +217,87 @@ main(
          int                           argc,
          char *                        argv[] )
 {
-   //int              i;
-   int              c;
-   int              opt_index;
-   totp_config_t *  cnf;
-   totp_config_t    config;
+   int               rc;
+   totp_config_t *   cnf;
+   totp_config_t     config;
+
+
+   // initialize config
+   cnf = &config;
+   bzero(cnf, sizeof(totp_config_t));
+
+
+   // determine program name
+   if ((cnf->prog_name = strrchr(argv[0], '/')) != NULL)
+      cnf->prog_name = &cnf->prog_name[1];
+   if (!(cnf->prog_name))
+      cnf->prog_name = argv[0];
+
+
+   // initialize TOTP secret
+   if ((rc = totputils_initialize(&cnf->tud)) != TOTPUTILS_SUCCESS)
+   {
+      fprintf(stderr, "%s: totputils_initialize(): %s\n", cnf->prog_name, totputils_err2string(rc));
+      totp_cleanup(cnf);
+      return(1);
+   };
+
+
+   // skip argument processing if called via alias
+   if ((cnf->widget = totp_widget_lookup(cnf->prog_name, 1)) != NULL)
+   {
+      cnf->argc = argc;
+      cnf->argv = argv;
+      return(cnf->widget->func_exec(cnf));
+   };
+
+
+   // initial processing of cli arguments
+   if ((rc = totp_arguments(cnf, argc, argv)) != 0)
+      return((rc == -1) ? 0 : 1);
+   if ((argc - optind) < 1)
+   {
+      fprintf(stderr, "%s: missing required argument\n", cnf->prog_name);
+      fprintf(stderr, "Try `%s --help' for more information.\n", cnf->prog_name);
+      return(1);
+   };
+   cnf->argc   = (argc - optind);
+   cnf->argv   = &argv[optind];
+
+
+   // looks up widget
+   if ((cnf->widget = totp_widget_lookup(argv[optind], 0)) == NULL)
+   {
+      fprintf(stderr, "%s: unknown or ambiguous widget -- \"%s\"\n", cnf->prog_name, cnf->argv[0]);
+      fprintf(stderr, "Try `%s --help' for more information.\n", cnf->prog_name);
+      return(1);
+   };
+
+
+   return(cnf->widget->func_exec(cnf));
+}
+
+
+//-------------------------//
+// miscellaneous functions //
+//-------------------------//
+#pragma mark miscellaneous functions
+
+int
+totp_arguments(
+         totp_config_t *               cnf,
+         int                           argc,
+         char * const *                argv )
+{
+   int            c;
+   int            opt_index;
+//   int            opt;
+//   int            ival;
+//   int            rc;
+//   void *         ptr;
 
    // getopt options
-   static char   short_opt[] = "+hqVv";
+   static const char *  short_opt = "+" TOTP_SHORT_OPT;
    static struct option long_opt[] =
    {
       {"help",             no_argument,       NULL, 'h' },
@@ -212,22 +308,12 @@ main(
       { NULL, 0, NULL, 0 }
    };
 
+   optind    = 1;
+   opt_index = 0;
 
-   // initialize config
-   cnf = &config;
-   bzero(cnf, sizeof(totp_config_t));
+   if ((cnf->widget))
+      short_opt = &short_opt[1];
 
-
-   // skip argument processing if called via alias
-   if ((cnf->widget = totp_widget_lookup(totp_basename(argv[0]), 1)) != NULL)
-   {
-      cnf->argc = argc;
-      cnf->argv = argv;
-      return(cnf->widget->func_exec(cnf));
-   };
-
-
-   // parses global CLI arguments
    while((c = getopt_long(argc, argv, short_opt, long_opt, &opt_index)) != -1)
    {
       switch(c)
@@ -237,8 +323,8 @@ main(
          break;
 
          case 'h':
-         totp_usage(cnf);
-         return(0);
+         totp_widget_usage(cnf);
+         return(-1);
 
          case 's':
          cnf->quiet = 1;
@@ -251,8 +337,8 @@ main(
          break;
 
          case 'V':
-         totp_version(cnf);
-         return(0);
+         totp_widget_version(cnf);
+         return(-1);
 
          case 'v':
          cnf->verbose++;
@@ -275,45 +361,19 @@ main(
       };
    };
 
-
-   // set command information
-   if ((argc - optind) < 1)
-   {
-      fprintf(stderr, "%s: missing required argument\n", PROGRAM_NAME);
-      fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
-      return(1);
-   };
-   cnf->argc = (argc - optind);
-   cnf->argv = &argv[optind];
-   optind    = 1;
-
-
-   if (!(cnf->widget = totp_widget_lookup(cnf->argv[0], 0)))
-   {
-      fprintf(stderr, "%s: unknown or ambiguous widget -- \"%s\"\n", PROGRAM_NAME, cnf->argv[0]);
-      fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
-      return(1);
-   };
-
-
-   return(cnf->widget->func_exec(cnf));
+   return(0);
 }
 
 
-//-------------------------//
-// miscellaneous functions //
-//-------------------------//
-#pragma mark miscellaneous functions
-
-const char *
-totp_basename(
-         const char *                  path )
+void
+totp_cleanup(
+         totp_config_t *               cnf )
 {
-   const char * ptr;
-   assert(path != NULL);
-   if ((ptr = rindex(path, '/')))
-      return(&ptr[1]);
-   return(path);
+   if ((cnf->tud))
+      totputils_free(cnf->tud);
+   cnf->tud = NULL;
+
+   return;
 }
 
 
@@ -389,32 +449,50 @@ totp_widget_lookup(
 
 /// displays usage information
 int
-totp_usage(
+totp_widget_usage(
          totp_config_t *                cnf )
 {
-   int  x;
+   size_t               pos;
+   const char *         widget_name;
+   const char *         widget_help;
+   totp_widget_t *      widget;
 
    assert(cnf != NULL);
 
-   printf("Usage: %s [OPTIONS] widget [WIDGETOPTIONS]\n", PROGRAM_NAME);
-   printf("       widget [OPTIONS]\n");
-   printf("\n");
+   widget_name  = (!(cnf->widget)) ? "widget" : cnf->widget->name;
+   widget_help  = "";
+   if ((cnf->widget))
+      widget_help = ((cnf->widget->usage)) ? cnf->widget->usage : "";
+
+   printf("Usage: %s [OPTIONS] %s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
+   printf("       %s-%s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
+   printf("       %s%s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
    printf("OPTIONS:\n");
+   printf("  -c num                    HOTP counter value\n");
+   printf("  -k string                 HOTP/TOTP shared user key\n");
    printf("  -h, --help                print this help and exit\n");
    printf("  -q, --quiet, --silent     do not print messages\n");
+   printf("  -T seconds                TOTP current Unix time\n");
+   printf("  -t seconds                TOTP Unix time start of time steps (default: %llu)\n", TOTPUTILS_T0);
    printf("  -V, --version             print version number and exit\n");
    printf("  -v, --verbose             print verbose messages\n");
-   printf("\n");
+   printf("  -x num                    TOTP time step in seconds (default: %llu)\n", TOTPUTILS_TX);
 
-   printf("WIDGETS:\n");
-   for (x = 0; totp_widget_map[x].name; x++)
+   if (!(cnf->widget))
    {
-      if (totp_widget_map[x].func_exec == NULL)
-         continue;
-      if (totp_widget_map[x].desc == NULL)
-         continue;
-      printf("   %-24s %s\n", totp_widget_map[x].name, totp_widget_map[x].desc);
+      printf("WIDGETS:\n");
+      for(pos = 0; totp_widget_map[pos].name != NULL; pos++)
+      {
+         widget = &totp_widget_map[pos];
+         if ((widget->desc))
+            printf("  %-25s %s\n", widget->name, widget->desc);
+      };
    };
+
+   if ((cnf->widget))
+      if ((cnf->widget->func_usage))
+         cnf->widget->func_usage(cnf);
+
    printf("\n");
 
    return(0);
@@ -423,7 +501,7 @@ totp_usage(
 
 /// displays version information
 int
-totp_version(
+totp_widget_version(
          totp_config_t *                cnf )
 {
    assert(cnf != NULL);
@@ -433,15 +511,6 @@ totp_version(
          "Written by David M. Syzdek.\n"
       ), PROGRAM_NAME, PACKAGE_NAME, PACKAGE_VERSION
    );
-   return(0);
-}
-
-
-int
-totp_whoami(
-         totp_config_t *                cnf )
-{
-   printf("Widget: %s\n", cnf->widget->name);
    return(0);
 }
 

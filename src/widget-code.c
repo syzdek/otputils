@@ -1,6 +1,6 @@
 /*
  *  TOTP Utilities
- *  Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.
+ *  Copyright (C) 2022 David M. Syzdek <david@syzdek.net>.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are
@@ -28,11 +28,9 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file src/totp.h
+ *  @file src/totp.c
  */
-#ifndef _SRC_TOTP_H
-#define _SRC_TOTP_H 1
-
+#define _SRC_WIDGET_CODE_C 1
 
 ///////////////
 //           //
@@ -41,7 +39,20 @@
 ///////////////
 #pragma mark - Headers
 
-#include <totputils.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <errno.h>
+#include <assert.h>
+#include <stdarg.h>
+#include <string.h>
+#include <strings.h>
+#include <stdlib.h>
+#include <getopt.h>
+#include <stdio.h>
+
+#include "totp.h"
 
 
 ///////////////////
@@ -51,46 +62,6 @@
 ///////////////////
 #pragma mark - Definitions
 
-#ifndef TOTP_PREFIX
-#define TOTP_PREFIX "totp-"
-#endif
-
-
-/////////////////
-//             //
-//  Datatypes  //
-//             //
-/////////////////
-#pragma mark - Datatypes
-
-typedef struct _totputils_cli_config totp_config_t;
-typedef struct _totputils_cli_widget totp_widget_t;
-
-
-struct _totputils_cli_widget
-{
-   const char *               name;
-   const char *               desc;
-   const char *               usage;
-   const char *               short_opt;
-   const char * const *       aliases;
-   int  (*func_exec)(totp_config_t * cnf);
-   int  (*func_usage)(totp_config_t * cnf);
-};
-
-
-struct _totputils_cli_config
-{
-   int                        quiet;
-   int                        verbose;
-   int                        opt_index;
-   int                        argc;
-   char **                    argv;
-   const char *               prog_name;
-   totputils_t *              tud;
-   const totp_widget_t *      widget;
-};
-
 
 //////////////////
 //              //
@@ -99,40 +70,34 @@ struct _totputils_cli_config
 //////////////////
 #pragma mark - Prototypes
 
-//--------------------------//
-// miscellaneous prototypes //
-//--------------------------//
-#pragma mark miscellaneous prototypes
 
-extern int
-totp_arguments(
-         totp_config_t *               cnf,
-         int                           argc,
-         char * const *                argv );
+/////////////////
+//             //
+//  Functions  //
+//             //
+/////////////////
+#pragma mark - Functions
 
 
-//--------------------------//
-// widgets prototypes //
-//--------------------------//
-#pragma mark widgets prototypes
+//---------------//
+// main function //
+//---------------//
+#pragma mark main function
 
-extern int
+int
 totp_widget_code(
-         totp_config_t *               cnf );
+         totp_config_t *               cnf )
+{
+   int rc;
+
+   assert(cnf != NULL);
+
+   // initial processing of cli arguments
+   if ((rc = totp_arguments(cnf, cnf->argc, cnf->argv)) != 0)
+      return((rc == -1) ? 0 : 1);
+
+   return(0);
+}
 
 
-extern int
-totp_widget_generate(
-         totp_config_t *               cnf );
-
-
-extern int
-totp_widget_info(
-         totp_config_t *               cnf );
-
-
-extern int
-totp_widget_verify(
-         totp_config_t *               cnf );
-
-#endif /* end of header file */
+/* end of source file */
