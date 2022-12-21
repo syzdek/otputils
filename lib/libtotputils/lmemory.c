@@ -132,7 +132,8 @@ totputils_get_param(
 {
    totputils_bv_t *     bv;
 
-   assert(tud != NULL);
+   assert(tud      != NULL);
+   assert(outvalue != NULL);
 
    switch(option)
    {
