@@ -41,10 +41,6 @@
 #pragma mark - Headers
 
 #include <errno.h>
-#include <stdarg.h>
-#include <string.h>
-#include <strings.h>
-#include <stdlib.h>
 
 
 /////////////////
