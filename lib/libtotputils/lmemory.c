@@ -54,6 +54,22 @@
 /////////////////
 #pragma mark - Functions
 
+void
+totputils_bvfree(
+         totputils_bv_t *              bv )
+{
+   if (!(bv))
+      return;
+   if ((bv->bv_val))
+   {
+      memset(bv->bv_val, 0, bv->bv_len);
+      free(bv->bv_val);
+   };
+   free(bv);
+   return;
+}
+
+
 int
 totputils_initialize(
          TOTPUtils **                  tkdp )

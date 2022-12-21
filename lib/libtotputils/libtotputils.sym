@@ -59,6 +59,7 @@
 # error functions
 totputils_err2string
 # memory functions
-totputils_initialize
+totputils_bvfree
 totputils_free
+totputils_initialize
 # end of symbol export file
