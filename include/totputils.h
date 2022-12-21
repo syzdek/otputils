@@ -108,6 +108,14 @@
 #define TOTPUTILS_EOPTVAL           0x0006 ///< invalid option value
 
 
+#define TOTPUTILS_HMAC_SHA1         0x0000ULL
+
+
+#define TOTPUTILS_T0                0ULL
+#define TOTPUTILS_TX                30ULL
+#define TOTPUTILS_HMAC              TOTPUTILS_HMAC_SHA1
+
+
 /////////////////
 //             //
 //  Datatypes  //
