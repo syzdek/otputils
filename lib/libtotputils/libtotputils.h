@@ -77,7 +77,7 @@
 //
 // format of HOTP secret (RFC 4226)
 //   k:c:0:hmac:desc
-struct totputils_secret
+struct _totputils_secret
 {
    uint64_t                totp_hmac;     // TOTP hash mechanism
    uint64_t                totp_tcur;     // current Unix time
