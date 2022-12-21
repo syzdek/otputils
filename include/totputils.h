@@ -137,8 +137,8 @@
 typedef struct _totputils_secret totputils_t;
 
 
-typedef struct totputils_berval totputils_bv_t;
-struct totputils_berval
+typedef struct _totputils_berval totputils_bv_t;
+struct _totputils_berval
 {
    size_t         bv_len;
    void *         bv_val;
