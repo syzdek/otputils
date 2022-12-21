@@ -59,6 +59,7 @@
 # error functions
 totputils_err2string
 # memory functions
+totputils_bvalloc
 totputils_bvfree
 totputils_free
 totputils_initialize

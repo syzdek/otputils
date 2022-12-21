@@ -54,6 +54,33 @@
 /////////////////
 #pragma mark - Functions
 
+totputils_bv_t *
+totputils_bvalloc(
+         const void *                  val,
+         size_t                        len )
+{
+   totputils_bv_t *     bv;
+
+   assert( (!(len)) || ((val)) );
+
+   if ((bv = malloc(sizeof(totputils_bv_t))) == NULL)
+      return(NULL);
+   memset(bv, 0, sizeof(totputils_bv_t));
+   if (!(len))
+      return(bv);
+
+   if ((bv->bv_val = malloc(len)) == NULL)
+   {
+      totputils_bvfree(bv);
+      return(NULL);
+   };
+   memcpy(bv->bv_val, val, len);
+   bv->bv_len = len;
+
+   return(bv);
+}
+
+
 void
 totputils_bvfree(
          totputils_bv_t *              bv )

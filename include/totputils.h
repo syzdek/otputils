@@ -150,6 +150,12 @@ totputils_err2string(
 //-------------------//
 #pragma mark memory prototypes
 
+_TOTPUTILS_F totputils_bv_t *
+totputils_bvalloc(
+         const void *                  val,
+         size_t                        len );
+
+
 _TOTPUTILS_F void
 totputils_bvfree(
          totputils_bv_t *              bv );
