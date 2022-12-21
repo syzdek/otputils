@@ -108,6 +108,17 @@
 #define TOTPUTILS_EOPTVAL           0x0006 ///< invalid option value
 
 
+#define TOTPUTILS_OPT_SECRET        0x0000
+#define TOTPUTILS_OPT_K             0x0001
+#define TOTPUTILS_OPT_KSTR          0x0002
+#define TOTPUTILS_OPT_T0            0x0003
+#define TOTPUTILS_OPT_TX            0x0004
+#define TOTPUTILS_OPT_TIME          0x0005
+#define TOTPUTILS_OPT_C             0x0006
+#define TOTPUTILS_OPT_DESC          0x0007
+#define TOTPUTILS_OPT_HMAC          0x0008
+
+
 #define TOTPUTILS_HMAC_SHA1         0x0000ULL
 
 
