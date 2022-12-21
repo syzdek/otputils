@@ -156,8 +156,8 @@ src_totp_DEPENDENCIES			= Makefile \
 					  $(lib_LTLIBRARIES)
 src_totp_CPPFLAGS			= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtotputils
 src_totp_CFLAGS				= $(AM_CFLAGS)
-src_totp_LDFLAGS			= $(AM_LDFLAGS) lib/libtotputils.a
-src_totp_LDADD				= $(AM_LIBS)
+src_totp_LDFLAGS			= $(AM_LDFLAGS)
+src_totp_LDADD				= $(AM_LIBS) $(lib_LIBRARIES) $(lib_LTLIBRARIES)
 src_totp_SOURCES			= src/totp.c \
 					  src/totp.h
 
