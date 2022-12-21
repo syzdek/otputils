@@ -236,28 +236,25 @@ totputils_set_param(
          int                           option,
          const void *                  invalue )
 {
-   totputils_bv_t *     bv;
-   totputils_bv_t       tmp_bv;
-   int                  tmp_bv_val;
    uint64_t             val_uint;
+   totputils_bv_t *     bv;
 
    assert(tud != NULL);
 
    switch(option)
    {
       case TOTPUTILS_OPT_K:
-      if (!((const totputils_bv_t *)invalue))
+      if (!(invalue))
       {
-         tmp_bv_val    = 0;
-         tmp_bv.bv_val = &tmp_bv_val;
-         tmp_bv.bv_len = 1;
-         if ((bv = totputils_bvdup(&tmp_bv)) == NULL)
-            return(TOTPUTILS_ENOMEM);
-      } else
-      {
-         if ((bv = totputils_bvdup((((const totputils_bv_t *)invalue)))) == NULL)
-            return(TOTPUTILS_ENOMEM);
+         if (!(tud->totp_k))
+            if ((tud->totp_k = totputils_bvalloc(NULL, 0)) == NULL)
+               return(TOTPUTILS_ENOMEM);
+         tud->totp_k->bv_len                 = 1;
+         ((uint8_t *)tud->totp_k->bv_val)[0] = 0;
+         return(TOTPUTILS_SUCCESS);
       };
+      if ((bv = totputils_bvdup((((const totputils_bv_t *)invalue)))) == NULL)
+         return(TOTPUTILS_ENOMEM);
       if ((tud->totp_k))
          totputils_bvfree(tud->totp_k);
       tud->totp_k = bv;
