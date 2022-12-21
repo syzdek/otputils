@@ -58,7 +58,6 @@
 #
 # error functions
 totputils_err2string
-totputils_errno
 # memory functions
 totputils_initialize
 totputils_free
