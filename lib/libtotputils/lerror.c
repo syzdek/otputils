@@ -61,11 +61,13 @@ totputils_err2string(
    switch(err)
    {
       case TOTPUTILS_SUCCESS:        return("success");
-      case TOTPUTILS_ENOTSUP:        return("method or feature is not supported");
       case TOTPUTILS_EBADDATA:       return("invalid data");
       case TOTPUTILS_ENOBUFS:        return("no buffer space available");
       case TOTPUTILS_ENOMEM:         return("out of virtual memory");
-      default:                       return("unknown error");
+      case TOTPUTILS_ENOTSUP:        return("method or feature is not supported");
+      case TOTPUTILS_EOPTION:        return("invalid option");
+      case TOTPUTILS_EOPTVAL:       return("invalid option value");
+      default:                       break;
    };
    return("unknown error");
 }
