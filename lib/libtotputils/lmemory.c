@@ -105,6 +105,25 @@ totputils_bvfree(
 }
 
 
+void
+totputils_free(
+         totputils_t *                 tud )
+{
+   if (!(tud))
+      return;
+
+   if ((tud->totp_k))
+      totputils_bvfree(tud->totp_k);
+   if ((tud->totp_desc))
+      free(tud->totp_desc);
+
+   memset(tud, 0, sizeof(totputils_t));
+   free(tud);
+
+   return;
+}
+
+
 int
 totputils_get_param(
          totputils_t *                 tud,

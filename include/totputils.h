@@ -186,6 +186,11 @@ totputils_bvfree(
          totputils_bv_t *              bv );
 
 
+_TOTPUTILS_F void
+totputils_free(
+         totputils_t *                 tud );
+
+
 _TOTPUTILS_F int
 totputils_get_param(
          totputils_t *                 tud,
