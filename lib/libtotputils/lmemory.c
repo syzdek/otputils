@@ -241,6 +241,7 @@ totputils_set_param(
    totputils_bv_t *     bv;
    totputils_bv_t       tmp_bv;
    int                  tmp_bv_val;
+   uint64_t             val_uint;
 
    assert(tud != NULL);
 
@@ -265,19 +266,19 @@ totputils_set_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_T0:
-      tud->totp_t0 = (((const uint64_t *)invalue)) ? *((const uint64_t *)invalue) : TOTPUTILS_T0;
+      tud->totp_t0 = ((invalue)) ? *((const uint64_t *)invalue) : TOTPUTILS_T0;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_TX:
-      tud->totp_tx = (((const uint64_t *)invalue)) ? *((const uint64_t *)invalue) : TOTPUTILS_TX;
+      tud->totp_tx = ((invalue)) ? *((const uint64_t *)invalue) : TOTPUTILS_TX;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_TIME:
-      tud->totp_tx = (((const uint64_t *)invalue)) ? *((const uint64_t *)invalue) : (uint64_t)time(NULL);
+      tud->totp_tx = ((invalue)) ? *((const uint64_t *)invalue) : (uint64_t)time(NULL);
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_C:
-      tud->totp_t0 = (((const uint64_t *)invalue)) ? *((const uint64_t *)invalue) : 0;
+      tud->totp_t0 = ((invalue)) ? *((const uint64_t *)invalue) : 0;
       tud->totp_tx = 0;
       return(TOTPUTILS_SUCCESS);
 
@@ -292,16 +293,12 @@ totputils_set_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_HMAC:
-      if (!((const uint64_t *)invalue))
-      {
-         tud->totp_hmac = TOTPUTILS_HMAC;
-         return(TOTPUTILS_SUCCESS);
-      };
-      switch( *((const uint64_t *)invalue) )
+      val_uint = ((invalue)) ? *((const uint64_t *)invalue) : TOTPUTILS_HMAC;
+      switch( val_uint )
       {
          case TOTPUTILS_HMAC_SHA1:
-         tud->totp_hmac = *((const uint64_t *)invalue);
-         return(TOTPUTILS_SUCCESS);
+         tud->totp_hmac = val_uint;
+         break;
 
          default:
          return(TOTPUTILS_EOPTVAL);
