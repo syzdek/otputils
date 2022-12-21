@@ -136,8 +136,6 @@
 
 typedef struct totputils_secret totputils_t;
 
-/// TOTP Utils descriptor state
-typedef struct totp_utils TOTPUtils;
 
 typedef struct totputils_berval totputils_bv_t;
 struct totputils_berval

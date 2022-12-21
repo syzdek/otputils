@@ -72,21 +72,6 @@
 /////////////////
 #pragma mark - Datatypes
 
-
-/// TOTP Knock descriptor state
-struct totp_utils
-{
-   uint64_t                step;
-   size_t                  salt_len;
-   size_t                  key_len;
-   time_t                  epoch;
-   int32_t                 errcode;   ///< last error code
-   uint8_t                 key;
-   uint8_t                 salt;
-   uint16_t                pad16;
-};
-
-
 // format of TOTP secret (RFC 6238)
 //   k:t0:tx:hmac:desc
 //
