@@ -182,19 +182,46 @@ totputils_get_param(
 
 int
 totputils_initialize(
-         TOTPUtils **                  tkdp )
+         totputils_t **                tudp )
 {
-   TOTPUtils * tkd;
+   totputils_t *     tud;
+   int               rc;
 
-   assert(tkdp != NULL);
+   assert(tudp != NULL);
 
    // allocate initial memory
-   if ((tkd = malloc(sizeof(TOTPUtils))) == NULL)
+   if ((tud = malloc(sizeof(totputils_t))) == NULL)
       return(TOTPUTILS_ENOMEM);
-   bzero(tkd, sizeof(TOTPUtils));
+   bzero(tud, sizeof(totputils_t));
+
+   if ((rc = totputils_set_param(tud, TOTPUTILS_OPT_K, NULL)) != TOTPUTILS_SUCCESS)
+   {
+      totputils_free(tud);
+      return(rc);
+   };
+   if ((rc = totputils_set_param(tud, TOTPUTILS_OPT_T0, NULL)) != TOTPUTILS_SUCCESS)
+   {
+      totputils_free(tud);
+      return(rc);
+   };
+   if ((rc = totputils_set_param(tud, TOTPUTILS_OPT_TX, NULL)) != TOTPUTILS_SUCCESS)
+   {
+      totputils_free(tud);
+      return(rc);
+   };
+   if ((rc = totputils_set_param(tud, TOTPUTILS_OPT_TIME, NULL)) != TOTPUTILS_SUCCESS)
+   {
+      totputils_free(tud);
+      return(rc);
+   };
+   if ((rc = totputils_set_param(tud, TOTPUTILS_OPT_HMAC, NULL)) != TOTPUTILS_SUCCESS)
+   {
+      totputils_free(tud);
+      return(rc);
+   };
 
    // saves structure
-   *tkdp = tkd;
+   *tudp = tud;
 
    return(TOTPUTILS_SUCCESS);
 }

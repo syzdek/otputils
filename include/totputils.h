@@ -199,6 +199,8 @@ totputils_get_param(
 
 
 _TOTPUTILS_F int
+totputils_initialize(
+         totputils_t **                tudp );
 
 
 _TOTPUTILS_F int
