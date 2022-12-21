@@ -54,14 +54,9 @@
 /////////////////
 #pragma mark - Functions
 
-/// return error string
-/// @param[in]    err         Numeric error code
-///
-/// @return    Returns a string representation of the error code.
-/// @see       totputils_free, totputils_initialize, totputils_errno
 const char *
 totputils_err2string(
-         int32_t                       err )
+         int                           err )
 {
    switch(err)
    {
@@ -72,22 +67,7 @@ totputils_err2string(
       case TOTPUTILS_ENOMEM:         return("out of virtual memory");
       default:                       return("unknown error");
    };
-
-   return(TOTPUTILS_SUCCESS);
-}
-
-
-/// returns current error code
-/// @param[in]  tkd    Reference to allocated totp_knock struct
-///
-/// @return    Returns a numeric code of last error
-/// @see       totputils_free, totputils_initialize, totputils_err2string
-int32_t
-totputils_errno(
-         TOTPUtils *                   tkd )
-{
-   assert(tkd != NULL);
-   return(tkd->errcode);
+   return("unknown error");
 }
 
 

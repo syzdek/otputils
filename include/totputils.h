@@ -144,8 +144,6 @@ totputils_err2string(
 
 
 _TOTPUTILS_F int
-totputils_errno(
-         TOTPUtils *                   lsd );
 
 
 TOTPUTILS_END_C_DECLS
