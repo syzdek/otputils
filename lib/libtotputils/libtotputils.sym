@@ -64,4 +64,5 @@ totputils_bvdup
 totputils_bvfree
 totputils_free
 totputils_initialize
+totputils_set_param
 # end of symbol export file

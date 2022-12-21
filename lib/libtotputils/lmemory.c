@@ -125,5 +125,88 @@ totputils_initialize(
 }
 
 
+int
+totputils_set_param(
+         totputils_t *                 tud,
+         int                           option,
+         const void *                  invalue )
+{
+   totputils_bv_t *     bv;
+   totputils_bv_t       tmp_bv;
+   int                  tmp_bv_val;
+
+   assert(tud != NULL);
+
+   switch(option)
+   {
+      case TOTPUTILS_OPT_K:
+      if (!((const totputils_bv_t *)invalue))
+      {
+         tmp_bv_val    = 0;
+         tmp_bv.bv_val = &tmp_bv_val;
+         tmp_bv.bv_len = 1;
+         if ((bv = totputils_bvdup(&tmp_bv)) == NULL)
+            return(TOTPUTILS_ENOMEM);
+      } else
+      {
+         if ((bv = totputils_bvdup((((const totputils_bv_t *)invalue)))) == NULL)
+            return(TOTPUTILS_ENOMEM);
+      };
+      if ((tud->totp_k))
+         totputils_bvfree(tud->totp_k);
+      tud->totp_k = bv;
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_T0:
+      tud->totp_t0 = (((const uint64_t *)invalue)) ? *((const uint64_t *)invalue) : TOTPUTILS_T0;
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_TX:
+      tud->totp_tx = (((const uint64_t *)invalue)) ? *((const uint64_t *)invalue) : TOTPUTILS_TX;
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_TIME:
+      tud->totp_tx = (((const uint64_t *)invalue)) ? *((const uint64_t *)invalue) : (uint64_t)time(NULL);
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_C:
+      tud->totp_t0 = (((const uint64_t *)invalue)) ? *((const uint64_t *)invalue) : 0;
+      tud->totp_tx = 0;
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_DESC:
+      if ((tud->totp_desc))
+         free(tud->totp_desc);
+      tud->totp_desc = NULL;
+      if (!((const char *)invalue))
+         return(TOTPUTILS_SUCCESS);
+      if ((tud->totp_desc = strdup(((const char *)invalue))) == NULL)
+         return(TOTPUTILS_ENOMEM);
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_HMAC:
+      if (!((const uint64_t *)invalue))
+      {
+         tud->totp_hmac = TOTPUTILS_HMAC;
+         return(TOTPUTILS_SUCCESS);
+      };
+      switch( *((const uint64_t *)invalue) )
+      {
+         case TOTPUTILS_HMAC_SHA1:
+         tud->totp_hmac = *((const uint64_t *)invalue);
+         return(TOTPUTILS_SUCCESS);
+
+         default:
+         return(TOTPUTILS_EOPTVAL);
+      };
+      return(TOTPUTILS_SUCCESS);
+
+      default:
+      break;
+   };
+
+   return(TOTPUTILS_EOPTION);
+}
+
 
 /* end of source file */

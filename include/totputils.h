@@ -189,5 +189,11 @@ totputils_bvfree(
 _TOTPUTILS_F int
 
 
+_TOTPUTILS_F int
+totputils_set_param(
+         totputils_t *                 tud,
+         int                           option,
+         const void *                  invalue );
+
 TOTPUTILS_END_C_DECLS
 #endif /* end of header file */
