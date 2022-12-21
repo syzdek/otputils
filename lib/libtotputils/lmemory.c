@@ -81,6 +81,14 @@ totputils_bvalloc(
 }
 
 
+totputils_bv_t *
+totputils_bvdup(
+         const totputils_bv_t *        bv )
+{
+   return(totputils_bvalloc(bv->bv_val, bv->bv_len));
+}
+
+
 void
 totputils_bvfree(
          totputils_bv_t *              bv )

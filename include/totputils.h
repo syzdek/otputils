@@ -156,6 +156,11 @@ totputils_bvalloc(
          size_t                        len );
 
 
+_TOTPUTILS_F totputils_bv_t *
+totputils_bvdup(
+         const totputils_bv_t *        bv );
+
+
 _TOTPUTILS_F void
 totputils_bvfree(
          totputils_bv_t *              bv );
