@@ -133,15 +133,20 @@ struct totputils_berval
 #pragma mark - Prototypes
 TOTPUTILS_BEGIN_C_DECLS
 
-//-----------------//
-// error functions //
-//-----------------//
-#pragma mark error functions
+//------------------//
+// error prototypes //
+//------------------//
+#pragma mark error prototypes
 
 _TOTPUTILS_F const char *
 totputils_err2string(
          int                           err );
 
+
+//-------------------//
+// memory prototypes //
+//-------------------//
+#pragma mark memory prototypes
 
 _TOTPUTILS_F int
 
