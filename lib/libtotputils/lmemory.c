@@ -79,6 +79,28 @@ totputils_bvalloc(
 }
 
 
+char *
+totputils_bvbase32(
+         const totputils_bv_t *        bv )
+{
+   char *               str;
+   size_t               strlen;
+   ssize_t              rc;
+
+   assert( bv != NULL );
+
+   strlen = bindle_encode_size(BNDL_BASE32, bv->bv_len);
+   if ((str = malloc(strlen+1)) == NULL)
+      return(NULL);
+
+   if ((rc = bindle_encode(BNDL_BASE32, str, strlen, bv->bv_val, bv->bv_len, 0)) == -1)
+      return(NULL);
+   str[strlen] = '\0';
+
+   return(str);
+}
+
+
 totputils_bv_t *
 totputils_bvdup(
          const totputils_bv_t *        bv )

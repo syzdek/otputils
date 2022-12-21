@@ -60,6 +60,7 @@
 totputils_err2string
 # memory functions
 totputils_bvalloc
+totputils_bvbase32
 totputils_bvdup
 totputils_bvfree
 totputils_free
