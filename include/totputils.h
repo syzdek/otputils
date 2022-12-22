@@ -232,5 +232,17 @@ totputils_set_param(
          int                           option,
          const void *                  invalue );
 
+
+//---------------//
+// OTP functions //
+//---------------//
+#pragma mark OTP functions
+
+_TOTPUTILS_F int
+totputils_hotp(
+         totputils_t *                 tud,
+         uint64_t                      hotp_c );
+
+
 TOTPUTILS_END_C_DECLS
 #endif /* end of header file */

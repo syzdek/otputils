@@ -45,6 +45,8 @@
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h>
+#include <openssl/evp.h>
+#include <openssl/hmac.h>
 
 
 /////////////////
@@ -440,6 +442,63 @@ totputils_set_param(
 // OTP functions //
 //---------------//
 #pragma mark OTP functions
+
+int
+totputils_hotp(
+         totputils_t *                 tud,
+         uint64_t                      hotp_c )
+{
+   uint32_t                endianness;
+   uint64_t                offset;
+   uint8_t  *              hmac_result;
+   uint32_t                bin_code;
+   const EVP_MD *          evp_md;
+   const void *            otp_k;
+   int                     otp_k_len;
+   const unsigned char *   otp_c;
+   unsigned char           otp_md[EVP_MAX_MD_SIZE];
+   unsigned                otp_md_len;
+   int                     otp_code;
+
+   if ( (!(tud)) || (!(tud->totp_k)) || (!(tud->totp_k->bv_val)) )
+      return(-1);
+
+   hotp_c      = ((hotp_c)) ? hotp_c : tud->totp_t0;
+   otp_k       = tud->totp_k->bv_val;
+   otp_k_len   = (int)tud->totp_k->bv_len;
+   otp_c       = (const unsigned char *)&hotp_c;
+   otp_md_len  = EVP_MAX_MD_SIZE;
+
+   // converts T to big endian if system is little endian
+   endianness = 0xdeadbeef;
+   if ((*(const uint8_t *)&endianness) == 0xef)
+   {
+      hotp_c = ((hotp_c & 0x00000000ffffffff) << 32) | ((hotp_c & 0xffffffff00000000) >> 32);
+      hotp_c = ((hotp_c & 0x0000ffff0000ffff) << 16) | ((hotp_c & 0xffff0000ffff0000) >> 16);
+      hotp_c = ((hotp_c & 0x00ff00ff00ff00ff) <<  8) | ((hotp_c & 0xff00ff00ff00ff00) >>  8);
+   };
+
+   // determines hash
+   switch(tud->totp_hmac)
+   {
+      case TOTPUTILS_HMAC_SHA1:  evp_md = EVP_sha1(); break;
+      default: return(-1);
+   };
+   hmac_result = (uint8_t *)HMAC(evp_md, otp_k, otp_k_len, otp_c, sizeof(hotp_c), otp_md, &otp_md_len);
+
+   // dynamically truncates hash
+   offset   = hmac_result[19] & 0x0f;
+   bin_code = (hmac_result[offset+0] & 0x7f) << 24
+            | (hmac_result[offset+1] & 0xff) << 16
+            | (hmac_result[offset+2] & 0xff) <<  8
+            | (hmac_result[offset+3] & 0xff);
+
+   // truncates code to 6 digits
+   otp_code = (int)(bin_code % 1000000);
+
+   return(otp_code);
+}
+
 
 
 /* end of source file */

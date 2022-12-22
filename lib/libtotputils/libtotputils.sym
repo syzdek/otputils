@@ -69,4 +69,6 @@ totputils_get_param
 totputils_hmac2str
 totputils_initialize
 totputils_set_param
+# OTP functions
+totputils_hotp
 # end of symbol export file
