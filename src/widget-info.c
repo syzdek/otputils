@@ -70,6 +70,13 @@
 //////////////////
 #pragma mark - Prototypes
 
+static int
+totp_widget_info_get(
+         totp_config_t *               cnf,
+         const char *                  str,
+         int                           option,
+         void *                        outvalue );
+
 
 /////////////////
 //             //
@@ -88,7 +95,16 @@ int
 totp_widget_info(
          totp_config_t *               cnf )
 {
-   int rc;
+   int            rc;
+   uint64_t       hotp_c;
+   uint64_t       totp_t0;
+   uint64_t       totp_tx;
+   uint64_t       totp_time;
+   uint64_t       otp_method;
+   uint64_t       otp_hmac;
+   const char *   otp_hmacstr;
+   char *         otp_kstr;
+   char *         otp_desc;
 
    assert(cnf != NULL);
 
@@ -96,7 +112,59 @@ totp_widget_info(
    if ((rc = totp_arguments(cnf, cnf->argc, cnf->argv)) != 0)
       return((rc == -1) ? 0 : 1);
 
+   // retrieve OTP secret information
+   if (totp_widget_info_get(cnf, "METHOD", TOTPUTILS_OPT_METHOD, &otp_method) != 0)
+      return(1);
+   if (totp_widget_info_get(cnf, "C", TOTPUTILS_OPT_C, &hotp_c) != 0)
+      return(1);
+   if (totp_widget_info_get(cnf, "T0", TOTPUTILS_OPT_T0, &totp_t0) != 0)
+      return(1);
+   if (totp_widget_info_get(cnf, "TX", TOTPUTILS_OPT_TX, &totp_tx) != 0)
+      return(1);
+   if (totp_widget_info_get(cnf, "TIME", TOTPUTILS_OPT_TIME, &totp_time) != 0)
+      return(1);
+   if (totp_widget_info_get(cnf, "HMAC", TOTPUTILS_OPT_HMAC, &otp_hmac) != 0)
+      return(1);
+   otp_hmacstr = totputils_hmac2str((int)otp_hmac);
+   if (totp_widget_info_get(cnf, "KEY", TOTPUTILS_OPT_KSTR, &otp_kstr) != 0)
+      return(1);
+   if (totp_widget_info_get(cnf, "KEY", TOTPUTILS_OPT_DESC, &otp_desc) != 0)
+      return(1);
+
+   // print secret information
+   printf("OTP Secret:\n");
+   printf("   Description:          %s\n", (((otp_desc)) ? otp_desc : "n/a") );
+   printf("   OTP Method:           %s\n", (otp_method == TOTPUTILS_TOTP) ? "TOTP" : "HOTP" );
+   printf("   Shared Key:           %s\n", otp_kstr );
+   printf("   HMAC:                 %s\n", ((otp_hmacstr)) ? otp_hmacstr : "unknown");
+   if (otp_method == TOTPUTILS_TOTP)
+   {
+      printf("   TOTP UNIX Time:       %" PRIu64 "\n", totp_t0 );
+      printf("   TOTP Step Interval:   %" PRIu64 "\n", totp_tx );
+      printf("   TOTP Current Time:    %" PRIu64 "\n", totp_time );
+   };
+   if (otp_method == TOTPUTILS_HOTP)
+   {
+      printf("   HOTP Counter:         %" PRIu64 "\n", hotp_c );
+   };
+   printf("\n");
+
    return(0);
+}
+
+
+int
+totp_widget_info_get(
+         totp_config_t *               cnf,
+         const char *                  str,
+         int                           option,
+         void *                        outvalue )
+{
+   int rc;
+   if ((rc = totputils_get_param(cnf->tud, option, outvalue)) == 0)
+      return(0);
+   fprintf(stderr, "%s: totputils_get_param(%s): %s\n", cnf->prog_name, str, totputils_err2string(rc));
+   return(rc);
 }
 
 
