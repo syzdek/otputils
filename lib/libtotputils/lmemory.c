@@ -194,14 +194,12 @@ totputils_get_param(
    switch(option)
    {
       case TOTPUTILS_OPT_K:
-      assert( *((totputils_bv_t **)outvalue) != NULL );
       if ((bv = totputils_bvdup(tud->totp_k)) == NULL)
          return(TOTPUTILS_ENOMEM);
       *((totputils_bv_t **)outvalue) = bv;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_KSTR:
-      assert( *((char **)outvalue) != NULL );
       if ((*((char **)outvalue) = totputils_bvbase32(tud->totp_k)) == NULL)
          return(TOTPUTILS_ENOMEM);
       return(TOTPUTILS_SUCCESS);
@@ -223,7 +221,6 @@ totputils_get_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_DESC:
-      assert( *((char **)outvalue) != NULL );
       if (!(tud->totp_desc))
       {
          *((char **)outvalue) = NULL;
