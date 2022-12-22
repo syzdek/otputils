@@ -244,5 +244,11 @@ totputils_hotp(
          uint64_t                      hotp_c );
 
 
+_TOTPUTILS_F int
+totputils_totp(
+         totputils_t *                 tud,
+         uint64_t                      totp_time );
+
+
 TOTPUTILS_END_C_DECLS
 #endif /* end of header file */

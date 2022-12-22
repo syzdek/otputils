@@ -71,4 +71,5 @@ totputils_initialize
 totputils_set_param
 # OTP functions
 totputils_hotp
+totputils_totp
 # end of symbol export file

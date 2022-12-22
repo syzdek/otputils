@@ -500,5 +500,15 @@ totputils_hotp(
 }
 
 
+int
+totputils_totp(
+         totputils_t *                 tud,
+         uint64_t                      totp_time )
+{
+   totp_time = ((totp_time)) ? totp_time : tud->totp_tcur;
+   return(totputils_hotp(tud, ((totp_time - tud->totp_t0) / tud->totp_tx) ));
+}
+
+
 
 /* end of source file */
