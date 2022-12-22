@@ -158,20 +158,10 @@ struct _totputils_berval
 #pragma mark - Prototypes
 TOTPUTILS_BEGIN_C_DECLS
 
-//------------------//
-// error prototypes //
-//------------------//
-#pragma mark error prototypes
-
-_TOTPUTILS_F const char *
-totputils_err2string(
-         int                           err );
-
-
-//-------------------//
-// memory prototypes //
-//-------------------//
-#pragma mark memory prototypes
+//----------------//
+// BER prototypes //
+//----------------//
+#pragma mark BER prototypes
 
 _TOTPUTILS_F totputils_bv_t *
 totputils_base32bv(
@@ -198,6 +188,21 @@ _TOTPUTILS_F void
 totputils_bvfree(
          totputils_bv_t *              bv );
 
+
+//------------------//
+// error prototypes //
+//------------------//
+#pragma mark error prototypes
+
+_TOTPUTILS_F const char *
+totputils_err2string(
+         int                           err );
+
+
+//-------------------//
+// memory prototypes //
+//-------------------//
+#pragma mark memory prototypes
 
 _TOTPUTILS_F void
 totputils_free(

@@ -54,6 +54,11 @@
 /////////////////
 #pragma mark - Functions
 
+//---------------//
+// BER functions //
+//---------------//
+#pragma mark BER functions
+
 totputils_bv_t *
 totputils_base32bv(
          const char *                  str )
@@ -161,6 +166,11 @@ totputils_bvfree(
 }
 
 
+//-----------------//
+// error functions //
+//-----------------//
+#pragma mark error functions
+
 const char *
 totputils_err2string(
          int                           err )
@@ -179,6 +189,11 @@ totputils_err2string(
    return("unknown error");
 }
 
+
+//------------------//
+// memory functions //
+//------------------//
+#pragma mark memory functions
 
 void
 totputils_free(
@@ -419,6 +434,12 @@ totputils_set_param(
 
    return(TOTPUTILS_EOPTION);
 }
+
+
+//---------------//
+// OTP functions //
+//---------------//
+#pragma mark OTP functions
 
 
 /* end of source file */
