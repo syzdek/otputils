@@ -69,6 +69,8 @@ totputils_get_param
 totputils_hmac2str
 totputils_initialize
 totputils_set_param
+# misc functions
+totputils_getpass
 # OTP functions
 totputils_hotp
 totputils_hotp_code

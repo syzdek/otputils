@@ -438,6 +438,27 @@ totputils_set_param(
 }
 
 
+//----------------//
+// misc functions //
+//----------------//
+#pragma mark misc functions
+
+char *
+totputils_getpass(
+         const char *                  prompt,
+         char *                        pass,
+         size_t                        passlen )
+{
+   static char buff[BNDL_PASSWORD_LEN+1];
+   if (!(pass))
+   {
+      pass    = buff;
+      passlen = sizeof(buff);
+   };
+   return(bindle_getpass_r(prompt, pass, passlen));
+}
+
+
 //---------------//
 // OTP functions //
 //---------------//

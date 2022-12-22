@@ -236,6 +236,18 @@ totputils_set_param(
          const void *                  invalue );
 
 
+//----------------//
+// misc functions //
+//----------------//
+#pragma mark misc functions
+
+char *
+totputils_getpass(
+         const char *                  prompt,
+         char *                        pass,
+         size_t                        passlen );
+
+
 //---------------//
 // OTP functions //
 //---------------//
