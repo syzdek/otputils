@@ -133,8 +133,6 @@ lib_libtotputils_a_LIBADD		= $(AM_LIBS)
 lib_libtotputils_a_SOURCES		= $(noinst_HEADERS) \
 					  $(BINDLE_LIBBINDLE_SRCS) \
 					  lib/libtotputils/libtotputils.h \
-					  lib/libtotputils/lerror.c \
-					  lib/libtotputils/lerror.h \
 					  lib/libtotputils/libtotputils.c
 
 

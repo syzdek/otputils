@@ -161,6 +161,25 @@ totputils_bvfree(
 }
 
 
+const char *
+totputils_err2string(
+         int                           err )
+{
+   switch(err)
+   {
+      case TOTPUTILS_SUCCESS:        return("success");
+      case TOTPUTILS_EBADDATA:       return("invalid data");
+      case TOTPUTILS_ENOBUFS:        return("no buffer space available");
+      case TOTPUTILS_ENOMEM:         return("out of virtual memory");
+      case TOTPUTILS_ENOTSUP:        return("method or feature is not supported");
+      case TOTPUTILS_EOPTION:        return("invalid option");
+      case TOTPUTILS_EOPTVAL:       return("invalid option value");
+      default:                       break;
+   };
+   return("unknown error");
+}
+
+
 void
 totputils_free(
          totputils_t *                 tud )
