@@ -274,7 +274,7 @@ totputils_initialize(
    // allocate initial memory
    if ((tud = malloc(sizeof(totputils_t))) == NULL)
       return(TOTPUTILS_ENOMEM);
-   bzero(tud, sizeof(totputils_t));
+   memset(tud, 0, sizeof(totputils_t));
 
    if ((rc = totputils_set_param(tud, TOTPUTILS_OPT_K, NULL)) != TOTPUTILS_SUCCESS)
    {
