@@ -500,6 +500,33 @@ totputils_hotp(
 }
 
 
+char *
+totputils_hotp_code(
+         totputils_t *                 tud,
+         uint64_t                      hotp_c,
+         char *                        hotp_code,
+         size_t                        hotp_code_len )
+{
+   int               otp_code;
+   static char       buff[TOTPUTILS_MAX_CODE_SIZE];
+
+   if (!(hotp_code))
+   {
+      hotp_code      = buff;
+      hotp_code_len  = sizeof(buff);
+   };
+   if (hotp_code_len < 7)
+      return(NULL);
+
+   if ((otp_code = totputils_hotp(tud, hotp_c)) == -1)
+      return(NULL);
+
+   snprintf(hotp_code, hotp_code_len, "%06i", otp_code);
+
+   return(hotp_code);
+}
+
+
 int
 totputils_totp(
          totputils_t *                 tud,

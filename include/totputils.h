@@ -132,6 +132,9 @@
 #define TOTPUTILS_HMAC              TOTPUTILS_HMAC_SHA1
 
 
+#define TOTPUTILS_MAX_CODE_SIZE     16
+
+
 /////////////////
 //             //
 //  Datatypes  //
@@ -242,6 +245,14 @@ _TOTPUTILS_F int
 totputils_hotp(
          totputils_t *                 tud,
          uint64_t                      hotp_c );
+
+
+_TOTPUTILS_F char *
+totputils_hotp_code(
+         totputils_t *                 tud,
+         uint64_t                      hotp_c,
+         char *                        hotp_code,
+         size_t                        hotp_code_len );
 
 
 _TOTPUTILS_F int
