@@ -213,7 +213,7 @@ totputils_get_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_TIME:
-      *((uint64_t *)outvalue) = tud->totp_tx;
+      *((uint64_t *)outvalue) = tud->totp_tcur;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_C:
