@@ -224,7 +224,7 @@ main(
 
    // initialize config
    cnf = &config;
-   bzero(cnf, sizeof(totp_config_t));
+   memset(cnf, 0, sizeof(totp_config_t));
 
 
    // determine program name
