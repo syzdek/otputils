@@ -74,6 +74,8 @@ struct _totputils_cli_widget
    const char *               usage;
    const char *               short_opt;
    const char * const *       aliases;
+   int                        arg_min;
+   int                        arg_max;
    int  (*func_exec)(totp_config_t * cnf);
    int  (*func_usage)(totp_config_t * cnf);
 };

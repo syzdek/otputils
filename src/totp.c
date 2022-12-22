@@ -429,6 +429,22 @@ totp_arguments(
       };
    };
 
+   if (!(cnf->widget))
+      return(0);
+
+   if ( (cnf->argc-optind) < cnf->widget->arg_min)
+   {
+      fprintf(stderr, "%s: missing required argument\n", PROGRAM_NAME);
+      fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+      return(1);
+   };
+   if ( (cnf->argc-optind) > cnf->widget->arg_max)
+   {
+      fprintf(stderr, "%s: unknown argument -- `%s'\n", PROGRAM_NAME, cnf->argv[optind + cnf->widget->arg_max]);
+      fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+      return(1);
+   };
+
    return(0);
 }
 
