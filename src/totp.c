@@ -82,7 +82,7 @@
 #define _PREFIX TOTP_PREFIX
 
 #undef TOTP_SHORT_OPT
-#define TOTP_SHORT_OPT "hqVv"
+#define TOTP_SHORT_OPT "c:hk:qT:t:Vvx:"
 
 
 //////////////////
@@ -291,10 +291,9 @@ totp_arguments(
 {
    int            c;
    int            opt_index;
-//   int            opt;
-//   int            ival;
-//   int            rc;
-//   void *         ptr;
+   uint64_t       uval;
+   char *         endptr;
+   int            rc;
 
    // getopt options
    static const char *  short_opt = "+" TOTP_SHORT_OPT;
@@ -322,9 +321,33 @@ totp_arguments(
          case 0:        /* long options toggles */
          break;
 
+         case 'c':
+         uval = strtoull(optarg, &endptr, 0);
+         if ((optarg == endptr) || (endptr[0] != '\0'))
+         {
+            fprintf(stderr, "%s: invalid value for `-c'\n", PROGRAM_NAME);
+            fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
+         if ((rc = totputils_set_param(cnf->tud, TOTPUTILS_OPT_C, &uval)) != TOTPUTILS_SUCCESS)
+         {
+            fprintf(stderr, "%s: totputils_set_param(TOTPUTILS_OPT_C): %s\n", PROGRAM_NAME, totputils_err2string(rc));
+            return(1);
+         };
+         break;
+
          case 'h':
          totp_widget_usage(cnf);
          return(-1);
+
+         case 'k':
+         if (totputils_set_param(cnf->tud, TOTPUTILS_OPT_KSTR, optarg) != 0)
+         {
+            fprintf(stderr, "%s: invalid value for `-k'\n", PROGRAM_NAME);
+            fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
+         break;
 
          case 's':
          cnf->quiet = 1;
@@ -332,6 +355,36 @@ totp_arguments(
          {
             fprintf(stderr, "%s: incompatible options\n", PROGRAM_NAME);
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
+         break;
+
+         case 'T':
+         uval = strtoull(optarg, &endptr, 0);
+         if ((optarg == endptr) || (endptr[0] != '\0'))
+         {
+            fprintf(stderr, "%s: invalid value for `-T'\n", PROGRAM_NAME);
+            fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
+         if ((rc = totputils_set_param(cnf->tud, TOTPUTILS_OPT_TIME, &uval)) != TOTPUTILS_SUCCESS)
+         {
+            fprintf(stderr, "%s: totputils_set_param(TOTPUTILS_OPT_TIME): %s\n", PROGRAM_NAME, totputils_err2string(rc));
+            return(1);
+         };
+         break;
+
+         case 't':
+         uval = strtoull(optarg, &endptr, 0);
+         if ((optarg == endptr) || (endptr[0] != '\0'))
+         {
+            fprintf(stderr, "%s: invalid value for `-t'\n", PROGRAM_NAME);
+            fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
+         if ((rc = totputils_set_param(cnf->tud, TOTPUTILS_OPT_T0, &uval)) != TOTPUTILS_SUCCESS)
+         {
+            fprintf(stderr, "%s: totputils_set_param(TOTPUTILS_OPT_T0): %s\n", PROGRAM_NAME, totputils_err2string(rc));
             return(1);
          };
          break;
@@ -346,6 +399,21 @@ totp_arguments(
          {
             fprintf(stderr, "%s: incompatible options\n", PROGRAM_NAME);
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
+         break;
+
+         case 'x':
+         uval = strtoull(optarg, &endptr, 0);
+         if ((optarg == endptr) || (endptr[0] != '\0'))
+         {
+            fprintf(stderr, "%s: invalid value for `-x'\n", PROGRAM_NAME);
+            fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
+         if ((rc = totputils_set_param(cnf->tud, TOTPUTILS_OPT_TX, &uval)) != TOTPUTILS_SUCCESS)
+         {
+            fprintf(stderr, "%s: totputils_set_param(TOTPUTILS_OPT_TX): %s\n", PROGRAM_NAME, totputils_err2string(rc));
             return(1);
          };
          break;
