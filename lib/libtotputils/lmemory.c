@@ -81,7 +81,7 @@ totputils_base32bv(
       return(NULL);
    };
 
-   if ((rc = bindle_decode(BNDL_BASE32, bv->bv_val, (bv->bv_len+1), str, strlen(str))) == -1)
+   if (bindle_decode(BNDL_BASE32, bv->bv_val, (bv->bv_len+1), str, strlen(str)) == -1)
    {
       totputils_bvfree(bv);
       return(NULL);
@@ -122,7 +122,6 @@ totputils_bvbase32(
 {
    char *               str;
    size_t               strlen;
-   ssize_t              rc;
 
    assert( bv != NULL );
 
@@ -130,7 +129,7 @@ totputils_bvbase32(
    if ((str = malloc(strlen+1)) == NULL)
       return(NULL);
 
-   if ((rc = bindle_encode(BNDL_BASE32, str, strlen, bv->bv_val, bv->bv_len, 0)) == -1)
+   if (bindle_encode(BNDL_BASE32, str, strlen, bv->bv_val, bv->bv_len, 0) == -1)
       return(NULL);
    str[strlen] = '\0';
 
@@ -303,7 +302,6 @@ totputils_set_param(
          int                           option,
          const void *                  invalue )
 {
-   ssize_t              rc;
    uint64_t             val_uint;
    totputils_bv_t *     bv;
    const char *         str;
@@ -331,7 +329,7 @@ totputils_set_param(
 
       case TOTPUTILS_OPT_KSTR:
       str = (const char *)invalue;
-      if ((rc = bindle_encoding_verify(BNDL_BASE32, str, strlen(str))) == -1)
+      if (bindle_encoding_verify(BNDL_BASE32, str, strlen(str)) == -1)
          return(TOTPUTILS_EOPTVAL);
       if ((bv = totputils_base32bv( ((const char *)invalue) )) == NULL)
          return(TOTPUTILS_ENOMEM);
