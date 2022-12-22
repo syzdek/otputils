@@ -295,8 +295,10 @@ totputils_set_param(
          int                           option,
          const void *                  invalue )
 {
+   ssize_t              rc;
    uint64_t             val_uint;
    totputils_bv_t *     bv;
+   const char *         str;
 
    assert(tud != NULL);
 
@@ -313,6 +315,17 @@ totputils_set_param(
          return(TOTPUTILS_SUCCESS);
       };
       if ((bv = totputils_bvdup((((const totputils_bv_t *)invalue)))) == NULL)
+         return(TOTPUTILS_ENOMEM);
+      if ((tud->totp_k))
+         totputils_bvfree(tud->totp_k);
+      tud->totp_k = bv;
+      return(TOTPUTILS_SUCCESS);
+
+      case TOTPUTILS_OPT_KSTR:
+      str = (const char *)invalue;
+      if ((rc = bindle_encoding_verify(BNDL_BASE32, str, strlen(str))) == -1)
+         return(TOTPUTILS_EOPTVAL);
+      if ((bv = totputils_base32bv( ((const char *)invalue) )) == NULL)
          return(TOTPUTILS_ENOMEM);
       if ((tud->totp_k))
          totputils_bvfree(tud->totp_k);
