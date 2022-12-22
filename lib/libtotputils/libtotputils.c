@@ -537,5 +537,30 @@ totputils_totp(
 }
 
 
+char *
+totputils_totp_code(
+         totputils_t *                 tud,
+         uint64_t                      totp_time,
+         char *                        totp_code,
+         size_t                        totp_code_len )
+{
+   int               otp_code;
+   static char       buff[TOTPUTILS_MAX_CODE_SIZE];
+
+   if (!(totp_code))
+   {
+      totp_code      = buff;
+      totp_code_len  = sizeof(buff);
+   };
+   if (totp_code_len < 7)
+      return(NULL);
+
+   if ((otp_code = totputils_totp(tud, totp_time)) == -1)
+      return(NULL);
+
+   snprintf(totp_code, totp_code_len, "%06i", otp_code);
+
+   return(totp_code);
+}
 
 /* end of source file */
