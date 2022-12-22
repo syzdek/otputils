@@ -174,6 +174,11 @@ totputils_err2string(
 #pragma mark memory prototypes
 
 _TOTPUTILS_F totputils_bv_t *
+totputils_base32bv(
+         const char *                  str );
+
+
+_TOTPUTILS_F totputils_bv_t *
 totputils_bvalloc(
          const void *                  val,
          size_t                        len );

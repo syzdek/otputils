@@ -55,6 +55,43 @@
 #pragma mark - Functions
 
 totputils_bv_t *
+totputils_base32bv(
+         const char *                  str )
+{
+   ssize_t              rc;
+   totputils_bv_t *     bv;
+
+   if ( (!(str)) || (!(str[0])) )
+      return(totputils_bvalloc(NULL, 0));
+
+   if ((bv = malloc(sizeof(totputils_bv_t))) == NULL)
+      return(NULL);
+   memset(bv, 0, sizeof(totputils_bv_t));
+
+   if ((rc = bindle_decode_size(BNDL_BASE32, strlen(str))) == -1)
+   {
+      totputils_bvfree(bv);
+      return(NULL);
+   };
+   bv->bv_len = (size_t)rc;
+
+   if ((bv->bv_val = malloc(bv->bv_len+1)) == NULL)
+   {
+      totputils_bvfree(bv);
+      return(NULL);
+   };
+
+   if ((rc = bindle_decode(BNDL_BASE32, bv->bv_val, (bv->bv_len+1), str, strlen(str))) == -1)
+   {
+      totputils_bvfree(bv);
+      return(NULL);
+   };
+
+   return(bv);
+}
+
+
+totputils_bv_t *
 totputils_bvalloc(
          const void *                  val,
          size_t                        len )
