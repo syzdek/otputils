@@ -88,13 +88,47 @@ int
 totp_widget_code(
          totp_config_t *               cnf )
 {
-   int rc;
+   int            rc;
+   uint64_t       otp_method;
+   static char    buff[TOTPUTILS_MAX_CODE_SIZE];
 
    assert(cnf != NULL);
 
    // initial processing of cli arguments
    if ((rc = totp_arguments(cnf, cnf->argc, cnf->argv)) != 0)
       return((rc == -1) ? 0 : 1);
+
+   // retrieve OTP secret information
+   if ((rc = totputils_get_param(cnf->tud, TOTPUTILS_OPT_METHOD, &otp_method)) != 0)
+   {
+      fprintf(stderr, "%s: totputils_get_param(METHOD): %s\n", cnf->prog_name, totputils_err2string(rc));
+      return(1);
+   };
+
+   switch(otp_method)
+   {
+      case TOTPUTILS_HOTP:
+      if (!(totputils_hotp_code(cnf->tud, 0, buff, sizeof(buff))))
+      {
+         fprintf(stderr, "%s: totputils_hotp_code(): internal error\n", cnf->prog_name);
+         return(1);
+      };
+      break;
+
+      case TOTPUTILS_TOTP:
+      if (!(totputils_totp_code(cnf->tud, 0, buff, sizeof(buff))))
+      {
+         fprintf(stderr, "%s: totputils_totp_code(): internal error\n", cnf->prog_name);
+         return(1);
+      };
+      break;
+
+      default:
+      fprintf(stderr, "%s: unknown OTP method (%u)\n", cnf->prog_name, (unsigned)otp_method);
+      return(1);
+   };
+
+   printf("%s\n", buff);
 
    return(0);
 }
