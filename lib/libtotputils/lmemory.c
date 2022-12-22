@@ -360,7 +360,7 @@ totputils_set_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_TIME:
-      tud->totp_tx = ((invalue)) ? *((const uint64_t *)invalue) : (uint64_t)time(NULL);
+      tud->totp_tcur = ((invalue)) ? *((const uint64_t *)invalue) : (uint64_t)time(NULL);
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_C:
