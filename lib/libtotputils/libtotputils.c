@@ -30,8 +30,8 @@
 /*
  *  @file lib/libtotputils/lmemory.c
  */
-#define _LIB_LIBTOTPUTILS_LMEMORY_C 1
-#include "lmemory.h"
+#define _LIB_LIBTOTPUTILS_C 1
+#include "libtotputils.h"
 
 ///////////////
 //           //

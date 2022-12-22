@@ -135,8 +135,7 @@ lib_libtotputils_a_SOURCES		= $(noinst_HEADERS) \
 					  lib/libtotputils/libtotputils.h \
 					  lib/libtotputils/lerror.c \
 					  lib/libtotputils/lerror.h \
-					  lib/libtotputils/lmemory.c \
-					  lib/libtotputils/lmemory.h
+					  lib/libtotputils/libtotputils.c
 
 
 # macros for lib/libtotputils.la
