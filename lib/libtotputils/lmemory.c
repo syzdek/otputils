@@ -200,6 +200,11 @@ totputils_get_param(
       *((totputils_bv_t **)outvalue) = bv;
       return(TOTPUTILS_SUCCESS);
 
+      case TOTPUTILS_OPT_KSTR:
+      if ((*((char **)outvalue) = totputils_bvbase32(tud->totp_k)) == NULL)
+         return(TOTPUTILS_ENOMEM);
+      return(TOTPUTILS_SUCCESS);
+
       case TOTPUTILS_OPT_T0:
       *((uint64_t *)outvalue) = tud->totp_t0;
       return(TOTPUTILS_SUCCESS);
