@@ -211,6 +211,11 @@ totputils_get_param(
          void *                        outvalue );
 
 
+_TOTPUTILS_F const char *
+totputils_hmac2str(
+         int                           hmac );
+
+
 _TOTPUTILS_F int
 totputils_initialize(
          totputils_t **                tudp );

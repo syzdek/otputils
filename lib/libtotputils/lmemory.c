@@ -246,6 +246,22 @@ totputils_get_param(
 }
 
 
+const char *
+totputils_hmac2str(
+         int                           hmac )
+{
+   switch(hmac)
+   {
+      case TOTPUTILS_HMAC_SHA1:
+      return("sha1");
+
+      default:
+      break;
+   };
+   return(NULL);
+}
+
+
 int
 totputils_initialize(
          totputils_t **                tudp )
