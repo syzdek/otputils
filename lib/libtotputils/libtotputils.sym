@@ -76,6 +76,7 @@ totputils_getpass
 totputils_code
 totputils_hotp
 totputils_hotp_code
+totputils_otp
 totputils_totp
 totputils_totp_code
 totputils_totp_timer

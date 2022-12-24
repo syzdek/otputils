@@ -561,6 +561,16 @@ totputils_hotp_code(
 
 
 int
+totputils_otp(
+         totputils_t *                 tud )
+{
+   if ((tud->totp_tx))
+      return(totputils_totp(tud, 0));
+   return(totputils_hotp(tud, 0));
+}
+
+
+int
 totputils_totp(
          totputils_t *                 tud,
          uint64_t                      totp_time )

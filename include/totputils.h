@@ -275,6 +275,11 @@ totputils_hotp_code(
 
 
 _TOTPUTILS_F int
+totputils_otp(
+         totputils_t *                 tud );
+
+
+_TOTPUTILS_F int
 totputils_totp(
          totputils_t *                 tud,
          uint64_t                      totp_time );
