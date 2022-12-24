@@ -262,7 +262,7 @@ totputils_get_param(
          *((char **)outvalue) = NULL;
          return(TOTPUTILS_SUCCESS);
       };
-      if (( *((char **)outvalue) = strdup(tud->totp_desc)) == NULL)
+      if (( *((char **)outvalue) = bindle_strdup(tud->totp_desc)) == NULL)
          return(TOTPUTILS_ENOMEM);
       return(TOTPUTILS_SUCCESS);
 
@@ -410,7 +410,7 @@ totputils_set_param(
       tud->totp_desc = NULL;
       if (!((const char *)invalue))
          return(TOTPUTILS_SUCCESS);
-      if ((tud->totp_desc = strdup(((const char *)invalue))) == NULL)
+      if ((tud->totp_desc = bindle_strdup(((const char *)invalue))) == NULL)
          return(TOTPUTILS_ENOMEM);
       return(TOTPUTILS_SUCCESS);
 
