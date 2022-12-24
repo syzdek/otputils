@@ -113,21 +113,7 @@ totp_widget_code(
       return(1);
    };
 
-   switch(otp_method)
-   {
-      case TOTPUTILS_HOTP:
-      code = totputils_hotp_code(cnf->tud, 0, buff, sizeof(buff));
-      break;
-
-      case TOTPUTILS_TOTP:
-      code = totputils_totp_code(cnf->tud, 0, buff, sizeof(buff));
-      break;
-
-      default:
-      fprintf(stderr, "%s: unknown OTP method (%u)\n", cnf->prog_name, (unsigned)otp_method);
-      return(1);
-   };
-   if (!(code))
+   if ((code = totputils_code(cnf->tud, buff, sizeof(buff))) == NULL)
    {
       fprintf(stderr, "%s: internal error\n", cnf->prog_name);
       return(1);

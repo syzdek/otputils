@@ -89,7 +89,6 @@ totp_widget_verify(
          totp_config_t *               cnf )
 {
    int            rc;
-   uint64_t       otp_method;
    int            otp_code;
    int            user_code;
    char *         user_str;
@@ -103,22 +102,7 @@ totp_widget_verify(
       user_str = totputils_getpass("Enter OTP code: ", NULL, 0);
    user_code = (int)strtoll(user_str, NULL, 10);
 
-   // retrieve OTP secret information
-   if ((rc = totputils_get_param(cnf->tud, TOTPUTILS_OPT_METHOD, &otp_method)) != 0)
-   {
-      fprintf(stderr, "%s: totputils_get_param(METHOD): %s\n", cnf->prog_name, totputils_err2string(rc));
-      return(1);
-   };
-
-   switch(otp_method)
-   {
-      case TOTPUTILS_HOTP: otp_code = totputils_hotp(cnf->tud, 0); break;
-      case TOTPUTILS_TOTP: otp_code = totputils_totp(cnf->tud, 0); break;
-      default:
-      fprintf(stderr, "%s: unknown OTP method (%u)\n", cnf->prog_name, (unsigned)otp_method);
-      return(1);
-   };
-   if (otp_code == -1)
+   if ((otp_code = totputils_otp(cnf->tud)) == -1)
    {
       fprintf(stderr, "%s: internal error\n", cnf->prog_name);
       return(1);
