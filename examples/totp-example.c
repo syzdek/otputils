@@ -39,6 +39,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#include <inttypes.h>
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 #include <stdlib.h>
