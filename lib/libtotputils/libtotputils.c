@@ -464,6 +464,18 @@ totputils_getpass(
 //---------------//
 #pragma mark OTP functions
 
+char *
+totputils_code(
+         totputils_t *                 tud,
+         char *                        code,
+         size_t                        code_len )
+{
+   if ((tud->totp_tx))
+      return(totputils_totp_code(tud, 0, code, code_len));
+   return(totputils_hotp_code(tud, 0, code, code_len));
+}
+
+
 int
 totputils_hotp(
          totputils_t *                 tud,

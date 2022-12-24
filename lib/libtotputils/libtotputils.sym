@@ -73,6 +73,7 @@ totputils_set_param
 # misc functions
 totputils_getpass
 # OTP functions
+totputils_code
 totputils_hotp
 totputils_hotp_code
 totputils_totp
