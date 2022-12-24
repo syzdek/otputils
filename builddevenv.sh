@@ -65,7 +65,7 @@ case "${CMD}" in
 
    'clean')
    make distclean
-   rm -Rf doc examples lib src tests
+   rm -Rf doc examples lib src tests include
    ;;
 
    'distclean')
