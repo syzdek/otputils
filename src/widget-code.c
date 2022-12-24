@@ -90,7 +90,10 @@ totp_widget_code(
 {
    int            rc;
    uint64_t       otp_method;
+   uint64_t       totp_tx;
+   char           totp_tx_str[64];
    static char    buff[TOTPUTILS_MAX_CODE_SIZE];
+   const char *   code;
 
    assert(cnf != NULL);
 
@@ -104,31 +107,40 @@ totp_widget_code(
       fprintf(stderr, "%s: totputils_get_param(METHOD): %s\n", cnf->prog_name, totputils_err2string(rc));
       return(1);
    };
+   if ((rc = totputils_get_param(cnf->tud, TOTPUTILS_OPT_TX, &totp_tx)) != 0)
+   {
+      fprintf(stderr, "%s: totputils_get_param(TX): %s\n", cnf->prog_name, totputils_err2string(rc));
+      return(1);
+   };
 
    switch(otp_method)
    {
       case TOTPUTILS_HOTP:
-      if (!(totputils_hotp_code(cnf->tud, 0, buff, sizeof(buff))))
-      {
-         fprintf(stderr, "%s: totputils_hotp_code(): internal error\n", cnf->prog_name);
-         return(1);
-      };
+      code = totputils_hotp_code(cnf->tud, 0, buff, sizeof(buff));
       break;
 
       case TOTPUTILS_TOTP:
-      if (!(totputils_totp_code(cnf->tud, 0, buff, sizeof(buff))))
-      {
-         fprintf(stderr, "%s: totputils_totp_code(): internal error\n", cnf->prog_name);
-         return(1);
-      };
+      code = totputils_totp_code(cnf->tud, 0, buff, sizeof(buff));
       break;
 
       default:
       fprintf(stderr, "%s: unknown OTP method (%u)\n", cnf->prog_name, (unsigned)otp_method);
       return(1);
    };
+   if (!(code))
+   {
+      fprintf(stderr, "%s: internal error\n", cnf->prog_name);
+      return(1);
+   };
 
-   printf("%s\n", buff);
+   if ((otp_method == TOTPUTILS_TOTP) && (!(cnf->quiet)))
+   {
+      snprintf(totp_tx_str, sizeof(totp_tx_str), "%" PRId64, totp_tx);
+      printf("%s (%*" PRId64 "s/%" PRId64 "s)\n", buff, (int)strlen(totp_tx_str), totputils_totp_timer(cnf->tud, 0), totp_tx);
+   } else
+   {
+      printf("%s\n", buff);
+   };
 
    return(0);
 }
