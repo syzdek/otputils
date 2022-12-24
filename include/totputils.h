@@ -281,5 +281,11 @@ totputils_totp_code(
          size_t                        totp_code_len );
 
 
+_TOTPUTILS_F uint64_t
+totputils_totp_timer(
+         totputils_t *                 tud,
+         uint64_t                      totp_time );
+
+
 TOTPUTILS_END_C_DECLS
 #endif /* end of header file */

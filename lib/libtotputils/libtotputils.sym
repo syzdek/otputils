@@ -77,4 +77,5 @@ totputils_hotp
 totputils_hotp_code
 totputils_totp
 totputils_totp_code
+totputils_totp_timer
 # end of symbol export file

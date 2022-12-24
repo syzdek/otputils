@@ -584,4 +584,16 @@ totputils_totp_code(
    return(totp_code);
 }
 
+
+uint64_t
+totputils_totp_timer(
+         totputils_t *                 tud,
+         uint64_t                      totp_time )
+{
+   if (!(tud->totp_tx))
+      return(0);
+   totp_time = ((totp_time)) ? totp_time : tud->totp_tcur;
+   return(tud->totp_tx - ((totp_time - tud->totp_t0) % tud->totp_tx));
+}
+
 /* end of source file */
