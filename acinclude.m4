@@ -75,4 +75,53 @@ AC_DEFUN([AC_TOTPUTILS_EXAMPLES],[dnl
 ])dnl
 
 
+# AC_TOTPUTILS_LIBRARIES()
+# ______________________________________________________________________________
+AC_DEFUN([AC_TOTPUTILS_LIBRARIES],[dnl
+
+   enableval=""
+   AC_ARG_ENABLE(
+      libraries,
+      [AS_HELP_STRING([--disable-libraries], [install TOTP libraries])],
+      [ ELIBRARIES=$enableval ],
+      [ ELIBRARIES=$enableval ]
+   )
+   enableval=""
+   AC_ARG_ENABLE(
+      utilities,
+      [AS_HELP_STRING([--disable-utilities], [install TOTP utilities])],
+      [ EUTILITIES=$enableval ],
+      [ EUTILITIES=$enableval ]
+   )
+
+   if test "x${ELIBRARIES}" == "xno";then
+      ENABLE_LTLIBRARIES="no"
+   else
+      ENABLE_LTLIBRARIES="yes"
+   fi
+
+   if test "x${EUTILITIES}" == "xno";then
+      ENABLE_UTILITIES="no"
+   else
+      ENABLE_UTILITIES="yes"
+   fi
+
+   if test "${ENABLE_UTILITIES}" == "yes" && test "${ENABLE_LTLIBRARIES}" == "no";then
+      ENABLE_LIBRARIES="yes"
+   else
+      ENABLE_LIBRARIES="no"
+   fi
+
+   # ENABLE_LTLIBRARIES
+   AM_CONDITIONAL([ENABLE_LTLIBRARIES],   [test "$ENABLE_LTLIBRARIES" = "yes"])
+   AM_CONDITIONAL([DISABLE_LTLIBRARIES],  [test "$ENABLE_LTLIBRARIES" = "no"])
+   # ENABLE_LIBRARIES
+   AM_CONDITIONAL([ENABLE_LIBRARIES],     [test "$ENABLE_LIBRARIES" = "yes"])
+   AM_CONDITIONAL([DISABLE_LIBRARIES],    [test "$ENABLE_LIBRARIES" = "no"])
+   # ENABLE_UTILITIES
+   AM_CONDITIONAL([ENABLE_UTILITIES],     [test "$ENABLE_UTILITIES" = "yes"])
+   AM_CONDITIONAL([DISABLE_UTILITIES],    [test "$ENABLE_UTILITIES" = "no"])
+])dnl
+
+
 # end of m4 file

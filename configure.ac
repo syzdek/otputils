@@ -180,6 +180,7 @@ AC_BINDLE_ENABLE_WARNINGS([-Wno-unknown-pragmas -Wno-missing-format-attribute -W
 AC_BINDLE_LIBBINDLE([totpb_], [sources])
 AC_TOTPUTILS_EXAMPLES
 AC_TOTPUTILS_DOCUMENTATION
+AC_TOTPUTILS_LIBRARIES
 
 # Creates outputs
 AC_CONFIG_FILES([Makefile])
@@ -196,6 +197,9 @@ AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Options:])
 AC_MSG_NOTICE([      Build examples             ${ENABLE_EXAMPLES}])
 AC_MSG_NOTICE([      Install extra docs         ${ENABLE_DOCUMENATION}])
+AC_MSG_NOTICE([      Install utils              ${ENABLE_UTILITIES}])
+AC_MSG_NOTICE([      Install library            ${ENABLE_LTLIBRARIES}])
+AC_MSG_NOTICE([      Builtin library for utils  ${ENABLE_LIBRARIES}])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Please send suggestions to:   $PACKAGE_BUGREPORT])
 AC_MSG_NOTICE([ ])

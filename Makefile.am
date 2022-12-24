@@ -65,9 +65,9 @@ doc_DATA				= AUTHORS.md \
 					  COPYING.md \
 					  README.md \
 					  TODO.md
-include_HEADERS				= include/totputils.h
-lib_LIBRARIES				= lib/libtotputils.a
-lib_LTLIBRARIES				= lib/libtotputils.la
+include_HEADERS				=
+lib_LIBRARIES				=
+lib_LTLIBRARIES				=
 man_MANS				=
 info_TEXINFOS				=
 noinst_LTLIBRARIES			=
@@ -79,8 +79,11 @@ bin_SCRIPTS				=
 pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
-EXTRA_PROGRAMS				= examples/totp-example
-EXTRA					=
+EXTRA_PROGRAMS				= examples/totp-example \
+					  src/totp
+EXTRA					= include/totputils.h \
+					  lib/libtotputils.la \
+					  lib/libtotputils.a
 
 
 # lists
@@ -96,6 +99,7 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  NEWS.md \
 					  README.md \
 					  TODO.md \
+					  include/totputils.h \
 					  lib/libtotputils/libtotputils.sym
 CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
@@ -116,6 +120,16 @@ DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
 # conditional build
 if ENABLE_EXAMPLES
    noinst_PROGRAMS			+= examples/totp-example
+endif
+if ENABLE_LIBRARIES
+   noinst_LIBRARIES			+= lib/libtotputils.a
+endif
+if ENABLE_LTLIBRARIES
+   lib_LTLIBRARIES			+= lib/libtotputils.la
+   include_HEADERS			+= include/totputils.h
+endif
+if ENABLE_UTILITIES
+   bin_PROGRAMS				+= src/totp
 endif
 
 
@@ -151,12 +165,12 @@ lib_libtotputils_la_SOURCES		= $(lib_libtotputils_a_SOURCES)
 
 # macros for src/totp
 src_totp_DEPENDENCIES			= Makefile \
-					  $(lib_LIBRARIES) \
+					  $(noinst_LIBRARIES) \
 					  $(lib_LTLIBRARIES)
 src_totp_CPPFLAGS			= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtotputils
 src_totp_CFLAGS				= $(AM_CFLAGS)
 src_totp_LDFLAGS			= $(AM_LDFLAGS)
-src_totp_LDADD				= $(AM_LIBS) $(lib_LIBRARIES) $(lib_LTLIBRARIES)
+src_totp_LDADD				= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
 src_totp_SOURCES			= src/totp.c \
 					  src/totp.h \
 					  src/widget-code.c \
