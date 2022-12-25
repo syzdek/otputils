@@ -286,7 +286,7 @@ totputils_totp(
 
 
 _TOTPUTILS_F char *
-totputils_totp_code(
+totputils_totp_str(
          totputils_t *                 tud,
          uint64_t                      totp_time,
          char *                        totp_code,
