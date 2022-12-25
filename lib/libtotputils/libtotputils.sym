@@ -75,7 +75,7 @@ totputils_getpass
 # OTP functions
 totputils_code
 totputils_hotp
-totputils_hotp_code
+totputils_hotp_str
 totputils_otp
 totputils_totp
 totputils_totp_str

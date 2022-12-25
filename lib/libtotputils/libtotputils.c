@@ -472,7 +472,7 @@ totputils_code(
 {
    if ((tud->totp_tx))
       return(totputils_totp_str(tud, 0, code, code_len));
-   return(totputils_hotp_code(tud, 0, code, code_len));
+   return(totputils_hotp_str(tud, 0, code, code_len));
 }
 
 
@@ -534,7 +534,7 @@ totputils_hotp(
 
 
 char *
-totputils_hotp_code(
+totputils_hotp_str(
          totputils_t *                 tud,
          uint64_t                      hotp_c,
          char *                        hotp_code,
