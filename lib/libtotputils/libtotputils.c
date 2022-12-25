@@ -486,21 +486,19 @@ totputils_hotp(
    uint8_t  *              hmac_result;
    uint32_t                bin_code;
    const EVP_MD *          evp_md;
-   const void *            otp_k;
-   int                     otp_k_len;
-   const unsigned char *   otp_c;
-   unsigned char           otp_md[EVP_MAX_MD_SIZE];
-   unsigned                otp_md_len;
-   int                     otp_code;
+   const void *            hotp_k;
+   int                     hotp_k_len;
+   unsigned char           md[EVP_MAX_MD_SIZE];
+   unsigned                md_len;
+   int                     hotp_code;
 
    if ( (!(tud)) || (!(tud->totp_k)) || (!(tud->totp_k->bv_val)) )
       return(-1);
 
    hotp_c      = ((hotp_c)) ? hotp_c : tud->totp_t0;
-   otp_k       = tud->totp_k->bv_val;
-   otp_k_len   = (int)tud->totp_k->bv_len;
-   otp_c       = (const unsigned char *)&hotp_c;
-   otp_md_len  = EVP_MAX_MD_SIZE;
+   hotp_k      = tud->totp_k->bv_val;
+   hotp_k_len  = (int)tud->totp_k->bv_len;
+   md_len      = EVP_MAX_MD_SIZE;
 
    // converts T to big endian if system is little endian
    endianness = 0xdeadbeef;
@@ -517,7 +515,7 @@ totputils_hotp(
       case TOTPUTILS_HMAC_SHA1:  evp_md = EVP_sha1(); break;
       default: return(-1);
    };
-   hmac_result = (uint8_t *)HMAC(evp_md, otp_k, otp_k_len, otp_c, sizeof(hotp_c), otp_md, &otp_md_len);
+   hmac_result = (uint8_t *)HMAC(evp_md, hotp_k, hotp_k_len, (unsigned char *)&hotp_c, sizeof(hotp_c), md, &md_len);
 
    // dynamically truncates hash
    offset   = hmac_result[19] & 0x0f;
@@ -527,9 +525,9 @@ totputils_hotp(
             | (hmac_result[offset+3] & 0xff);
 
    // truncates code to 6 digits
-   otp_code = (int)(bin_code % 1000000);
+   hotp_code = (int)(bin_code % 1000000);
 
-   return(otp_code);
+   return(hotp_code);
 }
 
 
