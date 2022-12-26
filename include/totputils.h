@@ -253,6 +253,11 @@ totputils_getpass(
 //---------------//
 #pragma mark OTP functions
 
+_TOTPUTILS_F int
+totputils_code(
+         totputils_t *                 tud );
+
+
 _TOTPUTILS_F char *
 totputils_str(
          totputils_t *                 tud,
@@ -272,11 +277,6 @@ totputils_hotp_str(
          uint64_t                      hotp_c,
          char *                        hotp_code,
          size_t                        hotp_code_len );
-
-
-_TOTPUTILS_F int
-totputils_otp(
-         totputils_t *                 tud );
 
 
 _TOTPUTILS_F int
