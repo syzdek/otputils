@@ -261,7 +261,7 @@ totputils_code(
 
 
 _TOTPUTILS_F int
-totputils_hotp(
+totputils_hotp_code(
          totputils_t *                 tud,
          uint64_t                      hotp_c );
 
