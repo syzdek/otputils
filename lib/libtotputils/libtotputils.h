@@ -57,14 +57,6 @@
 #endif
 
 
-///////////////////
-//               //
-//  Definitions  //
-//               //
-///////////////////
-#pragma mark - Definitions
-
-
 /////////////////
 //             //
 //  Datatypes  //
