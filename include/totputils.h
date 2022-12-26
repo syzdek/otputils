@@ -280,7 +280,7 @@ totputils_otp(
 
 
 _TOTPUTILS_F int
-totputils_totp(
+totputils_totp_code(
          totputils_t *                 tud,
          uint64_t                      totp_time );
 
