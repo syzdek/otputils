@@ -55,14 +55,6 @@
 #include "totp.h"
 
 
-///////////////////
-//               //
-//  Definitions  //
-//               //
-///////////////////
-#pragma mark - Definitions
-
-
 //////////////////
 //              //
 //  Prototypes  //
