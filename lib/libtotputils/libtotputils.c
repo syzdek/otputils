@@ -486,6 +486,11 @@ totputils_str(
 }
 
 
+//---------------//
+// HOTP functions //
+//---------------//
+#pragma mark HOTP functions
+
 int
 totputils_hotp_code(
          totputils_t *                 tud,
@@ -567,6 +572,11 @@ totputils_hotp_str(
    return(hotp_code);
 }
 
+
+//---------------//
+// TOTP functions //
+//---------------//
+#pragma mark TOTP functions
 
 int
 totputils_totp_code(

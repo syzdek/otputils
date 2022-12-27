@@ -265,6 +265,11 @@ totputils_str(
          size_t                        code_len );
 
 
+//---------------//
+// HOTP functions //
+//---------------//
+#pragma mark HOTP functions
+
 _TOTPUTILS_F int
 totputils_hotp_code(
          totputils_t *                 tud,
@@ -278,6 +283,11 @@ totputils_hotp_str(
          char *                        hotp_code,
          size_t                        hotp_code_len );
 
+
+//---------------//
+// TOTP functions //
+//---------------//
+#pragma mark TOTP functions
 
 _TOTPUTILS_F int
 totputils_totp_code(
