@@ -249,7 +249,7 @@ totputils_get_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_TIME:
-      *((uint64_t *)outvalue) = tud->totp_tcur;
+      *((uint64_t *)outvalue) = tud->totp_time;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_C:
@@ -396,7 +396,7 @@ totputils_set_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_TIME:
-      tud->totp_tcur = ((invalue)) ? *((const uint64_t *)invalue) : (uint64_t)time(NULL);
+      tud->totp_time = ((invalue)) ? *((const uint64_t *)invalue) : (uint64_t)time(NULL);
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_C:
@@ -583,7 +583,7 @@ totputils_totp_code(
          totputils_t *                 tud,
          uint64_t                      totp_time )
 {
-   totp_time = ((totp_time)) ? totp_time : tud->totp_tcur;
+   totp_time = ((totp_time)) ? totp_time : tud->totp_time;
    return(totputils_hotp_code(tud, ((totp_time - tud->totp_t0) / tud->totp_tx) ));
 }
 
@@ -622,7 +622,7 @@ totputils_totp_timer(
 {
    if (!(tud->totp_tx))
       return(0);
-   totp_time = ((totp_time)) ? totp_time : tud->totp_tcur;
+   totp_time = ((totp_time)) ? totp_time : tud->totp_time;
    return(tud->totp_tx - ((totp_time - tud->totp_t0) % tud->totp_tx));
 }
 
