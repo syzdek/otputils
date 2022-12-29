@@ -470,7 +470,7 @@ totputils_code(
 {
    if ((tud->totp_tx))
       return(totputils_totp_code(tud, 0));
-   return(totputils_hotp_code(tud, 0));
+   return(totputils_hotp_code(tud->hotp_k, tud->totp_t0, tud->hotp_hmac));
 }
 
 
@@ -493,26 +493,22 @@ totputils_str(
 
 int
 totputils_hotp_code(
-         totputils_t *                 tud,
-         uint64_t                      hotp_c )
+         const totputils_bv_t *        hotp_k,
+         uint64_t                      hotp_c,
+         uint64_t                      hotp_hmac )
 {
    uint32_t                endianness;
    uint64_t                offset;
    uint8_t  *              hmac_result;
    uint32_t                bin_code;
    const EVP_MD *          evp_md;
-   const void *            hotp_k;
-   int                     hotp_k_len;
    unsigned char           md[EVP_MAX_MD_SIZE];
    unsigned                md_len;
    int                     hotp_code;
 
-   if ( (!(tud)) || (!(tud->hotp_k)) || (!(tud->hotp_k->bv_val)) )
+   if ( (!(hotp_k)) || (!(hotp_k->bv_val)) || (!(hotp_k->bv_len)) )
       return(-1);
 
-   hotp_c      = ((hotp_c)) ? hotp_c : tud->totp_t0;
-   hotp_k      = tud->hotp_k->bv_val;
-   hotp_k_len  = (int)tud->hotp_k->bv_len;
    md_len      = EVP_MAX_MD_SIZE;
 
    // converts T to big endian if system is little endian
@@ -525,12 +521,12 @@ totputils_hotp_code(
    };
 
    // determines hash
-   switch(tud->hotp_hmac)
+   switch(hotp_hmac)
    {
       case TOTPUTILS_HMAC_SHA1:  evp_md = EVP_sha1(); break;
       default: return(-1);
    };
-   hmac_result = (uint8_t *)HMAC(evp_md, hotp_k, hotp_k_len, (unsigned char *)&hotp_c, sizeof(hotp_c), md, &md_len);
+   hmac_result = (uint8_t *)HMAC(evp_md, hotp_k->bv_val, (int)hotp_k->bv_len, (unsigned char *)&hotp_c, sizeof(hotp_c), md, &md_len);
 
    // dynamically truncates hash
    offset   = hmac_result[19] & 0x0f;
@@ -564,7 +560,7 @@ totputils_hotp_str(
    if (hotp_code_len < 7)
       return(NULL);
 
-   if ((otp_code = totputils_hotp_code(tud, hotp_c)) == -1)
+   if ((otp_code = totputils_hotp_code(tud->hotp_k, hotp_c, tud->hotp_hmac)) == -1)
       return(NULL);
 
    snprintf(hotp_code, hotp_code_len, "%06i", otp_code);
@@ -584,7 +580,7 @@ totputils_totp_code(
          uint64_t                      totp_time )
 {
    totp_time = ((totp_time)) ? totp_time : tud->totp_time;
-   return(totputils_hotp_code(tud, ((totp_time - tud->totp_t0) / tud->totp_tx) ));
+   return(totputils_hotp_code(tud->hotp_k, ((totp_time - tud->totp_t0) / tud->totp_tx), tud->hotp_hmac ));
 }
 
 
