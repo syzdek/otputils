@@ -279,8 +279,9 @@ totputils_hotp_code(
 
 _TOTPUTILS_F char *
 totputils_hotp_str(
-         totputils_t *                 tud,
+         const totputils_bv_t *        hotp_k,
          uint64_t                      hotp_c,
+         uint64_t                      hotp_hmac,
          char *                        hotp_code,
          size_t                        hotp_code_len );
 

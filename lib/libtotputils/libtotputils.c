@@ -482,7 +482,7 @@ totputils_str(
 {
    if ((tud->totp_tx))
       return(totputils_totp_str(tud, 0, code, code_len));
-   return(totputils_hotp_str(tud, 0, code, code_len));
+   return(totputils_hotp_str(tud->hotp_k, tud->totp_t0, tud->hotp_hmac, code, code_len));
 }
 
 
@@ -544,8 +544,9 @@ totputils_hotp_code(
 
 char *
 totputils_hotp_str(
-         totputils_t *                 tud,
+         const totputils_bv_t *        hotp_k,
          uint64_t                      hotp_c,
+         uint64_t                      hotp_hmac,
          char *                        hotp_code,
          size_t                        hotp_code_len )
 {
@@ -560,7 +561,7 @@ totputils_hotp_str(
    if (hotp_code_len < 7)
       return(NULL);
 
-   if ((otp_code = totputils_hotp_code(tud->hotp_k, hotp_c, tud->hotp_hmac)) == -1)
+   if ((otp_code = totputils_hotp_code(hotp_k, hotp_c, hotp_hmac)) == -1)
       return(NULL);
 
    snprintf(hotp_code, hotp_code_len, "%06i", otp_code);
