@@ -267,7 +267,7 @@ totputils_get_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_HMAC:
-      *((uint64_t *)outvalue) = tud->otp_hmac;
+      *((uint64_t *)outvalue) = tud->hotp_hmac;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_METHOD:
@@ -419,7 +419,7 @@ totputils_set_param(
       switch( val_uint )
       {
          case TOTPUTILS_HMAC_SHA1:
-         tud->otp_hmac = val_uint;
+         tud->hotp_hmac = val_uint;
          break;
 
          default:
@@ -525,7 +525,7 @@ totputils_hotp_code(
    };
 
    // determines hash
-   switch(tud->otp_hmac)
+   switch(tud->hotp_hmac)
    {
       case TOTPUTILS_HMAC_SHA1:  evp_md = EVP_sha1(); break;
       default: return(-1);
