@@ -93,8 +93,6 @@ totp_widget_info(
    uint64_t       totp_tx;
    uint64_t       totp_time;
    uint64_t       otp_method;
-   uint64_t       otp_hmac;
-   const char *   otp_hmacstr;
    char *         otp_kstr;
    char *         otp_desc;
 
@@ -115,9 +113,6 @@ totp_widget_info(
       return(1);
    if (totp_widget_info_get(cnf, "TIME", TOTPUTILS_OPT_TIME, &totp_time) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "HMAC", TOTPUTILS_OPT_HMAC, &otp_hmac) != 0)
-      return(1);
-   otp_hmacstr = totputils_hmac2str((int)otp_hmac);
    if (totp_widget_info_get(cnf, "KEY", TOTPUTILS_OPT_KSTR, &otp_kstr) != 0)
       return(1);
    if (totp_widget_info_get(cnf, "KEY", TOTPUTILS_OPT_DESC, &otp_desc) != 0)
@@ -128,7 +123,6 @@ totp_widget_info(
    printf("   Description:          %s\n", (((otp_desc)) ? otp_desc : "n/a") );
    printf("   OTP Method:           %s\n", (otp_method == TOTPUTILS_TOTP) ? "TOTP" : "HOTP" );
    printf("   Shared Key:           %s\n", otp_kstr );
-   printf("   HMAC:                 %s\n", ((otp_hmacstr)) ? otp_hmacstr : "unknown");
    if (otp_method == TOTPUTILS_TOTP)
    {
       printf("   TOTP UNIX Time:       %" PRIu64 "\n", totp_t0 );

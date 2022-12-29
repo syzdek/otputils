@@ -116,7 +116,7 @@
 #define TOTPUTILS_OPT_TIME          0x0005
 #define TOTPUTILS_OPT_C             0x0006
 #define TOTPUTILS_OPT_DESC          0x0007
-#define TOTPUTILS_OPT_HMAC          0x0008
+//                                  0x0008
 #define TOTPUTILS_OPT_METHOD        0x0009
 
 
@@ -124,12 +124,8 @@
 #define TOTPUTILS_TOTP              0x0002
 
 
-#define TOTPUTILS_HMAC_SHA1         0x0000ULL
-
-
 #define TOTPUTILS_T0                0ULL
 #define TOTPUTILS_TX                30ULL
-#define TOTPUTILS_HMAC              TOTPUTILS_HMAC_SHA1
 
 
 #define TOTPUTILS_MAX_CODE_SIZE     16
@@ -273,15 +269,13 @@ totputils_str(
 _TOTPUTILS_F int
 totputils_hotp_code(
          const totputils_bv_t *        hotp_k,
-         uint64_t                      hotp_c,
-         uint64_t                      hotp_hmac );
+         uint64_t                      hotp_c );
 
 
 _TOTPUTILS_F char *
 totputils_hotp_str(
          const totputils_bv_t *        hotp_k,
          uint64_t                      hotp_c,
-         uint64_t                      hotp_hmac,
          char *                        hotp_code,
          size_t                        hotp_code_len );
 
@@ -296,8 +290,7 @@ totputils_totp_code(
          const totputils_bv_t *        totp_k,
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
-         uint64_t                      totp_time,
-         uint64_t                      totp_hmac );
+         uint64_t                      totp_time );
 
 
 _TOTPUTILS_F char *

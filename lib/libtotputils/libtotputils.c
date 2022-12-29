@@ -266,10 +266,6 @@ totputils_get_param(
          return(TOTPUTILS_ENOMEM);
       return(TOTPUTILS_SUCCESS);
 
-      case TOTPUTILS_OPT_HMAC:
-      *((uint64_t *)outvalue) = tud->hotp_hmac;
-      return(TOTPUTILS_SUCCESS);
-
       case TOTPUTILS_OPT_METHOD:
       *((uint64_t *)outvalue) = ((tud->totp_tx)) ? TOTPUTILS_TOTP : TOTPUTILS_HOTP;
       return(TOTPUTILS_SUCCESS);
@@ -279,22 +275,6 @@ totputils_get_param(
    };
 
    return(TOTPUTILS_EOPTION);
-}
-
-
-const char *
-totputils_hmac2str(
-         int                           hmac )
-{
-   switch(hmac)
-   {
-      case TOTPUTILS_HMAC_SHA1:
-      return("sha1");
-
-      default:
-      break;
-   };
-   return(NULL);
 }
 
 
@@ -332,11 +312,6 @@ totputils_initialize(
       totputils_free(tud);
       return(rc);
    };
-   if ((rc = totputils_set_param(tud, TOTPUTILS_OPT_HMAC, NULL)) != TOTPUTILS_SUCCESS)
-   {
-      totputils_free(tud);
-      return(rc);
-   };
 
    // saves structure
    *tudp = tud;
@@ -351,7 +326,6 @@ totputils_set_param(
          int                           option,
          const void *                  invalue )
 {
-   uint64_t             val_uint;
    totputils_bv_t *     bv;
    const char *         str;
 
@@ -414,19 +388,6 @@ totputils_set_param(
          return(TOTPUTILS_ENOMEM);
       return(TOTPUTILS_SUCCESS);
 
-      case TOTPUTILS_OPT_HMAC:
-      val_uint = ((invalue)) ? *((const uint64_t *)invalue) : TOTPUTILS_HMAC;
-      switch( val_uint )
-      {
-         case TOTPUTILS_HMAC_SHA1:
-         tud->hotp_hmac = val_uint;
-         break;
-
-         default:
-         return(TOTPUTILS_EOPTVAL);
-      };
-      return(TOTPUTILS_SUCCESS);
-
       case TOTPUTILS_OPT_METHOD:
       return(TOTPUTILS_EOPTION); // cannot explicitly set OTP method
 
@@ -469,8 +430,8 @@ totputils_code(
          totputils_t *                 tud )
 {
    if ((tud->totp_tx))
-      return(totputils_totp_code(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, tud->hotp_hmac));
-   return(totputils_hotp_code(tud->hotp_k, tud->totp_t0, tud->hotp_hmac));
+      return(totputils_totp_code(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
+   return(totputils_hotp_code(tud->hotp_k, tud->totp_t0));
 }
 
 
@@ -482,7 +443,7 @@ totputils_str(
 {
    if ((tud->totp_tx))
       return(totputils_totp_str(tud, 0, code, code_len));
-   return(totputils_hotp_str(tud->hotp_k, tud->totp_t0, tud->hotp_hmac, code, code_len));
+   return(totputils_hotp_str(tud->hotp_k, tud->totp_t0, code, code_len));
 }
 
 
@@ -494,14 +455,12 @@ totputils_str(
 int
 totputils_hotp_code(
          const totputils_bv_t *        hotp_k,
-         uint64_t                      hotp_c,
-         uint64_t                      hotp_hmac )
+         uint64_t                      hotp_c )
 {
    uint32_t                endianness;
    uint64_t                offset;
    uint8_t  *              hmac_result;
    uint32_t                bin_code;
-   const EVP_MD *          evp_md;
    unsigned char           md[EVP_MAX_MD_SIZE];
    unsigned                md_len;
    int                     hotp_code;
@@ -521,12 +480,7 @@ totputils_hotp_code(
    };
 
    // determines hash
-   switch(hotp_hmac)
-   {
-      case TOTPUTILS_HMAC_SHA1:  evp_md = EVP_sha1(); break;
-      default: return(-1);
-   };
-   hmac_result = (uint8_t *)HMAC(evp_md, hotp_k->bv_val, (int)hotp_k->bv_len, (unsigned char *)&hotp_c, sizeof(hotp_c), md, &md_len);
+   hmac_result = (uint8_t *)HMAC(EVP_sha1(), hotp_k->bv_val, (int)hotp_k->bv_len, (unsigned char *)&hotp_c, sizeof(hotp_c), md, &md_len);
 
    // dynamically truncates hash
    offset   = hmac_result[19] & 0x0f;
@@ -546,7 +500,6 @@ char *
 totputils_hotp_str(
          const totputils_bv_t *        hotp_k,
          uint64_t                      hotp_c,
-         uint64_t                      hotp_hmac,
          char *                        hotp_code,
          size_t                        hotp_code_len )
 {
@@ -561,7 +514,7 @@ totputils_hotp_str(
    if (hotp_code_len < 7)
       return(NULL);
 
-   if ((otp_code = totputils_hotp_code(hotp_k, hotp_c, hotp_hmac)) == -1)
+   if ((otp_code = totputils_hotp_code(hotp_k, hotp_c)) == -1)
       return(NULL);
 
    snprintf(hotp_code, hotp_code_len, "%06i", otp_code);
@@ -580,12 +533,11 @@ totputils_totp_code(
          const totputils_bv_t *        totp_k,
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
-         uint64_t                      totp_time,
-         uint64_t                      totp_hmac )
+         uint64_t                      totp_time )
 {
    if (!(totp_tx))
       return(-1);
-   return(totputils_hotp_code(totp_k, ((totp_time-totp_t0)/totp_tx), totp_hmac ));
+   return(totputils_hotp_code(totp_k, ((totp_time-totp_t0)/totp_tx) ));
 }
 
 
@@ -609,7 +561,7 @@ totputils_totp_str(
 
    totp_time = ((totp_time)) ? totp_time : tud->totp_time;
 
-   if ((otp_code = totputils_totp_code(tud->hotp_k, tud->totp_t0, tud->totp_tx, totp_time, tud->hotp_hmac)) == -1)
+   if ((otp_code = totputils_totp_code(tud->hotp_k, tud->totp_t0, tud->totp_tx, totp_time)) == -1)
       return(NULL);
 
    snprintf(totp_code, totp_code_len, "%06i", otp_code);
