@@ -204,8 +204,8 @@ totputils_free(
    if (!(tud))
       return;
 
-   if ((tud->otp_k))
-      totputils_bvfree(tud->otp_k);
+   if ((tud->hotp_k))
+      totputils_bvfree(tud->hotp_k);
    if ((tud->otp_desc))
       free(tud->otp_desc);
 
@@ -230,13 +230,13 @@ totputils_get_param(
    switch(option)
    {
       case TOTPUTILS_OPT_K:
-      if ((bv = totputils_bvdup(tud->otp_k)) == NULL)
+      if ((bv = totputils_bvdup(tud->hotp_k)) == NULL)
          return(TOTPUTILS_ENOMEM);
       *((totputils_bv_t **)outvalue) = bv;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_KSTR:
-      if ((*((char **)outvalue) = totputils_bvbase32(tud->otp_k)) == NULL)
+      if ((*((char **)outvalue) = totputils_bvbase32(tud->hotp_k)) == NULL)
          return(TOTPUTILS_ENOMEM);
       return(TOTPUTILS_SUCCESS);
 
@@ -362,18 +362,18 @@ totputils_set_param(
       case TOTPUTILS_OPT_K:
       if (!(invalue))
       {
-         if (!(tud->otp_k))
-            if ((tud->otp_k = totputils_bvalloc(NULL, 0)) == NULL)
+         if (!(tud->hotp_k))
+            if ((tud->hotp_k = totputils_bvalloc(NULL, 0)) == NULL)
                return(TOTPUTILS_ENOMEM);
-         tud->otp_k->bv_len                 = 1;
-         ((uint8_t *)tud->otp_k->bv_val)[0] = 0;
+         tud->hotp_k->bv_len                 = 1;
+         ((uint8_t *)tud->hotp_k->bv_val)[0] = 0;
          return(TOTPUTILS_SUCCESS);
       };
       if ((bv = totputils_bvdup((((const totputils_bv_t *)invalue)))) == NULL)
          return(TOTPUTILS_ENOMEM);
-      if ((tud->otp_k))
-         totputils_bvfree(tud->otp_k);
-      tud->otp_k = bv;
+      if ((tud->hotp_k))
+         totputils_bvfree(tud->hotp_k);
+      tud->hotp_k = bv;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_KSTR:
@@ -382,9 +382,9 @@ totputils_set_param(
          return(TOTPUTILS_EOPTVAL);
       if ((bv = totputils_base32bv( ((const char *)invalue) )) == NULL)
          return(TOTPUTILS_ENOMEM);
-      if ((tud->otp_k))
-         totputils_bvfree(tud->otp_k);
-      tud->otp_k = bv;
+      if ((tud->hotp_k))
+         totputils_bvfree(tud->hotp_k);
+      tud->hotp_k = bv;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_T0:
@@ -507,12 +507,12 @@ totputils_hotp_code(
    unsigned                md_len;
    int                     hotp_code;
 
-   if ( (!(tud)) || (!(tud->otp_k)) || (!(tud->otp_k->bv_val)) )
+   if ( (!(tud)) || (!(tud->hotp_k)) || (!(tud->hotp_k->bv_val)) )
       return(-1);
 
    hotp_c      = ((hotp_c)) ? hotp_c : tud->totp_t0;
-   hotp_k      = tud->otp_k->bv_val;
-   hotp_k_len  = (int)tud->otp_k->bv_len;
+   hotp_k      = tud->hotp_k->bv_val;
+   hotp_k_len  = (int)tud->hotp_k->bv_len;
    md_len      = EVP_MAX_MD_SIZE;
 
    // converts T to big endian if system is little endian
