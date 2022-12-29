@@ -293,8 +293,11 @@ totputils_hotp_str(
 
 _TOTPUTILS_F int
 totputils_totp_code(
-         totputils_t *                 tud,
-         uint64_t                      totp_time );
+         const totputils_bv_t *        totp_k,
+         uint64_t                      totp_t0,
+         uint64_t                      totp_tx,
+         uint64_t                      totp_time,
+         uint64_t                      totp_hmac );
 
 
 _TOTPUTILS_F char *
