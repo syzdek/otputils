@@ -206,8 +206,8 @@ totputils_free(
 
    if ((tud->otp_k))
       totputils_bvfree(tud->otp_k);
-   if ((tud->totp_desc))
-      free(tud->totp_desc);
+   if ((tud->otp_desc))
+      free(tud->otp_desc);
 
    memset(tud, 0, sizeof(totputils_t));
    free(tud);
@@ -257,12 +257,12 @@ totputils_get_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_DESC:
-      if (!(tud->totp_desc))
+      if (!(tud->otp_desc))
       {
          *((char **)outvalue) = NULL;
          return(TOTPUTILS_SUCCESS);
       };
-      if (( *((char **)outvalue) = bindle_strdup(tud->totp_desc)) == NULL)
+      if (( *((char **)outvalue) = bindle_strdup(tud->otp_desc)) == NULL)
          return(TOTPUTILS_ENOMEM);
       return(TOTPUTILS_SUCCESS);
 
@@ -405,12 +405,12 @@ totputils_set_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_DESC:
-      if ((tud->totp_desc))
-         free(tud->totp_desc);
-      tud->totp_desc = NULL;
+      if ((tud->otp_desc))
+         free(tud->otp_desc);
+      tud->otp_desc = NULL;
       if (!((const char *)invalue))
          return(TOTPUTILS_SUCCESS);
-      if ((tud->totp_desc = bindle_strdup(((const char *)invalue))) == NULL)
+      if ((tud->otp_desc = bindle_strdup(((const char *)invalue))) == NULL)
          return(TOTPUTILS_ENOMEM);
       return(TOTPUTILS_SUCCESS);
 
