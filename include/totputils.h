@@ -295,7 +295,9 @@ totputils_totp_code(
 
 _TOTPUTILS_F char *
 totputils_totp_str(
-         totputils_t *                 tud,
+         const totputils_bv_t *        totp_k,
+         uint64_t                      totp_t0,
+         uint64_t                      totp_tx,
          uint64_t                      totp_time,
          char *                        totp_code,
          size_t                        totp_code_len );
