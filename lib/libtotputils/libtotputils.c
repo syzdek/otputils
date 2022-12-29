@@ -253,7 +253,7 @@ totputils_get_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_C:
-      *((uint64_t *)outvalue) =  tud->totp_t0;
+      *((uint64_t *)outvalue) =  tud->hotp_c;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_DESC:
@@ -267,7 +267,7 @@ totputils_get_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_METHOD:
-      *((uint64_t *)outvalue) = ((tud->totp_tx)) ? TOTPUTILS_TOTP : TOTPUTILS_HOTP;
+      *((uint64_t *)outvalue) = tud->otp_method;
       return(TOTPUTILS_SUCCESS);
 
       default:
@@ -363,19 +363,22 @@ totputils_set_param(
 
       case TOTPUTILS_OPT_T0:
       tud->totp_t0 = ((invalue)) ? *((const uint64_t *)invalue) : TOTPUTILS_T0;
+      tud->otp_method = TOTPUTILS_TOTP;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_TX:
       tud->totp_tx = ((invalue)) ? *((const uint64_t *)invalue) : TOTPUTILS_TX;
+      tud->otp_method = TOTPUTILS_TOTP;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_TIME:
       tud->totp_time = ((invalue)) ? *((const uint64_t *)invalue) : (uint64_t)time(NULL);
+      tud->otp_method = TOTPUTILS_TOTP;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_C:
-      tud->totp_t0 = ((invalue)) ? *((const uint64_t *)invalue) : 0;
-      tud->totp_tx = 0;
+      tud->hotp_c = ((invalue)) ? *((const uint64_t *)invalue) : 0;
+      tud->otp_method = TOTPUTILS_HOTP;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_DESC:
@@ -389,7 +392,8 @@ totputils_set_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_METHOD:
-      return(TOTPUTILS_EOPTION); // cannot explicitly set OTP method
+      tud->otp_method = ((invalue)) ? *((const uint64_t *)invalue) : 0;
+      return(TOTPUTILS_SUCCESS);
 
       default:
       break;
@@ -429,9 +433,18 @@ int
 totputils_code(
          totputils_t *                 tud )
 {
-   if ((tud->totp_tx))
+   switch(tud->otp_method)
+   {
+      case TOTPUTILS_TOTP:
       return(totputils_totp_code(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
-   return(totputils_hotp_code(tud->hotp_k, tud->totp_t0));
+
+      case TOTPUTILS_HOTP:
+      return(totputils_hotp_code(tud->hotp_k, tud->totp_t0));
+
+      default:
+      break;
+   };
+   return(-1);
 }
 
 
@@ -441,9 +454,18 @@ totputils_str(
          char *                        code,
          size_t                        code_len )
 {
-   if ((tud->totp_tx))
+   switch(tud->otp_method)
+   {
+      case TOTPUTILS_TOTP:
       return(totputils_totp_str(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, code, code_len));
-   return(totputils_hotp_str(tud->hotp_k, tud->totp_t0, code, code_len));
+
+      case TOTPUTILS_HOTP:
+      return(totputils_hotp_str(tud->hotp_k, tud->totp_t0, code, code_len));
+
+      default:
+      break;
+   };
+   return(NULL);
 }
 
 
