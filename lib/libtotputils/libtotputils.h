@@ -76,7 +76,6 @@ struct _totputils_secret
    uint64_t                totp_t0;       // Unix time from which to start counting time steps
    uint64_t                totp_tx;       // step in seconds
    totputils_bv_t *        otp_k;
-   char *                  totp_k_str;    // string representation of user's secret key
    char *                  otp_desc;      // description of secret
 };
 
