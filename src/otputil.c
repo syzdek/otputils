@@ -28,7 +28,7 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file src/totp.c
+ *  @file src/otputil.c
  */
 #define _SRC_TOTP_C 1
 

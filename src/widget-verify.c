@@ -28,7 +28,7 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file src/totp.c
+ *  @file src/widget-verify.c
  */
 #define _SRC_WIDGET_VERIFY_C 1
 

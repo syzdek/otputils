@@ -28,7 +28,7 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file src/totp.c
+ *  @file src/widget-code.c
  */
 #define _SRC_WIDGET_CODE_C 1
 
