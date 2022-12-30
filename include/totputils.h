@@ -294,7 +294,7 @@ otputil_totp_code(
 
 
 _OTPUTIL_F char *
-totputils_totp_str(
+otputil_totp_str(
          const totputils_bv_t *        totp_k,
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,

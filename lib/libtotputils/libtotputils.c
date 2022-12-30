@@ -504,7 +504,7 @@ otputil_str(
    switch(tud->otp_method)
    {
       case OTPUTIL_METH_TOTP:
-      return(totputils_totp_str(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, code, code_len));
+      return(otputil_totp_str(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, code, code_len));
 
       case OTPUTIL_METH_HOTP:
       return(otputil_hotp_str(tud->hotp_k, tud->totp_t0, code, code_len));
@@ -611,7 +611,7 @@ otputil_totp_code(
 
 
 char *
-totputils_totp_str(
+otputil_totp_str(
          const totputils_bv_t *        totp_k,
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
