@@ -169,7 +169,7 @@ otputil_bvalloc(
 
 
 char *
-totputils_bvbase32(
+otputil_bvbase32(
          const totputils_bv_t *        bv )
 {
    char *               str;
@@ -283,7 +283,7 @@ totputils_get_param(
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_KSTR:
-      if ((*((char **)outvalue) = totputils_bvbase32(tud->hotp_k)) == NULL)
+      if ((*((char **)outvalue) = otputil_bvbase32(tud->hotp_k)) == NULL)
          return(OTPUTIL_ENOMEM);
       return(OTPUTIL_SUCCESS);
 

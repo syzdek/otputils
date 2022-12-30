@@ -179,7 +179,7 @@ otputil_bvalloc(
 
 
 _OTPUTIL_F char *
-totputils_bvbase32(
+otputil_bvbase32(
          const totputils_bv_t *        bv );
 
 
