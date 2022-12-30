@@ -60,8 +60,8 @@
 static uint8_t otputil_const_defaults_k_val[1] = { 0 };
 
 
-#pragma mark totputils_const_defaults_k
-static totputils_bv_t totputils_const_defaults_k =
+#pragma mark otputil_const_defaults_k
+static totputils_bv_t otputil_const_defaults_k =
 {
    .bv_val                 = otputil_const_defaults_k_val,
    .bv_len                 = sizeof(otputil_const_defaults_k_val),
@@ -72,7 +72,7 @@ static totputils_bv_t totputils_const_defaults_k =
 const totputils_t totputils_const_defaults =
 {
    .otp_desc               = NULL,
-   .hotp_k                 = &totputils_const_defaults_k,
+   .hotp_k                 = &otputil_const_defaults_k,
    .hotp_c                 = OTPUTIL_DFLT_C,
    .otp_method             = OTPUTIL_DFLT_METH,
    .totp_time              = OTPUTIL_DFLT_TIME,
