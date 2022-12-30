@@ -226,7 +226,7 @@ otputil_initialize(
 
 
 _OTPUTIL_F int
-totputils_set_param(
+otputil_set_param(
          totputils_t *                 tud,
          int                           option,
          const void *                  invalue );

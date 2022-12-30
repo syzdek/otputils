@@ -339,22 +339,22 @@ otputil_initialize(
       return(OTPUTIL_ENOMEM);
    memset(tud, 0, sizeof(totputils_t));
 
-   if ((rc = totputils_set_param(tud, OTPUTIL_OPT_K, NULL)) != OTPUTIL_SUCCESS)
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_K, NULL)) != OTPUTIL_SUCCESS)
    {
       otputil_free(tud);
       return(rc);
    };
-   if ((rc = totputils_set_param(tud, OTPUTIL_OPT_T0, NULL)) != OTPUTIL_SUCCESS)
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_T0, NULL)) != OTPUTIL_SUCCESS)
    {
       otputil_free(tud);
       return(rc);
    };
-   if ((rc = totputils_set_param(tud, OTPUTIL_OPT_TX, NULL)) != OTPUTIL_SUCCESS)
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_TX, NULL)) != OTPUTIL_SUCCESS)
    {
       otputil_free(tud);
       return(rc);
    };
-   if ((rc = totputils_set_param(tud, OTPUTIL_OPT_TIME, NULL)) != OTPUTIL_SUCCESS)
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_TIME, NULL)) != OTPUTIL_SUCCESS)
    {
       otputil_free(tud);
       return(rc);
@@ -368,7 +368,7 @@ otputil_initialize(
 
 
 int
-totputils_set_param(
+otputil_set_param(
          totputils_t *                 tud,
          int                           option,
          const void *                  invalue )

@@ -68,7 +68,7 @@ otputil_err2string
 otputil_free
 otputil_get_param
 otputil_initialize
-totputils_set_param
+otputil_set_param
 # misc functions
 totputils_getpass
 # OTP functions
