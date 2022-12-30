@@ -69,7 +69,7 @@
 #pragma mark main function
 
 int
-totp_widget_generate(
+otputil_widget_generate(
          totp_config_t *               cnf )
 {
    int rc;

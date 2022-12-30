@@ -153,7 +153,7 @@ static totp_widget_t totp_widget_map[] =
       .usage      = NULL,
       .short_opt  = NULL,
       .aliases    = (const char * const[]) { "keygen", NULL },
-      .func_exec  = &totp_widget_generate,
+      .func_exec  = &otputil_widget_generate,
       .func_usage = NULL,
    },
    {  .name       = "help",

@@ -124,7 +124,7 @@ otputil_widget_code(
 
 
 extern int
-totp_widget_generate(
+otputil_widget_generate(
          totp_config_t *               cnf );
 
 
