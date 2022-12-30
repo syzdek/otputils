@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file lib/libtotputils/lerror.h
+ *  @file lib/libotputil/libotputil.h
  */
-#ifndef _LIB_LIBTOTPUTILS_LIBTOTPUTILS_H
-#define _LIB_LIBTOTPUTILS_LIBTOTPUTILS_H 1
+#ifndef _LIB_LIBOTPUTIL_LIBOTPUTIL_H
+#define _LIB_LIBOTPUTIL_LIBOTPUTIL_H 1
 
 
 ///////////////
@@ -48,7 +48,7 @@
 #include <assert.h>
 #include <time.h>
 
-#include <totputils.h>
+#include <otputil.h>
 
 #ifdef HAVE_BINDLE_PREFIX_H
 #   include <bindle_prefix.h>

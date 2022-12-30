@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file include/totputils.h
+ *  @file include/otputil.h
  */
-#ifndef __TOTPUTILS_H
-#define __TOTPUTILS_H 1
+#ifndef __OTPUTIL_H
+#define __OTPUTIL_H 1
 
 
 ///////////////

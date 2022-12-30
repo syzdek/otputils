@@ -81,9 +81,9 @@ sbin_SCRIPTS				=
 sbin_PROGRAMS				=
 EXTRA_PROGRAMS				= examples/totp-example \
 					  src/totp
-EXTRA					= include/totputils.h \
-					  lib/libtotputils.la \
-					  lib/libtotputils.a
+EXTRA					= include/otputil.h \
+					  lib/libotputil.la \
+					  lib/libotputil.a
 
 
 # lists
@@ -99,8 +99,8 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  NEWS.md \
 					  README.md \
 					  TODO.md \
-					  include/totputils.h \
-					  lib/libtotputils/libtotputils.sym
+					  include/otputil.h \
+					  lib/libotputil/libotputil.sym
 CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
 					  config.h.in~ $(srcdir)/config.h.in~ \
@@ -122,11 +122,11 @@ if ENABLE_EXAMPLES
    noinst_PROGRAMS			+= examples/totp-example
 endif
 if ENABLE_LIBRARIES
-   noinst_LIBRARIES			+= lib/libtotputils.a
+   noinst_LIBRARIES			+= lib/libotputil.a
 endif
 if ENABLE_LTLIBRARIES
-   lib_LTLIBRARIES			+= lib/libtotputils.la
-   include_HEADERS			+= include/totputils.h
+   lib_LTLIBRARIES			+= lib/libotputil.la
+   include_HEADERS			+= include/otputil.h
 endif
 if ENABLE_UTILITIES
    bin_PROGRAMS				+= src/totp
@@ -137,26 +137,26 @@ endif
 examples_totp_example_SOURCES		= examples/totp-example.c
 
 
-# macros for lib/libtotputils.a
-lib_libtotputils_a_DEPENDENCIES		= Makefile \
+# macros for lib/libotputil.a
+lib_libotputil_a_DEPENDENCIES		= Makefile \
 					  config.h \
 					  $(BINDLE_LIBBINDLE_DEPS)
-lib_libtotputils_a_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtotputils
-lib_libtotputils_a_SOURCES		= $(noinst_HEADERS) \
+lib_libotputil_a_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libotputil
+lib_libotputil_a_SOURCES		= $(noinst_HEADERS) \
 					  $(BINDLE_LIBBINDLE_SRCS) \
-					  lib/libtotputils/libtotputils.h \
-					  lib/libtotputils/libtotputils.c
+					  lib/libotputil/libotputil.h \
+					  lib/libotputil/libotputil.c
 
 
-# macros for lib/libtotputils.la
-lib_libtotputils_la_DEPENDENCIES	= $(lib_libtotputils_a_DEPENDENCIES) \
-					  lib/libtotputils/libtotputils.sym
-lib_libtotputils_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtotputils
-lib_libtotputils_la_LDFLAGS		= -rpath'$(libdir)' \
+# macros for lib/libotputil.la
+lib_libotputil_la_DEPENDENCIES		= $(lib_libotputil_a_DEPENDENCIES) \
+					  lib/libotputil/libotputil.sym
+lib_libotputil_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libotputil
+lib_libotputil_la_LDFLAGS		= -rpath'$(libdir)' \
 					  -version-info $(LIB_VERSION_INFO) \
 					  $(AM_LDFLAGS) \
-					  -export-symbols $(srcdir)/lib/libtotputils/libtotputils.sym
-lib_libtotputils_la_SOURCES		= $(lib_libtotputils_a_SOURCES)
+					  -export-symbols $(srcdir)/lib/libotputil/libotputil.sym
+lib_libotputil_la_SOURCES		= $(lib_libotputil_a_SOURCES)
 
 
 # macros for src/totp

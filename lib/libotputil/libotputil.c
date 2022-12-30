@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file lib/libtotputils/lmemory.c
+ *  @file lib/libotputil/libotputil.c
  */
-#define _LIB_LIBTOTPUTILS_C 1
-#include "libtotputils.h"
+#define _LIB_LIBOTPUTIL_C 1
+#include "libotputil.h"
 
 ///////////////
 //           //
