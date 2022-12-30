@@ -239,7 +239,7 @@ main(
    // initialize TOTP secret
    if ((rc = otputil_initialize(&cnf->tud)) != OTPUTIL_SUCCESS)
    {
-      fprintf(stderr, "%s: totputils_initialize(): %s\n", cnf->prog_name, otputil_err2string(rc));
+      fprintf(stderr, "%s: otputil_initialize(): %s\n", cnf->prog_name, otputil_err2string(rc));
       totp_cleanup(cnf);
       return(1);
    };
