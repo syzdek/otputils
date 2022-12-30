@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file src/totp.h
+ *  @file src/otputil.h
  */
-#ifndef _SRC_TOTP_H
-#define _SRC_TOTP_H 1
+#ifndef _SRC_OTPUTIL_H
+#define _SRC_OTPUTIL_H 1
 
 
 ///////////////

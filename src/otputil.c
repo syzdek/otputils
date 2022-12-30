@@ -52,7 +52,7 @@
 #include <getopt.h>
 #include <stdio.h>
 
-#include "totp.h"
+#include "otputil.h"
 
 
 ///////////////////

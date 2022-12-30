@@ -80,7 +80,7 @@ pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
 EXTRA_PROGRAMS				= examples/totp-example \
-					  src/totp
+					  src/otputil
 EXTRA					= include/otputil.h \
 					  lib/libotputil.la \
 					  lib/libotputil.a
@@ -129,7 +129,7 @@ if ENABLE_LTLIBRARIES
    include_HEADERS			+= include/otputil.h
 endif
 if ENABLE_UTILITIES
-   bin_PROGRAMS				+= src/totp
+   bin_PROGRAMS				+= src/otputil
 endif
 
 
@@ -159,11 +159,11 @@ lib_libotputil_la_LDFLAGS		= -rpath'$(libdir)' \
 lib_libotputil_la_SOURCES		= $(lib_libotputil_a_SOURCES)
 
 
-# macros for src/totp
-src_totp_DEPENDENCIES			= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
-src_totp_LDADD				= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
-src_totp_SOURCES			= src/totp.c \
-					  src/totp.h \
+# macros for src/otputil
+src_otputil_DEPENDENCIES		= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+src_otputil_LDADD			= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+src_otputil_SOURCES			= src/otputil.c \
+					  src/otputil.h \
 					  src/widget-code.c \
 					  src/widget-generate.c \
 					  src/widget-info.c \
