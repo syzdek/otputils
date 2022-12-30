@@ -61,7 +61,7 @@ static uint8_t otputil_const_defaults_k_val[1] = { 0 };
 
 
 #pragma mark otputil_const_defaults_k
-static totputils_bv_t otputil_const_defaults_k =
+static otputil_bv_t otputil_const_defaults_k =
 {
    .bv_val                 = otputil_const_defaults_k_val,
    .bv_len                 = sizeof(otputil_const_defaults_k_val),
@@ -106,19 +106,19 @@ static totputils_t otputil_defaults =
 //---------------//
 #pragma mark BER functions
 
-totputils_bv_t *
+otputil_bv_t *
 otputil_base32bv(
          const char *                  str )
 {
    ssize_t              rc;
-   totputils_bv_t *     bv;
+   otputil_bv_t *       bv;
 
    if ( (!(str)) || (!(str[0])) )
       return(otputil_bvalloc(NULL, 0));
 
-   if ((bv = malloc(sizeof(totputils_bv_t))) == NULL)
+   if ((bv = malloc(sizeof(otputil_bv_t))) == NULL)
       return(NULL);
-   memset(bv, 0, sizeof(totputils_bv_t));
+   memset(bv, 0, sizeof(otputil_bv_t));
 
    if ((rc = bindle_decode_size(BNDL_BASE32, strlen(str))) == -1)
    {
@@ -143,16 +143,16 @@ otputil_base32bv(
 }
 
 
-totputils_bv_t *
+otputil_bv_t *
 otputil_bvalloc(
          const void *                  val,
          size_t                        len )
 {
-   totputils_bv_t *     bv;
+   otputil_bv_t *       bv;
 
    assert( (!(len)) || ((val)) );
 
-   if ((bv = malloc(sizeof(totputils_bv_t))) == NULL)
+   if ((bv = malloc(sizeof(otputil_bv_t))) == NULL)
       return(NULL);
    bv->bv_len = len;
 
@@ -170,7 +170,7 @@ otputil_bvalloc(
 
 char *
 otputil_bvbase32(
-         const totputils_bv_t *        bv )
+         const otputil_bv_t *          bv )
 {
    char *               str;
    size_t               strlen;
@@ -189,9 +189,9 @@ otputil_bvbase32(
 }
 
 
-totputils_bv_t *
+otputil_bv_t *
 otputil_bvdup(
-         const totputils_bv_t *        bv )
+         const otputil_bv_t *          bv )
 {
    return(otputil_bvalloc(bv->bv_val, bv->bv_len));
 }
@@ -199,7 +199,7 @@ otputil_bvdup(
 
 void
 otputil_bvfree(
-         totputils_bv_t *              bv )
+         otputil_bv_t *                bv )
 {
    if (!(bv))
       return;
@@ -267,7 +267,7 @@ otputil_get_param(
          int                           option,
          void *                        outvalue )
 {
-   totputils_bv_t *     bv;
+   otputil_bv_t *       bv;
 
    assert(tud      != NULL);
    assert(outvalue != NULL);
@@ -279,7 +279,7 @@ otputil_get_param(
       case OTPUTIL_OPT_K:
       if ((bv = otputil_bvdup(tud->hotp_k)) == NULL)
          return(OTPUTIL_ENOMEM);
-      *((totputils_bv_t **)outvalue) = bv;
+      *((otputil_bv_t **)outvalue) = bv;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_KSTR:
@@ -374,7 +374,7 @@ otputil_set_param(
          const void *                  invalue )
 {
    const totputils_t *  defaults;
-   totputils_bv_t *     bv;
+   otputil_bv_t *       bv;
    const char *         str;
 
    assert(tud != NULL);
@@ -388,7 +388,7 @@ otputil_set_param(
       if (!(invalue))
          if ((invalue = defaults->hotp_k) == NULL)
             invalue = otputil_const_defaults.hotp_k;
-      if ((bv = otputil_bvdup((((const totputils_bv_t *)invalue)))) == NULL)
+      if ((bv = otputil_bvdup((((const otputil_bv_t *)invalue)))) == NULL)
          return(OTPUTIL_ENOMEM);
       if ((tud->hotp_k))
          otputil_bvfree(tud->hotp_k);
@@ -523,7 +523,7 @@ otputil_str(
 
 int
 otputil_hotp_code(
-         const totputils_bv_t *        hotp_k,
+         const otputil_bv_t *          hotp_k,
          uint64_t                      hotp_c )
 {
    uint32_t                endianness;
@@ -567,7 +567,7 @@ otputil_hotp_code(
 
 char *
 otputil_hotp_str(
-         const totputils_bv_t *        hotp_k,
+         const otputil_bv_t *          hotp_k,
          uint64_t                      hotp_c,
          char *                        hotp_code,
          size_t                        hotp_code_len )
@@ -599,7 +599,7 @@ otputil_hotp_str(
 
 int
 otputil_totp_code(
-         const totputils_bv_t *        totp_k,
+         const otputil_bv_t *          totp_k,
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
          uint64_t                      totp_time )
@@ -612,7 +612,7 @@ otputil_totp_code(
 
 char *
 otputil_totp_str(
-         const totputils_bv_t *        totp_k,
+         const otputil_bv_t *          totp_k,
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
          uint64_t                      totp_time,

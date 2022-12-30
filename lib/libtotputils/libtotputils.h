@@ -72,7 +72,7 @@
 struct _otputil_secret
 {
    char *                  otp_desc;      // description of secret
-   totputils_bv_t *        hotp_k;
+   otputil_bv_t *          hotp_k;
    uint64_t                hotp_c;
    uint64_t                otp_method;
    uint64_t                totp_time;     // current Unix time

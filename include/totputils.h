@@ -146,7 +146,7 @@
 typedef struct _otputil_secret totputils_t;
 
 
-typedef struct _otputil_berval totputils_bv_t;
+typedef struct _otputil_berval otputil_bv_t;
 struct _otputil_berval
 {
    size_t         bv_len;
@@ -167,12 +167,12 @@ OTPUTIL_BEGIN_C_DECLS
 //----------------//
 #pragma mark BER prototypes
 
-_OTPUTIL_F totputils_bv_t *
+_OTPUTIL_F otputil_bv_t *
 otputil_base32bv(
          const char *                  str );
 
 
-_OTPUTIL_F totputils_bv_t *
+_OTPUTIL_F otputil_bv_t *
 otputil_bvalloc(
          const void *                  val,
          size_t                        len );
@@ -180,17 +180,17 @@ otputil_bvalloc(
 
 _OTPUTIL_F char *
 otputil_bvbase32(
-         const totputils_bv_t *        bv );
+         const otputil_bv_t *          bv );
 
 
-_OTPUTIL_F totputils_bv_t *
+_OTPUTIL_F otputil_bv_t *
 otputil_bvdup(
-         const totputils_bv_t *        bv );
+         const otputil_bv_t *          bv );
 
 
 _OTPUTIL_F void
 otputil_bvfree(
-         totputils_bv_t *              bv );
+         otputil_bv_t *                bv );
 
 
 //------------------//
@@ -268,13 +268,13 @@ otputil_str(
 
 _OTPUTIL_F int
 otputil_hotp_code(
-         const totputils_bv_t *        hotp_k,
+         const otputil_bv_t *          hotp_k,
          uint64_t                      hotp_c );
 
 
 _OTPUTIL_F char *
 otputil_hotp_str(
-         const totputils_bv_t *        hotp_k,
+         const otputil_bv_t *          hotp_k,
          uint64_t                      hotp_c,
          char *                        hotp_code,
          size_t                        hotp_code_len );
@@ -287,7 +287,7 @@ otputil_hotp_str(
 
 _OTPUTIL_F int
 otputil_totp_code(
-         const totputils_bv_t *        totp_k,
+         const otputil_bv_t *          totp_k,
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
          uint64_t                      totp_time );
@@ -295,7 +295,7 @@ otputil_totp_code(
 
 _OTPUTIL_F char *
 otputil_totp_str(
-         const totputils_bv_t *        totp_k,
+         const otputil_bv_t *          totp_k,
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
          uint64_t                      totp_time,
