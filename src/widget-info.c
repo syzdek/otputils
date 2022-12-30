@@ -84,7 +84,7 @@ totp_widget_info_get(
 #pragma mark main function
 
 int
-totp_widget_info(
+otputil_widget_info(
          totp_config_t *               cnf )
 {
    int            rc;

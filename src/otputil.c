@@ -169,7 +169,7 @@ static totp_widget_t totp_widget_map[] =
       .usage      = NULL,
       .short_opt  = NULL,
       .aliases    = NULL,
-      .func_exec  = &totp_widget_info,
+      .func_exec  = &otputil_widget_info,
       .func_usage = NULL,
    },
    {  .name       = "verify",
