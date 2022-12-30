@@ -221,7 +221,7 @@ otputil_get_param(
 
 
 _OTPUTIL_F int
-totputils_initialize(
+otputil_initialize(
          totputils_t **                tudp );
 
 

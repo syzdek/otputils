@@ -67,7 +67,7 @@ otputil_err2string
 # memory functions
 otputil_free
 otputil_get_param
-totputils_initialize
+otputil_initialize
 totputils_set_param
 # misc functions
 totputils_getpass
