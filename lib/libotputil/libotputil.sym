@@ -27,34 +27,30 @@
 #   OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 #   SUCH DAMAGE.
 #
-#   lib/libtotputils/libtotputils.sym - list of symbols to export
+#   lib/liblibotputil/libotputil.sym - list of symbols to export
 #
 #   Simple Build:
 #      CFLAGS="-g -O2 -W -Wall -Werror -I../include"
-#      gcc ${CFLAGS} -c lerror.c
-#      gcc ${CFLAGS} -c lmemory.c
-#      ar rcs libtotputils.a \
-#             lerror.o lmemory.o
-#      ranlib libtotputils.a
+#      gcc ${CFLAGS} -c libotputil.c
+#      ar rcs libotputil.a libotputil.o
+#      ranlib libotputil.a
 #
 #   Libtool Build:
 #      CFLAGS="-g -O2 -W -Wall -Werror -I../include"
-#      LDFLAGS="-g -O2 -export-symbols libtotputils.sym -rpath /usr/local/lib"
-#      libtool --mode=compile --tag=CC gcc ${CFLAGS}  -c lerror.c
-#      libtool --mode=compile --tag=CC gcc ${CFLAGS}  -c lmemory.c
-#      libtool --mode=link    --tag=CC gcc ${LDFLAGS} -o libtotputils.la \
-#              lerror.lo lmemory.lo
+#      LDFLAGS="-g -O2 -export-symbols libotputil.sym -rpath /usr/local/lib"
+#      libtool --mode=compile --tag=CC gcc ${CFLAGS}  -c libotputil.c
+#      libtool --mode=link    --tag=CC gcc ${LDFLAGS} -o libotputil.la \
+#              libotputil.lo
 #
 #   Libtool Install:
-#      libtool --mode=install install -c libtotputils.la \
-#              /usr/local/lib/libtotputils.la
+#      libtool --mode=install install -c libotputil.la \
+#              /usr/local/lib/libotputil.la
 #
 #   Libtool Uninstall:
-#      libtool --mode=uninstall rm -f /usr/local/lib/libtotputils.la
+#      libtool --mode=uninstall rm -f /usr/local/lib/libotputil.la
 #
 #   Libtool Clean:
-#      libtool --mode=clean rm -f libtotputils.la \
-#              lerror.lo lmemory.lo
+#      libtool --mode=clean rm -f libotputil.la libotputil.lo
 #
 # BER functions
 otputil_base32bv
