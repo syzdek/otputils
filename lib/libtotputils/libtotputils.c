@@ -56,15 +56,15 @@
 /////////////////
 #pragma mark - Variables
 
-#pragma mark totputils_const_defaults_k_val[]
-static uint8_t totputils_const_defaults_k_val[1] = { 0 };
+#pragma mark otputil_const_defaults_k_val[]
+static uint8_t otputil_const_defaults_k_val[1] = { 0 };
 
 
 #pragma mark totputils_const_defaults_k
 static totputils_bv_t totputils_const_defaults_k =
 {
-   .bv_val                 = totputils_const_defaults_k_val,
-   .bv_len                 = sizeof(totputils_const_defaults_k_val),
+   .bv_val                 = otputil_const_defaults_k_val,
+   .bv_len                 = sizeof(otputil_const_defaults_k_val),
 };
 
 
