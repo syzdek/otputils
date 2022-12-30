@@ -168,7 +168,7 @@ OTPUTIL_BEGIN_C_DECLS
 #pragma mark BER prototypes
 
 _OTPUTIL_F totputils_bv_t *
-totputils_base32bv(
+otputil_base32bv(
          const char *                  str );
 
 

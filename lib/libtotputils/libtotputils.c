@@ -107,7 +107,7 @@ static totputils_t totputils_defaults =
 #pragma mark BER functions
 
 totputils_bv_t *
-totputils_base32bv(
+otputil_base32bv(
          const char *                  str )
 {
    ssize_t              rc;
@@ -399,7 +399,7 @@ totputils_set_param(
       str = (const char *)invalue;
       if (bindle_encoding_verify(BNDL_BASE32, str, strlen(str)) == -1)
          return(OTPUTIL_EOPTVAL);
-      if ((bv = totputils_base32bv( ((const char *)invalue) )) == NULL)
+      if ((bv = otputil_base32bv( ((const char *)invalue) )) == NULL)
          return(OTPUTIL_ENOMEM);
       if ((tud->hotp_k))
          totputils_bvfree(tud->hotp_k);

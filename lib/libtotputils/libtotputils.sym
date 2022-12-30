@@ -57,7 +57,7 @@
 #              lerror.lo lmemory.lo
 #
 # BER functions
-totputils_base32bv
+otputil_base32bv
 totputils_bvalloc
 totputils_bvbase32
 totputils_bvdup
