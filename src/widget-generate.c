@@ -70,7 +70,7 @@
 
 int
 otputil_widget_generate(
-         totp_config_t *               cnf )
+         otputil_config_t *            cnf )
 {
    int rc;
 

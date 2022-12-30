@@ -63,7 +63,7 @@
 /////////////////
 #pragma mark - Datatypes
 
-typedef struct _otputil_cli_config totp_config_t;
+typedef struct _otputil_cli_config otputil_config_t;
 typedef struct _otputil_cli_widget totp_widget_t;
 
 
@@ -76,8 +76,8 @@ struct _otputil_cli_widget
    const char * const *       aliases;
    int                        arg_min;
    int                        arg_max;
-   int  (*func_exec)(totp_config_t * cnf);
-   int  (*func_usage)(totp_config_t * cnf);
+   int  (*func_exec)(otputil_config_t * cnf);
+   int  (*func_usage)(otputil_config_t * cnf);
 };
 
 
@@ -108,7 +108,7 @@ struct _otputil_cli_config
 
 extern int
 otputil_arguments(
-         totp_config_t *               cnf,
+         otputil_config_t *            cnf,
          int                           argc,
          char * const *                argv );
 
@@ -120,21 +120,21 @@ otputil_arguments(
 
 extern int
 otputil_widget_code(
-         totp_config_t *               cnf );
+         otputil_config_t *            cnf );
 
 
 extern int
 otputil_widget_generate(
-         totp_config_t *               cnf );
+         otputil_config_t *            cnf );
 
 
 extern int
 otputil_widget_info(
-         totp_config_t *               cnf );
+         otputil_config_t *            cnf );
 
 
 extern int
 otputil_widget_verify(
-         totp_config_t *               cnf );
+         otputil_config_t *            cnf );
 
 #endif /* end of header file */

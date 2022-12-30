@@ -64,7 +64,7 @@
 
 static int
 totp_widget_info_get(
-         totp_config_t *               cnf,
+         otputil_config_t *            cnf,
          const char *                  str,
          int                           option,
          void *                        outvalue );
@@ -85,7 +85,7 @@ totp_widget_info_get(
 
 int
 otputil_widget_info(
-         totp_config_t *               cnf )
+         otputil_config_t *            cnf )
 {
    int            rc;
    uint64_t       hotp_c;
@@ -141,7 +141,7 @@ otputil_widget_info(
 
 int
 totp_widget_info_get(
-         totp_config_t *               cnf,
+         otputil_config_t *            cnf,
          const char *                  str,
          int                           option,
          void *                        outvalue )

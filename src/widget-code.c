@@ -70,7 +70,7 @@
 
 int
 otputil_widget_code(
-         totp_config_t *               cnf )
+         otputil_config_t *            cnf )
 {
    int            rc;
    uint64_t       otp_method;

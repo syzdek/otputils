@@ -105,7 +105,7 @@ main(
 
 static void
 totp_cleanup(
-         totp_config_t *               cnf );
+         otputil_config_t *            cnf );
 
 
 static totp_widget_t *
@@ -121,13 +121,13 @@ totp_widget_lookup(
 
 static int
 totp_widget_usage(
-         totp_config_t *               cnf );
+         otputil_config_t *            cnf );
 
 
 // displays version information
 static int
 totp_widget_version(
-         totp_config_t *               cnf );
+         otputil_config_t *            cnf );
 
 
 /////////////////
@@ -219,14 +219,14 @@ main(
          int                           argc,
          char *                        argv[] )
 {
-   int               rc;
-   totp_config_t *   cnf;
-   totp_config_t     config;
+   int                  rc;
+   otputil_config_t *   cnf;
+   otputil_config_t     config;
 
 
    // initialize config
    cnf = &config;
-   memset(cnf, 0, sizeof(totp_config_t));
+   memset(cnf, 0, sizeof(otputil_config_t));
 
 
    // determine program name
@@ -287,7 +287,7 @@ main(
 
 int
 otputil_arguments(
-         totp_config_t *               cnf,
+         otputil_config_t *            cnf,
          int                           argc,
          char * const *                argv )
 {
@@ -453,7 +453,7 @@ otputil_arguments(
 
 void
 totp_cleanup(
-         totp_config_t *               cnf )
+         otputil_config_t *            cnf )
 {
    if ((cnf->tud))
       otputil_free(cnf->tud);
@@ -536,7 +536,7 @@ totp_widget_lookup(
 /// displays usage information
 int
 totp_widget_usage(
-         totp_config_t *                cnf )
+         otputil_config_t *            cnf )
 {
    size_t               pos;
    const char *         widget_name;
@@ -588,7 +588,7 @@ totp_widget_usage(
 /// displays version information
 int
 totp_widget_version(
-         totp_config_t *                cnf )
+         otputil_config_t *            cnf )
 {
    assert(cnf != NULL);
    printf(
