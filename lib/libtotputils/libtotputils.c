@@ -77,7 +77,7 @@ const totputils_t totputils_const_defaults =
    .otp_method             = TOTPUTILS_METH_TOTP,
    .totp_time              = TOTPUTILS_TIME,
    .totp_t0                = TOTPUTILS_DFLT_T0,
-   .totp_tx                = TOTPUTILS_TX,
+   .totp_tx                = TOTPUTILS_DFLT_TX,
 };
 
 
@@ -90,7 +90,7 @@ static totputils_t totputils_defaults =
    .otp_method             = TOTPUTILS_METH_TOTP,
    .totp_time              = TOTPUTILS_TIME,
    .totp_t0                = TOTPUTILS_DFLT_T0,
-   .totp_tx                = TOTPUTILS_TX,
+   .totp_tx                = TOTPUTILS_DFLT_TX,
 };
 
 
