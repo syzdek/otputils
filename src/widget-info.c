@@ -147,7 +147,7 @@ totp_widget_info_get(
          void *                        outvalue )
 {
    int rc;
-   if ((rc = totputils_get_param(cnf->tud, option, outvalue)) == 0)
+   if ((rc = otputil_get_param(cnf->tud, option, outvalue)) == 0)
       return(0);
    fprintf(stderr, "%s: totputils_get_param(%s): %s\n", cnf->prog_name, str, otputil_err2string(rc));
    return(rc);

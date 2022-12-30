@@ -214,7 +214,7 @@ otputil_free(
 
 
 _OTPUTIL_F int
-totputils_get_param(
+otputil_get_param(
          totputils_t *                 tud,
          int                           option,
          void *                        outvalue );
