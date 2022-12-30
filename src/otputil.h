@@ -107,7 +107,7 @@ struct _totputils_cli_config
 #pragma mark miscellaneous prototypes
 
 extern int
-totp_arguments(
+otputil_arguments(
          totp_config_t *               cnf,
          int                           argc,
          char * const *                argv );

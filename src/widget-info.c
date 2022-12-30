@@ -99,7 +99,7 @@ totp_widget_info(
    assert(cnf != NULL);
 
    // initial processing of cli arguments
-   if ((rc = totp_arguments(cnf, cnf->argc, cnf->argv)) != 0)
+   if ((rc = otputil_arguments(cnf, cnf->argc, cnf->argv)) != 0)
       return((rc == -1) ? 0 : 1);
 
    // retrieve OTP secret information

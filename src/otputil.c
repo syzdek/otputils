@@ -255,7 +255,7 @@ main(
 
 
    // initial processing of cli arguments
-   if ((rc = totp_arguments(cnf, argc, argv)) != 0)
+   if ((rc = otputil_arguments(cnf, argc, argv)) != 0)
       return((rc == -1) ? 0 : 1);
    if ((argc - optind) < 1)
    {
@@ -286,7 +286,7 @@ main(
 #pragma mark miscellaneous functions
 
 int
-totp_arguments(
+otputil_arguments(
          totp_config_t *               cnf,
          int                           argc,
          char * const *                argv )
