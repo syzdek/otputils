@@ -190,7 +190,7 @@ otputil_bvbase32(
 
 
 totputils_bv_t *
-totputils_bvdup(
+otputil_bvdup(
          const totputils_bv_t *        bv )
 {
    return(otputil_bvalloc(bv->bv_val, bv->bv_len));
@@ -277,7 +277,7 @@ totputils_get_param(
    switch(option)
    {
       case OTPUTIL_OPT_K:
-      if ((bv = totputils_bvdup(tud->hotp_k)) == NULL)
+      if ((bv = otputil_bvdup(tud->hotp_k)) == NULL)
          return(OTPUTIL_ENOMEM);
       *((totputils_bv_t **)outvalue) = bv;
       return(OTPUTIL_SUCCESS);
@@ -388,7 +388,7 @@ totputils_set_param(
       if (!(invalue))
          if ((invalue = defaults->hotp_k) == NULL)
             invalue = totputils_const_defaults.hotp_k;
-      if ((bv = totputils_bvdup((((const totputils_bv_t *)invalue)))) == NULL)
+      if ((bv = otputil_bvdup((((const totputils_bv_t *)invalue)))) == NULL)
          return(OTPUTIL_ENOMEM);
       if ((tud->hotp_k))
          totputils_bvfree(tud->hotp_k);

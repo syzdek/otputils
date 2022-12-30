@@ -60,7 +60,7 @@
 otputil_base32bv
 otputil_bvalloc
 otputil_bvbase32
-totputils_bvdup
+otputil_bvdup
 totputils_bvfree
 # error functions
 totputils_err2string

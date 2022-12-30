@@ -184,7 +184,7 @@ otputil_bvbase32(
 
 
 _OTPUTIL_F totputils_bv_t *
-totputils_bvdup(
+otputil_bvdup(
          const totputils_bv_t *        bv );
 
 
