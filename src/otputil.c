@@ -333,7 +333,7 @@ totp_arguments(
          };
          if ((rc = otputil_set_param(cnf->tud, OTPUTIL_OPT_C, &uval)) != OTPUTIL_SUCCESS)
          {
-            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_C): %s\n", PROGRAM_NAME, otputil_err2string(rc));
+            fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_C): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
          };
          break;
@@ -371,7 +371,7 @@ totp_arguments(
          };
          if ((rc = otputil_set_param(cnf->tud, OTPUTIL_OPT_TIME, &uval)) != OTPUTIL_SUCCESS)
          {
-            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_TIME): %s\n", PROGRAM_NAME, otputil_err2string(rc));
+            fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_TIME): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
          };
          break;
@@ -386,7 +386,7 @@ totp_arguments(
          };
          if ((rc = otputil_set_param(cnf->tud, OTPUTIL_OPT_T0, &uval)) != OTPUTIL_SUCCESS)
          {
-            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_T0): %s\n", PROGRAM_NAME, otputil_err2string(rc));
+            fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_T0): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
          };
          break;
@@ -415,7 +415,7 @@ totp_arguments(
          };
          if ((rc = otputil_set_param(cnf->tud, OTPUTIL_OPT_TX, &uval)) != OTPUTIL_SUCCESS)
          {
-            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_TX): %s\n", PROGRAM_NAME, otputil_err2string(rc));
+            fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_TX): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
          };
          break;
