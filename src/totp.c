@@ -559,7 +559,7 @@ totp_widget_usage(
    printf("  -h, --help                print this help and exit\n");
    printf("  -q, --quiet, --silent     do not print messages\n");
    printf("  -T seconds                TOTP current Unix time\n");
-   printf("  -t seconds                TOTP Unix time start of time steps (default: %llu)\n", TOTPUTILS_T0);
+   printf("  -t seconds                TOTP Unix time start of time steps (default: %llu)\n", TOTPUTILS_DFLT_T0);
    printf("  -V, --version             print version number and exit\n");
    printf("  -v, --verbose             print verbose messages\n");
    printf("  -x num                    TOTP time step in seconds (default: %llu)\n", TOTPUTILS_TX);

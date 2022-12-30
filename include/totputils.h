@@ -127,7 +127,7 @@
 
 
 #define TOTPUTILS_DFLT_C            1ULL
-#define TOTPUTILS_T0                0ULL
+#define TOTPUTILS_DFLT_T0           0ULL
 #define TOTPUTILS_TX                30ULL
 #define TOTPUTILS_TIME              0ULL
 
