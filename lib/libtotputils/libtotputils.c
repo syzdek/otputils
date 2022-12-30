@@ -485,7 +485,7 @@ otputil_code(
       return(totputils_totp_code(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
 
       case OTPUTIL_METH_HOTP:
-      return(totputils_hotp_code(tud->hotp_k, tud->totp_t0));
+      return(otputil_hotp_code(tud->hotp_k, tud->totp_t0));
 
       default:
       break;
@@ -522,7 +522,7 @@ otputil_str(
 #pragma mark HOTP functions
 
 int
-totputils_hotp_code(
+otputil_hotp_code(
          const totputils_bv_t *        hotp_k,
          uint64_t                      hotp_c )
 {
@@ -583,7 +583,7 @@ totputils_hotp_str(
    if (hotp_code_len < 7)
       return(NULL);
 
-   if ((otp_code = totputils_hotp_code(hotp_k, hotp_c)) == -1)
+   if ((otp_code = otputil_hotp_code(hotp_k, hotp_c)) == -1)
       return(NULL);
 
    snprintf(hotp_code, hotp_code_len, "%06i", otp_code);
@@ -606,7 +606,7 @@ totputils_totp_code(
 {
    if (!(totp_tx))
       return(-1);
-   return(totputils_hotp_code(totp_k, ((totp_time-totp_t0)/totp_tx) ));
+   return(otputil_hotp_code(totp_k, ((totp_time-totp_t0)/totp_tx) ));
 }
 
 

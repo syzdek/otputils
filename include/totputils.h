@@ -267,7 +267,7 @@ otputil_str(
 #pragma mark HOTP functions
 
 _OTPUTIL_F int
-totputils_hotp_code(
+otputil_hotp_code(
          const totputils_bv_t *        hotp_k,
          uint64_t                      hotp_c );
 

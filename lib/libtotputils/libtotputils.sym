@@ -75,7 +75,7 @@ otputil_getpass
 otputil_code
 otputil_str
 # HOTP functions
-totputils_hotp_code
+otputil_hotp_code
 totputils_hotp_str
 # TOTP functions
 totputils_totp_code
