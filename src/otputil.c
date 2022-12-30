@@ -179,7 +179,7 @@ static totp_widget_t totp_widget_map[] =
       .arg_min    = 0,
       .arg_max    = 1,
       .aliases    = NULL,
-      .func_exec  = &totp_widget_verify,
+      .func_exec  = &otputil_widget_verify,
       .func_usage = NULL,
    },
    {  .name       = "version",

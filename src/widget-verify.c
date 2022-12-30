@@ -69,7 +69,7 @@
 #pragma mark main function
 
 int
-totp_widget_verify(
+otputil_widget_verify(
          totp_config_t *               cnf )
 {
    int            rc;
