@@ -58,7 +58,7 @@
 #
 # BER functions
 otputil_base32bv
-totputils_bvalloc
+otputil_bvalloc
 totputils_bvbase32
 totputils_bvdup
 totputils_bvfree

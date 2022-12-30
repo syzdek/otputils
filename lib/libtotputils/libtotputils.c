@@ -114,7 +114,7 @@ otputil_base32bv(
    totputils_bv_t *     bv;
 
    if ( (!(str)) || (!(str[0])) )
-      return(totputils_bvalloc(NULL, 0));
+      return(otputil_bvalloc(NULL, 0));
 
    if ((bv = malloc(sizeof(totputils_bv_t))) == NULL)
       return(NULL);
@@ -144,7 +144,7 @@ otputil_base32bv(
 
 
 totputils_bv_t *
-totputils_bvalloc(
+otputil_bvalloc(
          const void *                  val,
          size_t                        len )
 {
@@ -193,7 +193,7 @@ totputils_bv_t *
 totputils_bvdup(
          const totputils_bv_t *        bv )
 {
-   return(totputils_bvalloc(bv->bv_val, bv->bv_len));
+   return(otputil_bvalloc(bv->bv_val, bv->bv_len));
 }
 
 

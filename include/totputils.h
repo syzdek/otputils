@@ -173,7 +173,7 @@ otputil_base32bv(
 
 
 _OTPUTIL_F totputils_bv_t *
-totputils_bvalloc(
+otputil_bvalloc(
          const void *                  val,
          size_t                        len );
 
