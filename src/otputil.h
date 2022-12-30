@@ -64,10 +64,10 @@
 #pragma mark - Datatypes
 
 typedef struct _otputil_cli_config totp_config_t;
-typedef struct _totputils_cli_widget totp_widget_t;
+typedef struct _otputil_cli_widget totp_widget_t;
 
 
-struct _totputils_cli_widget
+struct _otputil_cli_widget
 {
    const char *               name;
    const char *               desc;
