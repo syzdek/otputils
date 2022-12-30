@@ -121,9 +121,9 @@ totp_widget_info(
    // print secret information
    printf("OTP Secret:\n");
    printf("   Description:          %s\n", (((otp_desc)) ? otp_desc : "n/a") );
-   printf("   OTP Method:           %s\n", (otp_method == TOTPUTILS_TOTP) ? "TOTP" : "HOTP" );
+   printf("   OTP Method:           %s\n", (otp_method == TOTPUTILS_METH_TOTP) ? "TOTP" : "HOTP" );
    printf("   Shared Key:           %s\n", otp_kstr );
-   if (otp_method == TOTPUTILS_TOTP)
+   if (otp_method == TOTPUTILS_METH_TOTP)
    {
       printf("   TOTP UNIX Time:       %" PRIu64 "\n", totp_t0 );
       printf("   TOTP Step Interval:   %" PRIu64 "\n", totp_tx );

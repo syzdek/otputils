@@ -74,7 +74,7 @@ const totputils_t totputils_const_defaults =
    .otp_desc               = NULL,
    .hotp_k                 = &totputils_const_defaults_k,
    .hotp_c                 = TOTPUTILS_C,
-   .otp_method             = TOTPUTILS_TOTP,
+   .otp_method             = TOTPUTILS_METH_TOTP,
    .totp_time              = TOTPUTILS_TIME,
    .totp_t0                = TOTPUTILS_T0,
    .totp_tx                = TOTPUTILS_TX,
@@ -87,7 +87,7 @@ static totputils_t totputils_defaults =
    .otp_desc               = NULL,
    .hotp_k                 = NULL,
    .hotp_c                 = TOTPUTILS_C,
-   .otp_method             = TOTPUTILS_TOTP,
+   .otp_method             = TOTPUTILS_METH_TOTP,
    .totp_time              = TOTPUTILS_TIME,
    .totp_t0                = TOTPUTILS_T0,
    .totp_tx                = TOTPUTILS_TX,
@@ -408,17 +408,17 @@ totputils_set_param(
 
       case TOTPUTILS_OPT_T0:
       tud->totp_t0 = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_t0;
-      tud->otp_method = TOTPUTILS_TOTP;
+      tud->otp_method = TOTPUTILS_METH_TOTP;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_TX:
       tud->totp_tx = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_tx;
-      tud->otp_method = TOTPUTILS_TOTP;
+      tud->otp_method = TOTPUTILS_METH_TOTP;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_TIME:
       tud->totp_time = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_time;
-      tud->otp_method = TOTPUTILS_TOTP;
+      tud->otp_method = TOTPUTILS_METH_TOTP;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_C:
@@ -481,7 +481,7 @@ totputils_code(
    tud = ((tud)) ? tud : &totputils_defaults;
    switch(tud->otp_method)
    {
-      case TOTPUTILS_TOTP:
+      case TOTPUTILS_METH_TOTP:
       return(totputils_totp_code(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
 
       case TOTPUTILS_METH_HOTP:
@@ -503,7 +503,7 @@ totputils_str(
    tud = ((tud)) ? tud : &totputils_defaults;
    switch(tud->otp_method)
    {
-      case TOTPUTILS_TOTP:
+      case TOTPUTILS_METH_TOTP:
       return(totputils_totp_str(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, code, code_len));
 
       case TOTPUTILS_METH_HOTP:
