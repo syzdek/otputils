@@ -273,7 +273,7 @@ otputil_hotp_code(
 
 
 _OTPUTIL_F char *
-totputils_hotp_str(
+otputil_hotp_str(
          const totputils_bv_t *        hotp_k,
          uint64_t                      hotp_c,
          char *                        hotp_code,

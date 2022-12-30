@@ -507,7 +507,7 @@ otputil_str(
       return(totputils_totp_str(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, code, code_len));
 
       case OTPUTIL_METH_HOTP:
-      return(totputils_hotp_str(tud->hotp_k, tud->totp_t0, code, code_len));
+      return(otputil_hotp_str(tud->hotp_k, tud->totp_t0, code, code_len));
 
       default:
       break;
@@ -566,7 +566,7 @@ otputil_hotp_code(
 
 
 char *
-totputils_hotp_str(
+otputil_hotp_str(
          const totputils_bv_t *        hotp_k,
          uint64_t                      hotp_c,
          char *                        hotp_code,

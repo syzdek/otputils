@@ -76,7 +76,7 @@ otputil_code
 otputil_str
 # HOTP functions
 otputil_hotp_code
-totputils_hotp_str
+otputil_hotp_str
 # TOTP functions
 totputils_totp_code
 totputils_totp_str
