@@ -423,7 +423,7 @@ totputils_set_param(
 
       case TOTPUTILS_OPT_C:
       tud->hotp_c = ((invalue)) ? *((const uint64_t *)invalue) : defaults->hotp_c;
-      tud->otp_method = TOTPUTILS_HOTP;
+      tud->otp_method = TOTPUTILS_METH_HOTP;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_DESC:
@@ -484,7 +484,7 @@ totputils_code(
       case TOTPUTILS_TOTP:
       return(totputils_totp_code(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
 
-      case TOTPUTILS_HOTP:
+      case TOTPUTILS_METH_HOTP:
       return(totputils_hotp_code(tud->hotp_k, tud->totp_t0));
 
       default:
@@ -506,7 +506,7 @@ totputils_str(
       case TOTPUTILS_TOTP:
       return(totputils_totp_str(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, code, code_len));
 
-      case TOTPUTILS_HOTP:
+      case TOTPUTILS_METH_HOTP:
       return(totputils_hotp_str(tud->hotp_k, tud->totp_t0, code, code_len));
 
       default:

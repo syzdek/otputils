@@ -129,7 +129,7 @@ totp_widget_info(
       printf("   TOTP Step Interval:   %" PRIu64 "\n", totp_tx );
       printf("   TOTP Current Time:    %" PRIu64 "\n", totp_time );
    };
-   if (otp_method == TOTPUTILS_HOTP)
+   if (otp_method == TOTPUTILS_METH_HOTP)
    {
       printf("   HOTP Counter:         %" PRIu64 "\n", hotp_c );
    };
