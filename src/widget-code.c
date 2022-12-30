@@ -88,12 +88,12 @@ totp_widget_code(
    // retrieve OTP secret information
    if ((rc = totputils_get_param(cnf->tud, OTPUTIL_OPT_METHOD, &otp_method)) != 0)
    {
-      fprintf(stderr, "%s: totputils_get_param(METHOD): %s\n", cnf->prog_name, totputils_err2string(rc));
+      fprintf(stderr, "%s: totputils_get_param(METHOD): %s\n", cnf->prog_name, otputil_err2string(rc));
       return(1);
    };
    if ((rc = totputils_get_param(cnf->tud, OTPUTIL_OPT_TX, &totp_tx)) != 0)
    {
-      fprintf(stderr, "%s: totputils_get_param(TX): %s\n", cnf->prog_name, totputils_err2string(rc));
+      fprintf(stderr, "%s: totputils_get_param(TX): %s\n", cnf->prog_name, otputil_err2string(rc));
       return(1);
    };
 

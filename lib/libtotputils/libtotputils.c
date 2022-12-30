@@ -219,7 +219,7 @@ otputil_bvfree(
 #pragma mark error functions
 
 const char *
-totputils_err2string(
+otputil_err2string(
          int                           err )
 {
    switch(err)

@@ -199,7 +199,7 @@ otputil_bvfree(
 #pragma mark error prototypes
 
 _OTPUTIL_F const char *
-totputils_err2string(
+otputil_err2string(
          int                           err );
 
 

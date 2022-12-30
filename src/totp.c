@@ -239,7 +239,7 @@ main(
    // initialize TOTP secret
    if ((rc = totputils_initialize(&cnf->tud)) != OTPUTIL_SUCCESS)
    {
-      fprintf(stderr, "%s: totputils_initialize(): %s\n", cnf->prog_name, totputils_err2string(rc));
+      fprintf(stderr, "%s: totputils_initialize(): %s\n", cnf->prog_name, otputil_err2string(rc));
       totp_cleanup(cnf);
       return(1);
    };
@@ -333,7 +333,7 @@ totp_arguments(
          };
          if ((rc = totputils_set_param(cnf->tud, OTPUTIL_OPT_C, &uval)) != OTPUTIL_SUCCESS)
          {
-            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_C): %s\n", PROGRAM_NAME, totputils_err2string(rc));
+            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_C): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
          };
          break;
@@ -371,7 +371,7 @@ totp_arguments(
          };
          if ((rc = totputils_set_param(cnf->tud, OTPUTIL_OPT_TIME, &uval)) != OTPUTIL_SUCCESS)
          {
-            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_TIME): %s\n", PROGRAM_NAME, totputils_err2string(rc));
+            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_TIME): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
          };
          break;
@@ -386,7 +386,7 @@ totp_arguments(
          };
          if ((rc = totputils_set_param(cnf->tud, OTPUTIL_OPT_T0, &uval)) != OTPUTIL_SUCCESS)
          {
-            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_T0): %s\n", PROGRAM_NAME, totputils_err2string(rc));
+            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_T0): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
          };
          break;
@@ -415,7 +415,7 @@ totp_arguments(
          };
          if ((rc = totputils_set_param(cnf->tud, OTPUTIL_OPT_TX, &uval)) != OTPUTIL_SUCCESS)
          {
-            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_TX): %s\n", PROGRAM_NAME, totputils_err2string(rc));
+            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_TX): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
          };
          break;
