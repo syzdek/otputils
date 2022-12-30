@@ -220,11 +220,6 @@ otputil_get_param(
          void *                        outvalue );
 
 
-_OTPUTIL_F const char *
-totputils_hmac2str(
-         int                           hmac );
-
-
 _OTPUTIL_F int
 totputils_initialize(
          totputils_t **                tudp );
