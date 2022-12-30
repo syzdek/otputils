@@ -189,7 +189,7 @@ otputil_bvdup(
 
 
 _OTPUTIL_F void
-totputils_bvfree(
+otputil_bvfree(
          totputils_bv_t *              bv );
 
 

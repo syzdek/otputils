@@ -122,20 +122,20 @@ otputil_base32bv(
 
    if ((rc = bindle_decode_size(BNDL_BASE32, strlen(str))) == -1)
    {
-      totputils_bvfree(bv);
+      otputil_bvfree(bv);
       return(NULL);
    };
    bv->bv_len = (size_t)rc;
 
    if ((bv->bv_val = malloc(bv->bv_len+1)) == NULL)
    {
-      totputils_bvfree(bv);
+      otputil_bvfree(bv);
       return(NULL);
    };
 
    if (bindle_decode(BNDL_BASE32, bv->bv_val, (bv->bv_len+1), str, strlen(str)) == -1)
    {
-      totputils_bvfree(bv);
+      otputil_bvfree(bv);
       return(NULL);
    };
 
@@ -198,7 +198,7 @@ otputil_bvdup(
 
 
 void
-totputils_bvfree(
+otputil_bvfree(
          totputils_bv_t *              bv )
 {
    if (!(bv))
@@ -250,7 +250,7 @@ totputils_free(
       return;
 
    if ((tud->hotp_k))
-      totputils_bvfree(tud->hotp_k);
+      otputil_bvfree(tud->hotp_k);
    if ((tud->otp_desc))
       free(tud->otp_desc);
 
@@ -391,7 +391,7 @@ totputils_set_param(
       if ((bv = otputil_bvdup((((const totputils_bv_t *)invalue)))) == NULL)
          return(OTPUTIL_ENOMEM);
       if ((tud->hotp_k))
-         totputils_bvfree(tud->hotp_k);
+         otputil_bvfree(tud->hotp_k);
       tud->hotp_k = bv;
       return(OTPUTIL_SUCCESS);
 
@@ -402,7 +402,7 @@ totputils_set_param(
       if ((bv = otputil_base32bv( ((const char *)invalue) )) == NULL)
          return(OTPUTIL_ENOMEM);
       if ((tud->hotp_k))
-         totputils_bvfree(tud->hotp_k);
+         otputil_bvfree(tud->hotp_k);
       tud->hotp_k = bv;
       return(OTPUTIL_SUCCESS);
 
