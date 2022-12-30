@@ -145,7 +145,7 @@ static totp_widget_t totp_widget_map[] =
       .usage      = NULL,
       .short_opt  = NULL,
       .aliases    = NULL,
-      .func_exec  = &totp_widget_code,
+      .func_exec  = &otputil_widget_code,
       .func_usage = NULL,
    },
    {  .name       = "generate",

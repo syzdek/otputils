@@ -119,7 +119,7 @@ otputil_arguments(
 #pragma mark widgets prototypes
 
 extern int
-totp_widget_code(
+otputil_widget_code(
          totp_config_t *               cnf );
 
 
