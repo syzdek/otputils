@@ -81,8 +81,8 @@ const totputils_t otputil_const_defaults =
 };
 
 
-#pragma mark totputils_defaults
-static totputils_t totputils_defaults =
+#pragma mark otputil_defaults
+static totputils_t otputil_defaults =
 {
    .otp_desc               = NULL,
    .hotp_k                 = NULL,
@@ -272,7 +272,7 @@ otputil_get_param(
    assert(tud      != NULL);
    assert(outvalue != NULL);
 
-   tud = ((tud)) ? tud : &totputils_defaults;
+   tud = ((tud)) ? tud : &otputil_defaults;
 
    switch(option)
    {
@@ -379,8 +379,8 @@ otputil_set_param(
 
    assert(tud != NULL);
 
-   defaults = ((tud)) ? &totputils_defaults : &otputil_const_defaults;
-   tud      = ((tud)) ? tud                 : &totputils_defaults;
+   defaults = ((tud)) ? &otputil_defaults   : &otputil_const_defaults;
+   tud      = ((tud)) ? tud                 : &otputil_defaults;
 
    switch(option)
    {
@@ -478,7 +478,7 @@ int
 otputil_code(
          totputils_t *                 tud )
 {
-   tud = ((tud)) ? tud : &totputils_defaults;
+   tud = ((tud)) ? tud : &otputil_defaults;
    switch(tud->otp_method)
    {
       case OTPUTIL_METH_TOTP:
@@ -500,7 +500,7 @@ otputil_str(
          char *                        code,
          size_t                        code_len )
 {
-   tud = ((tud)) ? tud : &totputils_defaults;
+   tud = ((tud)) ? tud : &otputil_defaults;
    switch(tud->otp_method)
    {
       case OTPUTIL_METH_TOTP:
