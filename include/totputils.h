@@ -250,7 +250,7 @@ otputil_getpass(
 #pragma mark OTP functions
 
 _OTPUTIL_F int
-totputils_code(
+otputil_code(
          totputils_t *                 tud );
 
 

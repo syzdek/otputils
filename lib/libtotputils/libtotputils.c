@@ -475,7 +475,7 @@ otputil_getpass(
 #pragma mark OTP functions
 
 int
-totputils_code(
+otputil_code(
          totputils_t *                 tud )
 {
    tud = ((tud)) ? tud : &totputils_defaults;
