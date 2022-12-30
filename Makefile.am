@@ -142,8 +142,6 @@ lib_libtotputils_a_DEPENDENCIES		= Makefile \
 					  config.h \
 					  $(BINDLE_LIBBINDLE_DEPS)
 lib_libtotputils_a_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtotputils
-lib_libtotputils_a_CFLAGS		= $(AM_CFLAGS)
-lib_libtotputils_a_LIBADD		= $(AM_LIBS)
 lib_libtotputils_a_SOURCES		= $(noinst_HEADERS) \
 					  $(BINDLE_LIBBINDLE_SRCS) \
 					  lib/libtotputils/libtotputils.h \
@@ -154,22 +152,15 @@ lib_libtotputils_a_SOURCES		= $(noinst_HEADERS) \
 lib_libtotputils_la_DEPENDENCIES	= $(lib_libtotputils_a_DEPENDENCIES) \
 					  lib/libtotputils/libtotputils.sym
 lib_libtotputils_la_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtotputils
-lib_libtotputils_la_CFLAGS		= $(AM_CFLAGS)
 lib_libtotputils_la_LDFLAGS		= -rpath'$(libdir)' \
 					  -version-info $(LIB_VERSION_INFO) \
 					  $(AM_LDFLAGS) \
 					  -export-symbols $(srcdir)/lib/libtotputils/libtotputils.sym
-lib_libtotputils_la_LIBADD		= $(AM_LIBS)
 lib_libtotputils_la_SOURCES		= $(lib_libtotputils_a_SOURCES)
 
 
 # macros for src/totp
-src_totp_DEPENDENCIES			= Makefile \
-					  $(noinst_LIBRARIES) \
-					  $(lib_LTLIBRARIES)
-src_totp_CPPFLAGS			= $(AM_CPPFLAGS) -I$(srcdir)/lib/libtotputils
-src_totp_CFLAGS				= $(AM_CFLAGS)
-src_totp_LDFLAGS			= $(AM_LDFLAGS)
+src_totp_DEPENDENCIES			= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
 src_totp_LDADD				= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
 src_totp_SOURCES			= src/totp.c \
 					  src/totp.h \
