@@ -97,7 +97,7 @@ totp_widget_code(
       return(1);
    };
 
-   if ((code = totputils_str(cnf->tud, buff, sizeof(buff))) == NULL)
+   if ((code = otputil_str(cnf->tud, buff, sizeof(buff))) == NULL)
    {
       fprintf(stderr, "%s: internal error\n", cnf->prog_name);
       return(1);

@@ -495,7 +495,7 @@ otputil_code(
 
 
 char *
-totputils_str(
+otputil_str(
          totputils_t *                 tud,
          char *                        code,
          size_t                        code_len )

@@ -73,7 +73,7 @@ otputil_set_param
 otputil_getpass
 # OTP functions
 otputil_code
-totputils_str
+otputil_str
 # HOTP functions
 totputils_hotp_code
 totputils_hotp_str
