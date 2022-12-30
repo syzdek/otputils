@@ -124,8 +124,10 @@
 #define TOTPUTILS_TOTP              0x0002
 
 
+#define TOTPUTILS_C                 1ULL
 #define TOTPUTILS_T0                0ULL
 #define TOTPUTILS_TX                30ULL
+#define TOTPUTILS_TIME              0ULL
 
 
 #define TOTPUTILS_MAX_CODE_SIZE     16

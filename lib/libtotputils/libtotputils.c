@@ -51,6 +51,51 @@
 
 /////////////////
 //             //
+//  Variables  //
+//             //
+/////////////////
+#pragma mark - Variables
+
+#pragma mark totputils_const_defaults_k_val[]
+static uint8_t totputils_const_defaults_k_val[1] = { 0 };
+
+
+#pragma mark totputils_const_defaults_k
+static totputils_bv_t totputils_const_defaults_k =
+{
+   .bv_val                 = totputils_const_defaults_k_val,
+   .bv_len                 = sizeof(totputils_const_defaults_k_val),
+};
+
+
+#pragma mark totputils_const_defaults
+const totputils_t totputils_const_defaults =
+{
+   .otp_desc               = NULL,
+   .hotp_k                 = &totputils_const_defaults_k,
+   .hotp_c                 = TOTPUTILS_C,
+   .otp_method             = TOTPUTILS_TOTP,
+   .totp_time              = TOTPUTILS_TIME,
+   .totp_t0                = TOTPUTILS_T0,
+   .totp_tx                = TOTPUTILS_TX,
+};
+
+
+#pragma mark totputils_defaults
+static totputils_t totputils_defaults =
+{
+   .otp_desc               = NULL,
+   .hotp_k                 = NULL,
+   .hotp_c                 = TOTPUTILS_C,
+   .otp_method             = TOTPUTILS_TOTP,
+   .totp_time              = TOTPUTILS_TIME,
+   .totp_t0                = TOTPUTILS_T0,
+   .totp_tx                = TOTPUTILS_TX,
+};
+
+
+/////////////////
+//             //
 //  Functions  //
 //             //
 /////////////////
@@ -227,6 +272,8 @@ totputils_get_param(
    assert(tud      != NULL);
    assert(outvalue != NULL);
 
+   tud = ((tud)) ? tud : &totputils_defaults;
+
    switch(option)
    {
       case TOTPUTILS_OPT_K:
@@ -326,23 +373,21 @@ totputils_set_param(
          int                           option,
          const void *                  invalue )
 {
+   const totputils_t *  defaults;
    totputils_bv_t *     bv;
    const char *         str;
 
    assert(tud != NULL);
 
+   defaults = ((tud)) ? &totputils_defaults : &totputils_const_defaults;
+   tud      = ((tud)) ? tud                 : &totputils_defaults;
+
    switch(option)
    {
       case TOTPUTILS_OPT_K:
       if (!(invalue))
-      {
-         if (!(tud->hotp_k))
-            if ((tud->hotp_k = totputils_bvalloc(NULL, 0)) == NULL)
-               return(TOTPUTILS_ENOMEM);
-         tud->hotp_k->bv_len                 = 1;
-         ((uint8_t *)tud->hotp_k->bv_val)[0] = 0;
-         return(TOTPUTILS_SUCCESS);
-      };
+         if ((invalue = defaults->hotp_k) == NULL)
+            invalue = totputils_const_defaults.hotp_k;
       if ((bv = totputils_bvdup((((const totputils_bv_t *)invalue)))) == NULL)
          return(TOTPUTILS_ENOMEM);
       if ((tud->hotp_k))
@@ -362,22 +407,22 @@ totputils_set_param(
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_T0:
-      tud->totp_t0 = ((invalue)) ? *((const uint64_t *)invalue) : TOTPUTILS_T0;
+      tud->totp_t0 = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_t0;
       tud->otp_method = TOTPUTILS_TOTP;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_TX:
-      tud->totp_tx = ((invalue)) ? *((const uint64_t *)invalue) : TOTPUTILS_TX;
+      tud->totp_tx = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_tx;
       tud->otp_method = TOTPUTILS_TOTP;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_TIME:
-      tud->totp_time = ((invalue)) ? *((const uint64_t *)invalue) : (uint64_t)time(NULL);
+      tud->totp_time = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_time;
       tud->otp_method = TOTPUTILS_TOTP;
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_C:
-      tud->hotp_c = ((invalue)) ? *((const uint64_t *)invalue) : 0;
+      tud->hotp_c = ((invalue)) ? *((const uint64_t *)invalue) : defaults->hotp_c;
       tud->otp_method = TOTPUTILS_HOTP;
       return(TOTPUTILS_SUCCESS);
 
@@ -385,14 +430,14 @@ totputils_set_param(
       if ((tud->otp_desc))
          free(tud->otp_desc);
       tud->otp_desc = NULL;
-      if (!((const char *)invalue))
+      if ((invalue = ((invalue)) ? invalue : defaults->otp_desc) == NULL)
          return(TOTPUTILS_SUCCESS);
       if ((tud->otp_desc = bindle_strdup(((const char *)invalue))) == NULL)
          return(TOTPUTILS_ENOMEM);
       return(TOTPUTILS_SUCCESS);
 
       case TOTPUTILS_OPT_METHOD:
-      tud->otp_method = ((invalue)) ? *((const uint64_t *)invalue) : 0;
+      tud->otp_method = ((invalue)) ? *((const uint64_t *)invalue) : defaults->otp_method;
       return(TOTPUTILS_SUCCESS);
 
       default:
@@ -433,6 +478,7 @@ int
 totputils_code(
          totputils_t *                 tud )
 {
+   tud = ((tud)) ? tud : &totputils_defaults;
    switch(tud->otp_method)
    {
       case TOTPUTILS_TOTP:
@@ -454,6 +500,7 @@ totputils_str(
          char *                        code,
          size_t                        code_len )
 {
+   tud = ((tud)) ? tud : &totputils_defaults;
    switch(tud->otp_method)
    {
       case TOTPUTILS_TOTP:
