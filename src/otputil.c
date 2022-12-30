@@ -137,8 +137,8 @@ totp_widget_version(
 /////////////////
 #pragma mark - Variables
 
-#pragma mark totp_widget_map[]
-static otputil_widget_t totp_widget_map[] =
+#pragma mark otputil_widget_map[]
+static otputil_widget_t otputil_widget_map[] =
 {
    {  .name       = "code",
       .desc       = "generate TOTP code",
@@ -488,10 +488,10 @@ totp_widget_lookup(
    match       = NULL;
    wname_len   = strlen(wname);
 
-   for(x = 0; ((totp_widget_map[x].name)); x++)
+   for(x = 0; ((otputil_widget_map[x].name)); x++)
    {
       // check widget
-      widget = &totp_widget_map[x];
+      widget = &otputil_widget_map[x];
       if (widget->func_exec == NULL)
          continue;
 
@@ -567,9 +567,9 @@ totp_widget_usage(
    if (!(cnf->widget))
    {
       printf("WIDGETS:\n");
-      for(pos = 0; totp_widget_map[pos].name != NULL; pos++)
+      for(pos = 0; otputil_widget_map[pos].name != NULL; pos++)
       {
-         widget = &totp_widget_map[pos];
+         widget = &otputil_widget_map[pos];
          if ((widget->desc))
             printf("  %-25s %s\n", widget->name, widget->desc);
       };
