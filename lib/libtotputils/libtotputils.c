@@ -454,7 +454,7 @@ otputil_set_param(
 #pragma mark misc functions
 
 char *
-totputils_getpass(
+otputil_getpass(
          const char *                  prompt,
          char *                        pass,
          size_t                        passlen )

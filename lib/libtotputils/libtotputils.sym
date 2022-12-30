@@ -70,7 +70,7 @@ otputil_get_param
 otputil_initialize
 otputil_set_param
 # misc functions
-totputils_getpass
+otputil_getpass
 # OTP functions
 totputils_code
 totputils_str

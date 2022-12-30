@@ -83,7 +83,7 @@ totp_widget_verify(
    if ((rc = totp_arguments(cnf, cnf->argc, cnf->argv)) != 0)
       return((rc == -1) ? 0 : 1);
    if ((user_str = ((cnf->argc > optind)) ? cnf->argv[optind] : NULL) == NULL)
-      user_str = totputils_getpass("Enter OTP code: ", NULL, 0);
+      user_str = otputil_getpass("Enter OTP code: ", NULL, 0);
    user_code = (int)strtoll(user_str, NULL, 10);
 
    if ((otp_code = totputils_code(cnf->tud)) == -1)
