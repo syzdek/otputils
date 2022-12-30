@@ -80,5 +80,5 @@ otputil_hotp_str
 # TOTP functions
 otputil_totp_code
 otputil_totp_str
-totputils_totp_timer
+otputil_totp_timer
 # end of symbol export file
