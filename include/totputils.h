@@ -129,7 +129,7 @@
 #define TOTPUTILS_DFLT_C            1ULL
 #define TOTPUTILS_DFLT_T0           0ULL
 #define TOTPUTILS_DFLT_TX           30ULL
-#define TOTPUTILS_TIME              0ULL
+#define TOTPUTILS_DFLT_TIME         0ULL
 
 
 #define TOTPUTILS_MAX_CODE_SIZE     16
