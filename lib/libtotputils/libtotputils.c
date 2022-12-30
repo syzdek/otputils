@@ -73,7 +73,7 @@ const totputils_t totputils_const_defaults =
 {
    .otp_desc               = NULL,
    .hotp_k                 = &totputils_const_defaults_k,
-   .hotp_c                 = TOTPUTILS_C,
+   .hotp_c                 = TOTPUTILS_DFLT_C,
    .otp_method             = TOTPUTILS_METH_TOTP,
    .totp_time              = TOTPUTILS_TIME,
    .totp_t0                = TOTPUTILS_T0,
@@ -86,7 +86,7 @@ static totputils_t totputils_defaults =
 {
    .otp_desc               = NULL,
    .hotp_k                 = NULL,
-   .hotp_c                 = TOTPUTILS_C,
+   .hotp_c                 = TOTPUTILS_DFLT_C,
    .otp_method             = TOTPUTILS_METH_TOTP,
    .totp_time              = TOTPUTILS_TIME,
    .totp_t0                = TOTPUTILS_T0,
