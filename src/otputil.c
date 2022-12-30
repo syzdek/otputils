@@ -109,7 +109,7 @@ otputil_cleanup(
 
 
 static otputil_widget_t *
-totp_widget_lookup(
+otputil_widget_lookup(
          const char *                  wname,
          int                           exact );
 
@@ -246,7 +246,7 @@ main(
 
 
    // skip argument processing if called via alias
-   if ((cnf->widget = totp_widget_lookup(cnf->prog_name, 1)) != NULL)
+   if ((cnf->widget = otputil_widget_lookup(cnf->prog_name, 1)) != NULL)
    {
       cnf->argc = argc;
       cnf->argv = argv;
@@ -268,7 +268,7 @@ main(
 
 
    // looks up widget
-   if ((cnf->widget = totp_widget_lookup(argv[optind], 0)) == NULL)
+   if ((cnf->widget = otputil_widget_lookup(argv[optind], 0)) == NULL)
    {
       fprintf(stderr, "%s: unknown or ambiguous widget -- \"%s\"\n", cnf->prog_name, cnf->argv[0]);
       fprintf(stderr, "Try `%s --help' for more information.\n", cnf->prog_name);
@@ -464,7 +464,7 @@ otputil_cleanup(
 
 
 otputil_widget_t *
-totp_widget_lookup(
+otputil_widget_lookup(
          const char *                  wname,
          int                           exact )
 {
