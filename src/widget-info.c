@@ -103,33 +103,33 @@ totp_widget_info(
       return((rc == -1) ? 0 : 1);
 
    // retrieve OTP secret information
-   if (totp_widget_info_get(cnf, "METHOD", TOTPUTILS_OPT_METHOD, &otp_method) != 0)
+   if (totp_widget_info_get(cnf, "METHOD", OTPUTIL_OPT_METHOD, &otp_method) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "C", TOTPUTILS_OPT_C, &hotp_c) != 0)
+   if (totp_widget_info_get(cnf, "C", OTPUTIL_OPT_C, &hotp_c) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "T0", TOTPUTILS_OPT_T0, &totp_t0) != 0)
+   if (totp_widget_info_get(cnf, "T0", OTPUTIL_OPT_T0, &totp_t0) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "TX", TOTPUTILS_OPT_TX, &totp_tx) != 0)
+   if (totp_widget_info_get(cnf, "TX", OTPUTIL_OPT_TX, &totp_tx) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "TIME", TOTPUTILS_OPT_TIME, &totp_time) != 0)
+   if (totp_widget_info_get(cnf, "TIME", OTPUTIL_OPT_TIME, &totp_time) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "KEY", TOTPUTILS_OPT_KSTR, &otp_kstr) != 0)
+   if (totp_widget_info_get(cnf, "KEY", OTPUTIL_OPT_KSTR, &otp_kstr) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "KEY", TOTPUTILS_OPT_DESC, &otp_desc) != 0)
+   if (totp_widget_info_get(cnf, "KEY", OTPUTIL_OPT_DESC, &otp_desc) != 0)
       return(1);
 
    // print secret information
    printf("OTP Secret:\n");
    printf("   Description:          %s\n", (((otp_desc)) ? otp_desc : "n/a") );
-   printf("   OTP Method:           %s\n", (otp_method == TOTPUTILS_METH_TOTP) ? "TOTP" : "HOTP" );
+   printf("   OTP Method:           %s\n", (otp_method == OTPUTIL_METH_TOTP) ? "TOTP" : "HOTP" );
    printf("   Shared Key:           %s\n", otp_kstr );
-   if (otp_method == TOTPUTILS_METH_TOTP)
+   if (otp_method == OTPUTIL_METH_TOTP)
    {
       printf("   TOTP UNIX Time:       %" PRIu64 "\n", totp_t0 );
       printf("   TOTP Step Interval:   %" PRIu64 "\n", totp_tx );
       printf("   TOTP Current Time:    %" PRIu64 "\n", totp_time );
    };
-   if (otp_method == TOTPUTILS_METH_HOTP)
+   if (otp_method == OTPUTIL_METH_HOTP)
    {
       printf("   HOTP Counter:         %" PRIu64 "\n", hotp_c );
    };

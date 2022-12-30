@@ -73,11 +73,11 @@ const totputils_t totputils_const_defaults =
 {
    .otp_desc               = NULL,
    .hotp_k                 = &totputils_const_defaults_k,
-   .hotp_c                 = TOTPUTILS_DFLT_C,
-   .otp_method             = TOTPUTILS_DFLT_METH,
-   .totp_time              = TOTPUTILS_DFLT_TIME,
-   .totp_t0                = TOTPUTILS_DFLT_T0,
-   .totp_tx                = TOTPUTILS_DFLT_TX,
+   .hotp_c                 = OTPUTIL_DFLT_C,
+   .otp_method             = OTPUTIL_DFLT_METH,
+   .totp_time              = OTPUTIL_DFLT_TIME,
+   .totp_t0                = OTPUTIL_DFLT_T0,
+   .totp_tx                = OTPUTIL_DFLT_TX,
 };
 
 
@@ -86,11 +86,11 @@ static totputils_t totputils_defaults =
 {
    .otp_desc               = NULL,
    .hotp_k                 = NULL,
-   .hotp_c                 = TOTPUTILS_DFLT_C,
-   .otp_method             = TOTPUTILS_DFLT_METH,
-   .totp_time              = TOTPUTILS_DFLT_TIME,
-   .totp_t0                = TOTPUTILS_DFLT_T0,
-   .totp_tx                = TOTPUTILS_DFLT_TX,
+   .hotp_c                 = OTPUTIL_DFLT_C,
+   .otp_method             = OTPUTIL_DFLT_METH,
+   .totp_time              = OTPUTIL_DFLT_TIME,
+   .totp_t0                = OTPUTIL_DFLT_T0,
+   .totp_tx                = OTPUTIL_DFLT_TX,
 };
 
 
@@ -224,14 +224,14 @@ totputils_err2string(
 {
    switch(err)
    {
-      case TOTPUTILS_SUCCESS:        return("success");
-      case TOTPUTILS_EBADDATA:       return("invalid data");
-      case TOTPUTILS_ENOBUFS:        return("no buffer space available");
-      case TOTPUTILS_ENOMEM:         return("out of virtual memory");
-      case TOTPUTILS_ENOTSUP:        return("method or feature is not supported");
-      case TOTPUTILS_EOPTION:        return("invalid option");
-      case TOTPUTILS_EOPTVAL:       return("invalid option value");
-      default:                       break;
+      case OTPUTIL_SUCCESS:         return("success");
+      case OTPUTIL_EBADDATA:        return("invalid data");
+      case OTPUTIL_ENOBUFS:         return("no buffer space available");
+      case OTPUTIL_ENOMEM:          return("out of virtual memory");
+      case OTPUTIL_ENOTSUP:         return("method or feature is not supported");
+      case OTPUTIL_EOPTION:         return("invalid option");
+      case OTPUTIL_EOPTVAL:         return("invalid option value");
+      default:                      break;
    };
    return("unknown error");
 }
@@ -276,52 +276,52 @@ totputils_get_param(
 
    switch(option)
    {
-      case TOTPUTILS_OPT_K:
+      case OTPUTIL_OPT_K:
       if ((bv = totputils_bvdup(tud->hotp_k)) == NULL)
-         return(TOTPUTILS_ENOMEM);
+         return(OTPUTIL_ENOMEM);
       *((totputils_bv_t **)outvalue) = bv;
-      return(TOTPUTILS_SUCCESS);
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_KSTR:
+      case OTPUTIL_OPT_KSTR:
       if ((*((char **)outvalue) = totputils_bvbase32(tud->hotp_k)) == NULL)
-         return(TOTPUTILS_ENOMEM);
-      return(TOTPUTILS_SUCCESS);
+         return(OTPUTIL_ENOMEM);
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_T0:
+      case OTPUTIL_OPT_T0:
       *((uint64_t *)outvalue) = tud->totp_t0;
-      return(TOTPUTILS_SUCCESS);
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_TX:
+      case OTPUTIL_OPT_TX:
       *((uint64_t *)outvalue) = tud->totp_tx;
-      return(TOTPUTILS_SUCCESS);
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_TIME:
+      case OTPUTIL_OPT_TIME:
       *((uint64_t *)outvalue) = tud->totp_time;
-      return(TOTPUTILS_SUCCESS);
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_C:
+      case OTPUTIL_OPT_C:
       *((uint64_t *)outvalue) =  tud->hotp_c;
-      return(TOTPUTILS_SUCCESS);
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_DESC:
+      case OTPUTIL_OPT_DESC:
       if (!(tud->otp_desc))
       {
          *((char **)outvalue) = NULL;
-         return(TOTPUTILS_SUCCESS);
+         return(OTPUTIL_SUCCESS);
       };
       if (( *((char **)outvalue) = bindle_strdup(tud->otp_desc)) == NULL)
-         return(TOTPUTILS_ENOMEM);
-      return(TOTPUTILS_SUCCESS);
+         return(OTPUTIL_ENOMEM);
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_METHOD:
+      case OTPUTIL_OPT_METHOD:
       *((uint64_t *)outvalue) = tud->otp_method;
-      return(TOTPUTILS_SUCCESS);
+      return(OTPUTIL_SUCCESS);
 
       default:
       break;
    };
 
-   return(TOTPUTILS_EOPTION);
+   return(OTPUTIL_EOPTION);
 }
 
 
@@ -336,25 +336,25 @@ totputils_initialize(
 
    // allocate initial memory
    if ((tud = malloc(sizeof(totputils_t))) == NULL)
-      return(TOTPUTILS_ENOMEM);
+      return(OTPUTIL_ENOMEM);
    memset(tud, 0, sizeof(totputils_t));
 
-   if ((rc = totputils_set_param(tud, TOTPUTILS_OPT_K, NULL)) != TOTPUTILS_SUCCESS)
+   if ((rc = totputils_set_param(tud, OTPUTIL_OPT_K, NULL)) != OTPUTIL_SUCCESS)
    {
       totputils_free(tud);
       return(rc);
    };
-   if ((rc = totputils_set_param(tud, TOTPUTILS_OPT_T0, NULL)) != TOTPUTILS_SUCCESS)
+   if ((rc = totputils_set_param(tud, OTPUTIL_OPT_T0, NULL)) != OTPUTIL_SUCCESS)
    {
       totputils_free(tud);
       return(rc);
    };
-   if ((rc = totputils_set_param(tud, TOTPUTILS_OPT_TX, NULL)) != TOTPUTILS_SUCCESS)
+   if ((rc = totputils_set_param(tud, OTPUTIL_OPT_TX, NULL)) != OTPUTIL_SUCCESS)
    {
       totputils_free(tud);
       return(rc);
    };
-   if ((rc = totputils_set_param(tud, TOTPUTILS_OPT_TIME, NULL)) != TOTPUTILS_SUCCESS)
+   if ((rc = totputils_set_param(tud, OTPUTIL_OPT_TIME, NULL)) != OTPUTIL_SUCCESS)
    {
       totputils_free(tud);
       return(rc);
@@ -363,7 +363,7 @@ totputils_initialize(
    // saves structure
    *tudp = tud;
 
-   return(TOTPUTILS_SUCCESS);
+   return(OTPUTIL_SUCCESS);
 }
 
 
@@ -384,67 +384,67 @@ totputils_set_param(
 
    switch(option)
    {
-      case TOTPUTILS_OPT_K:
+      case OTPUTIL_OPT_K:
       if (!(invalue))
          if ((invalue = defaults->hotp_k) == NULL)
             invalue = totputils_const_defaults.hotp_k;
       if ((bv = totputils_bvdup((((const totputils_bv_t *)invalue)))) == NULL)
-         return(TOTPUTILS_ENOMEM);
+         return(OTPUTIL_ENOMEM);
       if ((tud->hotp_k))
          totputils_bvfree(tud->hotp_k);
       tud->hotp_k = bv;
-      return(TOTPUTILS_SUCCESS);
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_KSTR:
+      case OTPUTIL_OPT_KSTR:
       str = (const char *)invalue;
       if (bindle_encoding_verify(BNDL_BASE32, str, strlen(str)) == -1)
-         return(TOTPUTILS_EOPTVAL);
+         return(OTPUTIL_EOPTVAL);
       if ((bv = totputils_base32bv( ((const char *)invalue) )) == NULL)
-         return(TOTPUTILS_ENOMEM);
+         return(OTPUTIL_ENOMEM);
       if ((tud->hotp_k))
          totputils_bvfree(tud->hotp_k);
       tud->hotp_k = bv;
-      return(TOTPUTILS_SUCCESS);
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_T0:
+      case OTPUTIL_OPT_T0:
       tud->totp_t0 = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_t0;
-      tud->otp_method = TOTPUTILS_METH_TOTP;
-      return(TOTPUTILS_SUCCESS);
+      tud->otp_method = OTPUTIL_METH_TOTP;
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_TX:
+      case OTPUTIL_OPT_TX:
       tud->totp_tx = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_tx;
-      tud->otp_method = TOTPUTILS_METH_TOTP;
-      return(TOTPUTILS_SUCCESS);
+      tud->otp_method = OTPUTIL_METH_TOTP;
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_TIME:
+      case OTPUTIL_OPT_TIME:
       tud->totp_time = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_time;
-      tud->otp_method = TOTPUTILS_METH_TOTP;
-      return(TOTPUTILS_SUCCESS);
+      tud->otp_method = OTPUTIL_METH_TOTP;
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_C:
+      case OTPUTIL_OPT_C:
       tud->hotp_c = ((invalue)) ? *((const uint64_t *)invalue) : defaults->hotp_c;
-      tud->otp_method = TOTPUTILS_METH_HOTP;
-      return(TOTPUTILS_SUCCESS);
+      tud->otp_method = OTPUTIL_METH_HOTP;
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_DESC:
+      case OTPUTIL_OPT_DESC:
       if ((tud->otp_desc))
          free(tud->otp_desc);
       tud->otp_desc = NULL;
       if ((invalue = ((invalue)) ? invalue : defaults->otp_desc) == NULL)
-         return(TOTPUTILS_SUCCESS);
+         return(OTPUTIL_SUCCESS);
       if ((tud->otp_desc = bindle_strdup(((const char *)invalue))) == NULL)
-         return(TOTPUTILS_ENOMEM);
-      return(TOTPUTILS_SUCCESS);
+         return(OTPUTIL_ENOMEM);
+      return(OTPUTIL_SUCCESS);
 
-      case TOTPUTILS_OPT_METHOD:
+      case OTPUTIL_OPT_METHOD:
       tud->otp_method = ((invalue)) ? *((const uint64_t *)invalue) : defaults->otp_method;
-      return(TOTPUTILS_SUCCESS);
+      return(OTPUTIL_SUCCESS);
 
       default:
       break;
    };
 
-   return(TOTPUTILS_EOPTION);
+   return(OTPUTIL_EOPTION);
 }
 
 
@@ -481,10 +481,10 @@ totputils_code(
    tud = ((tud)) ? tud : &totputils_defaults;
    switch(tud->otp_method)
    {
-      case TOTPUTILS_METH_TOTP:
+      case OTPUTIL_METH_TOTP:
       return(totputils_totp_code(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
 
-      case TOTPUTILS_METH_HOTP:
+      case OTPUTIL_METH_HOTP:
       return(totputils_hotp_code(tud->hotp_k, tud->totp_t0));
 
       default:
@@ -503,10 +503,10 @@ totputils_str(
    tud = ((tud)) ? tud : &totputils_defaults;
    switch(tud->otp_method)
    {
-      case TOTPUTILS_METH_TOTP:
+      case OTPUTIL_METH_TOTP:
       return(totputils_totp_str(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, code, code_len));
 
-      case TOTPUTILS_METH_HOTP:
+      case OTPUTIL_METH_HOTP:
       return(totputils_hotp_str(tud->hotp_k, tud->totp_t0, code, code_len));
 
       default:
@@ -573,7 +573,7 @@ totputils_hotp_str(
          size_t                        hotp_code_len )
 {
    int               otp_code;
-   static char       buff[TOTPUTILS_MAX_CODE_SIZE];
+   static char       buff[OTPUTIL_MAX_CODE_SIZE];
 
    if (!(hotp_code))
    {
@@ -620,7 +620,7 @@ totputils_totp_str(
          size_t                        totp_code_len )
 {
    int               otp_code;
-   static char       buff[TOTPUTILS_MAX_CODE_SIZE];
+   static char       buff[OTPUTIL_MAX_CODE_SIZE];
 
    if (!(totp_code))
    {

@@ -237,7 +237,7 @@ main(
 
 
    // initialize TOTP secret
-   if ((rc = totputils_initialize(&cnf->tud)) != TOTPUTILS_SUCCESS)
+   if ((rc = totputils_initialize(&cnf->tud)) != OTPUTIL_SUCCESS)
    {
       fprintf(stderr, "%s: totputils_initialize(): %s\n", cnf->prog_name, totputils_err2string(rc));
       totp_cleanup(cnf);
@@ -331,9 +331,9 @@ totp_arguments(
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
-         if ((rc = totputils_set_param(cnf->tud, TOTPUTILS_OPT_C, &uval)) != TOTPUTILS_SUCCESS)
+         if ((rc = totputils_set_param(cnf->tud, OTPUTIL_OPT_C, &uval)) != OTPUTIL_SUCCESS)
          {
-            fprintf(stderr, "%s: totputils_set_param(TOTPUTILS_OPT_C): %s\n", PROGRAM_NAME, totputils_err2string(rc));
+            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_C): %s\n", PROGRAM_NAME, totputils_err2string(rc));
             return(1);
          };
          break;
@@ -343,7 +343,7 @@ totp_arguments(
          return(-1);
 
          case 'k':
-         if (totputils_set_param(cnf->tud, TOTPUTILS_OPT_KSTR, optarg) != 0)
+         if (totputils_set_param(cnf->tud, OTPUTIL_OPT_KSTR, optarg) != 0)
          {
             fprintf(stderr, "%s: invalid value for `-k'\n", PROGRAM_NAME);
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
@@ -369,9 +369,9 @@ totp_arguments(
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
-         if ((rc = totputils_set_param(cnf->tud, TOTPUTILS_OPT_TIME, &uval)) != TOTPUTILS_SUCCESS)
+         if ((rc = totputils_set_param(cnf->tud, OTPUTIL_OPT_TIME, &uval)) != OTPUTIL_SUCCESS)
          {
-            fprintf(stderr, "%s: totputils_set_param(TOTPUTILS_OPT_TIME): %s\n", PROGRAM_NAME, totputils_err2string(rc));
+            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_TIME): %s\n", PROGRAM_NAME, totputils_err2string(rc));
             return(1);
          };
          break;
@@ -384,9 +384,9 @@ totp_arguments(
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
-         if ((rc = totputils_set_param(cnf->tud, TOTPUTILS_OPT_T0, &uval)) != TOTPUTILS_SUCCESS)
+         if ((rc = totputils_set_param(cnf->tud, OTPUTIL_OPT_T0, &uval)) != OTPUTIL_SUCCESS)
          {
-            fprintf(stderr, "%s: totputils_set_param(TOTPUTILS_OPT_T0): %s\n", PROGRAM_NAME, totputils_err2string(rc));
+            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_T0): %s\n", PROGRAM_NAME, totputils_err2string(rc));
             return(1);
          };
          break;
@@ -413,9 +413,9 @@ totp_arguments(
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
-         if ((rc = totputils_set_param(cnf->tud, TOTPUTILS_OPT_TX, &uval)) != TOTPUTILS_SUCCESS)
+         if ((rc = totputils_set_param(cnf->tud, OTPUTIL_OPT_TX, &uval)) != OTPUTIL_SUCCESS)
          {
-            fprintf(stderr, "%s: totputils_set_param(TOTPUTILS_OPT_TX): %s\n", PROGRAM_NAME, totputils_err2string(rc));
+            fprintf(stderr, "%s: totputils_set_param(OTPUTIL_OPT_TX): %s\n", PROGRAM_NAME, totputils_err2string(rc));
             return(1);
          };
          break;
@@ -559,10 +559,10 @@ totp_widget_usage(
    printf("  -h, --help                print this help and exit\n");
    printf("  -q, --quiet, --silent     do not print messages\n");
    printf("  -T seconds                TOTP current Unix time\n");
-   printf("  -t seconds                TOTP Unix time start of time steps (default: %llu)\n", TOTPUTILS_DFLT_T0);
+   printf("  -t seconds                TOTP Unix time start of time steps (default: %llu)\n", OTPUTIL_DFLT_T0);
    printf("  -V, --version             print version number and exit\n");
    printf("  -v, --verbose             print verbose messages\n");
-   printf("  -x num                    TOTP time step in seconds (default: %llu)\n", TOTPUTILS_DFLT_TX);
+   printf("  -x num                    TOTP time step in seconds (default: %llu)\n", OTPUTIL_DFLT_TX);
 
    if (!(cnf->widget))
    {
