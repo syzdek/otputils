@@ -68,8 +68,8 @@ static totputils_bv_t otputil_const_defaults_k =
 };
 
 
-#pragma mark totputils_const_defaults
-const totputils_t totputils_const_defaults =
+#pragma mark otputil_const_defaults
+const totputils_t otputil_const_defaults =
 {
    .otp_desc               = NULL,
    .hotp_k                 = &otputil_const_defaults_k,
@@ -379,7 +379,7 @@ otputil_set_param(
 
    assert(tud != NULL);
 
-   defaults = ((tud)) ? &totputils_defaults : &totputils_const_defaults;
+   defaults = ((tud)) ? &totputils_defaults : &otputil_const_defaults;
    tud      = ((tud)) ? tud                 : &totputils_defaults;
 
    switch(option)
@@ -387,7 +387,7 @@ otputil_set_param(
       case OTPUTIL_OPT_K:
       if (!(invalue))
          if ((invalue = defaults->hotp_k) == NULL)
-            invalue = totputils_const_defaults.hotp_k;
+            invalue = otputil_const_defaults.hotp_k;
       if ((bv = otputil_bvdup((((const totputils_bv_t *)invalue)))) == NULL)
          return(OTPUTIL_ENOMEM);
       if ((tud->hotp_k))
