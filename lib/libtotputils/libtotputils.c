@@ -69,7 +69,7 @@ static otputil_bv_t otputil_const_defaults_k =
 
 
 #pragma mark otputil_const_defaults
-const totputils_t otputil_const_defaults =
+const otputil_t otputil_const_defaults =
 {
    .otp_desc               = NULL,
    .hotp_k                 = &otputil_const_defaults_k,
@@ -82,7 +82,7 @@ const totputils_t otputil_const_defaults =
 
 
 #pragma mark otputil_defaults
-static totputils_t otputil_defaults =
+static otputil_t otputil_defaults =
 {
    .otp_desc               = NULL,
    .hotp_k                 = NULL,
@@ -244,7 +244,7 @@ otputil_err2string(
 
 void
 otputil_free(
-         totputils_t *                 tud )
+         otputil_t *                   tud )
 {
    if (!(tud))
       return;
@@ -254,7 +254,7 @@ otputil_free(
    if ((tud->otp_desc))
       free(tud->otp_desc);
 
-   memset(tud, 0, sizeof(totputils_t));
+   memset(tud, 0, sizeof(otputil_t));
    free(tud);
 
    return;
@@ -263,7 +263,7 @@ otputil_free(
 
 int
 otputil_get_param(
-         totputils_t *                 tud,
+         otputil_t *                   tud,
          int                           option,
          void *                        outvalue )
 {
@@ -327,17 +327,17 @@ otputil_get_param(
 
 int
 otputil_initialize(
-         totputils_t **                tudp )
+         otputil_t **                  tudp )
 {
-   totputils_t *     tud;
+   otputil_t *       tud;
    int               rc;
 
    assert(tudp != NULL);
 
    // allocate initial memory
-   if ((tud = malloc(sizeof(totputils_t))) == NULL)
+   if ((tud = malloc(sizeof(otputil_t))) == NULL)
       return(OTPUTIL_ENOMEM);
-   memset(tud, 0, sizeof(totputils_t));
+   memset(tud, 0, sizeof(otputil_t));
 
    if ((rc = otputil_set_param(tud, OTPUTIL_OPT_K, NULL)) != OTPUTIL_SUCCESS)
    {
@@ -369,11 +369,11 @@ otputil_initialize(
 
 int
 otputil_set_param(
-         totputils_t *                 tud,
+         otputil_t *                   tud,
          int                           option,
          const void *                  invalue )
 {
-   const totputils_t *  defaults;
+   const otputil_t *    defaults;
    otputil_bv_t *       bv;
    const char *         str;
 
@@ -476,7 +476,7 @@ otputil_getpass(
 
 int
 otputil_code(
-         totputils_t *                 tud )
+         otputil_t *                   tud )
 {
    tud = ((tud)) ? tud : &otputil_defaults;
    switch(tud->otp_method)
@@ -496,7 +496,7 @@ otputil_code(
 
 char *
 otputil_str(
-         totputils_t *                 tud,
+         otputil_t *                   tud,
          char *                        code,
          size_t                        code_len )
 {
@@ -641,7 +641,7 @@ otputil_totp_str(
 
 uint64_t
 otputil_totp_timer(
-         totputils_t *                 tud,
+         otputil_t *                   tud,
          uint64_t                      totp_time )
 {
    if (!(tud->totp_tx))

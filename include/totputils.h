@@ -143,7 +143,7 @@
 /////////////////
 #pragma mark - Datatypes
 
-typedef struct _otputil_secret totputils_t;
+typedef struct _otputil_secret otputil_t;
 
 
 typedef struct _otputil_berval otputil_bv_t;
@@ -210,24 +210,24 @@ otputil_err2string(
 
 _OTPUTIL_F void
 otputil_free(
-         totputils_t *                 tud );
+         otputil_t *                   tud );
 
 
 _OTPUTIL_F int
 otputil_get_param(
-         totputils_t *                 tud,
+         otputil_t *                   tud,
          int                           option,
          void *                        outvalue );
 
 
 _OTPUTIL_F int
 otputil_initialize(
-         totputils_t **                tudp );
+         otputil_t **                  tudp );
 
 
 _OTPUTIL_F int
 otputil_set_param(
-         totputils_t *                 tud,
+         otputil_t *                   tud,
          int                           option,
          const void *                  invalue );
 
@@ -251,12 +251,12 @@ otputil_getpass(
 
 _OTPUTIL_F int
 otputil_code(
-         totputils_t *                 tud );
+         otputil_t *                   tud );
 
 
 _OTPUTIL_F char *
 otputil_str(
-         totputils_t *                 tud,
+         otputil_t *                   tud,
          char *                        code,
          size_t                        code_len );
 
@@ -305,7 +305,7 @@ otputil_totp_str(
 
 _OTPUTIL_F uint64_t
 otputil_totp_timer(
-         totputils_t *                 tud,
+         otputil_t *                   tud,
          uint64_t                      totp_time );
 
 

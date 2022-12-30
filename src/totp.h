@@ -89,7 +89,7 @@ struct _totputils_cli_config
    int                        argc;
    char **                    argv;
    const char *               prog_name;
-   totputils_t *              tud;
+   otputil_t *                tud;
    const totp_widget_t *      widget;
 };
 
