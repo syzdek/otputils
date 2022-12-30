@@ -456,7 +456,7 @@ totp_cleanup(
          totp_config_t *               cnf )
 {
    if ((cnf->tud))
-      totputils_free(cnf->tud);
+      otputil_free(cnf->tud);
    cnf->tud = NULL;
 
    return;

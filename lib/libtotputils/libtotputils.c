@@ -243,7 +243,7 @@ otputil_err2string(
 #pragma mark memory functions
 
 void
-totputils_free(
+otputil_free(
          totputils_t *                 tud )
 {
    if (!(tud))
@@ -341,22 +341,22 @@ totputils_initialize(
 
    if ((rc = totputils_set_param(tud, OTPUTIL_OPT_K, NULL)) != OTPUTIL_SUCCESS)
    {
-      totputils_free(tud);
+      otputil_free(tud);
       return(rc);
    };
    if ((rc = totputils_set_param(tud, OTPUTIL_OPT_T0, NULL)) != OTPUTIL_SUCCESS)
    {
-      totputils_free(tud);
+      otputil_free(tud);
       return(rc);
    };
    if ((rc = totputils_set_param(tud, OTPUTIL_OPT_TX, NULL)) != OTPUTIL_SUCCESS)
    {
-      totputils_free(tud);
+      otputil_free(tud);
       return(rc);
    };
    if ((rc = totputils_set_param(tud, OTPUTIL_OPT_TIME, NULL)) != OTPUTIL_SUCCESS)
    {
-      totputils_free(tud);
+      otputil_free(tud);
       return(rc);
    };
 

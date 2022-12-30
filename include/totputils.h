@@ -209,7 +209,7 @@ otputil_err2string(
 #pragma mark memory prototypes
 
 _OTPUTIL_F void
-totputils_free(
+otputil_free(
          totputils_t *                 tud );
 
 
