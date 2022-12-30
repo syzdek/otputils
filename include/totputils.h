@@ -120,7 +120,8 @@
 #define TOTPUTILS_OPT_METHOD        0x0009
 
 
-#define TOTPUTILS_HOTP              0x0001
+#define TOTPUTILS_METH_RFC4226      0x0001
+#define TOTPUTILS_HOTP              TOTPUTILS_METH_RFC4226
 #define TOTPUTILS_TOTP              0x0002
 
 
