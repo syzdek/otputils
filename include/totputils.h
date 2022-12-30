@@ -143,7 +143,7 @@
 /////////////////
 #pragma mark - Datatypes
 
-typedef struct _totputils_secret totputils_t;
+typedef struct _otputil_secret totputils_t;
 
 
 typedef struct _totputils_berval totputils_bv_t;

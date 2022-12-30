@@ -69,7 +69,7 @@
 //
 // format of HOTP secret (RFC 4226)
 //   k:c:0:hmac:desc
-struct _totputils_secret
+struct _otputil_secret
 {
    char *                  otp_desc;      // description of secret
    totputils_bv_t *        hotp_k;
