@@ -63,7 +63,7 @@
 #pragma mark - Definitions
 
 #ifndef PROGRAM_NAME
-#define PROGRAM_NAME "totp"
+#define PROGRAM_NAME "otputil"
 #endif
 #ifndef PACKAGE_BUGREPORT
 #define PACKAGE_BUGREPORT "david@syzdek.net"
