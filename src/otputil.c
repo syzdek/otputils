@@ -104,7 +104,7 @@ main(
 #pragma mark miscellaneous prototypes
 
 static void
-totp_cleanup(
+otputil_cleanup(
          otputil_config_t *            cnf );
 
 
@@ -240,7 +240,7 @@ main(
    if ((rc = otputil_initialize(&cnf->tud)) != OTPUTIL_SUCCESS)
    {
       fprintf(stderr, "%s: otputil_initialize(): %s\n", cnf->prog_name, otputil_err2string(rc));
-      totp_cleanup(cnf);
+      otputil_cleanup(cnf);
       return(1);
    };
 
@@ -452,7 +452,7 @@ otputil_arguments(
 
 
 void
-totp_cleanup(
+otputil_cleanup(
          otputil_config_t *            cnf )
 {
    if ((cnf->tud))
