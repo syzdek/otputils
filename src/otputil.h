@@ -64,7 +64,7 @@
 #pragma mark - Datatypes
 
 typedef struct _otputil_cli_config otputil_config_t;
-typedef struct _otputil_cli_widget totp_widget_t;
+typedef struct _otputil_cli_widget otputil_widget_t;
 
 
 struct _otputil_cli_widget
@@ -90,7 +90,7 @@ struct _otputil_cli_config
    char **                    argv;
    const char *               prog_name;
    otputil_t *                tud;
-   const totp_widget_t *      widget;
+   const otputil_widget_t *   widget;
 };
 
 

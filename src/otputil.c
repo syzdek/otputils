@@ -108,7 +108,7 @@ totp_cleanup(
          otputil_config_t *            cnf );
 
 
-static totp_widget_t *
+static otputil_widget_t *
 totp_widget_lookup(
          const char *                  wname,
          int                           exact );
@@ -138,7 +138,7 @@ totp_widget_version(
 #pragma mark - Variables
 
 #pragma mark totp_widget_map[]
-static totp_widget_t totp_widget_map[] =
+static otputil_widget_t totp_widget_map[] =
 {
    {  .name       = "code",
       .desc       = "generate TOTP code",
@@ -463,7 +463,7 @@ totp_cleanup(
 }
 
 
-totp_widget_t *
+otputil_widget_t *
 totp_widget_lookup(
          const char *                  wname,
          int                           exact )
@@ -473,8 +473,8 @@ totp_widget_lookup(
    size_t                     len;
    size_t                     wname_len;
    const char *               alias;
-   totp_widget_t *            match;
-   totp_widget_t *            widget;
+   otputil_widget_t *         match;
+   otputil_widget_t *         widget;
 
    // strip program prefix from widget name
    len = strlen(PROGRAM_NAME);
@@ -541,7 +541,7 @@ totp_widget_usage(
    size_t               pos;
    const char *         widget_name;
    const char *         widget_help;
-   totp_widget_t *      widget;
+   otputil_widget_t *   widget;
 
    assert(cnf != NULL);
 
