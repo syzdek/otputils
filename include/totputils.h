@@ -121,8 +121,9 @@
 
 
 #define TOTPUTILS_METH_RFC4226      0x0001
+#define TOTPUTILS_METH_RFC6238      0x0002
 #define TOTPUTILS_HOTP              TOTPUTILS_METH_RFC4226
-#define TOTPUTILS_TOTP              0x0002
+#define TOTPUTILS_TOTP              TOTPUTILS_METH_RFC6238
 
 
 #define TOTPUTILS_C                 1ULL
