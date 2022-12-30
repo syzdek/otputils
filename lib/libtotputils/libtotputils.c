@@ -482,7 +482,7 @@ otputil_code(
    switch(tud->otp_method)
    {
       case OTPUTIL_METH_TOTP:
-      return(totputils_totp_code(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
+      return(otputil_totp_code(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
 
       case OTPUTIL_METH_HOTP:
       return(otputil_hotp_code(tud->hotp_k, tud->totp_t0));
@@ -598,7 +598,7 @@ otputil_hotp_str(
 #pragma mark TOTP functions
 
 int
-totputils_totp_code(
+otputil_totp_code(
          const totputils_bv_t *        totp_k,
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
@@ -630,7 +630,7 @@ totputils_totp_str(
    if (totp_code_len < 7)
       return(NULL);
 
-   if ((otp_code = totputils_totp_code(totp_k, totp_t0, totp_tx, totp_time)) == -1)
+   if ((otp_code = otputil_totp_code(totp_k, totp_t0, totp_tx, totp_time)) == -1)
       return(NULL);
 
    snprintf(totp_code, totp_code_len, "%06i", otp_code);
