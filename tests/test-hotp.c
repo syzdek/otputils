@@ -372,15 +372,13 @@ main(
          printf("%*s : %2" PRIu64 " : %6i : %*s\n", k_len, p->hotp_kb32, p->hotp_c, p->hotp_digits, code_len, code_str);
       };
 
-      otputil_set_param(NULL, OTPUTIL_OPT_HOTP_DIGITS, &p->hotp_digits);
-
       if ((hotp_k = otputil_base32bv(p->hotp_kb32)) == NULL)
       {
          fprintf(stderr, "%s: otputil_base32bv(): internal error\n", PROGRAM_NAME);
          return(1);
       };
 
-      if ((hotp_code = otputil_hotp_code(hotp_k, p->hotp_c)) == -1)
+      if ((hotp_code = otputil_hotp_code(hotp_k, p->hotp_c, p->hotp_digits)) == -1)
       {
          fprintf(stderr, "%s: otputil_hotp_code(): internal error\n", PROGRAM_NAME);
          otputil_bvfree(hotp_k);

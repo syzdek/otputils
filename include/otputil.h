@@ -272,13 +272,15 @@ otputil_str(
 _OTPUTIL_F int
 otputil_hotp_code(
          const otputil_bv_t *          hotp_k,
-         uint64_t                      hotp_c );
+         uint64_t                      hotp_c,
+         int                           hotp_digits );
 
 
 _OTPUTIL_F char *
 otputil_hotp_str(
          const otputil_bv_t *          hotp_k,
          uint64_t                      hotp_c,
+         int                           hotp_digits,
          char *                        dst,
          size_t                        dstlen );
 
