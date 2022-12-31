@@ -47,7 +47,11 @@
 #include <assert.h>
 #include <getopt.h>
 #include <stdio.h>
+#include <string.h>
+#include <strings.h>
 #include <inttypes.h>
+
+#include <otputil.h>
 
 
 ///////////////////
@@ -84,7 +88,12 @@
 typedef struct _test_data testdata_t;
 struct _test_data
 {
-   const uint8_t *         test_key;
+   const char *      totp_kb32;
+   uint64_t          totp_t0;
+   uint64_t          totp_tx;
+   uint64_t          totp_time;
+   int               totp_code;
+   int               totp_digits;
 };
 
 
@@ -98,29 +107,71 @@ struct _test_data
 static int verbose   = 0;
 static int quiet     = 0;
 
-static struct {
-   const char *      totp_kb32;
-   uint64_t          totp_t0;
-   uint64_t          totp_tx;
-   uint64_t          totp_time;
-   uint64_t          totp_hmac;
-   uint64_t          totp_code;
-} test_data[] =
+
+static testdata_t test_data[] =
 {
+   // RFC 6238 Appendix B. Test Vectors
    {
-      .totp_kb32        = "G7DZ-YJJU-LOIZ-MREO",
+      // 1970-01-01 00:00:59
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .totp_t0          = 0ULL,
       .totp_tx          = 30ULL,
-      .totp_time        = 1672297762,
-      .totp_hmac        = 0,
-      .totp_code        = 268123,
+      .totp_time        = 59,
+      .totp_code        = 94287082,
+      .totp_digits      = 8,
+   },
+   {
+      // 2005-03-18 01:58:29
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 1111111109,
+      .totp_code        = 7081804, // RFC states 07081804
+      .totp_digits      = 8,
+   },
+   {
+      // 2005-03-18 01:58:29
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 1111111111,
+      .totp_code        = 14050471,
+      .totp_digits      = 8,
+   },
+   {
+      // 2009-02-13 23:31:30
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 1234567890,
+      .totp_code        = 89005924,
+      .totp_digits      = 8,
+   },
+   {
+      // 2033-05-18 03:33:20
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 2000000000,
+      .totp_code        = 69279037,
+      .totp_digits      = 8,
+   },
+   {
+      // 2603-10-11 11:33:20
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 20000000000,
+      .totp_code        = 65353130,
+      .totp_digits      = 8,
    },
    {
       .totp_kb32        = NULL,
       .totp_t0          = 0,
       .totp_tx          = 0,
       .totp_time        = 0,
-      .totp_hmac        = 0,
+      .totp_code        = 0,
+      .totp_digits      = 0,
    }
 };
 
@@ -150,9 +201,16 @@ main(
          int                           argc,
          char *                        argv[] )
 {
-   int            c;
-   int            opt_index;
-   int            idx;
+   int               c;
+   int               opt_index;
+   int               idx;
+   otputil_bv_t *    totp_k;
+   int64_t           totp_code;
+   testdata_t *      p;
+   int               len;
+   int               k_len;
+   int               code_len;
+   char              code_str[128];
 
    // getopt options
    static const char *  short_opt = "hqVv";
@@ -208,8 +266,52 @@ main(
       };
    };
 
+   k_len    = 0;
+   code_len = 0;
+   if ((verbose))
+   {
+      for(idx = 0; ((test_data[idx].totp_kb32)); idx++)
+      {
+         if (k_len < (len = (int)strlen(test_data[idx].totp_kb32)))
+            k_len = len;
+         if (code_len < test_data[idx].totp_digits)
+            code_len = test_data[idx].totp_digits;
+      };
+      printf("%-*s : %-2s : %-4s : %-12s : digits : %-*s\n", k_len, "key", "t0", "tx", "t", code_len, "code");
+   };
+
    for(idx = 0; ((test_data[idx].totp_kb32)); idx++)
    {
+      p = &test_data[idx];
+
+      if ((verbose))
+      {
+         snprintf(code_str, sizeof(code_str), "%0*i", p->totp_digits, p->totp_code);
+         printf("%s : %2" PRIu64 " : %4" PRIu64 " : %12" PRIu64 " : %6i : %*s\n", p->totp_kb32, p->totp_t0, p->totp_tx, p->totp_time, p->totp_digits, code_len, code_str);
+      };
+      
+      otputil_set_param(NULL, OTPUTIL_OPT_TOTP_DIGITS, &p->totp_digits);
+
+      if ((totp_k = otputil_base32bv(p->totp_kb32)) == NULL)
+      {
+         fprintf(stderr, "%s: otputil_base32bv(): internal error\n", PROGRAM_NAME);
+         return(1);
+      };
+
+      if ((totp_code = otputil_totp_code(totp_k, p->totp_t0, p->totp_tx, p->totp_time)) == -1)
+      {
+         fprintf(stderr, "%s: otputil_totp_code(): internal error\n", PROGRAM_NAME);
+         otputil_bvfree(totp_k);
+         return(1);
+      };
+
+      otputil_bvfree(totp_k);
+
+      if (totp_code != p->totp_code)
+      {
+         fprintf(stderr, "%s: expected %0*i but generated %0*" PRIi64 "\n", PROGRAM_NAME, p->totp_digits, p->totp_code, p->totp_digits, totp_code);
+         return(1);
+      };
    };
 
    return(0);
