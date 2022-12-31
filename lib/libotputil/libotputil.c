@@ -68,6 +68,12 @@ otputil_param_k(
          otputil_t *                   tud );
 
 
+static uintmax_t
+otputil_upow(
+         uintmax_t                     base,
+         uintmax_t                     exp );
+
+
 /////////////////
 //             //
 //  Variables  //
@@ -521,6 +527,26 @@ otputil_getpass(
 }
 
 
+uintmax_t
+otputil_upow(
+         uintmax_t                     base,
+         uintmax_t                     exp )
+{
+   uintmax_t result;
+   result = 1;
+   while(1)
+   {
+      if (exp & 1)
+         result *= base;
+      exp >>= 1;
+      if (!(exp))
+         return(result);
+      base *= base;
+   }
+   return(0);
+}
+
+
 //---------------//
 // OTP functions //
 //---------------//
@@ -612,7 +638,7 @@ otputil_hotp_code(
             | (hmac_result[offset+3] & 0xff);
 
    // truncates code to 6 digits
-   hotp_code = (int)(bin_code % 1000000);
+   hotp_code = (int)(bin_code % otputil_upow(10, 6));
 
    return(hotp_code);
 }
