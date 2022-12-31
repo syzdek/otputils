@@ -81,6 +81,7 @@ sbin_SCRIPTS				=
 sbin_PROGRAMS				=
 EXTRA_PROGRAMS				= examples/totp-example \
 					  src/otputil \
+					  tests/test-hotp \
 					  tests/test-totp
 EXTRA					= include/otputil.h \
 					  lib/libotputil.la \
@@ -134,6 +135,7 @@ if ENABLE_UTILITIES
    bin_PROGRAMS				+= src/otputil
 endif
 if ENABLE_TESTS
+   TESTS				+= tests/test-hotp
    TESTS				+= tests/test-totp
 endif
 
@@ -173,6 +175,12 @@ src_otputil_SOURCES			= src/otputil.c \
 					  src/widget-generate.c \
 					  src/widget-info.c \
 					  src/widget-verify.c
+
+
+# macros for tests/test-hotp
+tests_test_hotp_DEPENDENCIES		= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+tests_test_hotp_LDADD			= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+tests_test_hotp_SOURCES			= tests/test-hotp.c
 
 
 # macros for tests/test-totp
