@@ -109,6 +109,7 @@ CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  $(pkgdata_DATA) \
 					  $(bin_SCRIPTS) \
 					  $(sbin_SCRIPTS) \
+					  $(EXTRA_PROGRAMS) \
 					  @PACKAGE_TARNAME@-*.tar.* \
 					  @PACKAGE_TARNAME@-*.txz \
 					  @PACKAGE_TARNAME@-*.zip
