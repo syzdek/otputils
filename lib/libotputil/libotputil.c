@@ -97,9 +97,9 @@ static otputil_bv_t otputil_const_defaults_k =
 const otputil_t otputil_const_defaults =
 {
    .otp_desc               = NULL,
+   .otp_method             = OTPUTIL_DFLT_METH,
    .hotp_k                 = &otputil_const_defaults_k,
    .hotp_c                 = OTPUTIL_DFLT_C,
-   .otp_method             = OTPUTIL_DFLT_METH,
    .totp_time              = OTPUTIL_DFLT_TIME,
    .totp_t0                = OTPUTIL_DFLT_T0,
    .totp_tx                = OTPUTIL_DFLT_TX,
@@ -110,9 +110,9 @@ const otputil_t otputil_const_defaults =
 static otputil_t otputil_defaults =
 {
    .otp_desc               = NULL,
+   .otp_method             = OTPUTIL_DFLT_METH,
    .hotp_k                 = NULL,
    .hotp_c                 = OTPUTIL_DFLT_C,
-   .otp_method             = OTPUTIL_DFLT_METH,
    .totp_time              = OTPUTIL_DFLT_TIME,
    .totp_t0                = OTPUTIL_DFLT_T0,
    .totp_tx                = OTPUTIL_DFLT_TX,
