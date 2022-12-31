@@ -126,7 +126,7 @@ otputil_widget_usage(
 
 // displays version information
 static int
-totp_widget_version(
+otputil_widget_version(
          otputil_config_t *            cnf );
 
 
@@ -187,7 +187,7 @@ static otputil_widget_t otputil_widget_map[] =
       .usage      = NULL,
       .short_opt  = NULL,
       .aliases    = NULL,
-      .func_exec  = &totp_widget_version,
+      .func_exec  = &otputil_widget_version,
       .func_usage = NULL,
    },
    {  .name       = NULL,
@@ -392,7 +392,7 @@ otputil_arguments(
          break;
 
          case 'V':
-         totp_widget_version(cnf);
+         otputil_widget_version(cnf);
          return(-1);
 
          case 'v':
@@ -587,7 +587,7 @@ otputil_widget_usage(
 
 /// displays version information
 int
-totp_widget_version(
+otputil_widget_version(
          otputil_config_t *            cnf )
 {
    assert(cnf != NULL);
