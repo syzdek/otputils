@@ -59,6 +59,7 @@
 static char *
 otputil_code2str(
          int                           code,
+         int                           code_digits,
          char *                        dst,
          size_t                        dstlen );
 
@@ -503,6 +504,7 @@ otputil_set_param(
 char *
 otputil_code2str(
          int                           code,
+         int                           code_digits,
          char *                        dst,
          size_t                        dstlen )
 {
@@ -516,7 +518,7 @@ otputil_code2str(
    if (dstlen < (otputil_defaults.hotp_digits+1))
       return(NULL);
 
-   snprintf(dst, dstlen, "%0*i", (int)otputil_defaults.hotp_digits, code);
+   snprintf(dst, dstlen, "%0*i", code_digits, code);
 
    return(dst);
 }
@@ -602,7 +604,7 @@ otputil_str(
    if ((code = otputil_code(tud)) == -1)
       return(NULL);
 
-   return(otputil_code2str(code, dst, dstlen));
+   return(otputil_code2str(code, (int)tud->hotp_digits, dst, dstlen));
 }
 
 
@@ -672,7 +674,7 @@ otputil_hotp_str(
    if ((otp_code = otputil_hotp_code(hotp_k, hotp_c)) == -1)
       return(NULL);
 
-   return(otputil_code2str(otp_code, dst, dstlen));
+   return(otputil_code2str(otp_code, (int)otputil_defaults.hotp_digits, dst, dstlen));
 }
 
 
@@ -714,7 +716,7 @@ otputil_totp_str(
    if ((otp_code = otputil_totp_code(totp_k, totp_t0, totp_tx, totp_time)) == -1)
       return(NULL);
 
-   return(otputil_code2str(otp_code, dst, dstlen));
+   return(otputil_code2str(otp_code, (int)otputil_defaults.hotp_digits, dst, dstlen));
 }
 
 
