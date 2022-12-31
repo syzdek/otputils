@@ -408,22 +408,18 @@ otputil_set_param(
 
       case OTPUTIL_OPT_T0:
       tud->totp_t0 = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_t0;
-      tud->otp_method = OTPUTIL_METH_TOTP;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_TX:
       tud->totp_tx = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_tx;
-      tud->otp_method = OTPUTIL_METH_TOTP;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_TIME:
       tud->totp_time = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_time;
-      tud->otp_method = OTPUTIL_METH_TOTP;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_C:
       tud->hotp_c = ((invalue)) ? *((const uint64_t *)invalue) : defaults->hotp_c;
-      tud->otp_method = OTPUTIL_METH_HOTP;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_DESC:
