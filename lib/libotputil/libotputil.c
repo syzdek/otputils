@@ -406,6 +406,7 @@ otputil_set_param(
    const otputil_t *    defaults;
    otputil_bv_t *       bv;
    const char *         str;
+   uint64_t             uint;
 
    assert(tud != NULL);
 
@@ -441,6 +442,9 @@ otputil_set_param(
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_TX:
+      uint = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_tx;
+      if (uint == 0)
+         return(OTPUTIL_EOPTVAL);
       tud->totp_tx = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_tx;
       return(OTPUTIL_SUCCESS);
 
