@@ -620,26 +620,20 @@ char *
 otputil_hotp_str(
          const otputil_bv_t *          hotp_k,
          uint64_t                      hotp_c,
-         char *                        hotp_code,
-         size_t                        hotp_code_len )
+         char *                        dst,
+         size_t                        dstlen )
 {
    int               otp_code;
    static char       buff[OTPUTIL_MAX_CODE_SIZE];
 
-   if (!(hotp_code))
-   {
-      hotp_code      = buff;
-      hotp_code_len  = sizeof(buff);
-   };
-   if (hotp_code_len < 7)
-      return(NULL);
+   hotp_k   = ((hotp_k))   ? hotp_k    : &otputil_const_defaults_k;
+   dstlen   = ((dst))      ? dstlen    : sizeof(buff);
+   dst      = ((dst))      ? dst       : buff;
 
    if ((otp_code = otputil_hotp_code(hotp_k, hotp_c)) == -1)
       return(NULL);
 
-   snprintf(hotp_code, hotp_code_len, "%06i", otp_code);
-
-   return(hotp_code);
+   return(otputil_code2str(otp_code, dst, dstlen));
 }
 
 

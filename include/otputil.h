@@ -276,8 +276,8 @@ _OTPUTIL_F char *
 otputil_hotp_str(
          const otputil_bv_t *          hotp_k,
          uint64_t                      hotp_c,
-         char *                        hotp_code,
-         size_t                        hotp_code_len );
+         char *                        dst,
+         size_t                        dstlen );
 
 
 //---------------//
