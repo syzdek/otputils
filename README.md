@@ -1,6 +1,6 @@
 
-TOTP Utilities
-==============
+OTP Utilities
+=============
 
 Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.
 All rights reserved.
@@ -46,21 +46,21 @@ repository.
 
 Browse Source:
 
-      https://github.com/syzdek/totputils
+      https://github.com/syzdek/otputils
 
 Git URLs:
 
-      git://github.com/syzdek/totputils.git
-      https://github.com/syzdek/totputils.git
-      git@github.com:syzdek/totputils.git
+      git://github.com/syzdek/otputils.git
+      https://github.com/syzdek/otputils.git
+      git@github.com:syzdek/otputils.git
 
 Downloading Source:
 
-      $ git clone git://github.com/syzdek/totputils.git
+      $ git clone git://github.com/syzdek/otputils.git
 
 Preparing Source:
 
-      $ cd totputils
+      $ cd otputils
       $ ./autogen.sh
 
 Git Branches:

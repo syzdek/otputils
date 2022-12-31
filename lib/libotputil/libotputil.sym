@@ -1,5 +1,5 @@
 #
-#   TOTP Utilities
+#   OTP Utilities
 #   Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.
 #
 #   Redistribution and use in source and binary forms, with or without

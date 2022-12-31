@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-#   TOTP Utilities
+#   OTP Utilities
 #   Copyright (C) 2022 David M. Syzdek <david@syzdek.net>.
 #
 #   Redistribution and use in source and binary forms, with or without

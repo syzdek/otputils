@@ -1,5 +1,5 @@
 #
-#   TOTP Utilities
+#   OTP Utilities
 #   Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.
 #
 #   Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,7 @@ AC_PREREQ([2.65])
 
 AC_COPYRIGHT([Copyright (C) 2020, 2022 David M. Syzdek <david@syzdek.net>.])
 AC_REVISION(0.1)
-AC_INIT([TOTP Utilities],[0.0],[david@syzdek.net],[totputils],[https://github.com/syzdek/totputils/])
+AC_INIT([OTP Utilities],[0.0],[david@syzdek.net],[otputils],[https://github.com/syzdek/otputils/])
 
 
 AC_SUBST([RELEASE_MONTH],["August 2020"])
@@ -189,7 +189,7 @@ AC_OUTPUT
 
 # Show local config
 AC_MSG_NOTICE([ ])
-AC_MSG_NOTICE([   TOTP Utilities $GIT_PACKAGE_VERSION ($GIT_PACKAGE_BUILD)])
+AC_MSG_NOTICE([   OTP Utilities $GIT_PACKAGE_VERSION ($GIT_PACKAGE_BUILD)])
 AC_MSG_NOTICE([ ])
 AC_MSG_NOTICE([   Features:])
 AC_MSG_NOTICE([      Debug Output               ${USE_DEBUG}])

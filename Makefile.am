@@ -1,5 +1,5 @@
 #
-#   TOTP Utilities
+#   OTP Utilities
 #   Copyright (C) 2020, 2022 David M. Syzdek <david@syzdek.net>.
 #
 #   Redistribution and use in source and binary forms, with or without
@@ -80,7 +80,8 @@ pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
 EXTRA_PROGRAMS				= examples/totp-example \
-					  src/otputil
+					  src/otputil \
+					  tests/test-totp
 EXTRA					= include/otputil.h \
 					  lib/libotputil.la \
 					  lib/libotputil.a
@@ -131,6 +132,9 @@ endif
 if ENABLE_UTILITIES
    bin_PROGRAMS				+= src/otputil
 endif
+if ENABLE_TESTS
+   TESTS				+= tests/test-totp
+endif
 
 
 # macros for examples/totp-example
@@ -168,6 +172,12 @@ src_otputil_SOURCES			= src/otputil.c \
 					  src/widget-generate.c \
 					  src/widget-info.c \
 					  src/widget-verify.c
+
+
+# macros for tests/test-totp
+tests_test_totp_DEPENDENCIES		= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+tests_test_totp_LDADD			= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+tests_test_totp_SOURCES			= tests/test-totp.c
 
 
 # Makefile includes
