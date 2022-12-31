@@ -112,7 +112,7 @@
 #define OTPUTIL_OPT_K               0x0001
 #define OTPUTIL_OPT_KSTR            0x0002
 #define OTPUTIL_OPT_TOTP_T0         0x0003
-#define OTPUTIL_OPT_TX              0x0004
+#define OTPUTIL_OPT_TOTP_X          0x0004
 #define OTPUTIL_OPT_TIME            0x0005
 #define OTPUTIL_OPT_C               0x0006
 #define OTPUTIL_OPT_DESC            0x0007

@@ -91,7 +91,7 @@ otputil_widget_code(
       fprintf(stderr, "%s: otputil_get_param(METHOD): %s\n", cnf->prog_name, otputil_err2string(rc));
       return(1);
    };
-   if ((rc = otputil_get_param(NULL, OTPUTIL_OPT_TX, &totp_tx)) != 0)
+   if ((rc = otputil_get_param(NULL, OTPUTIL_OPT_TOTP_X, &totp_tx)) != 0)
    {
       fprintf(stderr, "%s: otputil_get_param(TX): %s\n", cnf->prog_name, otputil_err2string(rc));
       return(1);
