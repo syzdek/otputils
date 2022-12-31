@@ -105,7 +105,7 @@ otputil_widget_info(
    // retrieve OTP secret information
    if (otputil_widget_info_get(cnf, "METHOD", OTPUTIL_OPT_METHOD, &otp_method) != 0)
       return(1);
-   if (otputil_widget_info_get(cnf, "C", OTPUTIL_OPT_C, &hotp_c) != 0)
+   if (otputil_widget_info_get(cnf, "C", OTPUTIL_OPT_HOTP_C, &hotp_c) != 0)
       return(1);
    if (otputil_widget_info_get(cnf, "T0", OTPUTIL_OPT_TOTP_T0, &totp_t0) != 0)
       return(1);

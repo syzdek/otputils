@@ -338,7 +338,7 @@ otputil_get_param(
       *((uint64_t *)outvalue) = tud->totp_time;
       return(OTPUTIL_SUCCESS);
 
-      case OTPUTIL_OPT_C:
+      case OTPUTIL_OPT_HOTP_C:
       *((uint64_t *)outvalue) =  tud->hotp_c;
       return(OTPUTIL_SUCCESS);
 
@@ -487,7 +487,7 @@ otputil_set_param(
       tud->totp_time = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_time;
       return(OTPUTIL_SUCCESS);
 
-      case OTPUTIL_OPT_C:
+      case OTPUTIL_OPT_HOTP_C:
       tud->hotp_c = ((invalue)) ? *((const uint64_t *)invalue) : defaults->hotp_c;
       return(OTPUTIL_SUCCESS);
 
