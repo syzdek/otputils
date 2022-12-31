@@ -100,6 +100,7 @@ const otputil_t otputil_const_defaults =
    .otp_method             = OTPUTIL_DFLT_METH,
    .hotp_k                 = &otputil_const_defaults_k,
    .hotp_c                 = OTPUTIL_DFLT_C,
+   .hotp_digits            = OTPUTIL_DFLT_HOTP_DIGITS,
    .totp_time              = OTPUTIL_DFLT_TIME,
    .totp_t0                = OTPUTIL_DFLT_T0,
    .totp_tx                = OTPUTIL_DFLT_TX,
@@ -113,6 +114,7 @@ static otputil_t otputil_defaults =
    .otp_method             = OTPUTIL_DFLT_METH,
    .hotp_k                 = NULL,
    .hotp_c                 = OTPUTIL_DFLT_C,
+   .hotp_digits            = OTPUTIL_DFLT_HOTP_DIGITS,
    .totp_time              = OTPUTIL_DFLT_TIME,
    .totp_t0                = OTPUTIL_DFLT_T0,
    .totp_tx                = OTPUTIL_DFLT_TX,
@@ -306,6 +308,10 @@ otputil_get_param(
       *((otputil_bv_t **)outvalue) = bv;
       return(OTPUTIL_SUCCESS);
 
+      case OTPUTIL_OPT_HOTP_DIGITS:
+      *((unsigned *)outvalue) = (int)tud->hotp_digits;
+      return(OTPUTIL_SUCCESS);
+
       case OTPUTIL_OPT_KSTR:
       if ((*((char **)outvalue) = otputil_bvbase32(otputil_param_k(tud))) == NULL)
          return(OTPUTIL_ENOMEM);
@@ -421,6 +427,12 @@ otputil_set_param(
 
    switch(option)
    {
+      case OTPUTIL_OPT_HOTP_DIGITS:
+      if ((uint = ((invalue)) ? (uint64_t)*((const int *)invalue) : defaults->hotp_digits) == 0)
+         return(OTPUTIL_EOPTVAL);
+      tud->hotp_digits = uint;
+      return(OTPUTIL_SUCCESS);
+
       case OTPUTIL_OPT_K:
       if (!(invalue))
          if ((invalue = defaults->hotp_k) == NULL)
@@ -501,10 +513,10 @@ otputil_code2str(
       dst      = buff;
       dstlen   = sizeof(buff);
    };
-   if (dstlen < 7)
+   if (dstlen < (otputil_defaults.hotp_digits+1))
       return(NULL);
 
-   snprintf(dst, dstlen, "%06i", code);
+   snprintf(dst, dstlen, "%0*i", (int)otputil_defaults.hotp_digits, code);
 
    return(dst);
 }
@@ -637,7 +649,7 @@ otputil_hotp_code(
             | (hmac_result[offset+3] & 0xff);
 
    // truncates code to 6 digits
-   hotp_code = (int)(bin_code % otputil_upow(10, 6));
+   hotp_code = (int)(bin_code % otputil_upow(10, (uintmax_t)otputil_defaults.hotp_digits));
 
    return(hotp_code);
 }

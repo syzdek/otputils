@@ -118,6 +118,8 @@
 #define OTPUTIL_OPT_DESC            0x0007
 //                                  0x0008
 #define OTPUTIL_OPT_METHOD          0x0009
+#define OTPUTIL_OPT_HOTP_DIGITS     0x000a
+#define OTPUTIL_OPT_TOTP_DIGITS     OTPUTIL_OPT_HOTP_DIGITS
 
 
 #define OTPUTIL_METH_RFC4226        0x0001
