@@ -299,8 +299,8 @@ otputil_totp_str(
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
          uint64_t                      totp_time,
-         char *                        totp_code,
-         size_t                        totp_code_len );
+         char *                        dst,
+         size_t                        dstlen );
 
 
 _OTPUTIL_F uint64_t

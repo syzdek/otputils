@@ -661,26 +661,20 @@ otputil_totp_str(
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
          uint64_t                      totp_time,
-         char *                        totp_code,
-         size_t                        totp_code_len )
+         char *                        dst,
+         size_t                        dstlen )
 {
    int               otp_code;
    static char       buff[OTPUTIL_MAX_CODE_SIZE];
 
-   if (!(totp_code))
-   {
-      totp_code      = buff;
-      totp_code_len  = sizeof(buff);
-   };
-   if (totp_code_len < 7)
-      return(NULL);
+   totp_k   = ((totp_k))   ? totp_k    : &otputil_const_defaults_k;
+   dstlen   = ((dst))      ? dstlen    : sizeof(buff);
+   dst      = ((dst))      ? dst       : buff;
 
    if ((otp_code = otputil_totp_code(totp_k, totp_t0, totp_tx, totp_time)) == -1)
       return(NULL);
 
-   snprintf(totp_code, totp_code_len, "%06i", otp_code);
-
-   return(totp_code);
+   return(otputil_code2str(otp_code, dst, dstlen));
 }
 
 
