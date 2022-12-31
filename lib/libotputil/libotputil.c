@@ -639,9 +639,10 @@ otputil_totp_timer(
          otputil_t *                   tud,
          uint64_t                      totp_time )
 {
-   if (!(tud->totp_tx))
+   tud         = ((tud))         ? tud       : &otputil_defaults;
+   totp_time   = ((totp_time))   ? totp_time : tud->totp_time;
+   if (tud->otp_method != OTPUTIL_METH_TOTP)
       return(0);
-   totp_time = ((totp_time)) ? totp_time : tud->totp_time;
    return(tud->totp_tx - ((totp_time - tud->totp_t0) % tud->totp_tx));
 }
 
