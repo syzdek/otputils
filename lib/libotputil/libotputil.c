@@ -49,6 +49,18 @@
 #include <openssl/hmac.h>
 
 
+//////////////////
+//              //
+//  Prototypes  //
+//              //
+//////////////////
+#pragma mark - Prototypes
+
+static const otputil_bv_t *
+otputil_param_k(
+         otputil_t *                   tud );
+
+
 /////////////////
 //             //
 //  Variables  //
@@ -276,13 +288,13 @@ otputil_get_param(
    switch(option)
    {
       case OTPUTIL_OPT_K:
-      if ((bv = otputil_bvdup(tud->hotp_k)) == NULL)
+      if ((bv = otputil_bvdup(otputil_param_k(tud))) == NULL)
          return(OTPUTIL_ENOMEM);
       *((otputil_bv_t **)outvalue) = bv;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_KSTR:
-      if ((*((char **)outvalue) = otputil_bvbase32(tud->hotp_k)) == NULL)
+      if ((*((char **)outvalue) = otputil_bvbase32(otputil_param_k(tud))) == NULL)
          return(OTPUTIL_ENOMEM);
       return(OTPUTIL_SUCCESS);
 
@@ -363,6 +375,18 @@ otputil_initialize(
    *tudp = tud;
 
    return(OTPUTIL_SUCCESS);
+}
+
+
+const otputil_bv_t *
+otputil_param_k(
+         otputil_t *                   tud )
+{
+   otputil_bv_t * k;
+   tud   = ((tud))         ? tud          : &otputil_defaults;
+   k     = ((tud->hotp_k)) ? tud->hotp_k  : otputil_defaults.hotp_k;
+   k     = ((k))           ? k            : &otputil_const_defaults_k;
+   return(k);
 }
 
 
@@ -473,14 +497,18 @@ int
 otputil_code(
          otputil_t *                   tud )
 {
+   const otputil_bv_t *    hotp_k;
+
+   hotp_k = otputil_param_k(tud);
+
    tud = ((tud)) ? tud : &otputil_defaults;
    switch(tud->otp_method)
    {
       case OTPUTIL_METH_TOTP:
-      return(otputil_totp_code(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
+      return(otputil_totp_code(hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
 
       case OTPUTIL_METH_HOTP:
-      return(otputil_hotp_code(tud->hotp_k, tud->totp_t0));
+      return(otputil_hotp_code(hotp_k, tud->hotp_c));
 
       default:
       break;
@@ -495,14 +523,18 @@ otputil_str(
          char *                        code,
          size_t                        code_len )
 {
+   const otputil_bv_t *    hotp_k;
+
+   hotp_k = otputil_param_k(tud);
+
    tud = ((tud)) ? tud : &otputil_defaults;
    switch(tud->otp_method)
    {
       case OTPUTIL_METH_TOTP:
-      return(otputil_totp_str(tud->hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, code, code_len));
+      return(otputil_totp_str(hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, code, code_len));
 
       case OTPUTIL_METH_HOTP:
-      return(otputil_hotp_str(tud->hotp_k, tud->totp_t0, code, code_len));
+      return(otputil_hotp_str(hotp_k, tud->hotp_c, code, code_len));
 
       default:
       break;
