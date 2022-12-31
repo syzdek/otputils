@@ -536,7 +536,7 @@ otputil_widget_usage(
    printf("  -t seconds                TOTP Unix time start of time steps (default: %llu)\n", OTPUTIL_DFLT_TOTP_T0);
    printf("  -V, --version             print version number and exit\n");
    printf("  -v, --verbose             print verbose messages\n");
-   printf("  -x num                    TOTP time step in seconds (default: %llu)\n", OTPUTIL_DFLT_TX);
+   printf("  -x num                    TOTP time step in seconds (default: %llu)\n", OTPUTIL_DFLT_TOTP_X);
 
    if (!(cnf->widget))
    {

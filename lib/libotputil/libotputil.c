@@ -104,7 +104,7 @@ const otputil_t otputil_const_defaults =
    .hotp_digits            = OTPUTIL_DFLT_HOTP_DIGITS,
    .totp_time              = OTPUTIL_DFLT_TIME,
    .totp_t0                = OTPUTIL_DFLT_TOTP_T0,
-   .totp_tx                = OTPUTIL_DFLT_TX,
+   .totp_tx                = OTPUTIL_DFLT_TOTP_X,
    .totp_digits            = OTPUTIL_DFLT_TOTP_DIGITS,
 };
 
@@ -119,7 +119,7 @@ static otputil_t otputil_defaults =
    .hotp_digits            = OTPUTIL_DFLT_HOTP_DIGITS,
    .totp_time              = OTPUTIL_DFLT_TIME,
    .totp_t0                = OTPUTIL_DFLT_TOTP_T0,
-   .totp_tx                = OTPUTIL_DFLT_TX,
+   .totp_tx                = OTPUTIL_DFLT_TOTP_X,
    .totp_digits            = OTPUTIL_DFLT_TOTP_DIGITS,
 };
 
