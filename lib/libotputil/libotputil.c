@@ -56,6 +56,13 @@
 //////////////////
 #pragma mark - Prototypes
 
+static char *
+otputil_code2str(
+         int                           code,
+         char *                        dst,
+         size_t                        dstlen );
+
+
 static const otputil_bv_t *
 otputil_param_k(
          otputil_t *                   tud );
@@ -473,6 +480,28 @@ otputil_set_param(
 #pragma mark misc functions
 
 char *
+otputil_code2str(
+         int                           code,
+         char *                        dst,
+         size_t                        dstlen )
+{
+   static char       buff[OTPUTIL_MAX_CODE_SIZE];
+
+   if (!(dst))
+   {
+      dst      = buff;
+      dstlen   = sizeof(buff);
+   };
+   if (dstlen < 7)
+      return(NULL);
+
+   snprintf(dst, dstlen, "%06i", code);
+
+   return(dst);
+}
+
+
+char *
 otputil_getpass(
          const char *                  prompt,
          char *                        pass,
@@ -498,6 +527,7 @@ otputil_code(
          otputil_t *                   tud )
 {
    const otputil_bv_t *    hotp_k;
+   uint64_t                totp_t0;
 
    hotp_k = otputil_param_k(tud);
 
@@ -505,7 +535,8 @@ otputil_code(
    switch(tud->otp_method)
    {
       case OTPUTIL_METH_TOTP:
-      return(otputil_totp_code(hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
+      totp_t0 = ((tud->totp_t0)) ? tud->totp_t0 : (uint64_t)time(NULL);
+      return(otputil_totp_code(hotp_k, totp_t0, tud->totp_tx, tud->totp_time));
 
       case OTPUTIL_METH_HOTP:
       return(otputil_hotp_code(hotp_k, tud->hotp_c));
@@ -520,26 +551,19 @@ otputil_code(
 char *
 otputil_str(
          otputil_t *                   tud,
-         char *                        code,
-         size_t                        code_len )
+         char *                        dst,
+         size_t                        dstlen )
 {
-   const otputil_bv_t *    hotp_k;
+   int               code;
+   static char       buff[OTPUTIL_MAX_CODE_SIZE];
 
-   hotp_k = otputil_param_k(tud);
+   dstlen   = ((dst)) ? dstlen   : sizeof(buff);
+   dst      = ((dst)) ? dst      : buff;
 
-   tud = ((tud)) ? tud : &otputil_defaults;
-   switch(tud->otp_method)
-   {
-      case OTPUTIL_METH_TOTP:
-      return(otputil_totp_str(hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, code, code_len));
+   if ((code = otputil_code(tud)) == -1)
+      return(NULL);
 
-      case OTPUTIL_METH_HOTP:
-      return(otputil_hotp_str(hotp_k, tud->hotp_c, code, code_len));
-
-      default:
-      break;
-   };
-   return(NULL);
+   return(otputil_code2str(code, dst, dstlen));
 }
 
 

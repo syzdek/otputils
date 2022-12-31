@@ -257,8 +257,8 @@ otputil_code(
 _OTPUTIL_F char *
 otputil_str(
          otputil_t *                   tud,
-         char *                        code,
-         size_t                        code_len );
+         char *                        dst,
+         size_t                        dstlen );
 
 
 //---------------//
