@@ -231,15 +231,6 @@ main(
       cnf->prog_name = argv[0];
 
 
-   // initialize TOTP secret
-   if ((rc = otputil_initialize(&cnf->tud)) != OTPUTIL_SUCCESS)
-   {
-      fprintf(stderr, "%s: otputil_initialize(): %s\n", cnf->prog_name, otputil_err2string(rc));
-      otputil_cleanup(cnf);
-      return(1);
-   };
-
-
    // skip argument processing if called via alias
    if ((cnf->widget = otputil_widget_lookup(cnf->prog_name, 1)) != NULL)
    {
@@ -326,7 +317,7 @@ otputil_arguments(
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
-         if ((rc = otputil_set_param(cnf->tud, OTPUTIL_OPT_C, &uval)) != OTPUTIL_SUCCESS)
+         if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_C, &uval)) != OTPUTIL_SUCCESS)
          {
             fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_C): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
@@ -338,7 +329,7 @@ otputil_arguments(
          return(-1);
 
          case 'k':
-         if (otputil_set_param(cnf->tud, OTPUTIL_OPT_KSTR, optarg) != 0)
+         if (otputil_set_param(NULL, OTPUTIL_OPT_KSTR, optarg) != 0)
          {
             fprintf(stderr, "%s: invalid value for `-k'\n", PROGRAM_NAME);
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
@@ -364,7 +355,7 @@ otputil_arguments(
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
-         if ((rc = otputil_set_param(cnf->tud, OTPUTIL_OPT_TIME, &uval)) != OTPUTIL_SUCCESS)
+         if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_TIME, &uval)) != OTPUTIL_SUCCESS)
          {
             fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_TIME): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
@@ -379,7 +370,7 @@ otputil_arguments(
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
-         if ((rc = otputil_set_param(cnf->tud, OTPUTIL_OPT_T0, &uval)) != OTPUTIL_SUCCESS)
+         if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_T0, &uval)) != OTPUTIL_SUCCESS)
          {
             fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_T0): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
@@ -408,7 +399,7 @@ otputil_arguments(
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
-         if ((rc = otputil_set_param(cnf->tud, OTPUTIL_OPT_TX, &uval)) != OTPUTIL_SUCCESS)
+         if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_TX, &uval)) != OTPUTIL_SUCCESS)
          {
             fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_TX): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);

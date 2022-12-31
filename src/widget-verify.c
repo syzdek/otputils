@@ -86,7 +86,7 @@ otputil_widget_verify(
       user_str = otputil_getpass("Enter OTP code: ", NULL, 0);
    user_code = (int)strtoll(user_str, NULL, 10);
 
-   if ((otp_code = otputil_code(cnf->tud)) == -1)
+   if ((otp_code = otputil_code(NULL)) == -1)
    {
       fprintf(stderr, "%s: internal error\n", cnf->prog_name);
       return(1);

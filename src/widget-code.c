@@ -86,18 +86,18 @@ otputil_widget_code(
       return((rc == -1) ? 0 : 1);
 
    // retrieve OTP secret information
-   if ((rc = otputil_get_param(cnf->tud, OTPUTIL_OPT_METHOD, &otp_method)) != 0)
+   if ((rc = otputil_get_param(NULL, OTPUTIL_OPT_METHOD, &otp_method)) != 0)
    {
       fprintf(stderr, "%s: otputil_get_param(METHOD): %s\n", cnf->prog_name, otputil_err2string(rc));
       return(1);
    };
-   if ((rc = otputil_get_param(cnf->tud, OTPUTIL_OPT_TX, &totp_tx)) != 0)
+   if ((rc = otputil_get_param(NULL, OTPUTIL_OPT_TX, &totp_tx)) != 0)
    {
       fprintf(stderr, "%s: otputil_get_param(TX): %s\n", cnf->prog_name, otputil_err2string(rc));
       return(1);
    };
 
-   if ((code = otputil_str(cnf->tud, buff, sizeof(buff))) == NULL)
+   if ((code = otputil_str(NULL, buff, sizeof(buff))) == NULL)
    {
       fprintf(stderr, "%s: internal error\n", cnf->prog_name);
       return(1);
@@ -106,7 +106,7 @@ otputil_widget_code(
    if ((otp_method == OTPUTIL_METH_TOTP) && (!(cnf->quiet)))
    {
       snprintf(totp_tx_str, sizeof(totp_tx_str), "%" PRId64, totp_tx);
-      printf("%s (%*" PRId64 "s/%" PRId64 "s)\n", code, (int)strlen(totp_tx_str), otputil_totp_timer(cnf->tud, 0), totp_tx);
+      printf("%s (%*" PRId64 "s/%" PRId64 "s)\n", code, (int)strlen(totp_tx_str), otputil_totp_timer(NULL, 0), totp_tx);
    } else
    {
       printf("%s\n", code);
