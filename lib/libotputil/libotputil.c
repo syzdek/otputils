@@ -421,8 +421,6 @@ otputil_set_param(
    const char *         str;
    uint64_t             uint;
 
-   assert(tud != NULL);
-
    defaults = ((tud)) ? &otputil_defaults   : &otputil_const_defaults;
    tud      = ((tud)) ? tud                 : &otputil_defaults;
 
