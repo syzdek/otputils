@@ -63,7 +63,7 @@
 #pragma mark - Prototypes
 
 static int
-totp_widget_info_get(
+otputil_widget_info_get(
          otputil_config_t *            cnf,
          const char *                  str,
          int                           option,
@@ -103,19 +103,19 @@ otputil_widget_info(
       return((rc == -1) ? 0 : 1);
 
    // retrieve OTP secret information
-   if (totp_widget_info_get(cnf, "METHOD", OTPUTIL_OPT_METHOD, &otp_method) != 0)
+   if (otputil_widget_info_get(cnf, "METHOD", OTPUTIL_OPT_METHOD, &otp_method) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "C", OTPUTIL_OPT_C, &hotp_c) != 0)
+   if (otputil_widget_info_get(cnf, "C", OTPUTIL_OPT_C, &hotp_c) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "T0", OTPUTIL_OPT_T0, &totp_t0) != 0)
+   if (otputil_widget_info_get(cnf, "T0", OTPUTIL_OPT_T0, &totp_t0) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "TX", OTPUTIL_OPT_TX, &totp_tx) != 0)
+   if (otputil_widget_info_get(cnf, "TX", OTPUTIL_OPT_TX, &totp_tx) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "TIME", OTPUTIL_OPT_TIME, &totp_time) != 0)
+   if (otputil_widget_info_get(cnf, "TIME", OTPUTIL_OPT_TIME, &totp_time) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "KEY", OTPUTIL_OPT_KSTR, &otp_kstr) != 0)
+   if (otputil_widget_info_get(cnf, "KEY", OTPUTIL_OPT_KSTR, &otp_kstr) != 0)
       return(1);
-   if (totp_widget_info_get(cnf, "KEY", OTPUTIL_OPT_DESC, &otp_desc) != 0)
+   if (otputil_widget_info_get(cnf, "KEY", OTPUTIL_OPT_DESC, &otp_desc) != 0)
       return(1);
 
    // print secret information
@@ -140,7 +140,7 @@ otputil_widget_info(
 
 
 int
-totp_widget_info_get(
+otputil_widget_info_get(
          otputil_config_t *            cnf,
          const char *                  str,
          int                           option,
