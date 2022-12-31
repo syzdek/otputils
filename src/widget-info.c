@@ -107,7 +107,7 @@ otputil_widget_info(
       return(1);
    if (otputil_widget_info_get(cnf, "C", OTPUTIL_OPT_C, &hotp_c) != 0)
       return(1);
-   if (otputil_widget_info_get(cnf, "T0", OTPUTIL_OPT_T0, &totp_t0) != 0)
+   if (otputil_widget_info_get(cnf, "T0", OTPUTIL_OPT_TOTP_T0, &totp_t0) != 0)
       return(1);
    if (otputil_widget_info_get(cnf, "TX", OTPUTIL_OPT_TX, &totp_tx) != 0)
       return(1);

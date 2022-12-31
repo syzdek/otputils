@@ -326,7 +326,7 @@ otputil_get_param(
          return(OTPUTIL_ENOMEM);
       return(OTPUTIL_SUCCESS);
 
-      case OTPUTIL_OPT_T0:
+      case OTPUTIL_OPT_TOTP_T0:
       *((uint64_t *)outvalue) = tud->totp_t0;
       return(OTPUTIL_SUCCESS);
 
@@ -387,7 +387,7 @@ otputil_initialize(
       otputil_free(tud);
       return(rc);
    };
-   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_T0, NULL)) != OTPUTIL_SUCCESS)
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_TOTP_T0, NULL)) != OTPUTIL_SUCCESS)
    {
       otputil_free(tud);
       return(rc);
@@ -473,7 +473,7 @@ otputil_set_param(
       tud->hotp_k = bv;
       return(OTPUTIL_SUCCESS);
 
-      case OTPUTIL_OPT_T0:
+      case OTPUTIL_OPT_TOTP_T0:
       tud->totp_t0 = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_t0;
       return(OTPUTIL_SUCCESS);
 
