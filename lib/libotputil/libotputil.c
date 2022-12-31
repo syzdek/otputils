@@ -527,7 +527,6 @@ otputil_code(
          otputil_t *                   tud )
 {
    const otputil_bv_t *    hotp_k;
-   uint64_t                totp_t0;
 
    hotp_k = otputil_param_k(tud);
 
@@ -535,8 +534,7 @@ otputil_code(
    switch(tud->otp_method)
    {
       case OTPUTIL_METH_TOTP:
-      totp_t0 = ((tud->totp_t0)) ? tud->totp_t0 : (uint64_t)time(NULL);
-      return(otputil_totp_code(hotp_k, totp_t0, tud->totp_tx, tud->totp_time));
+      return(otputil_totp_code(hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
 
       case OTPUTIL_METH_HOTP:
       return(otputil_hotp_code(hotp_k, tud->hotp_c));
