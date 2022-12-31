@@ -298,7 +298,7 @@ main(
          return(1);
       };
 
-      if ((totp_code = otputil_totp_code(totp_k, p->totp_t0, p->totp_tx, p->totp_time)) == -1)
+      if ((totp_code = otputil_totp_code(totp_k, p->totp_t0, p->totp_tx, p->totp_time, p->totp_digits)) == -1)
       {
          fprintf(stderr, "%s: otputil_totp_code(): internal error\n", PROGRAM_NAME);
          otputil_bvfree(totp_k);

@@ -105,6 +105,7 @@ const otputil_t otputil_const_defaults =
    .totp_time              = OTPUTIL_DFLT_TIME,
    .totp_t0                = OTPUTIL_DFLT_T0,
    .totp_tx                = OTPUTIL_DFLT_TX,
+   .totp_digits            = OTPUTIL_DFLT_TOTP_DIGITS,
 };
 
 
@@ -119,6 +120,7 @@ static otputil_t otputil_defaults =
    .totp_time              = OTPUTIL_DFLT_TIME,
    .totp_t0                = OTPUTIL_DFLT_T0,
    .totp_tx                = OTPUTIL_DFLT_TX,
+   .totp_digits            = OTPUTIL_DFLT_TOTP_DIGITS,
 };
 
 
@@ -303,6 +305,12 @@ otputil_get_param(
 
    switch(option)
    {
+      case OTPUTIL_OPT_DIGITS:
+      if (tud->totp_digits != tud->hotp_digits)
+         return(OTPUTIL_EOPTVAL);
+      *((unsigned *)outvalue) = (int)tud->totp_digits;
+      return(OTPUTIL_SUCCESS);
+
       case OTPUTIL_OPT_K:
       if ((bv = otputil_bvdup(otputil_param_k(tud))) == NULL)
          return(OTPUTIL_ENOMEM);
@@ -346,6 +354,10 @@ otputil_get_param(
 
       case OTPUTIL_OPT_METHOD:
       *((uint64_t *)outvalue) = tud->otp_method;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_TOTP_DIGITS:
+      *((unsigned *)outvalue) = (int)tud->totp_digits;
       return(OTPUTIL_SUCCESS);
 
       default:
@@ -426,6 +438,13 @@ otputil_set_param(
 
    switch(option)
    {
+      case OTPUTIL_OPT_DIGITS:
+      if ((uint = (uint64_t)*((const int *)invalue)) == 0)
+         return(OTPUTIL_EOPTVAL);
+      tud->hotp_digits = uint;
+      tud->totp_digits = uint;
+      return(OTPUTIL_SUCCESS);
+
       case OTPUTIL_OPT_HOTP_DIGITS:
       if ((uint = ((invalue)) ? (uint64_t)*((const int *)invalue) : defaults->hotp_digits) == 0)
          return(OTPUTIL_EOPTVAL);
@@ -484,6 +503,12 @@ otputil_set_param(
 
       case OTPUTIL_OPT_METHOD:
       tud->otp_method = ((invalue)) ? *((const uint64_t *)invalue) : defaults->otp_method;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_TOTP_DIGITS:
+      if ((uint = ((invalue)) ? (uint64_t)*((const int *)invalue) : defaults->totp_digits) == 0)
+         return(OTPUTIL_EOPTVAL);
+      tud->totp_digits = uint;
       return(OTPUTIL_SUCCESS);
 
       default:
@@ -575,7 +600,7 @@ otputil_code(
    switch(tud->otp_method)
    {
       case OTPUTIL_METH_TOTP:
-      return(otputil_totp_code(hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time));
+      return(otputil_totp_code(hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, (int)tud->totp_digits));
 
       case OTPUTIL_METH_HOTP:
       return(otputil_hotp_code(hotp_k, tud->hotp_c, (int)tud->hotp_digits));
@@ -602,7 +627,13 @@ otputil_str(
    if ((code = otputil_code(tud)) == -1)
       return(NULL);
 
-   return(otputil_code2str(code, (int)tud->hotp_digits, dst, dstlen));
+   switch(tud->otp_method)
+   {
+      case OTPUTIL_METH_HOTP: return(otputil_code2str(code, (int)tud->hotp_digits, dst, dstlen));
+      case OTPUTIL_METH_TOTP: return(otputil_code2str(code, (int)tud->totp_digits, dst, dstlen));
+      default: break;
+   };
+   return(NULL);
 }
 
 
@@ -690,12 +721,13 @@ otputil_totp_code(
          const otputil_bv_t *          totp_k,
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
-         uint64_t                      totp_time )
+         uint64_t                      totp_time,
+         int                           totp_digits )
 {
    if (!(totp_tx))
       return(-1);
    totp_time = ((totp_time)) ? totp_time : ((uint64_t)time(NULL));
-   return(otputil_hotp_code(totp_k, ((totp_time-totp_t0)/totp_tx), 0));
+   return(otputil_hotp_code(totp_k, ((totp_time-totp_t0)/totp_tx), totp_digits));
 }
 
 
@@ -705,6 +737,7 @@ otputil_totp_str(
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
          uint64_t                      totp_time,
+         int                           totp_digits,
          char *                        dst,
          size_t                        dstlen )
 {
@@ -715,10 +748,10 @@ otputil_totp_str(
    dstlen   = ((dst))      ? dstlen    : sizeof(buff);
    dst      = ((dst))      ? dst       : buff;
 
-   if ((otp_code = otputil_totp_code(totp_k, totp_t0, totp_tx, totp_time)) == -1)
+   if ((otp_code = otputil_totp_code(totp_k, totp_t0, totp_tx, totp_time, totp_digits)) == -1)
       return(NULL);
 
-   return(otputil_code2str(otp_code, (int)otputil_defaults.hotp_digits, dst, dstlen));
+   return(otputil_code2str(otp_code, totp_digits, dst, dstlen));
 }
 
 

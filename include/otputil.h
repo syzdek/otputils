@@ -119,7 +119,8 @@
 //                                  0x0008
 #define OTPUTIL_OPT_METHOD          0x0009
 #define OTPUTIL_OPT_HOTP_DIGITS     0x000a
-#define OTPUTIL_OPT_TOTP_DIGITS     OTPUTIL_OPT_HOTP_DIGITS
+#define OTPUTIL_OPT_TOTP_DIGITS     0x000b
+#define OTPUTIL_OPT_DIGITS          0x000c
 
 
 #define OTPUTIL_METH_RFC4226        0x0001
@@ -134,6 +135,7 @@
 #define OTPUTIL_DFLT_TX             30ULL
 #define OTPUTIL_DFLT_TIME           0ULL
 #define OTPUTIL_DFLT_HOTP_DIGITS    6
+#define OTPUTIL_DFLT_TOTP_DIGITS    6
 
 
 #define OTPUTIL_MAX_CODE_SIZE       16
@@ -295,7 +297,8 @@ otputil_totp_code(
          const otputil_bv_t *          totp_k,
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
-         uint64_t                      totp_time );
+         uint64_t                      totp_time,
+         int                           totp_digits );
 
 
 _OTPUTIL_F char *
@@ -304,6 +307,7 @@ otputil_totp_str(
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
          uint64_t                      totp_time,
+         int                           totp_digits,
          char *                        dst,
          size_t                        dstlen );
 
