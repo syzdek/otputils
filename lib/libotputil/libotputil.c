@@ -269,7 +269,6 @@ otputil_get_param(
 {
    otputil_bv_t *       bv;
 
-   assert(tud      != NULL);
    assert(outvalue != NULL);
 
    tud = ((tud)) ? tud : &otputil_defaults;
