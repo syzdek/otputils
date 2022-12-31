@@ -120,7 +120,7 @@ otputil_widget_lookup(
 #pragma mark widgets prototypes
 
 static int
-totp_widget_usage(
+otputil_widget_usage(
          otputil_config_t *            cnf );
 
 
@@ -161,7 +161,7 @@ static otputil_widget_t otputil_widget_map[] =
       .usage      = NULL,
       .short_opt  = NULL,
       .aliases    = NULL,
-      .func_exec  = &totp_widget_usage,
+      .func_exec  = &otputil_widget_usage,
       .func_usage = NULL,
    },
    {  .name       = "info",
@@ -339,7 +339,7 @@ otputil_arguments(
          break;
 
          case 'h':
-         totp_widget_usage(cnf);
+         otputil_widget_usage(cnf);
          return(-1);
 
          case 'k':
@@ -535,7 +535,7 @@ otputil_widget_lookup(
 
 /// displays usage information
 int
-totp_widget_usage(
+otputil_widget_usage(
          otputil_config_t *            cnf )
 {
    size_t               pos;
