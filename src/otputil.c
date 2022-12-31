@@ -103,11 +103,6 @@ main(
 //--------------------------//
 #pragma mark miscellaneous prototypes
 
-static void
-otputil_cleanup(
-         otputil_config_t *            cnf );
-
-
 static otputil_widget_t *
 otputil_widget_lookup(
          const char *                  wname,
@@ -448,18 +443,6 @@ otputil_arguments(
    };
 
    return(0);
-}
-
-
-void
-otputil_cleanup(
-         otputil_config_t *            cnf )
-{
-   if ((cnf->tud))
-      otputil_free(cnf->tud);
-   cnf->tud = NULL;
-
-   return;
 }
 
 
