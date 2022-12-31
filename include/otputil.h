@@ -130,7 +130,7 @@
 
 
 #define OTPUTIL_DFLT_METH           OTPUTIL_METH_TOTP
-#define OTPUTIL_DFLT_C              1ULL
+#define OTPUTIL_DFLT_HOTP_C         1ULL
 #define OTPUTIL_DFLT_TOTP_T0        0ULL
 #define OTPUTIL_DFLT_TOTP_X         30ULL
 #define OTPUTIL_DFLT_TIME           0ULL
