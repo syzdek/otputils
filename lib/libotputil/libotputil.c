@@ -448,10 +448,9 @@ otputil_set_param(
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_TX:
-      uint = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_tx;
-      if (uint == 0)
+      if ((uint = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_tx) == 0)
          return(OTPUTIL_EOPTVAL);
-      tud->totp_tx = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_tx;
+      tud->totp_tx = uint;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_TIME:

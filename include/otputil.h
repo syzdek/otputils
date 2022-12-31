@@ -131,6 +131,7 @@
 #define OTPUTIL_DFLT_T0             0ULL
 #define OTPUTIL_DFLT_TX             30ULL
 #define OTPUTIL_DFLT_TIME           0ULL
+#define OTPUTIL_DFLT_HOTP_DIGITS    6
 
 
 #define OTPUTIL_MAX_CODE_SIZE       16
