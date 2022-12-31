@@ -649,6 +649,7 @@ otputil_totp_code(
 {
    if (!(totp_tx))
       return(-1);
+   totp_time = ((totp_time)) ? totp_time : ((uint64_t)time(NULL));
    return(otputil_hotp_code(totp_k, ((totp_time-totp_t0)/totp_tx) ));
 }
 
