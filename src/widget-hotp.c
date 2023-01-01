@@ -55,6 +55,23 @@
 #include "otputil.h"
 
 
+//////////////////
+//              //
+//  Prototypes  //
+//              //
+//////////////////
+#pragma mark - Prototypes
+
+static int
+otputil_widget_hotp_code(
+         otputil_config_t *            cnf );
+
+
+static int
+otputil_widget_hotp_verify(
+         otputil_config_t *            cnf );
+
+
 /////////////////
 //             //
 //  Functions  //
@@ -98,29 +115,66 @@ otputil_widget_hotp(
    };
    otputil_pass = (cnf->argc > optind) ? cnf->argv[optind] : otputil_pass;
 
+   if ((otputil_pass))
+      otputil_widget_hotp_verify(cnf);
+
    if ((code = otputil_str(NULL, buff, sizeof(buff))) == NULL)
    {
       fprintf(stderr, "%s: internal error\n", cnf->prog_name);
       return(1);
    };
-
-   if ((otputil_pass))
-   {
-      if ((strcasecmp(otputil_pass, code)))
-      {
-         printf("%s\n", "invalid code");
-         return(2);
-      } else
-      {
-         printf("%s\n", "valid code");
-         return(0);
-      };
-   };
-
    printf("%s\n", code);
+
+   return(otputil_widget_hotp_code(cnf));
+}
+
+
+int
+otputil_widget_hotp_code(
+         otputil_config_t *            cnf )
+{
+   const char *   code;
+   static char    buff[OTPUTIL_MAX_CODE_SIZE];
+
+   assert(cnf != NULL);
+
+   if ((code = otputil_str(NULL, buff, sizeof(buff))) == NULL)
+   {
+      fprintf(stderr, "%s: internal error\n", cnf->prog_name);
+      return(1);
+   };
+   printf("%s\n", code);
+
 
    return(0);
 }
+
+
+int
+otputil_widget_hotp_verify(
+         otputil_config_t *            cnf )
+{
+   const char * code;
+
+   assert(cnf != NULL);
+
+   if ((code = otputil_str(NULL, NULL, 0)) == NULL)
+   {
+      fprintf(stderr, "%s: internal error\n", cnf->prog_name);
+      return(1);
+   };
+
+   if ((strcasecmp(otputil_pass, code)))
+   {
+      printf("%s\n", "invalid code");
+      return(2);
+   };
+
+   printf("%s\n", "valid code");
+
+   return(0);
+}
+
 
 
 /* end of source file */
