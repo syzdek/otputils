@@ -622,9 +622,9 @@ otputil_code(
 {
    const otputil_bv_t *    hotp_k;
 
-   hotp_k = otputil_param_k(tud);
+   hotp_k   = otputil_param_k(tud);
+   tud      = ((tud)) ? tud : &otputil_defaults;
 
-   tud = ((tud)) ? tud : &otputil_defaults;
    switch(tud->otp_method)
    {
       case OTPUTIL_METH_TOTP:
@@ -636,6 +636,7 @@ otputil_code(
       default:
       break;
    };
+
    return(-1);
 }
 
