@@ -780,7 +780,6 @@ otputil_totp_str(
    int               otp_code;
    static char       buff[OTPUTIL_MAX_CODE_SIZE];
 
-   totp_k   = ((totp_k))   ? totp_k    : &otputil_const_defaults_k;
    dstlen   = ((dst))      ? dstlen    : sizeof(buff);
    dst      = ((dst))      ? dst       : buff;
 
