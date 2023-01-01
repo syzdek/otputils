@@ -355,7 +355,7 @@ otputil_arguments(
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
-         if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_TIME, &uval)) != OTPUTIL_SUCCESS)
+         if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_TOTP_TIME, &uval)) != OTPUTIL_SUCCESS)
          {
             fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_TIME): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);

@@ -111,7 +111,7 @@ otputil_widget_info(
       return(1);
    if (otputil_widget_info_get(cnf, "TX", OTPUTIL_OPT_TOTP_X, &totp_tx) != 0)
       return(1);
-   if (otputil_widget_info_get(cnf, "TIME", OTPUTIL_OPT_TIME, &totp_time) != 0)
+   if (otputil_widget_info_get(cnf, "TIME", OTPUTIL_OPT_TOTP_TIME, &totp_time) != 0)
       return(1);
    if (otputil_widget_info_get(cnf, "KEY", OTPUTIL_OPT_KSTR, &otp_kstr) != 0)
       return(1);
