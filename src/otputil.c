@@ -329,7 +329,7 @@ otputil_arguments(
          return(-1);
 
          case 'k':
-         if (otputil_set_param(NULL, OTPUTIL_OPT_KSTR, optarg) != 0)
+         if (otputil_set_param(NULL, OTPUTIL_OPT_HOTP_KSTR, optarg) != 0)
          {
             fprintf(stderr, "%s: invalid value for `-k'\n", PROGRAM_NAME);
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);

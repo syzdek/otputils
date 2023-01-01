@@ -321,7 +321,7 @@ otputil_get_param(
       *((unsigned *)outvalue) = (int)tud->hotp_digits;
       return(OTPUTIL_SUCCESS);
 
-      case OTPUTIL_OPT_KSTR:
+      case OTPUTIL_OPT_HOTP_KSTR:
       if ((*((char **)outvalue) = otputil_bvbase32(otputil_param_k(tud))) == NULL)
          return(OTPUTIL_ENOMEM);
       return(OTPUTIL_SUCCESS);
@@ -462,7 +462,7 @@ otputil_set_param(
       tud->hotp_k = bv;
       return(OTPUTIL_SUCCESS);
 
-      case OTPUTIL_OPT_KSTR:
+      case OTPUTIL_OPT_HOTP_KSTR:
       str = (const char *)invalue;
       if (bindle_encoding_verify(BNDL_BASE32, str, strlen(str)) == -1)
          return(OTPUTIL_EOPTVAL);
