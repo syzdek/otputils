@@ -649,6 +649,7 @@ otputil_str(
    int               code;
    static char       buff[OTPUTIL_MAX_CODE_SIZE];
 
+   tud      = ((tud)) ? tud      : &otputil_defaults;
    dstlen   = ((dst)) ? dstlen   : sizeof(buff);
    dst      = ((dst)) ? dst      : buff;
 
