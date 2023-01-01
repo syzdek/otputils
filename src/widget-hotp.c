@@ -68,6 +68,13 @@ otputil_widget_hotp_code(
 
 
 static int
+otputil_widget_hotp_verbose(
+         otputil_config_t *            cnf,
+         const char *                  code,
+         const char *                  status );
+
+
+static int
 otputil_widget_hotp_verify(
          otputil_config_t *            cnf );
 
@@ -114,7 +121,7 @@ otputil_widget_hotp(
    cnf->pass = (cnf->argc > optind) ? cnf->argv[optind] : cnf->pass;
 
    if ((cnf->pass))
-      otputil_widget_hotp_verify(cnf);
+      return(otputil_widget_hotp_verify(cnf));
 
    return(otputil_widget_hotp_code(cnf));
 }
@@ -124,17 +131,10 @@ int
 otputil_widget_hotp_code(
          otputil_config_t *            cnf )
 {
-   uint64_t       hotp_c;
    const char *   code;
    static char    buff[OTPUTIL_MAX_CODE_SIZE];
-   char *         otp_kstr;
-   char *         otp_desc;
 
    assert(cnf != NULL);
-
-   otputil_get_param(NULL, OTPUTIL_OPT_TOTP_X,     &hotp_c);
-   otputil_get_param(NULL, OTPUTIL_OPT_HOTP_KSTR,  &otp_kstr);
-   otputil_get_param(NULL, OTPUTIL_OPT_DESC,       &otp_desc);
 
    if ((code = otputil_str(NULL, buff, sizeof(buff))) == NULL)
    {
@@ -149,12 +149,37 @@ otputil_widget_hotp_code(
    };
 
    // print secret information
+   otputil_widget_hotp_verbose(cnf, code, NULL);
+
+   return(0);
+}
+
+
+int
+otputil_widget_hotp_verbose(
+         otputil_config_t *            cnf,
+         const char *                  code,
+         const char *                  status )
+{
+   uint64_t       hotp_c;
+   char *         otp_kstr;
+   char *         otp_desc;
+
+   otputil_get_param(NULL, OTPUTIL_OPT_TOTP_X,     &hotp_c);
+   otputil_get_param(NULL, OTPUTIL_OPT_HOTP_KSTR,  &otp_kstr);
+   otputil_get_param(NULL, OTPUTIL_OPT_DESC,       &otp_desc);
+
+   // print secret information
    printf("OTP Secret:\n");
    printf("   Description:          %s\n", (((otp_desc)) ? otp_desc : "n/a") );
    printf("   Method:               HOTP (RFC4226)\n");
    printf("   Shared Key:           %s\n", otp_kstr );
    printf("   Counter:              %" PRIu64 "\n", hotp_c );
+   if ((cnf->pass))
+      printf("   Expected Code:        %s\n", cnf->pass );
    printf("   Code:                 %s\n", code );
+   if ((status))
+      printf("   Status:               %s\n", status );
    printf("\n");
 
    return(0);
@@ -166,7 +191,9 @@ otputil_widget_hotp_verify(
          otputil_config_t *            cnf )
 {
    const char * code;
-
+   const char * status;
+   int          rc;
+   
    assert(cnf != NULL);
 
    if ((code = otputil_str(NULL, NULL, 0)) == NULL)
@@ -175,15 +202,15 @@ otputil_widget_hotp_verify(
       return(1);
    };
 
-   if ((strcasecmp(cnf->pass, code)))
-   {
-      printf("%s\n", "invalid code");
-      return(2);
-   };
+   rc = ((strcasecmp(cnf->pass, code))) ? 2 : 0;
+   status = ((rc)) ? "invalid code" : "valid code";
 
-   printf("%s\n", "valid code");
+   if ((cnf->verbose))
+      otputil_widget_hotp_verbose(cnf, code, status);
+   else
+      printf("%s\n", status);
 
-   return(0);
+   return(rc);
 }
 
 
