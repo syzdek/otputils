@@ -102,7 +102,8 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  README.md \
 					  TODO.md \
 					  include/otputil.h \
-					  lib/libotputil/libotputil.sym
+					  lib/libotputil/libotputil.sym \
+					  tests/test-otputil-totp.sh
 CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
 					  config.h.in~ $(srcdir)/config.h.in~ \
@@ -135,6 +136,7 @@ if ENABLE_UTILITIES
    bin_PROGRAMS				+= src/otputil
 endif
 if ENABLE_TESTS
+   TESTS				+= tests/test-otputil-totp.sh
    TESTS				+= tests/test-hotp
    TESTS				+= tests/test-totp
 endif
