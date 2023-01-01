@@ -174,8 +174,7 @@ src_otputil_SOURCES			= src/otputil.c \
 					  src/widget-generate.c \
 					  src/widget-hotp.c \
 					  src/widget-info.c \
-					  src/widget-totp.c \
-					  src/widget-verify.c
+					  src/widget-totp.c
 
 
 # macros for tests/test-hotp

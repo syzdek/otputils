@@ -147,8 +147,4 @@ otputil_widget_totp(
          otputil_config_t *            cnf );
 
 
-extern int
-otputil_widget_verify(
-         otputil_config_t *            cnf );
-
 #endif /* end of header file */
