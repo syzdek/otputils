@@ -138,6 +138,11 @@ otputil_widget_generate(
 
 
 extern int
+otputil_widget_hotp(
+         otputil_config_t *            cnf );
+
+
+extern int
 otputil_widget_info(
          otputil_config_t *            cnf );
 
