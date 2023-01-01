@@ -310,6 +310,8 @@ otputil_arguments(
          break;
 
          case 'c':
+         uval = OTPUTIL_METH_HOTP;
+         otputil_set_param(NULL, OTPUTIL_OPT_METHOD, &uval);
          uval = strtoull(optarg, &endptr, 0);
          if ((optarg == endptr) || (endptr[0] != '\0'))
          {
@@ -348,6 +350,8 @@ otputil_arguments(
          break;
 
          case 'T':
+         uval = OTPUTIL_METH_TOTP;
+         otputil_set_param(NULL, OTPUTIL_OPT_METHOD, &uval);
          uval = strtoull(optarg, &endptr, 0);
          if ((optarg == endptr) || (endptr[0] != '\0'))
          {
@@ -363,6 +367,8 @@ otputil_arguments(
          break;
 
          case 't':
+         uval = OTPUTIL_METH_TOTP;
+         otputil_set_param(NULL, OTPUTIL_OPT_METHOD, &uval);
          uval = strtoull(optarg, &endptr, 0);
          if ((optarg == endptr) || (endptr[0] != '\0'))
          {
