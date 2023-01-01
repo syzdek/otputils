@@ -317,7 +317,8 @@ otputil_totp_str(
 
 _OTPUTIL_F uint64_t
 otputil_totp_timer(
-         otputil_t *                   tud,
+         uint64_t                      totp_t0,
+         uint64_t                      totp_tx,
          uint64_t                      totp_time );
 
 

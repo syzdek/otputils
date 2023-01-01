@@ -792,14 +792,13 @@ otputil_totp_str(
 
 uint64_t
 otputil_totp_timer(
-         otputil_t *                   tud,
+         uint64_t                      totp_t0,
+         uint64_t                      totp_tx,
          uint64_t                      totp_time )
 {
-   tud         = ((tud))         ? tud       : &otputil_defaults;
-   totp_time   = ((totp_time))   ? totp_time : tud->totp_time;
-   if (tud->otp_method != OTPUTIL_METH_TOTP)
-      return(0);
-   return(tud->totp_tx - ((totp_time - tud->totp_t0) % tud->totp_tx));
+   assert(totp_tx != 0);
+   totp_time   = ((totp_time))   ? totp_time : (uint64_t)time(NULL);
+   return(totp_tx - ((totp_time - totp_t0) % totp_tx));
 }
 
 /* end of source file */
