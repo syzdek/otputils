@@ -124,18 +124,38 @@ int
 otputil_widget_hotp_code(
          otputil_config_t *            cnf )
 {
+   uint64_t       hotp_c;
    const char *   code;
    static char    buff[OTPUTIL_MAX_CODE_SIZE];
+   char *         otp_kstr;
+   char *         otp_desc;
 
    assert(cnf != NULL);
+
+   otputil_get_param(NULL, OTPUTIL_OPT_TOTP_X,     &hotp_c);
+   otputil_get_param(NULL, OTPUTIL_OPT_HOTP_KSTR,  &otp_kstr);
+   otputil_get_param(NULL, OTPUTIL_OPT_DESC,       &otp_desc);
 
    if ((code = otputil_str(NULL, buff, sizeof(buff))) == NULL)
    {
       fprintf(stderr, "%s: internal error\n", cnf->prog_name);
       return(1);
    };
-   printf("%s\n", code);
+   
+   if ( ((cnf->quiet)) || (!(cnf->verbose)) )
+   {
+      printf("%s\n", code);
+      return(0);
+   };
 
+   // print secret information
+   printf("OTP Secret:\n");
+   printf("   Description:          %s\n", (((otp_desc)) ? otp_desc : "n/a") );
+   printf("   Method:               HOTP (RFC4226)\n");
+   printf("   Shared Key:           %s\n", otp_kstr );
+   printf("   Counter:              %" PRIu64 "\n", hotp_c );
+   printf("   Code:                 %s\n", code );
+   printf("\n");
 
    return(0);
 }
