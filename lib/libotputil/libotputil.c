@@ -311,7 +311,7 @@ otputil_get_param(
       *((unsigned *)outvalue) = (int)tud->totp_digits;
       return(OTPUTIL_SUCCESS);
 
-      case OTPUTIL_OPT_K:
+      case OTPUTIL_OPT_HOTP_K:
       if ((bv = otputil_bvdup(otputil_param_k(tud))) == NULL)
          return(OTPUTIL_ENOMEM);
       *((otputil_bv_t **)outvalue) = bv;
@@ -382,7 +382,7 @@ otputil_initialize(
       return(OTPUTIL_ENOMEM);
    memset(tud, 0, sizeof(otputil_t));
 
-   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_K, NULL)) != OTPUTIL_SUCCESS)
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_HOTP_K, NULL)) != OTPUTIL_SUCCESS)
    {
       otputil_free(tud);
       return(rc);
@@ -451,7 +451,7 @@ otputil_set_param(
       tud->hotp_digits = uint;
       return(OTPUTIL_SUCCESS);
 
-      case OTPUTIL_OPT_K:
+      case OTPUTIL_OPT_HOTP_K:
       if (!(invalue))
          if ((invalue = defaults->hotp_k) == NULL)
             invalue = otputil_const_defaults.hotp_k;
