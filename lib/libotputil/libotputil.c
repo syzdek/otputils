@@ -305,44 +305,9 @@ otputil_get_param(
 
    switch(option)
    {
-      case OTPUTIL_OPT_DIGITS:
-      if (tud->totp_digits != tud->hotp_digits)
-         return(OTPUTIL_EOPTVAL);
-      *((unsigned *)outvalue) = (int)tud->totp_digits;
-      return(OTPUTIL_SUCCESS);
-
-      case OTPUTIL_OPT_HOTP_K:
-      case OTPUTIL_OPT_TOTP_K:
-      if ((bv = otputil_bvdup(otputil_param_k(tud))) == NULL)
-         return(OTPUTIL_ENOMEM);
-      *((otputil_bv_t **)outvalue) = bv;
-      return(OTPUTIL_SUCCESS);
-
-      case OTPUTIL_OPT_HOTP_DIGITS:
-      *((unsigned *)outvalue) = (int)tud->hotp_digits;
-      return(OTPUTIL_SUCCESS);
-
-      case OTPUTIL_OPT_HOTP_KSTR:
-      case OTPUTIL_OPT_TOTP_KSTR:
-      if ((*((char **)outvalue) = otputil_bvbase32(otputil_param_k(tud))) == NULL)
-         return(OTPUTIL_ENOMEM);
-      return(OTPUTIL_SUCCESS);
-
-      case OTPUTIL_OPT_TOTP_T0:
-      *((uint64_t *)outvalue) = tud->totp_t0;
-      return(OTPUTIL_SUCCESS);
-
-      case OTPUTIL_OPT_TOTP_X:
-      *((uint64_t *)outvalue) = tud->totp_tx;
-      return(OTPUTIL_SUCCESS);
-
-      case OTPUTIL_OPT_TOTP_TIME:
-      *((uint64_t *)outvalue) = tud->totp_time;
-      return(OTPUTIL_SUCCESS);
-
-      case OTPUTIL_OPT_HOTP_C:
-      *((uint64_t *)outvalue) =  tud->hotp_c;
-      return(OTPUTIL_SUCCESS);
+      /////////////////////
+      // general options //
+      /////////////////////
 
       case OTPUTIL_OPT_DESC:
       if (!(tud->otp_desc))
@@ -354,12 +319,59 @@ otputil_get_param(
          return(OTPUTIL_ENOMEM);
       return(OTPUTIL_SUCCESS);
 
+      case OTPUTIL_OPT_DIGITS:
+      if (tud->totp_digits != tud->hotp_digits)
+         return(OTPUTIL_EOPTVAL);
+      *((unsigned *)outvalue) = (int)tud->totp_digits;
+      return(OTPUTIL_SUCCESS);
+
       case OTPUTIL_OPT_METHOD:
       *((uint64_t *)outvalue) = tud->otp_method;
       return(OTPUTIL_SUCCESS);
 
+      ////////////////////////////
+      // HOTP options (RFC4226) //
+      ////////////////////////////
+
+      case OTPUTIL_OPT_HOTP_C:
+      *((uint64_t *)outvalue) =  tud->hotp_c;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_HOTP_DIGITS:
+      *((unsigned *)outvalue) = (int)tud->hotp_digits;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_HOTP_K:
+      case OTPUTIL_OPT_TOTP_K:
+      if ((bv = otputil_bvdup(otputil_param_k(tud))) == NULL)
+         return(OTPUTIL_ENOMEM);
+      *((otputil_bv_t **)outvalue) = bv;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_HOTP_KSTR:
+      case OTPUTIL_OPT_TOTP_KSTR:
+      if ((*((char **)outvalue) = otputil_bvbase32(otputil_param_k(tud))) == NULL)
+         return(OTPUTIL_ENOMEM);
+      return(OTPUTIL_SUCCESS);
+
+      ////////////////////////////
+      // TOTP options (RFC6238) //
+      ////////////////////////////
+
       case OTPUTIL_OPT_TOTP_DIGITS:
       *((unsigned *)outvalue) = (int)tud->totp_digits;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_TOTP_T0:
+      *((uint64_t *)outvalue) = tud->totp_t0;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_TOTP_TIME:
+      *((uint64_t *)outvalue) = tud->totp_time;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_TOTP_X:
+      *((uint64_t *)outvalue) = tud->totp_tx;
       return(OTPUTIL_SUCCESS);
 
       default:
