@@ -135,14 +135,6 @@ otputil_widget_version(
 #pragma mark otputil_widget_map[]
 static otputil_widget_t otputil_widget_map[] =
 {
-   {  .name       = "generate",
-      .desc       = "generate TOTP secret",
-      .usage      = NULL,
-      .short_opt  = NULL,
-      .aliases    = (const char * const[]) { "keygen", NULL },
-      .func_exec  = &otputil_widget_generate,
-      .func_usage = NULL,
-   },
    {  .name       = "help",
       .desc       = "display help",
       .usage      = NULL,

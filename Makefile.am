@@ -171,7 +171,6 @@ src_otputil_DEPENDENCIES		= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
 src_otputil_LDADD			= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
 src_otputil_SOURCES			= src/otputil.c \
 					  src/otputil.h \
-					  src/widget-generate.c \
 					  src/widget-hotp.c \
 					  src/widget-totp.c
 
