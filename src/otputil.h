@@ -93,6 +93,16 @@ struct _otputil_cli_config
 };
 
 
+/////////////////
+//             //
+//  Variables  //
+//             //
+/////////////////
+#pragma mark - Variables
+
+extern const char * otputil_pass;
+
+
 //////////////////
 //              //
 //  Prototypes  //
@@ -129,6 +139,11 @@ otputil_widget_generate(
 
 extern int
 otputil_widget_info(
+         otputil_config_t *            cnf );
+
+
+extern int
+otputil_widget_totp(
          otputil_config_t *            cnf );
 
 

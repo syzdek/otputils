@@ -82,7 +82,7 @@
 #define _PREFIX TOTP_PREFIX
 
 #undef TOTP_SHORT_OPT
-#define TOTP_SHORT_OPT "c:hk:qT:t:Vvx:"
+#define TOTP_SHORT_OPT "hqVv"
 
 
 //////////////////
@@ -132,6 +132,10 @@ otputil_widget_version(
 /////////////////
 #pragma mark - Variables
 
+#pragma mark otputil_pass
+const char * otputil_pass = NULL;
+
+
 #pragma mark otputil_widget_map[]
 static otputil_widget_t otputil_widget_map[] =
 {
@@ -165,6 +169,16 @@ static otputil_widget_t otputil_widget_map[] =
       .short_opt  = NULL,
       .aliases    = NULL,
       .func_exec  = &otputil_widget_info,
+      .func_usage = NULL,
+   },
+   {  .name       = "totp",
+      .desc       = "totp tools",
+      .usage      = " [ code ]",
+      .short_opt  = (TOTP_SHORT_OPT "d:k:pT:t:x:"),
+      .arg_min    = 0,
+      .arg_max    = 1,
+      .aliases    = NULL,
+      .func_exec  = &otputil_widget_totp,
       .func_usage = NULL,
    },
    {  .name       = "verify",
@@ -299,7 +313,7 @@ otputil_arguments(
    opt_index = 0;
 
    if ((cnf->widget))
-      short_opt = &short_opt[1];
+      short_opt = ((cnf->widget->short_opt)) ? cnf->widget->short_opt : TOTP_SHORT_OPT;
 
    while((c = getopt_long(argc, argv, short_opt, long_opt, &opt_index)) != -1)
    {
@@ -310,8 +324,6 @@ otputil_arguments(
          break;
 
          case 'c':
-         uval = OTPUTIL_METH_HOTP;
-         otputil_set_param(NULL, OTPUTIL_OPT_METHOD, &uval);
          uval = strtoull(optarg, &endptr, 0);
          if ((optarg == endptr) || (endptr[0] != '\0'))
          {
@@ -322,6 +334,26 @@ otputil_arguments(
          if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_HOTP_C, &uval)) != OTPUTIL_SUCCESS)
          {
             fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_HOTP_C): %s\n", PROGRAM_NAME, otputil_err2string(rc));
+            return(1);
+         };
+         break;
+
+         case 'd':
+         uval = strtoull(optarg, &endptr, 0);
+         if ((optarg == endptr) || (endptr[0] != '\0'))
+         {
+            fprintf(stderr, "%s: invalid value for `-d'\n", PROGRAM_NAME);
+            fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
+         if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_HOTP_DIGITS, &uval)) != OTPUTIL_SUCCESS)
+         {
+            fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_HOTP_DIGITS): %s\n", PROGRAM_NAME, otputil_err2string(rc));
+            return(1);
+         };
+         if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_TOTP_DIGITS, &uval)) != OTPUTIL_SUCCESS)
+         {
+            fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_TOTP_DIGITS): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
          };
          break;
@@ -349,9 +381,11 @@ otputil_arguments(
          };
          break;
 
+         case 'p':
+         otputil_pass = otputil_getpass("Enter code: ", NULL, 0);
+         break;
+
          case 'T':
-         uval = OTPUTIL_METH_TOTP;
-         otputil_set_param(NULL, OTPUTIL_OPT_METHOD, &uval);
          uval = strtoull(optarg, &endptr, 0);
          if ((optarg == endptr) || (endptr[0] != '\0'))
          {
@@ -367,8 +401,6 @@ otputil_arguments(
          break;
 
          case 't':
-         uval = OTPUTIL_METH_TOTP;
-         otputil_set_param(NULL, OTPUTIL_OPT_METHOD, &uval);
          uval = strtoull(optarg, &endptr, 0);
          if ((optarg == endptr) || (endptr[0] != '\0'))
          {
@@ -521,11 +553,14 @@ otputil_widget_usage(
    size_t               pos;
    const char *         widget_name;
    const char *         widget_help;
+   const char *         short_opt;
    otputil_widget_t *   widget;
 
    assert(cnf != NULL);
 
-   widget_name  = (!(cnf->widget)) ? "widget" : cnf->widget->name;
+   widget_name  = (!(cnf->widget)) ? "widget"               : cnf->widget->name;
+   short_opt    = ((cnf->widget))  ? cnf->widget->short_opt : TOTP_SHORT_OPT;
+   short_opt    = ((short_opt))    ? short_opt              : TOTP_SHORT_OPT;
    widget_help  = "";
    if ((cnf->widget))
       widget_help = ((cnf->widget->usage)) ? cnf->widget->usage : "";
@@ -534,15 +569,16 @@ otputil_widget_usage(
    printf("       %s-%s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
    printf("       %s%s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
    printf("OPTIONS:\n");
-   printf("  -c num                    HOTP counter value\n");
-   printf("  -k string                 HOTP/TOTP shared user key\n");
-   printf("  -h, --help                print this help and exit\n");
-   printf("  -q, --quiet, --silent     do not print messages\n");
-   printf("  -T seconds                TOTP current Unix time\n");
-   printf("  -t seconds                TOTP Unix time start of time steps (default: %llu)\n", OTPUTIL_DFLT_TOTP_T0);
-   printf("  -V, --version             print version number and exit\n");
-   printf("  -v, --verbose             print verbose messages\n");
-   printf("  -x num                    TOTP time step in seconds (default: %llu)\n", OTPUTIL_DFLT_TOTP_X);
+   if ((strchr(short_opt, 'c'))) printf("  -c num                    counter value\n");
+   if ((strchr(short_opt, 'd'))) printf("  -d num                    number of digits in code\n");
+   if ((strchr(short_opt, 'k'))) printf("  -k string                 shared user key\n");
+   if ((strchr(short_opt, 'h'))) printf("  -h, --help                print this help and exit\n");
+   if ((strchr(short_opt, 'q'))) printf("  -q, --quiet, --silent     do not print messages\n");
+   if ((strchr(short_opt, 'T'))) printf("  -T seconds                current Unix time\n");
+   if ((strchr(short_opt, 't'))) printf("  -t seconds                Unix time start of time steps\n");
+   if ((strchr(short_opt, 'V'))) printf("  -V, --version             print version number and exit\n");
+   if ((strchr(short_opt, 'v'))) printf("  -v, --verbose             print verbose messages\n");
+   if ((strchr(short_opt, 'x'))) printf("  -x num                    time step in seconds\n");
 
    if (!(cnf->widget))
    {

@@ -174,6 +174,7 @@ src_otputil_SOURCES			= src/otputil.c \
 					  src/widget-code.c \
 					  src/widget-generate.c \
 					  src/widget-info.c \
+					  src/widget-totp.c \
 					  src/widget-verify.c
 
 
