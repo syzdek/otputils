@@ -128,11 +128,6 @@ otputil_arguments(
 #pragma mark widgets prototypes
 
 extern int
-otputil_widget_code(
-         otputil_config_t *            cnf );
-
-
-extern int
 otputil_widget_generate(
          otputil_config_t *            cnf );
 

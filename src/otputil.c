@@ -139,14 +139,6 @@ const char * otputil_pass = NULL;
 #pragma mark otputil_widget_map[]
 static otputil_widget_t otputil_widget_map[] =
 {
-   {  .name       = "code",
-      .desc       = "generate TOTP code",
-      .usage      = NULL,
-      .short_opt  = NULL,
-      .aliases    = NULL,
-      .func_exec  = &otputil_widget_code,
-      .func_usage = NULL,
-   },
    {  .name       = "generate",
       .desc       = "generate TOTP secret",
       .usage      = NULL,
