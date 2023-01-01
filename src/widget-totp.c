@@ -55,6 +55,23 @@
 #include "otputil.h"
 
 
+//////////////////
+//              //
+//  Prototypes  //
+//              //
+//////////////////
+#pragma mark - Prototypes
+
+static int
+otputil_widget_totp_code(
+         otputil_config_t *            cnf );
+
+
+static int
+otputil_widget_totp_verify(
+         otputil_config_t *            cnf );
+
+
 /////////////////
 //             //
 //  Functions  //
@@ -74,10 +91,6 @@ otputil_widget_totp(
 {
    int            rc;
    uint64_t       meth;
-   uint64_t       totp_tx;
-   char           totp_tx_str[64];
-   static char    buff[OTPUTIL_MAX_CODE_SIZE];
-   const char *   code;
 
    assert(cnf != NULL);
 
@@ -100,12 +113,24 @@ otputil_widget_totp(
    };
    otputil_pass = (cnf->argc > optind) ? cnf->argv[optind] : otputil_pass;
 
-   // retrieve OTP secret information
-   if ((rc = otputil_get_param(NULL, OTPUTIL_OPT_TOTP_X, &totp_tx)) != 0)
-   {
-      fprintf(stderr, "%s: otputil_get_param(TX): %s\n", cnf->prog_name, otputil_err2string(rc));
-      return(1);
-   };
+   if ((otputil_pass))
+      return(otputil_widget_totp_verify(cnf));
+
+   return(otputil_widget_totp_code(cnf));
+}
+
+
+int
+otputil_widget_totp_code(
+         otputil_config_t *            cnf )
+{
+   int            rc;
+   uint64_t       totp_tx;
+   char           totp_tx_str[64];
+   const char *   code;
+   static char    buff[OTPUTIL_MAX_CODE_SIZE];
+
+   assert(cnf != NULL);
 
    if ((code = otputil_str(NULL, buff, sizeof(buff))) == NULL)
    {
@@ -113,17 +138,10 @@ otputil_widget_totp(
       return(1);
    };
 
-   if ((otputil_pass))
+   if ((rc = otputil_get_param(NULL, OTPUTIL_OPT_TOTP_X, &totp_tx)) != 0)
    {
-      if ((strcasecmp(otputil_pass, code)))
-      {
-         printf("%s\n", "invalid code");
-         return(2);
-      } else
-      {
-         printf("%s\n", "valid code");
-         return(0);
-      };
+      fprintf(stderr, "%s: otputil_get_param(TX): %s\n", cnf->prog_name, otputil_err2string(rc));
+      return(1);
    };
 
    if (!(cnf->quiet))
@@ -138,5 +156,30 @@ otputil_widget_totp(
    return(0);
 }
 
+
+int
+otputil_widget_totp_verify(
+         otputil_config_t *            cnf )
+{
+   const char * code;
+
+   assert(cnf != NULL);
+
+   if ((code = otputil_str(NULL, NULL, 0)) == NULL)
+   {
+      fprintf(stderr, "%s: internal error\n", cnf->prog_name);
+      return(1);
+   };
+
+   if ((strcasecmp(otputil_pass, code)))
+   {
+      printf("%s\n", "invalid code");
+      return(2);
+   };
+
+   printf("%s\n", "valid code");
+
+   return(0);
+}
 
 /* end of source file */
