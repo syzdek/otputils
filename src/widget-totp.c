@@ -51,6 +51,7 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include <stdio.h>
+#include <time.h>
 
 #include "otputil.h"
 
@@ -124,11 +125,14 @@ int
 otputil_widget_totp_code(
          otputil_config_t *            cnf )
 {
-   int            rc;
    uint64_t       totp_tx;
    char           totp_tx_str[64];
    const char *   code;
    static char    buff[OTPUTIL_MAX_CODE_SIZE];
+   uint64_t       totp_t0;
+   uint64_t       totp_time;
+   char *         otp_kstr;
+   char *         otp_desc;
 
    assert(cnf != NULL);
 
@@ -138,20 +142,37 @@ otputil_widget_totp_code(
       return(1);
    };
 
-   if ((rc = otputil_get_param(NULL, OTPUTIL_OPT_TOTP_X, &totp_tx)) != 0)
-   {
-      fprintf(stderr, "%s: otputil_get_param(TX): %s\n", cnf->prog_name, otputil_err2string(rc));
-      return(1);
-   };
+   otputil_get_param(NULL, OTPUTIL_OPT_TOTP_X,     &totp_tx);
+   otputil_get_param(NULL, OTPUTIL_OPT_TOTP_T0,    &totp_t0);
+   otputil_get_param(NULL, OTPUTIL_OPT_TOTP_TIME,  &totp_time);
+   otputil_get_param(NULL, OTPUTIL_OPT_HOTP_KSTR,  &otp_kstr);
+   otputil_get_param(NULL, OTPUTIL_OPT_DESC,       &otp_desc);
 
-   if (!(cnf->quiet))
+   totp_time = ((totp_time)) ? totp_time : (uint64_t)time(NULL);
+
+   if ((cnf->quiet))
+   {
+      printf("%s\n", code);
+      return(0);
+   };
+   if (!(cnf->verbose))
    {
       snprintf(totp_tx_str, sizeof(totp_tx_str), "%" PRId64, totp_tx);
       printf("%s (%*" PRId64 "s/%" PRId64 "s)\n", code, (int)strlen(totp_tx_str), otputil_timer(NULL), totp_tx);
-   } else
-   {
-      printf("%s\n", code);
+      return(0);
    };
+
+   // print secret information
+   printf("OTP Secret:\n");
+   printf("   Description:          %s\n", (((otp_desc)) ? otp_desc : "n/a") );
+   printf("   Method:               TOTP (RFC6238)\n");
+   printf("   Shared Key:           %s\n", otp_kstr );
+   printf("   Step Interval:        %" PRIu64 "\n", totp_tx );
+   printf("   UNIX Start Time:      %" PRIu64 "\n", totp_t0 );
+   printf("   UNIX Current Time:    %" PRIu64 "\n", totp_time );
+   printf("   Valid for:            %" PRIu64 "s\n", otputil_timer(NULL));
+   printf("   Code:                 %s\n", code );
+   printf("\n");
 
    return(0);
 }
