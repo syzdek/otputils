@@ -129,11 +129,6 @@ otputil_widget_hotp(
 
 
 extern int
-otputil_widget_info(
-         otputil_config_t *            cnf );
-
-
-extern int
 otputil_widget_totp(
          otputil_config_t *            cnf );
 
