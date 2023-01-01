@@ -69,6 +69,13 @@ otputil_widget_totp_code(
 
 
 static int
+otputil_widget_totp_verbose(
+         otputil_config_t *            cnf,
+         const char *                  code,
+         const char *                  status );
+
+
+static int
 otputil_widget_totp_verify(
          otputil_config_t *            cnf );
 
@@ -129,10 +136,6 @@ otputil_widget_totp_code(
    char           totp_tx_str[64];
    const char *   code;
    static char    buff[OTPUTIL_MAX_CODE_SIZE];
-   uint64_t       totp_t0;
-   uint64_t       totp_time;
-   char *         otp_kstr;
-   char *         otp_desc;
 
    assert(cnf != NULL);
 
@@ -142,6 +145,40 @@ otputil_widget_totp_code(
       return(1);
    };
 
+   if ((cnf->quiet))
+   {
+      printf("%s\n", code);
+   }
+   else if ((cnf->verbose))
+   {
+      otputil_widget_totp_verbose(cnf, code, NULL);
+   }
+   else
+   {
+      otputil_get_param(NULL, OTPUTIL_OPT_TOTP_X,     &totp_tx);
+      snprintf(totp_tx_str, sizeof(totp_tx_str), "%" PRId64, totp_tx);
+      printf("%s (%*" PRId64 "s/%" PRId64 "s)\n", code, (int)strlen(totp_tx_str), otputil_timer(NULL), totp_tx);
+   };
+
+   return(0);
+}
+
+
+int
+otputil_widget_totp_verbose(
+         otputil_config_t *            cnf,
+         const char *                  code,
+         const char *                  status )
+{
+   uint64_t       totp_tx;
+   uint64_t       totp_t0;
+   uint64_t       totp_time;
+   char *         otp_kstr;
+   char *         otp_desc;
+
+   assert(cnf  != NULL);
+   assert(code != NULL);
+
    otputil_get_param(NULL, OTPUTIL_OPT_TOTP_X,     &totp_tx);
    otputil_get_param(NULL, OTPUTIL_OPT_TOTP_T0,    &totp_t0);
    otputil_get_param(NULL, OTPUTIL_OPT_TOTP_TIME,  &totp_time);
@@ -149,18 +186,6 @@ otputil_widget_totp_code(
    otputil_get_param(NULL, OTPUTIL_OPT_DESC,       &otp_desc);
 
    totp_time = ((totp_time)) ? totp_time : (uint64_t)time(NULL);
-
-   if ((cnf->quiet))
-   {
-      printf("%s\n", code);
-      return(0);
-   };
-   if (!(cnf->verbose))
-   {
-      snprintf(totp_tx_str, sizeof(totp_tx_str), "%" PRId64, totp_tx);
-      printf("%s (%*" PRId64 "s/%" PRId64 "s)\n", code, (int)strlen(totp_tx_str), otputil_timer(NULL), totp_tx);
-      return(0);
-   };
 
    // print secret information
    printf("OTP Secret:\n");
@@ -171,7 +196,11 @@ otputil_widget_totp_code(
    printf("   UNIX Start Time:      %" PRIu64 "\n", totp_t0 );
    printf("   UNIX Current Time:    %" PRIu64 "\n", totp_time );
    printf("   Valid for:            %" PRIu64 "s\n", otputil_timer(NULL));
+   if ((cnf->pass))
+      printf("   Expected Code:        %s\n", cnf->pass );
    printf("   Code:                 %s\n", code );
+   if ((status))
+      printf("   Status:               %s\n", status );
    printf("\n");
 
    return(0);
@@ -183,6 +212,8 @@ otputil_widget_totp_verify(
          otputil_config_t *            cnf )
 {
    const char * code;
+   const char * status;
+   int          rc;
 
    assert(cnf != NULL);
 
@@ -192,15 +223,15 @@ otputil_widget_totp_verify(
       return(1);
    };
 
-   if ((strcasecmp(cnf->pass, code)))
-   {
-      printf("%s\n", "invalid code");
-      return(2);
-   };
+   rc = ((strcasecmp(cnf->pass, code))) ? 2 : 0;
+   status = ((rc)) ? "invalid code" : "valid code";
 
-   printf("%s\n", "valid code");
+   if ((cnf->verbose))
+      otputil_widget_totp_verbose(cnf, code, status);
+   else
+      printf("%s\n", status);
 
-   return(0);
+   return(rc);
 }
 
 /* end of source file */
