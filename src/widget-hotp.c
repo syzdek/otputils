@@ -107,15 +107,15 @@ otputil_widget_hotp(
    // initial processing of cli arguments
    if ((rc = otputil_arguments(cnf, cnf->argc, cnf->argv)) != 0)
       return((rc == -1) ? 0 : 1);
-   if ( ((otputil_pass)) && (cnf->argc > optind) )
+   if ( ((cnf->pass)) && (cnf->argc > optind) )
    {
       fprintf(stderr, "%s: cannot specify code and use `-p'\n", cnf->prog_name);
       fprintf(stderr, "Try `%s --help' for more information.\n", cnf->prog_name);
       return(1);
    };
-   otputil_pass = (cnf->argc > optind) ? cnf->argv[optind] : otputil_pass;
+   cnf->pass = (cnf->argc > optind) ? cnf->argv[optind] : cnf->pass;
 
-   if ((otputil_pass))
+   if ((cnf->pass))
       otputil_widget_hotp_verify(cnf);
 
    if ((code = otputil_str(NULL, buff, sizeof(buff))) == NULL)
@@ -164,7 +164,7 @@ otputil_widget_hotp_verify(
       return(1);
    };
 
-   if ((strcasecmp(otputil_pass, code)))
+   if ((strcasecmp(cnf->pass, code)))
    {
       printf("%s\n", "invalid code");
       return(2);

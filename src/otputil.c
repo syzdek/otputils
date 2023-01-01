@@ -132,10 +132,6 @@ otputil_widget_version(
 /////////////////
 #pragma mark - Variables
 
-#pragma mark otputil_pass
-const char * otputil_pass = NULL;
-
-
 #pragma mark otputil_widget_map[]
 static otputil_widget_t otputil_widget_map[] =
 {
@@ -374,7 +370,7 @@ otputil_arguments(
          break;
 
          case 'p':
-         otputil_pass = otputil_getpass("Enter code: ", NULL, 0);
+         cnf->pass = otputil_getpass("Enter code: ", NULL, 0);
          break;
 
          case 'T':
