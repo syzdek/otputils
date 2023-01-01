@@ -373,6 +373,16 @@ otputil_arguments(
          cnf->pass = otputil_getpass("Enter code: ", NULL, 0);
          break;
 
+         case 'q':
+         cnf->quiet = 1;
+         if ((cnf->verbose))
+         {
+            fprintf(stderr, "%s: incompatible options `-q' and `-v'\n", PROGRAM_NAME);
+            fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
+         break;
+
          case 'T':
          uval = strtoull(optarg, &endptr, 0);
          if ((optarg == endptr) || (endptr[0] != '\0'))
@@ -411,7 +421,7 @@ otputil_arguments(
          cnf->verbose++;
          if ((cnf->quiet))
          {
-            fprintf(stderr, "%s: incompatible options\n", PROGRAM_NAME);
+            fprintf(stderr, "%s: incompatible options `-q' and `-v'\n", PROGRAM_NAME);
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
