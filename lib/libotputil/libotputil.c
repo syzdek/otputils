@@ -312,6 +312,7 @@ otputil_get_param(
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_HOTP_K:
+      case OTPUTIL_OPT_TOTP_K:
       if ((bv = otputil_bvdup(otputil_param_k(tud))) == NULL)
          return(OTPUTIL_ENOMEM);
       *((otputil_bv_t **)outvalue) = bv;
@@ -322,6 +323,7 @@ otputil_get_param(
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_HOTP_KSTR:
+      case OTPUTIL_OPT_TOTP_KSTR:
       if ((*((char **)outvalue) = otputil_bvbase32(otputil_param_k(tud))) == NULL)
          return(OTPUTIL_ENOMEM);
       return(OTPUTIL_SUCCESS);
@@ -452,6 +454,7 @@ otputil_set_param(
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_HOTP_K:
+      case OTPUTIL_OPT_TOTP_K:
       if (!(invalue))
          if ((invalue = defaults->hotp_k) == NULL)
             invalue = otputil_const_defaults.hotp_k;
@@ -463,6 +466,7 @@ otputil_set_param(
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_HOTP_KSTR:
+      case OTPUTIL_OPT_TOTP_KSTR:
       str = (const char *)invalue;
       if (bindle_encoding_verify(BNDL_BASE32, str, strlen(str)) == -1)
          return(OTPUTIL_EOPTVAL);

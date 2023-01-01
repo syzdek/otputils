@@ -120,6 +120,8 @@
 #define OTPUTIL_OPT_HOTP_DIGITS     0x000a
 #define OTPUTIL_OPT_TOTP_DIGITS     0x000b
 #define OTPUTIL_OPT_DIGITS          0x000c
+#define OTPUTIL_OPT_TOTP_K          0x000d
+#define OTPUTIL_OPT_TOTP_KSTR       0x000e
 
 
 #define OTPUTIL_METH_RFC4226        0x0001
