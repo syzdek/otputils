@@ -91,8 +91,6 @@ otputil_widget_hotp(
 {
    int            rc;
    uint64_t       meth;
-   static char    buff[OTPUTIL_MAX_CODE_SIZE];
-   const char *   code;
 
    assert(cnf != NULL);
 
@@ -117,13 +115,6 @@ otputil_widget_hotp(
 
    if ((cnf->pass))
       otputil_widget_hotp_verify(cnf);
-
-   if ((code = otputil_str(NULL, buff, sizeof(buff))) == NULL)
-   {
-      fprintf(stderr, "%s: internal error\n", cnf->prog_name);
-      return(1);
-   };
-   printf("%s\n", code);
 
    return(otputil_widget_hotp_code(cnf));
 }
