@@ -108,7 +108,6 @@
 #define OTPUTIL_EOPTVAL             0x0006 ///< invalid option value
 
 
-#define OTPUTIL_OPT_SECRET          0x0000
 #define OTPUTIL_OPT_K               0x0001
 #define OTPUTIL_OPT_KSTR            0x0002
 #define OTPUTIL_OPT_TOTP_T0         0x0003
