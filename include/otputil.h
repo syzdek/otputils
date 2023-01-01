@@ -108,20 +108,22 @@
 #define OTPUTIL_EOPTVAL             0x0006 ///< invalid option value
 
 
-#define OTPUTIL_OPT_HOTP_K          0x0001
-#define OTPUTIL_OPT_HOTP_KSTR       0x0002
-#define OTPUTIL_OPT_TOTP_T0         0x0003
-#define OTPUTIL_OPT_TOTP_X          0x0004
-#define OTPUTIL_OPT_TOTP_TIME       0x0005   // current UNIX time
-#define OTPUTIL_OPT_HOTP_C          0x0006
-#define OTPUTIL_OPT_DESC            0x0007
-//                                  0x0008
-#define OTPUTIL_OPT_METHOD          0x0009
-#define OTPUTIL_OPT_HOTP_DIGITS     0x000a
-#define OTPUTIL_OPT_TOTP_DIGITS     0x000b
-#define OTPUTIL_OPT_DIGITS          0x000c
-#define OTPUTIL_OPT_TOTP_K          0x000d
-#define OTPUTIL_OPT_TOTP_KSTR       0x000e
+// general options
+#define OTPUTIL_OPT_DESC            0x0001
+#define OTPUTIL_OPT_METHOD          0x0002
+#define OTPUTIL_OPT_DIGITS          0x0003   // sets digits for both HOTP and TOTP
+// HOTP options (RFC4226)
+#define OTPUTIL_OPT_HOTP_K          0x0100
+#define OTPUTIL_OPT_HOTP_KSTR       0x0101   // base32 encoded K
+#define OTPUTIL_OPT_HOTP_C          0x0102
+#define OTPUTIL_OPT_HOTP_DIGITS     0x0103
+// TOTP options (RFC6238)
+#define OTPUTIL_OPT_TOTP_K          0x0200
+#define OTPUTIL_OPT_TOTP_KSTR       0x0201   // base32 encoded K
+#define OTPUTIL_OPT_TOTP_T0         0x0202
+#define OTPUTIL_OPT_TOTP_X          0x0203
+#define OTPUTIL_OPT_TOTP_TIME       0x0204   // current UNIX time
+#define OTPUTIL_OPT_TOTP_DIGITS     0x0205
 
 
 #define OTPUTIL_METH_RFC4226        0x0001
