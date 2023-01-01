@@ -269,6 +269,11 @@ otputil_str(
          size_t                        dstlen );
 
 
+_OTPUTIL_F uint64_t
+otputil_timer(
+         otputil_t *                   tud );
+
+
 //---------------//
 // HOTP functions //
 //---------------//

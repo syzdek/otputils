@@ -106,7 +106,7 @@ otputil_widget_code(
    if ((otp_method == OTPUTIL_METH_TOTP) && (!(cnf->quiet)))
    {
       snprintf(totp_tx_str, sizeof(totp_tx_str), "%" PRId64, totp_tx);
-      printf("%s (%*" PRId64 "s/%" PRId64 "s)\n", code, (int)strlen(totp_tx_str), otputil_totp_timer(NULL, 0), totp_tx);
+      printf("%s (%*" PRId64 "s/%" PRId64 "s)\n", code, (int)strlen(totp_tx_str), otputil_timer(NULL), totp_tx);
    } else
    {
       printf("%s\n", code);

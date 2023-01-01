@@ -70,6 +70,7 @@ otputil_getpass
 # OTP functions
 otputil_code
 otputil_str
+otputil_timer
 # HOTP functions
 otputil_hotp_code
 otputil_hotp_str

@@ -667,6 +667,20 @@ otputil_str(
 }
 
 
+uint64_t
+otputil_timer(
+         otputil_t *                   tud )
+{
+   tud = ((tud)) ? tud : &otputil_defaults;
+   switch(tud->otp_method)
+   {
+      case OTPUTIL_METH_TOTP: return(otputil_totp_timer(tud->totp_t0, tud->totp_tx, tud->totp_time));
+      default: break;
+   };
+   return(0);
+}
+
+
 //---------------//
 // HOTP functions //
 //---------------//
