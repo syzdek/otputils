@@ -452,11 +452,37 @@ otputil_set_param(
 
    switch(option)
    {
+      /////////////////////
+      // general options //
+      /////////////////////
+
+      case OTPUTIL_OPT_DESC:
+      if ((tud->otp_desc))
+         free(tud->otp_desc);
+      tud->otp_desc = NULL;
+      if ((invalue = ((invalue)) ? invalue : defaults->otp_desc) == NULL)
+         return(OTPUTIL_SUCCESS);
+      if ((tud->otp_desc = bindle_strdup(((const char *)invalue))) == NULL)
+         return(OTPUTIL_ENOMEM);
+      return(OTPUTIL_SUCCESS);
+
       case OTPUTIL_OPT_DIGITS:
       if ((uint = (uint64_t)*((const int *)invalue)) == 0)
          return(OTPUTIL_EOPTVAL);
       tud->hotp_digits = uint;
       tud->totp_digits = uint;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_METHOD:
+      tud->otp_method = ((invalue)) ? *((const uint64_t *)invalue) : defaults->otp_method;
+      return(OTPUTIL_SUCCESS);
+
+      ////////////////////////////
+      // HOTP options (RFC4226) //
+      ////////////////////////////
+
+      case OTPUTIL_OPT_HOTP_C:
+      tud->hotp_c = ((invalue)) ? *((const uint64_t *)invalue) : defaults->hotp_c;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_HOTP_DIGITS:
@@ -489,42 +515,28 @@ otputil_set_param(
       tud->hotp_k = bv;
       return(OTPUTIL_SUCCESS);
 
-      case OTPUTIL_OPT_TOTP_T0:
-      tud->totp_t0 = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_t0;
+      ////////////////////////////
+      // TOTP options (RFC6238) //
+      ////////////////////////////
+
+      case OTPUTIL_OPT_TOTP_DIGITS:
+      if ((uint = ((invalue)) ? (uint64_t)*((const int *)invalue) : defaults->totp_digits) == 0)
+         return(OTPUTIL_EOPTVAL);
+      tud->totp_digits = uint;
       return(OTPUTIL_SUCCESS);
 
-      case OTPUTIL_OPT_TOTP_X:
-      if ((uint = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_tx) == 0)
-         return(OTPUTIL_EOPTVAL);
-      tud->totp_tx = uint;
+      case OTPUTIL_OPT_TOTP_T0:
+      tud->totp_t0 = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_t0;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_TOTP_TIME:
       tud->totp_time = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_time;
       return(OTPUTIL_SUCCESS);
 
-      case OTPUTIL_OPT_HOTP_C:
-      tud->hotp_c = ((invalue)) ? *((const uint64_t *)invalue) : defaults->hotp_c;
-      return(OTPUTIL_SUCCESS);
-
-      case OTPUTIL_OPT_DESC:
-      if ((tud->otp_desc))
-         free(tud->otp_desc);
-      tud->otp_desc = NULL;
-      if ((invalue = ((invalue)) ? invalue : defaults->otp_desc) == NULL)
-         return(OTPUTIL_SUCCESS);
-      if ((tud->otp_desc = bindle_strdup(((const char *)invalue))) == NULL)
-         return(OTPUTIL_ENOMEM);
-      return(OTPUTIL_SUCCESS);
-
-      case OTPUTIL_OPT_METHOD:
-      tud->otp_method = ((invalue)) ? *((const uint64_t *)invalue) : defaults->otp_method;
-      return(OTPUTIL_SUCCESS);
-
-      case OTPUTIL_OPT_TOTP_DIGITS:
-      if ((uint = ((invalue)) ? (uint64_t)*((const int *)invalue) : defaults->totp_digits) == 0)
+      case OTPUTIL_OPT_TOTP_X:
+      if ((uint = ((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_tx) == 0)
          return(OTPUTIL_EOPTVAL);
-      tud->totp_digits = uint;
+      tud->totp_tx = uint;
       return(OTPUTIL_SUCCESS);
 
       default:
