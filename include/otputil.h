@@ -133,8 +133,10 @@
 
 
 #define OTPUTIL_DFLT_METH           OTPUTIL_METH_TOTP
+// HOTP defaults
 #define OTPUTIL_DFLT_HOTP_C         1ULL
 #define OTPUTIL_DFLT_HOTP_DIGITS    6
+// TOTP defaults
 #define OTPUTIL_DFLT_TOTP_T0        0ULL
 #define OTPUTIL_DFLT_TOTP_X         30ULL
 #define OTPUTIL_DFLT_TOTP_TIME      0ULL           // current UNIX time
