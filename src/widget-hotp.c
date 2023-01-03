@@ -164,15 +164,18 @@ otputil_widget_hotp_verbose(
    uint64_t       hotp_c;
    char *         otp_kstr;
    char *         otp_desc;
+   int            hotp_hmac;
 
    otputil_get_param(NULL, OTPUTIL_OPT_HOTP_C,     &hotp_c);
    otputil_get_param(NULL, OTPUTIL_OPT_HOTP_KSTR,  &otp_kstr);
+   otputil_get_param(NULL, OTPUTIL_OPT_HOTP_HMAC,  &hotp_hmac);
    otputil_get_param(NULL, OTPUTIL_OPT_DESC,       &otp_desc);
 
    // print secret information
    printf("OTP Secret:\n");
    printf("   Description:          %s\n", (((otp_desc)) ? otp_desc : "n/a") );
    printf("   Method:               HOTP (RFC4226)\n");
+   printf("   HMAC Hash:            hmac-%s\n", otputil_md2str(hotp_hmac));
    printf("   Shared Key:           %s\n", otp_kstr );
    printf("   Counter:              %" PRIu64 "\n", hotp_c );
    if ((cnf->pass))
