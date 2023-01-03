@@ -56,6 +56,11 @@
 //////////////////
 #pragma mark - Prototypes
 
+//-----------------//
+// misc prototypes //
+//-----------------//
+#pragma mark misc prototypes
+
 static char *
 otputil_code2str(
          int                           code,
@@ -64,15 +69,22 @@ otputil_code2str(
          size_t                        dstlen );
 
 
-static const otputil_bv_t *
-otputil_param_k(
-         otputil_t *                   tud );
 
 
 static uintmax_t
 otputil_upow(
          uintmax_t                     base,
          uintmax_t                     exp );
+
+
+//-------------------//
+// memory prototypes //
+//-------------------//
+#pragma mark memory prototypes
+
+static const otputil_bv_t *
+otputil_param_k(
+         otputil_t *                   tud );
 
 
 /////////////////
