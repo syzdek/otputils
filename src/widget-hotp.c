@@ -165,7 +165,7 @@ otputil_widget_hotp_verbose(
    char *         otp_kstr;
    char *         otp_desc;
 
-   otputil_get_param(NULL, OTPUTIL_OPT_TOTP_X,     &hotp_c);
+   otputil_get_param(NULL, OTPUTIL_OPT_HOTP_C,     &hotp_c);
    otputil_get_param(NULL, OTPUTIL_OPT_HOTP_KSTR,  &otp_kstr);
    otputil_get_param(NULL, OTPUTIL_OPT_DESC,       &otp_desc);
 
