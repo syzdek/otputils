@@ -112,11 +112,13 @@
 #define OTPUTIL_OPT_DESC            0x0001
 #define OTPUTIL_OPT_METHOD          0x0002
 #define OTPUTIL_OPT_DIGITS          0x0003   // (int *) sets digits for both HOTP and TOTP
+#define OTPUTIL_OPT_HMAC            0x0004   // (int *) sets HMAC for both HOTP and TOTP
 // HOTP options (RFC4226)
 #define OTPUTIL_OPT_HOTP_K          0x0100
 #define OTPUTIL_OPT_HOTP_KSTR       0x0101   // base32 encoded K
 #define OTPUTIL_OPT_HOTP_C          0x0102
 #define OTPUTIL_OPT_HOTP_DIGITS     0x0103   // (int *)
+#define OTPUTIL_OPT_HOTP_HMAC       0x0104   // (int *)
 // TOTP options (RFC6238)
 #define OTPUTIL_OPT_TOTP_K          0x0200
 #define OTPUTIL_OPT_TOTP_KSTR       0x0201   // base32 encoded K
@@ -124,6 +126,12 @@
 #define OTPUTIL_OPT_TOTP_X          0x0203
 #define OTPUTIL_OPT_TOTP_TIME       0x0204   // current UNIX time
 #define OTPUTIL_OPT_TOTP_DIGITS     0x0205   // (int *)
+#define OTPUTIL_OPT_TOTP_HMAC       0x0206   // (int *)
+
+
+#define OTPUTIL_MD_SHA1             1
+#define OTPUTIL_MD_SHA256           2
+#define OTPUTIL_MD_SHA512           3
 
 
 #define OTPUTIL_METH_RFC4226        0x0001
@@ -136,11 +144,13 @@
 // HOTP defaults
 #define OTPUTIL_DFLT_HOTP_C         1ULL
 #define OTPUTIL_DFLT_HOTP_DIGITS    6
+#define OTPUTIL_DFLT_HOTP_HMAC      OTPUTIL_MD_SHA1
 // TOTP defaults
 #define OTPUTIL_DFLT_TOTP_T0        0ULL
 #define OTPUTIL_DFLT_TOTP_X         30ULL
 #define OTPUTIL_DFLT_TOTP_TIME      0ULL           // current UNIX time
 #define OTPUTIL_DFLT_TOTP_DIGITS    6
+#define OTPUTIL_DFLT_TOTP_HMAC      OTPUTIL_MD_SHA1
 
 
 #define OTPUTIL_MAX_CODE_SIZE       16
@@ -285,6 +295,7 @@ _OTPUTIL_F int
 otputil_hotp_code(
          const otputil_bv_t *          hotp_k,
          uint64_t                      hotp_c,
+         int                           hotp_hmac,
          int                           hotp_digits );
 
 
@@ -292,6 +303,7 @@ _OTPUTIL_F char *
 otputil_hotp_str(
          const otputil_bv_t *          hotp_k,
          uint64_t                      hotp_c,
+         int                           hotp_hmac,
          int                           hotp_digits,
          char *                        dst,
          size_t                        dstlen );
@@ -308,6 +320,7 @@ otputil_totp_code(
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
          uint64_t                      totp_time,
+         int                           totp_hmac,
          int                           totp_digits );
 
 
@@ -317,6 +330,7 @@ otputil_totp_str(
          uint64_t                      totp_t0,
          uint64_t                      totp_tx,
          uint64_t                      totp_time,
+         int                           totp_hmac,
          int                           totp_digits,
          char *                        dst,
          size_t                        dstlen );

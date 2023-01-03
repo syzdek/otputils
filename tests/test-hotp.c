@@ -91,7 +91,9 @@ struct _test_data
    const char *      hotp_kb32;
    uint64_t          hotp_c;
    int               hotp_code;
+   int               hotp_hmac;
    int               hotp_digits;
+   int               intpad;
 };
 
 
@@ -113,6 +115,7 @@ static testdata_t test_data[] =
       // count 0 / 6 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 0ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 755224,
       .hotp_digits      = 6,
    },
@@ -120,6 +123,7 @@ static testdata_t test_data[] =
       // count 1 / 6 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 1ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 287082,
       .hotp_digits      = 6,
    },
@@ -127,6 +131,7 @@ static testdata_t test_data[] =
       // count 2 / 6 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 2ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 359152,
       .hotp_digits      = 6,
    },
@@ -134,6 +139,7 @@ static testdata_t test_data[] =
       // count 3 / 6 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 3ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 969429,
       .hotp_digits      = 6,
    },
@@ -141,6 +147,7 @@ static testdata_t test_data[] =
       // count 4 / 6 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 4ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 338314,
       .hotp_digits      = 6,
    },
@@ -148,6 +155,7 @@ static testdata_t test_data[] =
       // count 5 / 6 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 5ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 254676,
       .hotp_digits      = 6,
    },
@@ -155,6 +163,7 @@ static testdata_t test_data[] =
       // count 6 / 6 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 6ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 287922,
       .hotp_digits      = 6,
    },
@@ -162,6 +171,7 @@ static testdata_t test_data[] =
       // count 7 / 6 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 7ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 162583,
       .hotp_digits      = 6,
    },
@@ -169,6 +179,7 @@ static testdata_t test_data[] =
       // count 8 / 6 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 8ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 399871,
       .hotp_digits      = 6,
    },
@@ -176,6 +187,7 @@ static testdata_t test_data[] =
       // count 9 / 6 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 9ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 520489,
       .hotp_digits      = 6,
    },
@@ -183,6 +195,7 @@ static testdata_t test_data[] =
       // count 0 / 10 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 0ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 1284755224,
       .hotp_digits      = 10,
    },
@@ -190,6 +203,7 @@ static testdata_t test_data[] =
       // count 0 / 10 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 1ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 1094287082,
       .hotp_digits      = 10,
    },
@@ -197,6 +211,7 @@ static testdata_t test_data[] =
       // count 2 / 10 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 2ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 137359152,
       .hotp_digits      = 10,
    },
@@ -204,6 +219,7 @@ static testdata_t test_data[] =
       // count 3 / 10 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 3ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 1726969429,
       .hotp_digits      = 10,
    },
@@ -211,6 +227,7 @@ static testdata_t test_data[] =
       // count 4 / 10 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 4ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 1640338314,
       .hotp_digits      = 10,
    },
@@ -218,6 +235,7 @@ static testdata_t test_data[] =
       // count 5 / 10 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 5ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 868254676,
       .hotp_digits      = 10,
    },
@@ -225,6 +243,7 @@ static testdata_t test_data[] =
       // count 6 / 10 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 6ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 1918287922,
       .hotp_digits      = 10,
    },
@@ -232,6 +251,7 @@ static testdata_t test_data[] =
       // count 7 / 10 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 7ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 82162583,
       .hotp_digits      = 10,
    },
@@ -239,6 +259,7 @@ static testdata_t test_data[] =
       // count 8 / 10 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 8ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 673399871,
       .hotp_digits      = 10,
    },
@@ -246,12 +267,14 @@ static testdata_t test_data[] =
       // count 9 / 10 digits
       .hotp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
       .hotp_c           = 9ULL,
+      .hotp_hmac        = OTPUTIL_MD_SHA1,
       .hotp_code        = 645520489,
       .hotp_digits      = 10,
    },
    {
       .hotp_kb32        = NULL,
       .hotp_c           = 0,
+      .hotp_hmac        = 0,
       .hotp_code        = 0,
       .hotp_digits      = 0,
    },
@@ -378,7 +401,7 @@ main(
          return(1);
       };
 
-      if ((hotp_code = otputil_hotp_code(hotp_k, p->hotp_c, p->hotp_digits)) == -1)
+      if ((hotp_code = otputil_hotp_code(hotp_k, p->hotp_c, p->hotp_hmac, p->hotp_digits)) == -1)
       {
          fprintf(stderr, "%s: otputil_hotp_code(): internal error\n", PROGRAM_NAME);
          otputil_bvfree(hotp_k);

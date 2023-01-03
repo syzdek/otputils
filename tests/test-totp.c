@@ -92,8 +92,10 @@ struct _test_data
    uint64_t          totp_t0;
    uint64_t          totp_tx;
    uint64_t          totp_time;
+   int               totp_hmac;
    int               totp_code;
    int               totp_digits;
+   int               intpad;
 };
 
 
@@ -117,6 +119,7 @@ static testdata_t test_data[] =
       .totp_t0          = 0ULL,
       .totp_tx          = 30ULL,
       .totp_time        = 59,
+      .totp_hmac        = OTPUTIL_MD_SHA1,
       .totp_code        = 94287082,
       .totp_digits      = 8,
    },
@@ -126,6 +129,7 @@ static testdata_t test_data[] =
       .totp_t0          = 0ULL,
       .totp_tx          = 30ULL,
       .totp_time        = 1111111109,
+      .totp_hmac        = OTPUTIL_MD_SHA1,
       .totp_code        = 7081804, // RFC states 07081804
       .totp_digits      = 8,
    },
@@ -135,6 +139,7 @@ static testdata_t test_data[] =
       .totp_t0          = 0ULL,
       .totp_tx          = 30ULL,
       .totp_time        = 1111111111,
+      .totp_hmac        = OTPUTIL_MD_SHA1,
       .totp_code        = 14050471,
       .totp_digits      = 8,
    },
@@ -144,6 +149,7 @@ static testdata_t test_data[] =
       .totp_t0          = 0ULL,
       .totp_tx          = 30ULL,
       .totp_time        = 1234567890,
+      .totp_hmac        = OTPUTIL_MD_SHA1,
       .totp_code        = 89005924,
       .totp_digits      = 8,
    },
@@ -153,6 +159,7 @@ static testdata_t test_data[] =
       .totp_t0          = 0ULL,
       .totp_tx          = 30ULL,
       .totp_time        = 2000000000,
+      .totp_hmac        = OTPUTIL_MD_SHA1,
       .totp_code        = 69279037,
       .totp_digits      = 8,
    },
@@ -162,6 +169,7 @@ static testdata_t test_data[] =
       .totp_t0          = 0ULL,
       .totp_tx          = 30ULL,
       .totp_time        = 20000000000,
+      .totp_hmac        = OTPUTIL_MD_SHA1,
       .totp_code        = 65353130,
       .totp_digits      = 8,
    },
@@ -170,6 +178,7 @@ static testdata_t test_data[] =
       .totp_t0          = 0,
       .totp_tx          = 0,
       .totp_time        = 0,
+      .totp_hmac        = 0,
       .totp_code        = 0,
       .totp_digits      = 0,
    }
@@ -298,7 +307,7 @@ main(
          return(1);
       };
 
-      if ((totp_code = otputil_totp_code(totp_k, p->totp_t0, p->totp_tx, p->totp_time, p->totp_digits)) == -1)
+      if ((totp_code = otputil_totp_code(totp_k, p->totp_t0, p->totp_tx, p->totp_time, p->totp_hmac, p->totp_digits)) == -1)
       {
          fprintf(stderr, "%s: otputil_totp_code(): internal error\n", PROGRAM_NAME);
          otputil_bvfree(totp_k);

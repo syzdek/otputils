@@ -75,11 +75,22 @@ struct _otputil_secret
    otputil_bv_t *          hotp_k;
    uint64_t                hotp_c;
    uint64_t                hotp_digits;
+   uint64_t                hotp_hmac;
    uint64_t                otp_method;
    uint64_t                totp_time;     // current Unix time
    uint64_t                totp_t0;       // Unix time from which to start counting time steps
    uint64_t                totp_tx;       // step in seconds
    uint64_t                totp_digits;
+   uint64_t                totp_hmac;
+};
+
+
+typedef struct _otputil_map otputil_map_t;
+struct _otputil_map
+{
+   const char *            map_name;
+   int                     map_id;
+   int                     intpad;
 };
 
 
