@@ -264,6 +264,11 @@ otputil_getpass(
          size_t                        passlen );
 
 
+_OTPUTIL_F const char *
+otputil_md2str(
+         int                           hmac );
+
+
 int
 otputil_str2md(
          const char *                  str );

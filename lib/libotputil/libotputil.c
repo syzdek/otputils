@@ -69,11 +69,6 @@ otputil_code2str(
          size_t                        dstlen );
 
 
-static const char *
-otputil_md2str(
-         int                           hmac );
-
-
 static uintmax_t
 otputil_upow(
          uintmax_t                     base,
