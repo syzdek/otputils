@@ -322,7 +322,7 @@ otputil_get_param(
       case OTPUTIL_OPT_DIGITS:
       if (tud->totp_digits != tud->hotp_digits)
          return(OTPUTIL_EOPTVAL);
-      *((unsigned *)outvalue) = (int)tud->totp_digits;
+      *((int *)outvalue) = (int)tud->totp_digits;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_METHOD:
@@ -338,7 +338,7 @@ otputil_get_param(
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_HOTP_DIGITS:
-      *((unsigned *)outvalue) = (int)tud->hotp_digits;
+      *((int *)outvalue) = (int)tud->hotp_digits;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_HOTP_K:
@@ -359,7 +359,7 @@ otputil_get_param(
       ////////////////////////////
 
       case OTPUTIL_OPT_TOTP_DIGITS:
-      *((unsigned *)outvalue) = (int)tud->totp_digits;
+      *((int *)outvalue) = (int)tud->totp_digits;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_TOTP_T0:
