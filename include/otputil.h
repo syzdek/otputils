@@ -257,7 +257,7 @@ otputil_set_param(
 //----------------//
 #pragma mark misc functions
 
-char *
+_OTPUTIL_F char *
 otputil_getpass(
          const char *                  prompt,
          char *                        pass,
@@ -269,7 +269,7 @@ otputil_md2str(
          int                           hmac );
 
 
-int
+_OTPUTIL_F int
 otputil_str2md(
          const char *                  str );
 
