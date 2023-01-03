@@ -173,6 +173,7 @@ otputil_widget_totp_verbose(
    uint64_t       totp_tx;
    uint64_t       totp_t0;
    uint64_t       totp_time;
+   int            totp_hmac;
    char *         otp_kstr;
    char *         otp_desc;
 
@@ -183,6 +184,7 @@ otputil_widget_totp_verbose(
    otputil_get_param(NULL, OTPUTIL_OPT_TOTP_T0,    &totp_t0);
    otputil_get_param(NULL, OTPUTIL_OPT_TOTP_TIME,  &totp_time);
    otputil_get_param(NULL, OTPUTIL_OPT_HOTP_KSTR,  &otp_kstr);
+   otputil_get_param(NULL, OTPUTIL_OPT_HOTP_HMAC,  &totp_hmac);
    otputil_get_param(NULL, OTPUTIL_OPT_DESC,       &otp_desc);
 
    totp_time = ((totp_time)) ? totp_time : (uint64_t)time(NULL);
@@ -191,6 +193,7 @@ otputil_widget_totp_verbose(
    printf("OTP Secret:\n");
    printf("   Description:          %s\n", (((otp_desc)) ? otp_desc : "n/a") );
    printf("   Method:               TOTP (RFC6238)\n");
+   printf("   HMAC Hash:            hmac-%s\n", otputil_md2str(totp_hmac) );
    printf("   Shared Key:           %s\n", otp_kstr );
    printf("   Step Interval:        %" PRIu64 "\n", totp_tx );
    printf("   UNIX Start Time:      %" PRIu64 "\n", totp_t0 );
