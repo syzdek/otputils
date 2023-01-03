@@ -264,6 +264,11 @@ otputil_getpass(
          size_t                        passlen );
 
 
+int
+otputil_str2md(
+         const char *                  str );
+
+
 //---------------//
 // OTP functions //
 //---------------//

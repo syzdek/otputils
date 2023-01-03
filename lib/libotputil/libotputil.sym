@@ -67,6 +67,7 @@ otputil_initialize
 otputil_set_param
 # misc functions
 otputil_getpass
+otputil_str2md
 # OTP functions
 otputil_code
 otputil_str

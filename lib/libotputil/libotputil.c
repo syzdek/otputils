@@ -669,6 +669,19 @@ otputil_md2str(
 }
 
 
+int
+otputil_str2md(
+         const char *                  str )
+{
+   int x;
+   assert(str != NULL);
+   for(x = 0; ((otputil_md_list[x].map_name)); x++)
+      if (!(strcasecmp(str, otputil_md_list[x].map_name)))
+         return(otputil_md_list[x].map_id);
+   return(-1);
+}
+
+
 uintmax_t
 otputil_upow(
          uintmax_t                     base,
