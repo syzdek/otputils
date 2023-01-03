@@ -268,6 +268,7 @@ otputil_arguments(
    uint64_t       uval;
    char *         endptr;
    int            rc;
+   int            i;
 
    // getopt options
    static const char *  short_opt = "+" TOTP_SHORT_OPT;
@@ -339,6 +340,20 @@ otputil_arguments(
          {
             fprintf(stderr, "%s: invalid value for `-k'\n", PROGRAM_NAME);
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
+         break;
+
+         case 'm':
+         if ((i = otputil_str2md(optarg)) == -1)
+         {
+            fprintf(stderr, "%s: message digest for `-m'\n", PROGRAM_NAME);
+            fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
+         if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_HMAC, &i)) != OTPUTIL_SUCCESS)
+         {
+            fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_HMAC): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
          };
          break;
@@ -555,6 +570,7 @@ otputil_widget_usage(
    if ((strchr(short_opt, 'd'))) printf("  -d num                    number of digits in code\n");
    if ((strchr(short_opt, 'k'))) printf("  -k string                 shared user key\n");
    if ((strchr(short_opt, 'h'))) printf("  -h, --help                print this help and exit\n");
+   if ((strchr(short_opt, 'm'))) printf("  -m hash                   use message digest hash\n");
    if ((strchr(short_opt, 'q'))) printf("  -q, --quiet, --silent     do not print messages\n");
    if ((strchr(short_opt, 'T'))) printf("  -T seconds                current Unix time\n");
    if ((strchr(short_opt, 't'))) printf("  -t seconds                Unix time start of time steps\n");
