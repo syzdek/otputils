@@ -132,6 +132,8 @@
 #define OTPUTIL_MD_SHA1             1
 #define OTPUTIL_MD_SHA256           2
 #define OTPUTIL_MD_SHA512           3
+#define OTPUTIL_MD_SHA3_256         4
+#define OTPUTIL_MD_SHA3_512         5
 
 
 #define OTPUTIL_METH_RFC4226        0x0001
