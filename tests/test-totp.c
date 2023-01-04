@@ -113,6 +113,7 @@ static int quiet     = 0;
 static testdata_t test_data[] =
 {
    // RFC 6238 Appendix B. Test Vectors
+   // Mode: SHA1
    {
       // 1970-01-01 00:00:59
       .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
@@ -173,6 +174,133 @@ static testdata_t test_data[] =
       .totp_code        = 65353130,
       .totp_digits      = 8,
    },
+
+   // RFC 6238 Appendix B. Test Vectors
+   // Mode: SHA256
+   {
+      // 1970-01-01 00:00:59
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA====",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 59,
+      .totp_hmac        = OTPUTIL_MD_SHA256,
+      .totp_code        = 46119246,
+      .totp_digits      = 8,
+   },
+   {
+      // 2005-03-18 01:58:29
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA====",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 1111111109,
+      .totp_hmac        = OTPUTIL_MD_SHA256,
+      .totp_code        = 68084774,
+      .totp_digits      = 8,
+   },
+   {
+      // 2005-03-18 01:58:29
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA====",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 1111111111,
+      .totp_hmac        = OTPUTIL_MD_SHA256,
+      .totp_code        = 67062674,
+      .totp_digits      = 8,
+   },
+   {
+      // 2009-02-13 23:31:30
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA====",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 1234567890,
+      .totp_hmac        = OTPUTIL_MD_SHA256,
+      .totp_code        = 91819424,
+      .totp_digits      = 8,
+   },
+   {
+      // 2033-05-18 03:33:20
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA====",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 2000000000,
+      .totp_hmac        = OTPUTIL_MD_SHA256,
+      .totp_code        = 90698825,
+      .totp_digits      = 8,
+   },
+   {
+      // 2603-10-11 11:33:20
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZA====",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 20000000000,
+      .totp_hmac        = OTPUTIL_MD_SHA256,
+      .totp_code        = 77737706,
+      .totp_digits      = 8,
+   },
+
+   // RFC 6238 Appendix B. Test Vectors
+   // Mode: SHA512
+   {
+      // 1970-01-01 00:00:59
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 59,
+      .totp_hmac        = OTPUTIL_MD_SHA512,
+      .totp_code        = 90693936,
+      .totp_digits      = 8,
+   },
+   {
+      // 2005-03-18 01:58:29
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 1111111109,
+      .totp_hmac        = OTPUTIL_MD_SHA512,
+      .totp_code        = 25091201,
+      .totp_digits      = 8,
+   },
+   {
+      // 2005-03-18 01:58:29
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 1111111111,
+      .totp_hmac        = OTPUTIL_MD_SHA512,
+      .totp_code        = 99943326,
+      .totp_digits      = 8,
+   },
+   {
+      // 2009-02-13 23:31:30
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 1234567890,
+      .totp_hmac        = OTPUTIL_MD_SHA512,
+      .totp_code        = 93441116,
+      .totp_digits      = 8,
+   },
+   {
+      // 2033-05-18 03:33:20
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 2000000000,
+      .totp_hmac        = OTPUTIL_MD_SHA512,
+      .totp_code        = 38618901,
+      .totp_digits      = 8,
+   },
+   {
+      // 2603-10-11 11:33:20
+      .totp_kb32        = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQGEZDGNA=",
+      .totp_t0          = 0ULL,
+      .totp_tx          = 30ULL,
+      .totp_time        = 20000000000,
+      .totp_hmac        = OTPUTIL_MD_SHA512,
+      .totp_code        = 47863826,
+      .totp_digits      = 8,
+   },
+
    {
       .totp_kb32        = NULL,
       .totp_t0          = 0,
