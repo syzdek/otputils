@@ -382,7 +382,7 @@ main(
          if (code_len < test_data[idx].hotp_digits)
             code_len = test_data[idx].hotp_digits;
       };
-      printf("%-*s : %-2s : digits : %-*s\n", k_len, "key", "c", code_len, "code");
+      printf("%-*s : %-2s : digits : %-*s\n", k_len, "key (base32)", "c", code_len, "code");
    };
 
    for(idx = 0; ((test_data[idx].hotp_kb32)); idx++)
