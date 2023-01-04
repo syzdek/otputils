@@ -819,7 +819,7 @@ otputil_hotp_code(
    hmac_result = (uint8_t *)HMAC(evp_md, hotp_k->bv_val, (int)hotp_k->bv_len, (unsigned char *)&hotp_c, sizeof(hotp_c), md, &md_len);
 
    // dynamically truncates hash
-   offset   = hmac_result[19] & 0x0f;
+   offset   = hmac_result[md_len-1] & 0x0f;
    bin_code = (hmac_result[offset+0] & 0x7f) << 24
             | (hmac_result[offset+1] & 0xff) << 16
             | (hmac_result[offset+2] & 0xff) <<  8
