@@ -165,6 +165,7 @@ otputil_base32bv(
          const char *                  str )
 {
    ssize_t              rc;
+   char *               val;
    otputil_bv_t *       bv;
 
    if ( (!(str)) || (!(str[0])) )
@@ -181,17 +182,20 @@ otputil_base32bv(
    };
    bv->bv_len = (size_t)rc;
 
-   if ((bv->bv_val = malloc(bv->bv_len+1)) == NULL)
+   if ((val = malloc(bv->bv_len+1)) == NULL)
    {
       otputil_bvfree(bv);
       return(NULL);
    };
+   bv->bv_val = val;
 
-   if (bindle_decode(BNDL_BASE32, bv->bv_val, (bv->bv_len+1), str, strlen(str)) == -1)
+   if ((rc = bindle_decode(BNDL_BASE32, bv->bv_val, (bv->bv_len+1), str, strlen(str))) == -1)
    {
       otputil_bvfree(bv);
       return(NULL);
    };
+   bv->bv_len        = (size_t)rc;
+   val[bv->bv_len]   = '\0';
 
    return(bv);
 }
