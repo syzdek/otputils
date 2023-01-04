@@ -286,7 +286,15 @@ main(
          if (code_len < test_data[idx].totp_digits)
             code_len = test_data[idx].totp_digits;
       };
-      printf("%-*s : %-2s : %-4s : %-12s : digits : %-*s\n", k_len, "key", "t0", "tx", "t", code_len, "code");
+      printf(
+         "%-*s : %-7s : %-2s : %-4s : %-12s : digits : %-*s\n",
+         k_len, "key",
+         "hmac",
+         "t0",
+         "tx",
+         "t",
+         code_len, "code"
+      );
    };
 
    for(idx = 0; ((test_data[idx].totp_kb32)); idx++)
@@ -296,7 +304,16 @@ main(
       if ((verbose))
       {
          snprintf(code_str, sizeof(code_str), "%0*i", p->totp_digits, p->totp_code);
-         printf("%s : %2" PRIu64 " : %4" PRIu64 " : %12" PRIu64 " : %6i : %*s\n", p->totp_kb32, p->totp_t0, p->totp_tx, p->totp_time, p->totp_digits, code_len, code_str);
+         printf(
+            "%-*s : %-7s : %2" PRIu64 " : %4" PRIu64 " : %12" PRIu64 " : %6i : %*s\n",
+            k_len, p->totp_kb32,
+            otputil_md2str(p->totp_hmac),
+            p->totp_t0,
+            p->totp_tx,
+            p->totp_time,
+            p->totp_digits,
+            code_len, code_str
+         );
       };
       
       otputil_set_param(NULL, OTPUTIL_OPT_TOTP_DIGITS, &p->totp_digits);
