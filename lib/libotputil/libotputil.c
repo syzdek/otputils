@@ -141,6 +141,8 @@ static otputil_t otputil_defaults =
 #pragma mark otputil_md_list[]
 static const otputil_map_t otputil_md_list[] =
 {
+   { .map_name = "md4",             .map_id = OTPUTIL_MD_MD4 },
+   { .map_name = "md5",             .map_id = OTPUTIL_MD_MD5 },
    { .map_name = "sha1",            .map_id = OTPUTIL_MD_SHA1 },
    { .map_name = "sha256",          .map_id = OTPUTIL_MD_SHA256 },
    { .map_name = "sha512",          .map_id = OTPUTIL_MD_SHA512 },
