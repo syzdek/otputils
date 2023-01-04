@@ -127,6 +127,7 @@ AC_TYPE_UINT64_T
 AC_CHECK_FUNCS([memset],         [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([rmdir],          [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strcasecmp],     [], [AC_MSG_ERROR([missing required functions])])
+AC_CHECK_FUNCS([strchr],         [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strerror],       [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strncasecmp],    [], [AC_MSG_ERROR([missing required functions])])
 AC_CHECK_FUNCS([strrchr],        [], [AC_MSG_ERROR([missing required functions])])
