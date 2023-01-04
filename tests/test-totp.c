@@ -416,7 +416,7 @@ main(
       };
       printf(
          "%-*s : %-7s : %-2s : %-4s : %-12s : digits : %-*s\n",
-         k_len, "key",
+         k_len, "key (base32)",
          "hmac",
          "t0",
          "tx",
