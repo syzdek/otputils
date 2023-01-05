@@ -117,6 +117,10 @@ CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  @PACKAGE_TARNAME@-*.txz \
 					  @PACKAGE_TARNAME@-*.zip
 DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
+					  --enable-utilities \
+					  --enable-examples \
+					  --enable-documentation \
+					  --enable-maintainer \
 					  CFLAGS="$(CFLAGS)" \
 					  CPPFLAGS="$(CPPFLAGS)" \
 					  LDFLAGS="$(LDFLAGS)"
