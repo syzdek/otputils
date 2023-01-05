@@ -52,6 +52,9 @@
 #   Libtool Clean:
 #      libtool --mode=clean rm -f libotputil.la libotputil.lo
 #
+# variables
+otputil_rfc1760_dict
+#
 # BER functions
 otputil_base32bv
 otputil_bvalloc

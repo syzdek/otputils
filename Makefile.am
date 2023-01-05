@@ -156,7 +156,8 @@ lib_libotputil_a_CPPFLAGS		= $(AM_CPPFLAGS) -I$(srcdir)/lib/libotputil
 lib_libotputil_a_SOURCES		= $(noinst_HEADERS) \
 					  $(BINDLE_LIBBINDLE_SRCS) \
 					  lib/libotputil/libotputil.h \
-					  lib/libotputil/libotputil.c
+					  lib/libotputil/libotputil.c \
+					  lib/libotputil/lskey-dict.c
 
 
 # macros for lib/libotputil.la

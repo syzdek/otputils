@@ -94,6 +94,16 @@ struct _otputil_map
 };
 
 
+/////////////////
+//             //
+//  Variables  //
+//             //
+/////////////////
+#pragma mark - Variables
+
+extern const char * otputil_rfc1760_dict[];
+
+
 //////////////////
 //              //
 //  Prototypes  //
