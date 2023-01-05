@@ -93,6 +93,13 @@ AC_DEFUN([AC_TOTPUTILS_LIBRARIES],[dnl
       [ EUTILITIES=$enableval ],
       [ EUTILITIES=$enableval ]
    )
+   enableval=""
+   AC_ARG_ENABLE(
+      maintainer,
+      [AS_HELP_STRING([--enable-maintainer], [build project maintainer utilities])],
+      [ EMAINTAINER=$enableval ],
+      [ EMAINTAINER=$enableval ]
+   )
 
    if test "x${ELIBRARIES}" == "xno";then
       ENABLE_LTLIBRARIES="no"
@@ -106,10 +113,19 @@ AC_DEFUN([AC_TOTPUTILS_LIBRARIES],[dnl
       ENABLE_UTILITIES="yes"
    fi
 
-   if test "${ENABLE_UTILITIES}" == "yes" && test "${ENABLE_LTLIBRARIES}" == "no";then
-      ENABLE_LIBRARIES="yes"
+   if test "x${EMAINTAINER}" == "xyes";then
+      ENABLE_MAINTAINER="yes"
    else
-      ENABLE_LIBRARIES="no"
+      ENABLE_MAINTAINER="no"
+   fi
+
+   ENABLE_LIBRARIES="no"
+   if test "${ENABLE_UTILITIES}" == "yes" || test "${ENABLE_MAINTAINER}" == "yes";then
+      if test "${ENABLE_LTLIBRARIES}" == "no";then
+         ENABLE_LIBRARIES="yes"
+      else
+         ENABLE_LIBRARIES="no"
+      fi
    fi
 
    if test "${ENABLE_LIBRARIES}" == "yes" || test "${ENABLE_LTLIBRARIES}" == "yes";then
@@ -130,6 +146,9 @@ AC_DEFUN([AC_TOTPUTILS_LIBRARIES],[dnl
    # ENABLE_UTILITIES
    AM_CONDITIONAL([ENABLE_UTILITIES],     [test "$ENABLE_UTILITIES" = "yes"])
    AM_CONDITIONAL([DISABLE_UTILITIES],    [test "$ENABLE_UTILITIES" = "no"])
+   # ENABLE_DEVELOPER
+   AM_CONDITIONAL([ENABLE_MAINTAINER],    [test "$ENABLE_MAINTAINER" = "yes"])
+   AM_CONDITIONAL([DISABLE_MAINTAINER],   [test "$ENABLE_MAINTAINER" = "no"])
 ])dnl
 
 

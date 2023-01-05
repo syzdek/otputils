@@ -50,6 +50,7 @@ case "${CMD}" in
       --enable-debug \
       --enable-examples \
       --enable-documentation \
+      --enable-maintainer \
       LDFLAGS=-L/opt/local/lib \
       CFLAGS=-I/opt/local/include \
       CPPFLAGS=-I/opt/local/include \

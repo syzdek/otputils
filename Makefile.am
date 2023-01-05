@@ -123,6 +123,9 @@ DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
 
 
 # conditional build
+if ENABLE_MAINTAINER
+   noinst_LIBRARIES			+= lib/libbindle.a
+endif
 if ENABLE_EXAMPLES
    noinst_PROGRAMS			+= examples/totp-example
 endif
