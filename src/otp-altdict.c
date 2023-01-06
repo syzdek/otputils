@@ -691,7 +691,7 @@ my_dict_verify(
    {
       if (!(cnf->dict[x]))
       {
-         fprintf(stderr, "missing dictionary word for value '%i'\n", x);
+         my_info(cnf, "missing dictionary word for value '%i'\n", x);
          if (!(cnf->ignore_warnings))
             missing = 1;
          continue;
