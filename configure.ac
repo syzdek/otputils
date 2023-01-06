@@ -182,7 +182,7 @@ AC_BINDLE_GIT_PACKAGE_VERSION([contrib/bindletools/build-aux/git-package-version
 
 
 # custom configure options
-AC_BINDLE_ENABLE_WARNINGS([-Wno-unknown-pragmas -Wno-missing-format-attribute -Wno-poison-system-directories], [], [c11])
+AC_BINDLE_ENABLE_WARNINGS([-Wlarger-than=32768 -Wno-unknown-pragmas -Wno-missing-format-attribute -Wno-poison-system-directories], [], [c11])
 AC_BINDLE_LIBBINDLE([totpb_], [sources])
 AC_TOTPUTILS_EXAMPLES
 AC_TOTPUTILS_DOCUMENTATION
