@@ -161,13 +161,12 @@ AC_CHECK_HEADERS([unistd.h],    [], [AC_MSG_ERROR([missing required headers])])
 # check for OpenSSL library
 AC_CHECK_HEADERS([openssl/evp.h],          [], [AC_MSG_ERROR([OpenSSL is required])])
 AC_CHECK_HEADERS([openssl/hmac.h],         [], [AC_MSG_ERROR([OpenSSL is required])])
+AC_SEARCH_LIBS([EVP_Digest],     [crypto], [], [AC_MSG_ERROR([OpenSSL is required])], [])
 AC_SEARCH_LIBS([EVP_md4],        [crypto], [], [AC_MSG_ERROR([OpenSSL is required])], [])
 AC_SEARCH_LIBS([EVP_md5],        [crypto], [], [AC_MSG_ERROR([OpenSSL is required])], [])
 AC_SEARCH_LIBS([EVP_sha1],       [crypto], [], [AC_MSG_ERROR([OpenSSL is required])], [])
 AC_SEARCH_LIBS([EVP_sha256],     [crypto], [], [AC_MSG_ERROR([OpenSSL is required])], [])
 AC_SEARCH_LIBS([EVP_sha512],     [crypto], [], [AC_MSG_ERROR([OpenSSL is required])], [])
-AC_SEARCH_LIBS([EVP_sha3_256],   [crypto], [], [AC_MSG_ERROR([OpenSSL is required])], [])
-AC_SEARCH_LIBS([EVP_sha3_512],   [crypto], [], [AC_MSG_ERROR([OpenSSL is required])], [])
 AC_SEARCH_LIBS([HMAC],           [crypto], [], [AC_MSG_ERROR([OpenSSL is required])], [])
 
 # GNU Libtool Support
