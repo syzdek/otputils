@@ -168,7 +168,8 @@ lib_libotputil_a_SOURCES		= $(noinst_HEADERS) \
 					  lib/libotputil/ldict-otp-md4.c \
 					  lib/libotputil/ldict-otp-md5.c \
 					  lib/libotputil/ldict-otp-sha1.c \
-					  lib/libotputil/ldict-rfc1760.c
+					  lib/libotputil/ldict-rfc1760.c \
+					  lib/libotputil/ldict-rfc2289-md4.c
 
 
 # macros for lib/libotputil.la
