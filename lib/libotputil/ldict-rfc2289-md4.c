@@ -44,21 +44,15 @@
 #pragma mark otputil_dict_rfc2289_md4[]
 const char * otputil_dict_rfc2289_md4[] =
 {
-   // A complete english dictionary was unable to be created using only 4
-   // letter words from English word lists. If a word with the proper hash
-   // for a given value, then the value is set to NULL.  When encoding a
-   // password, the library will revert to hexadecimal output if a value with
-   // a NULL word is needed.
-   //
    // The dictionary below was mostly generated using otp-altdict. Some of
    // the words have been replaced with alternative words based on the
    // discretion of the developer.
    //
    // The following command was used to generate the base dictionary:
    //
-   //    otp-altdict -a md4 -o altdict-md4.c -i -l 4  docs/wordlist.txt
+   //    otp-altdict -LC -a md4 -l 4 -o altdict-md4.c docs/wordlist.txt
    //
-   "par",   "agon",  "gheg",  "trm",   "god",   NULL,    // vals: 0 - 5
+   "par",   "agon",  "gheg",  "trm",   "god",   "STAM",  // vals: 0 - 5
    "elne",  "meq",   "oon",   "me",    "lm",    "arri",  // vals: 6 - 11
    "mab",   "sol",   "bret",  "keg",   "che",   "fog",   // vals: 12 - 17
    "naw",   "tmh",   "gim",   "ezod",  "od",    "aclu",  // vals: 18 - 23
@@ -68,14 +62,14 @@ const char * otputil_dict_rfc2289_md4[] =
    "gee",   "vi",    "es",    "ayes",  "tuns",  "kaw",   // vals: 42 - 47
    "vola",  "bbls",  "gobo",  "bent",  "boko",  "no",    // vals: 48 - 53
    "bom",   "box",   "ym",    "leu",   "gun",   "boh",   // vals: 54 - 59
-   "bbs",   NULL,    "aha",   "uhs",   "afft",  "tpi",   // vals: 60 - 65
+   "bbs",   "CUPS",  "aha",   "uhs",   "afft",  "tpi",   // vals: 60 - 65
    "crs",   "du",    "uts",   "hic",   "nag",   "uta",   // vals: 66 - 71
-   NULL,    "esq",   "peck",  "s",     "arse",  "asp",   // vals: 72 - 77
+   "Jab",   "esq",   "peck",  "s",     "arse",  "asp",   // vals: 72 - 77
    "llm",   "gag",   "cami",  "i",     "her",   "git",   // vals: 78 - 83
    "he",    "bara",  "uey",   "ary",   "als",   "nco",   // vals: 84 - 89
    "ably",  "bart",  "wot",   "nid",   "lev",   "dika",  // vals: 90 - 95
    "ws",    "mum",   "bool",  "beep",  "pay",   "now",   // vals: 96 - 101
-   "tod",   NULL,    "erk",   "meed",  "auca",  "arks",  // vals: 102 - 107
+   "tod",   "Dope",  "erk",   "meed",  "auca",  "arks",  // vals: 102 - 107
    "ende",  "alit",  "fin",   "cs",    "agit",  "ahab",  // vals: 108 - 113
    "gdp",   "ah",    "rodd",  "gra",   "oer",   "kera",  // vals: 114 - 119
    "trye",  "cmd",   "gyps",  "win",   "joe",   "douc",  // vals: 120 - 125
@@ -85,7 +79,7 @@ const char * otputil_dict_rfc2289_md4[] =
    "duc",   "iv",    "oahu",  "grat",  "ays",   "dail",  // vals: 144 - 149
    "who",   "hoit",  "jag",   "anam",  "sad",   "eek",   // vals: 150 - 155
    "epi",   "ags",   "iii",   "maza",  "gios",  "qtd",   // vals: 156 - 161
-   "tag",   "busk",  "mu",    NULL,    "mv",    "vum",   // vals: 162 - 167
+   "tag",   "busk",  "mu",    "Pops",  "womp",  "fame",  // vals: 162 - 167
    "pf",    "elb",   "rew",   "yt",    "nne",   "vogt",  // vals: 168 - 173
    "bone",  "unh",   "buke",  "amay",  "oys",   "yeo",   // vals: 174 - 179
    "hug",   "girr",  "fry",   "tui",   "hed",   "tory",  // vals: 180 - 185
@@ -106,17 +100,17 @@ const char * otputil_dict_rfc2289_md4[] =
    "tsk",   "v",     "p",     "hs",    "ctg",   "eas",   // vals: 270 - 275
    "brum",  "actu",  "bg",    "mb",    "ol",    "bez",   // vals: 276 - 281
    "ii",    "chay",  "xu",    "bnf",   "ci",    "dams",  // vals: 282 - 287
-   NULL,    "ise",   "ajog",  "hit",   "ows",   "iud",   // vals: 288 - 293
+   "Oars",  "ise",   "ajog",  "hit",   "ows",   "iud",   // vals: 288 - 293
    "hoes",  "qis",   "jawn",  "oaky",  "ion",   "gink",  // vals: 294 - 299
    "kiwi",  "uti",   "fied",  "ged",   "area",  "birl",  // vals: 300 - 305
    "arg",   "oka",   "poa",   "fend",  "dmd",   "gcd",   // vals: 306 - 311
-   "shoq",  "cun",   NULL,    "fuck",  "ler",   "hap",   // vals: 312 - 317
+   "shoq",  "cun",   "VELL",  "VEG",   "ler",   "hap",   // vals: 312 - 317
    "ars",   "ram",   "pow",   "ezo",   "chee",  "dds",   // vals: 318 - 323
    "hajj",  "jut",   "ug",    "ilk",   "acor",  "brat",  // vals: 324 - 329
-   "dado",  "coak",  "kva",   "ich",   NULL,    "myc",   // vals: 330 - 335
+   "dado",  "coak",  "kva",   "ich",   "AJAR",  "myc",   // vals: 330 - 335
    "oes",   "hhd",   "pawl",  "dx",    "ox",    "se",    // vals: 336 - 341
    "bash",  "eu",    "rids",  "ey",    "taws",  "ig",    // vals: 342 - 347
-   "ptt",   NULL,    "arle",  "coca",  "colk",  "aku",   // vals: 348 - 353
+   "ptt",   "Tape",  "arle",  "coca",  "colk",  "aku",   // vals: 348 - 353
    "eeg",   "drek",  "o",     "ik",    "bola",  "qaf",   // vals: 354 - 359
    "for",   "axe",   "nbe",   "aker",  "ass",   "amus",  // vals: 360 - 365
    "book",  "aby",   "opt",   "dmus",  "ham",   "tee",   // vals: 366 - 371
@@ -128,7 +122,7 @@ const char * otputil_dict_rfc2289_md4[] =
    "xs",    "gon",   "vaw",   "elt",   "tps",   "hems",  // vals: 402 - 407
    "ix",    "g",     "won",   "bch",   "alew",  "keap",  // vals: 408 - 413
    "fave",  "amla",  "lar",   "ids",   "urp",   "gab",   // vals: 414 - 419
-   "in",    "holw",  "pfx",   "alai",  "ako",   NULL,    // vals: 420 - 425
+   "in",    "holw",  "pfx",   "alai",  "ako",   "Diva",  // vals: 420 - 425
    "tal",   "fu",    "oo",    "pal",   "cafh",  "shor",  // vals: 426 - 431
    "jaun",  "daw",   "boul",  "lux",   "tit",   "drie",  // vals: 432 - 437
    "asea",  "jig",   "wab",   "dux",   "wu",    "ohm",   // vals: 438 - 443
@@ -155,7 +149,7 @@ const char * otputil_dict_rfc2289_md4[] =
    "caum",  "map",   "bout",  "atok",  "lid",   "chry",  // vals: 564 - 569
    "does",  "cpi",   "arfs",  "iao",   "gyle",  "aint",  // vals: 570 - 575
    "iwo",   "raun",  "mcg",   "cy",    "bine",  "phu",   // vals: 576 - 581
-   "zemi",  "skol",  "gph",   NULL,    "foh",   "dink",  // vals: 582 - 587
+   "zemi",  "skol",  "gph",   "CASS",  "foh",   "dink",  // vals: 582 - 587
    "yom",   "toy",   "pye",   "hae",   "ios",   "awd",   // vals: 588 - 593
    "woa",   "gio",   "darn",  "cyma",  "own",   "eik",   // vals: 594 - 599
    "erat",  "wbn",   "tx",    "up",    "owt",   "iodo",  // vals: 600 - 605
@@ -172,7 +166,7 @@ const char * otputil_dict_rfc2289_md4[] =
    "ag",    "hye",   "got",   "rle",   "pom",   "mota",  // vals: 666 - 671
    "oad",   "dah",   "lank",  "nie",   "xcl",   "guz",   // vals: 672 - 677
    "vied",  "nar",   "bap",   "nard",  "neuk",  "una",   // vals: 678 - 683
-   "jnr",   "gane",  "barf",  NULL,    "adz",   "hee",   // vals: 684 - 689
+   "jnr",   "gane",  "barf",  "Meow",  "adz",   "hee",   // vals: 684 - 689
    "toi",   "bown",  "bion",  "hoe",   "chun",  "gutt",  // vals: 690 - 695
    "pre",   "amen",  "umu",   "och",   "kelp",  "tol",   // vals: 696 - 701
    "chik",  "baic",  "grr",   "hmo",   "ev",    "hia",   // vals: 702 - 707
@@ -194,7 +188,7 @@ const char * otputil_dict_rfc2289_md4[] =
    "job",   "guy",   "lym",   "gram",  "kha",   "tu",    // vals: 798 - 803
    "war",   "anil",  "mom",   "frat",  "eau",   "cq",    // vals: 804 - 809
    "gpm",   "marx",  "khar",  "ecm",   "asse",  "au",    // vals: 810 - 815
-   "xii",   "amas",  "azo",   "sime",  NULL,    "abir",  // vals: 816 - 821
+   "xii",   "amas",  "azo",   "sime",  "Goup",  "abir",  // vals: 816 - 821
    "oc",    "fah",   "vly",   "noys",  "pacs",  "bs",    // vals: 822 - 827
    "coed",  "ny",    "sud",   "ls",    "awny",  "h",     // vals: 828 - 833
    "yn",    "coth",  "qs",    "gaud",  "ards",  "cavy",  // vals: 834 - 839
@@ -212,7 +206,7 @@ const char * otputil_dict_rfc2289_md4[] =
    "it",    "zea",   "lo",    "wed",   "pyx",   "oxy",   // vals: 906 - 911
    "lums",  "yu",    "ewk",   "agba",  "mad",   "ma",    // vals: 912 - 917
    "gol",   "ray",   "boon",  "sub",   "able",  "fado",  // vals: 918 - 923
-   "byth",  "crl",   "dei",   "ock",   NULL,    "duh",   // vals: 924 - 929
+   "byth",  "crl",   "dei",   "ock",   "BEEP",  "duh",   // vals: 924 - 929
    "shy",   "dorr",  "pat",   "why",   "lod",   "axon",  // vals: 930 - 935
    "bld",   "fass",  "pfc",   "loe",   "coes",  "ooh",   // vals: 936 - 941
    "wo",    "prim",  "ens",   "carb",  "bowr",  "trp",   // vals: 942 - 947
@@ -232,14 +226,14 @@ const char * otputil_dict_rfc2289_md4[] =
    "egis",  "pup",   "balk",  "burn",  "hos",   "kv",    // vals: 1026 - 1031
    "gid",   "cig",   "old",   "xx",    "kahu",  "th",    // vals: 1032 - 1037
    "hao",   "adaw",  "asks",  "airt",  "brrr",  "ibm",   // vals: 1038 - 1043
-   "agni",  "flo",   "dora",  "aer",   "dick",  NULL,    // vals: 1044 - 1049
+   "agni",  "flo",   "dora",  "aer",   "dick",  "Bear",  // vals: 1044 - 1049
    "sh",    "bloc",  "eire",  "lud",   "abt",   "dix",   // vals: 1050 - 1055
    "mug",   "goe",   "lug",   "foy",   "anow",  "cns",   // vals: 1056 - 1061
    "dey",   "ara",   "koln",  "opts",  "chan",  "narc",  // vals: 1062 - 1067
    "cobb",  "tan",   "nov",   "mae",   "ghz",   "heo",   // vals: 1068 - 1073
    "erke",  "new",   "aga",   "ilo",   "fung",  "dtd",   // vals: 1074 - 1079
    "tae",   "na",    "cedi",  "wrox",  "vav",   "dau",   // vals: 1080 - 1085
-   "zas",   NULL,    "gams",  "eale",  "wim",   "aona",  // vals: 1086 - 1091
+   "zas",   "Acre",  "gams",  "eale",  "wim",   "aona",  // vals: 1086 - 1091
    "him",   "yep",   "onza",  "ain",   "xi",    "urd",   // vals: 1092 - 1097
    "bred",  "zr",    "ona",   "unc",   "amah",  "ng",    // vals: 1098 - 1103
    "eddo",  "dicy",  "mee",   "abcs",  "ptp",   "obis",  // vals: 1104 - 1109
@@ -247,9 +241,9 @@ const char * otputil_dict_rfc2289_md4[] =
    "fele",  "caps",  "rna",   "sly",   "sps",   "saw",   // vals: 1116 - 1121
    "dyce",  "bok",   "ava",   "gems",  "on",    "erf",   // vals: 1122 - 1127
    "ola",   "luz",   "auh",   "utc",   "pva",   "fys",   // vals: 1128 - 1133
-   "loy",   "hod",   "xw",    "rete",  "moi",   NULL,    // vals: 1134 - 1139
-   "soy",   "goup",  "kuei",  "mi",    "bv",    NULL,    // vals: 1140 - 1145
-   "emeu",  "ife",   NULL,    "puh",   "mir",   "asia",  // vals: 1146 - 1151
+   "loy",   "hod",   "xw",    "rete",  "moi",   "Tera",  // vals: 1134 - 1139
+   "soy",   "goup",  "kuei",  "mi",    "bv",    "Sews",  // vals: 1140 - 1145
+   "emeu",  "ife",   "Pan",   "puh",   "mir",   "asia",  // vals: 1146 - 1151
    "bevy",  "fra",   "ods",   "mob",   "tuy",   "ung",   // vals: 1152 - 1157
    "hld",   "piky",  "toru",  "wa",    "van",   "nbw",   // vals: 1158 - 1163
    "aria",  "opv",   "lof",   "nad",   "dyn",   "ml",    // vals: 1164 - 1169
@@ -266,9 +260,9 @@ const char * otputil_dict_rfc2289_md4[] =
    "doll",  "nol",   "hud",   "efl",   "vei",   "pvc",   // vals: 1230 - 1235
    "boys",  "get",   "kin",   "axis",  "boks",  "ut",    // vals: 1236 - 1241
    "fgn",   "hog",   "twa",   "coup",  "las",   "nci",   // vals: 1242 - 1247
-   "gre",   "is",    "x",     "cawl",  "aws",   NULL,    // vals: 1248 - 1253
+   "gre",   "is",    "x",     "cawl",  "aws",   "EVIL",  // vals: 1248 - 1253
    "ront",  "ague",  "jat",   "sago",  "alec",  "ys",    // vals: 1254 - 1259
-   "gc",    "ane",   "alo",   "om",    "geat",  NULL,    // vals: 1260 - 1265
+   "gc",    "ane",   "alo",   "om",    "geat",  "BABY",  // vals: 1260 - 1265
    "luv",   "bunt",  "thio",  "epa",   "moc",   "yb",    // vals: 1266 - 1271
    "xr",    "aph",   "ode",   "amps",  "daud",  "tao",   // vals: 1272 - 1277
    "jot",   "usw",   "oyes",  "aids",  "hoa",   "urth",  // vals: 1278 - 1283
@@ -329,15 +323,15 @@ const char * otputil_dict_rfc2289_md4[] =
    "tmv",   "ked",   "omb",   "arcs",  "lars",  "chal",  // vals: 1608 - 1613
    "hey",   "choc",  "flax",  "fit",   "bual",  "ctrl",  // vals: 1614 - 1619
    "hoc",   "try",   "paha",  "hete",  "utes",  "unq",   // vals: 1620 - 1625
-   "aitu",  NULL,    "hav",   "ieee",  "chia",  "wac",   // vals: 1626 - 1631
+   "aitu",  "BLOC",  "hav",   "ieee",  "chia",  "wac",   // vals: 1626 - 1631
    "balr",  "kra",   "bel",   "pkgs",  "cuz",   "ja",    // vals: 1632 - 1637
    "cox",   "cdg",   "met",   "ire",   "boce",  "blat",  // vals: 1638 - 1643
    "cob",   "cima",  "iou",   "za",    "reb",   "fett",  // vals: 1644 - 1649
-   NULL,    "antu",  "lyms",  "eyn",   "akee",  "ipl",   // vals: 1650 - 1655
+   "Dyed",  "antu",  "lyms",  "eyn",   "akee",  "ipl",   // vals: 1650 - 1655
    "calf",  "lath",  "cdr",   "elix",  "tez",   "oak",   // vals: 1656 - 1661
    "klik",  "yow",   "j",     "egos",  "bura",  "go",    // vals: 1662 - 1667
    "xix",   "age",   "mono",  "dixi",  "ley",   "tom",   // vals: 1668 - 1673
-   "lay",   "les",   "ebbs",  "dph",   NULL,    "gul",   // vals: 1674 - 1679
+   "lay",   "les",   "ebbs",  "dph",   "Tons",  "gul",   // vals: 1674 - 1679
    "gpd",   "gte",   "erst",  "nown",  "alca",  "dib",   // vals: 1680 - 1685
    "emo",   "ado",   "vor",   "kaim",  "fibs",  "lak",   // vals: 1686 - 1691
    "aune",  "auld",  "rez",   "qat",   "loti",  "cite",  // vals: 1692 - 1697
@@ -351,7 +345,7 @@ const char * otputil_dict_rfc2289_md4[] =
    "ont",   "ir",    "sob",   "asop",  "drap",  "key",   // vals: 1740 - 1745
    "filo",  "hab",   "aeq",   "ui",    "pbx",   "plf",   // vals: 1746 - 1751
    "cass",  "ro",    "sun",   "arb",   "to",    "bago",  // vals: 1752 - 1757
-   "blt",   NULL,    "wost",  "hah",   "jms",   "rhy",   // vals: 1758 - 1763
+   "blt",   "WHO",   "wost",  "hah",   "jms",   "rhy",   // vals: 1758 - 1763
    "sou",   "crc",   "toe",   "boll",  "hei",   "goi",   // vals: 1764 - 1769
    "edo",   "vc",    "asem",  "ess",   "ayu",   "msh",   // vals: 1770 - 1775
    "boas",  "axil",  "fly",   "imo",   "imid",  "nj",    // vals: 1776 - 1781
@@ -375,12 +369,12 @@ const char * otputil_dict_rfc2289_md4[] =
    "rhe",   "naff",  "czar",  "how",   "chum",  "arx",   // vals: 1884 - 1889
    "sav",   "fob",   "gogo",  "nu",    "elhi",  "jee",   // vals: 1890 - 1895
    "rip",   "asl",   "pie",   "doen",  "ulu",   "lu",    // vals: 1896 - 1901
-   "xv",    "ainu",  "noxa",  NULL,    "edhs",  "ail",   // vals: 1902 - 1907
+   "xv",    "ainu",  "noxa",  "Baby",  "edhs",  "ail",   // vals: 1902 - 1907
    "ros",   "lats",  "tck",   "coys",  "gop",   "bury",  // vals: 1908 - 1913
    "yowl",  "danu",  "doss",  "thb",   "dft",   "abet",  // vals: 1914 - 1919
    "snur",  "vex",   "koa",   "eyr",   "nw",    "nach",  // vals: 1920 - 1925
    "umm",   "anns",  "ferv",  "arni",  "ller",  "fizz",  // vals: 1926 - 1931
-   NULL,    "gnu",   "aero",  "gork",  "et",    "hts",   // vals: 1932 - 1937
+   "KOBI",  "gnu",   "aero",  "gork",  "et",    "hts",   // vals: 1932 - 1937
    "oot",   "dkm",   "vig",   "lst",   "yar",   "kim",   // vals: 1938 - 1943
    "mh",    "yox",   "nea",   "uji",   "lpn",   "lld",   // vals: 1944 - 1949
    "ido",   "heer",  "ing",   "doa",   "pho",   "deen",  // vals: 1950 - 1955
@@ -394,7 +388,7 @@ const char * otputil_dict_rfc2289_md4[] =
    "abid",  "gye",   "nut",   "ph",    "ms",    "alw",   // vals: 1998 - 2003
    "birr",  "gub",   "iw",    "ceas",  "favn",  "buts",  // vals: 2004 - 2009
    "fiz",   "suz",   "quam",  "hics",  "hau",   "gaga",  // vals: 2010 - 2015
-   "lap",   NULL,    "dye",   "cuif",  "xt",    "bono",  // vals: 2016 - 2021
+   "lap",   "Dunk",  "dye",   "cuif",  "xt",    "bono",  // vals: 2016 - 2021
    "gyny",  "tex",   "zex",   "nt",    "clit",  "gib",   // vals: 2022 - 2027
    "itd",   "ins",   "wob",   "jasz",  "jew",   "busy",  // vals: 2028 - 2033
    "ia",    "dod",   "lyc",   "fen",   "amu",   "gyre",  // vals: 2034 - 2039
