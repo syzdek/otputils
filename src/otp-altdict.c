@@ -134,7 +134,7 @@ struct _my_config
 /////////////////
 #pragma mark - Variables
 
-extern const char * otputil_rfc1760_dict[];
+extern const char * otputil_dict_rfc1760[];
 
 
 //////////////////
@@ -533,7 +533,7 @@ my_buff_process_word(
    // search for S/KEY dictionary word
    if (!(cnf->allow_dups))
    {
-      if (bindle_bindex(word, otputil_rfc1760_dict, 2048, sizeof(char *), 0, NULL, my_word_cmp_key) != -1)
+      if (bindle_bindex(word, otputil_dict_rfc1760, 2048, sizeof(char *), 0, NULL, my_word_cmp_key) != -1)
       {
          my_verbose(cnf, "word '%s': is contained in S/KEY dictionary\n", word);
          return(0);
