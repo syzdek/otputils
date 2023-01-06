@@ -807,8 +807,6 @@ otputil_hotp_code(
       case OTPUTIL_MD_SHA1:         evp_md = EVP_sha1();       break;
       case OTPUTIL_MD_SHA256:       evp_md = EVP_sha256();     break;
       case OTPUTIL_MD_SHA512:       evp_md = EVP_sha512();     break;
-      case OTPUTIL_MD_SHA3_256:     evp_md = EVP_sha3_256();   break;
-      case OTPUTIL_MD_SHA3_512:     evp_md = EVP_sha3_512();   break;
       default: return(-1);
    };
 
