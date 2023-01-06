@@ -1,6 +1,6 @@
 /*
  *  OTP Utilities
- *  Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.
+ *  Copyright (C) 2022 David M. Syzdek <david@syzdek.net>.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are
@@ -55,7 +55,7 @@ const char * otputil_dict_otp_md5[] =
    //
    // The following command was used to generate the base dictionary:
    //
-   //    otp-altdict -a md5 -o altdict--inval-md5.c -l 6  docs/wordlist.txt
+   //    otp-altdict -a md5 -o altdict-inval-md5.c -l 6  docs/wordlist.txt
    //
    "wrox",    "zigs",    "rine",    "kaka",    "wite",    // vals: 0 - 4
    "buhl",    "sley",    "vola",    "gire",    "risp",    // vals: 5 - 9
