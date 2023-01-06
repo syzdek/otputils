@@ -53,6 +53,7 @@
 #      libtool --mode=clean rm -f libotputil.la libotputil.lo
 #
 # variables
+otputil_dict_otp_md5
 otputil_dict_otp_sha1
 otputil_dict_rfc1760
 #
