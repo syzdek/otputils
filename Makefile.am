@@ -165,6 +165,7 @@ lib_libotputil_a_SOURCES		= $(noinst_HEADERS) \
 					  $(BINDLE_LIBBINDLE_SRCS) \
 					  lib/libotputil/libotputil.h \
 					  lib/libotputil/libotputil.c \
+					  lib/libotputil/ldict-otp-md4.c \
 					  lib/libotputil/ldict-otp-md5.c \
 					  lib/libotputil/ldict-otp-sha1.c \
 					  lib/libotputil/ldict_rfc1760.c
