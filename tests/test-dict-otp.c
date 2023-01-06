@@ -204,15 +204,22 @@ my_dict_test(
    unsigned char     md[EVP_MAX_MD_SIZE];
    unsigned          md_len;
    const char *      word;
+   int               missing;
 
-   err = 0;
+   err      = 0;
+   missing  = 0;
 
    if (!(quiet))
       printf("testing dictionary: %s\n", name);
 
    for(pos = 0; (pos < 2048); pos++)
    {
-      word   = dict[pos];
+      if ((word = dict[pos]) == NULL)
+      {
+         printf("   value \"%i\": dictionary missing word for value\n", pos);
+         missing++;
+         continue;
+      };
 
       // hash dictionary word
       md_len = sizeof(md);
@@ -236,7 +243,10 @@ my_dict_test(
    };
 
    if (!(quiet))
-      printf("   dictionary has %i error(s)\n", err);
+   {
+      printf("   dictionary has %i error(s) and %i missing value(s)\n", err, missing);
+      printf("\n");
+   };
 
    return( ((err)) ? 1 : 0 );
 }
