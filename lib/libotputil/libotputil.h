@@ -102,6 +102,7 @@ struct _otputil_map
 #pragma mark - Variables
 
 extern const char * otputil_rfc1760_dict[];
+extern const char * otputil_dict_otp_sha1[];
 
 
 //////////////////

@@ -54,6 +54,7 @@
 #
 # variables
 otputil_rfc1760_dict
+otputil_dict_otp_sha1
 #
 # BER functions
 otputil_base32bv
