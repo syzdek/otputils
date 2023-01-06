@@ -571,9 +571,7 @@ my_dict_save(
          my_config_t *                 cnf )
 {
    int            x;
-   int            y;
    int            count;
-   const char *   match;
    FILE *         fs;
    char           word[MY_WORDBUFF_SIZE];
    char           algo[MY_WORDBUFF_SIZE];
@@ -614,15 +612,8 @@ my_dict_save(
             line++;
          };
       };
-      match = NULL;
       if ((cnf->dict[x]))
-      {
-         for(y = 0; ((cnf->dict[x][y])); y++)
-            if (strlen(cnf->dict[x][y]) < 5)
-               match = cnf->dict[x][y];
-         match = ((match)) ? match : cnf->dict[x][0];
-         snprintf(word, sizeof(word), "\"%s\",", match);
-      };
+         snprintf(word, sizeof(word), "\"%s\",", cnf->dict[x][0]);
       if (!(cnf->dict[x]))
          snprintf(word, sizeof(word), "NULL,");
       fprintf(fs, "%-*s", (int)(cnf->word_maxlen+5), word);
