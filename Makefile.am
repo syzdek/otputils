@@ -80,6 +80,7 @@ pkgdata_DATA				=
 sbin_SCRIPTS				=
 sbin_PROGRAMS				=
 EXTRA_PROGRAMS				= examples/totp-example \
+					  src/otp-altdict \
 					  src/otputil \
 					  tests/test-hotp \
 					  tests/test-totp
@@ -128,7 +129,7 @@ DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
 
 # conditional build
 if ENABLE_MAINTAINER
-   noinst_LIBRARIES			+= lib/libbindle.a
+   noinst_PROGRAMS			+= src/otp-altdict
 endif
 if ENABLE_EXAMPLES
    noinst_PROGRAMS			+= examples/totp-example
@@ -176,6 +177,12 @@ lib_libotputil_la_LDFLAGS		= -rpath'$(libdir)' \
 					  $(AM_LDFLAGS) \
 					  -export-symbols $(srcdir)/lib/libotputil/libotputil.sym
 lib_libotputil_la_SOURCES		= $(lib_libotputil_a_SOURCES)
+
+
+# macros for src/otp-altdict
+src_otp_altdict_DEPENDENCIES		= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+src_otp_altdict_LDADD			= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+src_otp_altdict_SOURCES			= $(BINDLE_LIBBINDLE_SRCS) src/otp-altdict.c
 
 
 # macros for src/otputil
