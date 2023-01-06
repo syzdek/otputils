@@ -99,6 +99,14 @@
 
 #define MY_DFLT_WORD_MAXLEN   4
 
+#define MY_CASE_LOWER         0x01
+#define MY_CASE_UPPER         0x02
+#define MY_CASE_CAPITALIZE    0x04
+#define MY_CASE_CAMEL         0x08
+#define MY_CASE_INVERT_CAMEL  0x10
+#define MY_CASE_FIRST         0x20
+#define MY_CASE_SECOND        0x40
+
 
 /////////////////
 //             //
@@ -115,7 +123,9 @@ struct _my_config
    int               fd;
    int               allow_hex;
    int               allow_dups;
+   int               word_case;
    int               ignore_warnings;
+   int               pad_int;
    size_t            word_maxlen;
    size_t            buff_len;
    size_t            buff_off;
@@ -194,6 +204,13 @@ my_buff_process_word(
          const char *                  word );
 
 
+static int
+my_buff_process_word_hash(
+         my_config_t *                 cnf,
+         const char *                  word,
+         int                           word_len );
+
+
 static void
 my_verbose(
          my_config_t *                 cnf,
@@ -220,12 +237,6 @@ my_word_cmp_obj(
 /////////////////
 #pragma mark - Functions
 
-
-//---------------//
-// main function //
-//---------------//
-#pragma mark main function
-
 int
 main(
          int                           argc,
@@ -239,7 +250,7 @@ main(
    char *            endptr;
 
    // getopt options
-   static const char *  short_opt = "a:dHhil:o:qVv";
+   static const char *  short_opt = "12Aa:CdHhiLl:Mo:qUVvW";
    static struct option long_opt[] =
    {
       {"help",             no_argument,       NULL, 'h' },
@@ -268,6 +279,18 @@ main(
          case 0:        /* long options toggles */
          break;
 
+         case '1':
+         cnf->word_case |= MY_CASE_FIRST;
+         break;
+
+         case '2':
+         cnf->word_case |= MY_CASE_SECOND;
+         break;
+
+         case 'A':
+         cnf->word_case = 0xFFFFFF;
+         break;
+
          case 'a':
          if ((cnf->evp_md = EVP_get_digestbyname(optarg)) == NULL)
          {
@@ -275,6 +298,10 @@ main(
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
+         break;
+
+         case 'C':
+         cnf->word_case |= MY_CASE_CAPITALIZE;
          break;
 
          case 'd':
@@ -288,16 +315,24 @@ main(
          case 'h':
          printf("Usage: %s [OPTIONS] <wordlist>\n", PROGRAM_NAME);
          printf("OPTIONS:\n");
+         printf("  -1                        capitalize first half of word (e.g. \"WOrd\"\n");
+         printf("  -2                        capitalize second half of word (e.g. \"woRD\"\n");
+         printf("  -A                        add word with all variations\n");
          printf("  -a algorithm              hash algorithm for alt dictionary (default: sha1)\n");
+         printf("  -C                        add word as capitalized (e.g. \"Word\"\n");
          printf("  -d                        allow duplicates with S/KEY dictionary\n");
          printf("  -H                        use words which only contain hexadecimal characters\n");
          printf("  -h, --help                print this help and exit\n");
          printf("  -i                        ignore warnings\n");
+         printf("  -L                        add word as lower case (e.g. \"word\"\n");
          printf("  -l length                 maximum word length (default: %i)\n", MY_DFLT_WORD_MAXLEN);
+         printf("  -M                        add word as inverted camel case (e.g. \"wOrD\"\n");
          printf("  -o file                   output file\n");
          printf("  -q, --quiet, --silent     do not print messages\n");
+         printf("  -U                        add word as upper case (e.g. \"WORD\"\n");
          printf("  -V, --version             print version number and exit\n");
          printf("  -v, --verbose             print verbose messages\n");
+         printf("  -W                        add word as camel case (e.g. \"WoRd\"\n");
          printf("ALGORITHMS:\n");
          printf("  md4\n");
          printf("  md5\n");
@@ -311,6 +346,10 @@ main(
          cnf->ignore_warnings = 1;
          break;
 
+         case 'L':
+         cnf->word_case |= MY_CASE_LOWER;
+         break;
+
          case 'l':
          cnf->word_maxlen = strtoull(optarg, &endptr, 0);
          if ( (optarg == endptr) || ((endptr[0])) )
@@ -321,12 +360,20 @@ main(
          };
          break;
 
+         case 'M':
+         cnf->word_case |= MY_CASE_INVERT_CAMEL;
+         break;
+
          case 'o':
          cnf->file_out = optarg;
          break;
 
          case 'q':
          cnf->quiet = 1;
+         break;
+
+         case 'U':
+         cnf->word_case |= MY_CASE_UPPER;
          break;
 
          case 'V':
@@ -336,6 +383,10 @@ main(
 
          case 'v':
          cnf->verbose++;
+         break;
+
+         case 'W':
+         cnf->word_case |= MY_CASE_CAMEL;
          break;
 
          case '?':
@@ -360,6 +411,9 @@ main(
       fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
       return(1);
    };
+
+   if (!(cnf->word_case))
+      cnf->word_case = MY_CASE_LOWER;
 
    // open file and loop through word list
    my_info(cnf, "generating dictionary: processing word list\n");
@@ -497,10 +551,9 @@ my_buff_process_word(
 {
    size_t            pos;
    int               hexonly;
-   unsigned char     md[EVP_MAX_MD_SIZE];
-   unsigned          md_len;
-   int               val;
-   int               rc;
+   int               x;
+   int               len;
+   char *            str;
 
    // checks syntax of word
    hexonly = 1;
@@ -542,9 +595,118 @@ my_buff_process_word(
 
    my_verbose(cnf, "word '%s': processing\n", word);
 
-   // generate hash
+   // copy word
+   if ((str = bindle_strdup(word)) == NULL)
+   {
+      my_error("out of virtual memory\n");
+      return(-1);
+   };
+   len = (int)strlen(str);
+
+   // generate hash for lower case word
+   if ((cnf->word_case & MY_CASE_LOWER))
+   {
+      for(x = 0; ((str[x])); x++)
+         str[x] = tolower(str[x]);
+      if (my_buff_process_word_hash(cnf, str, len) == -1)
+      {
+         free(str);
+         return(-1);
+      };
+   };
+
+   // generates hash for first letter capital
+   if ((cnf->word_case & MY_CASE_CAPITALIZE))
+   {
+      for(x = 1; ((str[x])); x++)
+         str[x] = tolower(str[x]);
+      str[0] = toupper(str[0]);
+      if (my_buff_process_word_hash(cnf, str, len) == -1)
+      {
+         free(str);
+         return(-1);
+      };
+   };
+
+   // generates hash for upper case word
+   if ((cnf->word_case & MY_CASE_UPPER))
+   {
+      for(x = 0; ((str[x])); x++)
+         str[x] = toupper(str[x]);
+      if (my_buff_process_word_hash(cnf, str, len) == -1)
+      {
+         free(str);
+         return(-1);
+      };
+   };
+
+   // generates hash for camel case word
+   if ((cnf->word_case & MY_CASE_CAMEL))
+   {
+      for(x = 0; ((str[x])); x++)
+         str[x] = ((x & 0x01)) ? tolower(str[x]) : toupper(str[x]);
+      if (my_buff_process_word_hash(cnf, str, len) == -1)
+      {
+         free(str);
+         return(-1);
+      };
+   };
+
+   // generates hash for inverted camel case word
+   if ((cnf->word_case & MY_CASE_INVERT_CAMEL))
+   {
+      for(x = 0; ((str[x])); x++)
+         str[x] = ((x & 0x01)) ? toupper(str[x]) : tolower(str[x]);
+      if (my_buff_process_word_hash(cnf, str, len) == -1)
+      {
+         free(str);
+         return(-1);
+      };
+   };
+
+   // generates hash for first half of word capitalized
+   if ((cnf->word_case & MY_CASE_FIRST))
+   {
+      for(x = 0; ((str[x])); x++)
+         str[x] = ((len/2) > x) ? toupper(str[x]) : tolower(str[x]);
+      if (my_buff_process_word_hash(cnf, str, len) == -1)
+      {
+         free(str);
+         return(-1);
+      };
+   };
+
+   // generates hash for second half of word capitalized
+   if ((cnf->word_case & MY_CASE_FIRST))
+   {
+      for(x = 0; ((str[x])); x++)
+         str[x] = ((len/2) < x) ? toupper(str[x]) : tolower(str[x]);
+      if (my_buff_process_word_hash(cnf, str, len) == -1)
+      {
+         free(str);
+         return(-1);
+      };
+   };
+
+   free(str);
+
+   return(0);
+}
+
+
+int
+my_buff_process_word_hash(
+         my_config_t *                 cnf,
+         const char *                  word,
+         int                           word_len )
+{
+   unsigned char     md[EVP_MAX_MD_SIZE];
+   unsigned          md_len;
+   int               val;
+   int               rc;
+
    md_len = sizeof(md);
-   if (!(EVP_Digest(word, pos, md, &md_len, cnf->evp_md, NULL)))
+   if (!(EVP_Digest(word, word_len, md, &md_len, cnf->evp_md, NULL)))
    {
       my_error("unable to geneate hash for '%s'\n", word);
       return(-1);
