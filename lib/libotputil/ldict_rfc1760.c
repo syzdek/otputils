@@ -30,7 +30,7 @@
 /*
  *  @file lib/libotputil/libotputil.c
  */
-#define _LIB_LSKEY_DICT_C 1
+#define _LIB_LDICT_RFC1760_C 1
 #include "libotputil.h"
 
 

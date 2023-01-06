@@ -30,7 +30,7 @@
 /*
  *  @file lib/libotputil/libotputil.c
  */
-#define _LIB_LOTP_DICT_SHA1_C 1
+#define _LIB_LDICT_OTP_SHA1_C 1
 #include "libotputil.h"
 
 
