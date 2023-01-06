@@ -742,7 +742,11 @@ my_dict_save(
 
    my_info(cnf, "writing dictionary to file ...\n");
 
+#ifdef HAVE_EVP_MD_GET0_NAME
    snprintf(algo, sizeof(algo), "%s", EVP_MD_get0_name(cnf->evp_md));
+#else
+   snprintf(algo, sizeof(algo), "hash");
+#endif
    for(x = 0; ((algo[x])); x++)
       algo[x] = tolower(algo[x]);
 
@@ -802,7 +806,11 @@ my_dict_summary(
    if ((cnf->quiet))
       return(0);
 
+#ifdef HAVE_EVP_MD_GET0_NAME
    my_info(cnf, "OTP Alt Dictionary for %s with words of 1-%i letters\n", EVP_MD_get0_name(cnf->evp_md), (int)cnf->word_maxlen);
+#else
+   my_info(cnf, "OTP Alt Dictionary for words of 1-%i letters\n", (int)cnf->word_maxlen);
+#endif
    for(x = 0; (x < 2048); x++)
    {
       // skip output if value does not have words

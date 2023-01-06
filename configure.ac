@@ -168,6 +168,7 @@ AC_SEARCH_LIBS([EVP_sha1],       [crypto], [], [AC_MSG_ERROR([OpenSSL is require
 AC_SEARCH_LIBS([EVP_sha256],     [crypto], [], [AC_MSG_ERROR([OpenSSL is required])], [])
 AC_SEARCH_LIBS([EVP_sha512],     [crypto], [], [AC_MSG_ERROR([OpenSSL is required])], [])
 AC_SEARCH_LIBS([HMAC],           [crypto], [], [AC_MSG_ERROR([OpenSSL is required])], [])
+AC_CHECK_FUNCS([EVP_MD_get0_name],         [], [])
 
 # GNU Libtool Support
 LT_INIT(dlopen disable-fast-install)
