@@ -92,6 +92,8 @@ extern const char * otputil_dict_otp_md4[];
 extern const char * otputil_dict_otp_md5[];
 extern const char * otputil_dict_otp_sha1[];
 extern const char * otputil_dict_rfc2289_md4[];
+extern const char * otputil_dict_rfc2289_md5[];
+extern const char * otputil_dict_rfc2289_sha1[];
 
 
 //////////////////
@@ -189,6 +191,8 @@ main(
    err += my_dict_test("otputil_dict_otp_md5[]",      otputil_dict_otp_md5,      EVP_md5());
    err += my_dict_test("otputil_dict_otp_sha1[]",     otputil_dict_otp_sha1,     EVP_sha1());
    err += my_dict_test("otputil_dict_rfc2289_md4[]",  otputil_dict_rfc2289_md4,  EVP_md4());
+   err += my_dict_test("otputil_dict_rfc2289_md5[]",  otputil_dict_rfc2289_md5,  EVP_md5());
+   err += my_dict_test("otputil_dict_rfc2289_sha1[]", otputil_dict_rfc2289_sha1, EVP_sha1());
 
    return( ((err)) ? 1 : 0 );
 }

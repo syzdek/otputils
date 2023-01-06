@@ -104,6 +104,7 @@ struct _otputil_map
 extern const char * otputil_dict_rfc1760[];
 extern const char * otputil_dict_rfc2289_md4[];
 extern const char * otputil_dict_rfc2289_md5[];
+extern const char * otputil_dict_rfc2289_sha1[];
 extern const char * otputil_dict_otp_md4[];
 extern const char * otputil_dict_otp_md5[];
 extern const char * otputil_dict_otp_sha1[];

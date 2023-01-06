@@ -59,6 +59,7 @@ otputil_dict_otp_sha1
 otputil_dict_rfc1760
 otputil_dict_rfc2289_md4
 otputil_dict_rfc2289_md5
+otputil_dict_rfc2289_sha1
 #
 # BER functions
 otputil_base32bv
