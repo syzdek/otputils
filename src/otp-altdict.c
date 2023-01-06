@@ -845,15 +845,18 @@ my_dict_verify(
       if (!(cnf->dict[x]))
       {
          my_info(cnf, "missing dictionary word for value '%i'\n", x);
-         if (!(cnf->ignore_warnings))
-            missing = 1;
+         missing++;
          continue;
       };
       for(count = 0; ((cnf->dict[x][count])); count++);
       qsort(cnf->dict[x], count, sizeof(char *), &my_word_cmp_obj);
    };
 
-   return( ((missing)) ? -1 : 0 );
+   my_info(cnf, "%i values are missing dictionary words\n", missing);
+
+   if ( ((missing)) && (!(cnf->ignore_warnings)) )
+      return(-1);
+   return(0);
 }
 
 
