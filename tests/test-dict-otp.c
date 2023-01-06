@@ -250,7 +250,7 @@ my_dict_test(
       printf("\n");
    };
 
-   return( ((err)) ? 1 : 0 );
+   return( ( ((err)) || ((missing)) ) ? 1 : 0 );
 }
 
 
