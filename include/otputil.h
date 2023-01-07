@@ -109,22 +109,22 @@
 
 
 // general options
-#define OTPUTIL_OPT_DESC            0x0001
-#define OTPUTIL_OPT_METHOD          0x0002
+#define OTPUTIL_OPT_DESC            0x0001   // (char *)
+#define OTPUTIL_OPT_METHOD          0x0002   // (int *)
 #define OTPUTIL_OPT_DIGITS          0x0003   // (int *) sets digits for both HOTP and TOTP
 #define OTPUTIL_OPT_HMAC            0x0004   // (int *) sets HMAC for both HOTP and TOTP
 // HOTP options (RFC4226)
-#define OTPUTIL_OPT_HOTP_K          0x0100
-#define OTPUTIL_OPT_HOTP_KSTR       0x0101   // base32 encoded K
-#define OTPUTIL_OPT_HOTP_C          0x0102
+#define OTPUTIL_OPT_HOTP_K          0x0100   // (otputil_bv_t *)
+#define OTPUTIL_OPT_HOTP_KSTR       0x0101   // (char *) base32 encoded K
+#define OTPUTIL_OPT_HOTP_C          0x0102   // (uint64_t *)
 #define OTPUTIL_OPT_HOTP_DIGITS     0x0103   // (int *)
 #define OTPUTIL_OPT_HOTP_HMAC       0x0104   // (int *)
 // TOTP options (RFC6238)
-#define OTPUTIL_OPT_TOTP_K          0x0200
-#define OTPUTIL_OPT_TOTP_KSTR       0x0201   // base32 encoded K
-#define OTPUTIL_OPT_TOTP_T0         0x0202
-#define OTPUTIL_OPT_TOTP_X          0x0203
-#define OTPUTIL_OPT_TOTP_TIME       0x0204   // current UNIX time
+#define OTPUTIL_OPT_TOTP_K          0x0200   // (otputil_bv_t *)
+#define OTPUTIL_OPT_TOTP_KSTR       0x0201   // (char *) base32 encoded K
+#define OTPUTIL_OPT_TOTP_T0         0x0202   // (uint64_t *)
+#define OTPUTIL_OPT_TOTP_X          0x0203   // (uint64_t *)
+#define OTPUTIL_OPT_TOTP_TIME       0x0204   // (uint64_t *) current UNIX time
 #define OTPUTIL_OPT_TOTP_DIGITS     0x0205   // (int *)
 #define OTPUTIL_OPT_TOTP_HMAC       0x0206   // (int *)
 
