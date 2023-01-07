@@ -105,6 +105,7 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  TODO.md \
 					  include/otputil.h \
 					  lib/libotputil/libotputil.sym \
+					  tests/otp-dicts/otp-dicts.h \
 					  tests/test-otputil-hotp.sh \
 					  tests/test-otputil-totp.sh
 CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
@@ -167,13 +168,7 @@ lib_libotputil_a_SOURCES		= $(noinst_HEADERS) \
 					  $(BINDLE_LIBBINDLE_SRCS) \
 					  lib/libotputil/libotputil.h \
 					  lib/libotputil/libotputil.c \
-					  lib/libotputil/ldict-otp-md4.c \
-					  lib/libotputil/ldict-otp-md5.c \
-					  lib/libotputil/ldict-otp-sha1.c \
-					  lib/libotputil/ldict-rfc1760.c \
-					  lib/libotputil/ldict-rfc2289-md4.c \
-					  lib/libotputil/ldict-rfc2289-md5.c \
-					  lib/libotputil/ldict-rfc2289-sha1.c
+					  lib/libotputil/ldict-rfc1760.c
 
 
 # macros for lib/libotputil.la
@@ -205,7 +200,13 @@ src_otputil_SOURCES			= src/otputil.c \
 # macros for tests/test-dict-otp
 tests_test_dict_otp_DEPENDENCIES	= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
 tests_test_dict_otp_LDADD		= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
-tests_test_dict_otp_SOURCES		= tests/test-dict-otp.c
+tests_test_dict_otp_SOURCES		= tests/test-dict-otp.c \
+					  tests/otp-dicts/otp-md4.c \
+					  tests/otp-dicts/otp-md5.c \
+					  tests/otp-dicts/otp-sha1.c \
+					  tests/otp-dicts/rfc2289-md4.c \
+					  tests/otp-dicts/rfc2289-md5.c \
+					  tests/otp-dicts/rfc2289-sha1.c
 
 
 # macros for tests/test-hotp

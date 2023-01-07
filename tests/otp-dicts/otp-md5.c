@@ -30,9 +30,8 @@
 /*
  *  @file lib/libotputil/libotputil.c
  */
-#define _LIB_LDICT_OTP_MD5_C 1
-#include "libotputil.h"
-
+#define _TESTS_OTP_DICTS_OTP_MD5_C 1
+#include "otp-dicts.h"
 
 /////////////////
 //             //
