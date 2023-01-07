@@ -71,17 +71,17 @@
 //   k:c:0:hmac:desc
 struct _otputil_secret
 {
+   int32_t                 otp_method;
+   int8_t                  hotp_digits;
+   int8_t                  hotp_hmac;
+   int8_t                  totp_digits;
+   int8_t                  totp_hmac;
    char *                  otp_desc;      // description of secret
    otputil_bv_t *          hotp_k;
    uint64_t                hotp_c;
-   uint64_t                hotp_digits;
-   uint64_t                hotp_hmac;
-   uint64_t                otp_method;
    uint64_t                totp_time;     // current Unix time
    uint64_t                totp_t0;       // Unix time from which to start counting time steps
    uint64_t                totp_tx;       // step in seconds
-   uint64_t                totp_digits;
-   uint64_t                totp_hmac;
 };
 
 
