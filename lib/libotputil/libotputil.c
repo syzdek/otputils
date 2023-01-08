@@ -342,13 +342,10 @@ otputil_get_param(
       /////////////////////
 
       case OTPUTIL_OPT_DESC:
-      if (!(tud->otp_desc))
-      {
-         *((char **)outvalue) = NULL;
-         return(OTPUTIL_SUCCESS);
-      };
-      if (( *((char **)outvalue) = bindle_strdup(tud->otp_desc)) == NULL)
-         return(OTPUTIL_ENOMEM);
+      *((char **)outvalue) = NULL;
+      if ((tud->otp_desc))
+         if (( *((char **)outvalue) = bindle_strdup(tud->otp_desc)) == NULL)
+            return(OTPUTIL_ENOMEM);
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_DIGITS:
