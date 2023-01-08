@@ -487,12 +487,12 @@ otputil_set_param(
          otputil_t *                   tud,
          int                           option,
          const void *                  invalue )
+#undef  _SET_INPUT_NUM
+#define _SET_INPUT_NUM(type, dflt) ((type)(((invalue)) ? *((const type *)invalue) : dflt))
 {
    const otputil_t *    defaults;
    otputil_bv_t *       bv;
    const char *         str;
-   int                  i;
-   uint64_t             uint;
    void *               ptr;
 
    defaults = ((tud)) ? &otputil_defaults   : &otputil_const_defaults;
@@ -515,22 +515,21 @@ otputil_set_param(
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_DIGITS:
-      if ( *((const int *)invalue) == 0)
+      if (_SET_INPUT_NUM(int, defaults->hotp_digits) == 0)
          return(OTPUTIL_EOPTVAL);
-      tud->hotp_digits = (int8_t)*((const int *)invalue);
-      tud->totp_digits = (int8_t)*((const int *)invalue);
+      tud->hotp_digits = (int8_t)_SET_INPUT_NUM(int, defaults->hotp_digits);
+      tud->totp_digits = (int8_t)_SET_INPUT_NUM(int, defaults->totp_digits);
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_HMAC:
-      i = ((invalue)) ? *((const int *)invalue) : ((int)defaults->hotp_hmac);
-      if (!(otputil_md2str(i)))
+      if (otputil_md2str(_SET_INPUT_NUM(int, defaults->hotp_hmac)) == NULL)
          return(OTPUTIL_EOPTVAL);
-      tud->hotp_hmac = (int8_t)(((invalue)) ? i : defaults->hotp_hmac);
-      tud->totp_hmac = (int8_t)(((invalue)) ? i : defaults->totp_hmac);
+      tud->hotp_hmac = (int8_t)_SET_INPUT_NUM(int, defaults->hotp_hmac);
+      tud->totp_hmac = (int8_t)_SET_INPUT_NUM(int, defaults->totp_hmac);
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_METHOD:
-      tud->otp_method = (int32_t)(((invalue)) ? *((const int *)invalue) : defaults->otp_method);
+      tud->otp_method = (int32_t)_SET_INPUT_NUM(int, defaults->otp_method);
       return(OTPUTIL_SUCCESS);
 
       ////////////////////////////
@@ -538,29 +537,29 @@ otputil_set_param(
       ////////////////////////////
 
       case OTPUTIL_OPT_HOTP_C:
-      tud->hotp_c = (uint64_t)(((invalue)) ? *((const uint64_t *)invalue) : defaults->hotp_c);
+      tud->hotp_c = _SET_INPUT_NUM(uint64_t, defaults->hotp_c);
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_HOTP_DIGITS:
-      if ((uint = (uint64_t)(((invalue)) ? *((const int *)invalue) : defaults->hotp_digits)) == 0)
+      if (_SET_INPUT_NUM(int, defaults->hotp_digits) == 0)
          return(OTPUTIL_EOPTVAL);
-      tud->hotp_digits = uint;
+      tud->hotp_digits = (int8_t)_SET_INPUT_NUM(int, defaults->hotp_digits);
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_HOTP_HMAC:
-      i = (int)(((invalue)) ? *((const int *)invalue) : defaults->hotp_hmac);
-      if (!(otputil_md2str(i)))
+      if (otputil_md2str(_SET_INPUT_NUM(int, defaults->hotp_hmac)) == NULL)
          return(OTPUTIL_EOPTVAL);
-      tud->hotp_hmac = (int8_t)i;
+      tud->hotp_hmac = (int8_t)_SET_INPUT_NUM(int, defaults->hotp_hmac);
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_HOTP_K:
       case OTPUTIL_OPT_TOTP_K:
-      if (!(invalue))
-         if ((invalue = defaults->hotp_k) == NULL)
-            invalue = otputil_const_defaults.hotp_k;
-      if ((bv = otputil_bvdup((((const otputil_bv_t *)invalue)))) == NULL)
-         return(OTPUTIL_ENOMEM);
+      bv      = NULL;
+      invalue = ((invalue)) ? invalue : defaults->hotp_k;
+      invalue = ((invalue)) ? invalue : otputil_const_defaults.hotp_k;
+      if (invalue != NULL)
+         if ((bv = otputil_bvdup((((const otputil_bv_t *)invalue)))) == NULL)
+            return(OTPUTIL_ENOMEM);
       if ((tud->hotp_k))
          otputil_bvfree(tud->hotp_k);
       tud->hotp_k = bv;
@@ -568,7 +567,8 @@ otputil_set_param(
 
       case OTPUTIL_OPT_HOTP_KSTR:
       case OTPUTIL_OPT_TOTP_KSTR:
-      str = (const char *)invalue;
+      if ((str = (const char *)invalue) == NULL)
+         return(otputil_set_param(tud, OTPUTIL_OPT_HOTP_K, NULL));
       if (bindle_encoding_verify(BNDL_BASE32, str, strlen(str)) == -1)
          return(OTPUTIL_EOPTVAL);
       if ((bv = otputil_base32bv( ((const char *)invalue) )) == NULL)
@@ -583,30 +583,29 @@ otputil_set_param(
       ////////////////////////////
 
       case OTPUTIL_OPT_TOTP_DIGITS:
-      if ( (((invalue)) ? *((const int *)invalue) : defaults->totp_digits) == 0 )
+      if (_SET_INPUT_NUM(int, defaults->totp_digits) == 0)
          return(OTPUTIL_EOPTVAL);
-      tud->totp_digits = (int8_t)(((invalue)) ? *((const int *)invalue) : defaults->totp_digits);
+      tud->totp_digits = (int8_t)_SET_INPUT_NUM(int, defaults->totp_digits);
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_TOTP_HMAC:
-      i = (int)(((invalue)) ? *((const int *)invalue) : defaults->totp_hmac);
-      if (!(otputil_md2str(i)))
+      if (otputil_md2str(_SET_INPUT_NUM(int, defaults->totp_hmac)) == NULL)
          return(OTPUTIL_EOPTVAL);
-      tud->totp_hmac = (int8_t)i;
+      tud->totp_hmac = (int8_t)_SET_INPUT_NUM(int, defaults->totp_hmac);
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_TOTP_T0:
-      tud->totp_t0 = (uint64_t)(((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_t0);
+      tud->totp_t0 = _SET_INPUT_NUM(uint64_t, defaults->totp_t0);
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_TOTP_TIME:
-      tud->totp_time =(uint64_t)(((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_time);
+      tud->totp_time = _SET_INPUT_NUM(uint64_t, defaults->totp_time);
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_TOTP_X:
-      if ((uint = (uint64_t)(((invalue)) ? *((const uint64_t *)invalue) : defaults->totp_tx)) == 0)
+      if (_SET_INPUT_NUM(uint64_t, defaults->totp_tx) == 0)
          return(OTPUTIL_EOPTVAL);
-      tud->totp_tx = (uint64_t)uint;
+      tud->totp_tx = _SET_INPUT_NUM(uint64_t, defaults->totp_tx);
       return(OTPUTIL_SUCCESS);
 
       default:
@@ -615,6 +614,7 @@ otputil_set_param(
 
    return(OTPUTIL_EOPTION);
 }
+#undef  _SET_INPUT_NUM
 
 
 //----------------//
