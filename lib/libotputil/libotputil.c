@@ -493,6 +493,7 @@ otputil_set_param(
    const char *         str;
    int                  i;
    uint64_t             uint;
+   void *               ptr;
 
    defaults = ((tud)) ? &otputil_defaults   : &otputil_const_defaults;
    tud      = ((tud)) ? tud                 : &otputil_defaults;
@@ -504,13 +505,13 @@ otputil_set_param(
       /////////////////////
 
       case OTPUTIL_OPT_DESC:
+      ptr = NULL;
+      if ((invalue = ((invalue)) ? invalue : defaults->otp_desc) != NULL)
+         if ((ptr = bindle_strdup(((const char *)invalue))) == NULL)
+            return(OTPUTIL_ENOMEM);
       if ((tud->otp_desc))
          free(tud->otp_desc);
-      tud->otp_desc = NULL;
-      if ((invalue = ((invalue)) ? invalue : defaults->otp_desc) == NULL)
-         return(OTPUTIL_SUCCESS);
-      if ((tud->otp_desc = bindle_strdup(((const char *)invalue))) == NULL)
-         return(OTPUTIL_ENOMEM);
+      tud->otp_desc = ptr;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_DIGITS:
