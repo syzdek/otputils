@@ -754,11 +754,11 @@ otputil_code(
 
    switch(tud->otp_method)
    {
-      case OTPUTIL_METH_TOTP:
-      return(otputil_totp_code(hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, (int)tud->totp_hmac, (int)tud->totp_digits));
-
       case OTPUTIL_METH_HOTP:
       return(otputil_hotp_code(hotp_k, tud->hotp_c, (int)tud->hotp_hmac, (int)tud->hotp_digits));
+
+      case OTPUTIL_METH_TOTP:
+      return(otputil_totp_code(hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, (int)tud->totp_hmac, (int)tud->totp_digits));
 
       default:
       break;
