@@ -97,12 +97,15 @@ static otputil_bv_t otputil_const_defaults_k =
 #pragma mark otputil_const_defaults
 const otputil_t otputil_const_defaults =
 {
+   // general options
    .otp_desc               = NULL,
    .otp_method             = OTPUTIL_DFLT_METH,
+   // HOTP options
    .hotp_k                 = &otputil_const_defaults_k,
    .hotp_c                 = OTPUTIL_DFLT_HOTP_C,
    .hotp_digits            = OTPUTIL_DFLT_HOTP_DIGITS,
    .hotp_hmac              = OTPUTIL_DFLT_HOTP_HMAC,
+   // TOTP options
    .totp_time              = OTPUTIL_DFLT_TOTP_TIME,
    .totp_t0                = OTPUTIL_DFLT_TOTP_T0,
    .totp_tx                = OTPUTIL_DFLT_TOTP_X,
@@ -114,12 +117,15 @@ const otputil_t otputil_const_defaults =
 #pragma mark otputil_defaults
 static otputil_t otputil_defaults =
 {
+   // general options
    .otp_desc               = NULL,
    .otp_method             = OTPUTIL_DFLT_METH,
+   // HOTP options
    .hotp_k                 = NULL,
    .hotp_c                 = OTPUTIL_DFLT_HOTP_C,
    .hotp_digits            = OTPUTIL_DFLT_HOTP_DIGITS,
    .hotp_hmac              = OTPUTIL_DFLT_HOTP_HMAC,
+   // TOTP options
    .totp_time              = OTPUTIL_DFLT_TOTP_TIME,
    .totp_t0                = OTPUTIL_DFLT_TOTP_T0,
    .totp_tx                = OTPUTIL_DFLT_TOTP_X,
