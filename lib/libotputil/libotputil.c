@@ -923,6 +923,31 @@ otputil_hotp_str(
 
 
 //---------------//
+// OTP functions //
+//---------------//
+#pragma mark OTP functions (RFC 2289)
+
+//otputil_otp_decode
+//otputil_otp_encode
+
+size_t
+otputil_otp_decode_len(
+         const char *                  str )
+{
+   size_t      bytes;
+   size_t      bits;
+
+   assert(str != NULL);
+
+   bits  = (strlen(str) / 2) * 11;
+   bytes = (bits / 8);
+   bytes++;
+
+   return(bytes);
+}
+
+
+//---------------//
 // TOTP functions //
 //---------------//
 #pragma mark TOTP functions (RFC 6238)
