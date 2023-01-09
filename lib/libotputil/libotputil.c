@@ -947,6 +947,27 @@ otputil_otp_decode_len(
 }
 
 
+size_t
+otputil_otp_encode_len(
+         const otputil_bv_t *          bv )
+{
+   size_t      len;
+   size_t      words;
+   size_t      bits;
+
+   assert(bv != NULL);
+
+   bits  = (bv->bv_len * 8) + 2;
+   words = (bits / 11);
+   if ((words % 11) != 0)
+      words++;
+   if ((len = ((ssize_t)words) * 5) == 0)
+      len = 1;
+
+   return(len);
+}
+
+
 //---------------//
 // TOTP functions //
 //---------------//

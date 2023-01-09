@@ -333,6 +333,11 @@ otputil_otp_decode_len(
          const char *                  str );
 
 
+_OTPUTIL_F size_t
+otputil_otp_encode_len(
+         const otputil_bv_t *          bv );
+
+
 //---------------//
 // TOTP functions //
 //---------------//

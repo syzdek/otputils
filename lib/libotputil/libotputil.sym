@@ -87,6 +87,7 @@ otputil_hotp_code
 otputil_hotp_str
 # OTP functions (RFC 2289)
 otputil_otp_decode_len
+otputil_otp_encode_len
 # TOTP functions (RFC 6238)
 otputil_totp_code
 otputil_totp_str
