@@ -764,10 +764,10 @@ otputil_upow(
 }
 
 
-//---------------//
-// OTP functions //
-//---------------//
-#pragma mark OTP functions
+//---------------------//
+// Front-end functions //
+//---------------------//
+#pragma mark front-end functions
 
 int
 otputil_code(
@@ -840,7 +840,7 @@ otputil_timer(
 //---------------//
 // HOTP functions //
 //---------------//
-#pragma mark HOTP functions
+#pragma mark HOTP functions (RFC 4226)
 
 int
 otputil_hotp_code(
@@ -925,7 +925,7 @@ otputil_hotp_str(
 //---------------//
 // TOTP functions //
 //---------------//
-#pragma mark TOTP functions
+#pragma mark TOTP functions (RFC 6238)
 
 int
 otputil_totp_code(

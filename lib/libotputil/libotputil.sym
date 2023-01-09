@@ -78,14 +78,14 @@ otputil_set_param
 otputil_getpass
 otputil_md2str
 otputil_str2md
-# OTP functions
+# front-end functions
 otputil_code
 otputil_str
 otputil_timer
-# HOTP functions
+# HOTP functions (RFC 4226)
 otputil_hotp_code
 otputil_hotp_str
-# TOTP functions
+# TOTP functions (RFC 6238)
 otputil_totp_code
 otputil_totp_str
 otputil_totp_timer

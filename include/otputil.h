@@ -278,10 +278,10 @@ otputil_str2md(
          const char *                  str );
 
 
-//---------------//
-// OTP functions //
-//---------------//
-#pragma mark OTP functions
+//---------------------//
+// Front-end functions //
+//---------------------//
+#pragma mark front-end functions
 
 _OTPUTIL_F int
 otputil_code(
@@ -303,7 +303,7 @@ otputil_timer(
 //---------------//
 // HOTP functions //
 //---------------//
-#pragma mark HOTP functions
+#pragma mark HOTP functions (RFC 4226)
 
 _OTPUTIL_F int
 otputil_hotp_code(
@@ -326,7 +326,7 @@ otputil_hotp_str(
 //---------------//
 // TOTP functions //
 //---------------//
-#pragma mark TOTP functions
+#pragma mark TOTP functions (RFC 6238)
 
 _OTPUTIL_F int
 otputil_totp_code(
