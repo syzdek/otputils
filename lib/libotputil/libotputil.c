@@ -75,16 +75,6 @@ otputil_upow(
          uintmax_t                     exp );
 
 
-//-------------------//
-// memory prototypes //
-//-------------------//
-#pragma mark memory prototypes
-
-static const otputil_bv_t *
-otputil_param_k(
-         otputil_t *                   tud );
-
-
 /////////////////
 //             //
 //  Variables  //
@@ -330,6 +320,7 @@ otputil_get_param(
          void *                        outvalue )
 {
    otputil_bv_t *       bv;
+   otputil_bv_t *       dflt_bv;
 
    assert(outvalue != NULL);
 
@@ -382,14 +373,18 @@ otputil_get_param(
 
       case OTPUTIL_OPT_HOTP_K:
       case OTPUTIL_OPT_TOTP_K:
-      if ((bv = otputil_bvdup(otputil_param_k(tud))) == NULL)
+      dflt_bv = ((tud->hotp_k)) ? tud->hotp_k  : otputil_defaults.hotp_k;
+      dflt_bv = ((dflt_bv))     ? dflt_bv      : &otputil_const_defaults_k;
+      if ((bv = otputil_bvdup(dflt_bv)) == NULL)
          return(OTPUTIL_ENOMEM);
       *((otputil_bv_t **)outvalue) = bv;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_HOTP_KSTR:
       case OTPUTIL_OPT_TOTP_KSTR:
-      if ((*((char **)outvalue) = otputil_bvbase32(otputil_param_k(tud))) == NULL)
+      dflt_bv = ((tud->hotp_k)) ? tud->hotp_k  : otputil_defaults.hotp_k;
+      dflt_bv = ((dflt_bv))     ? dflt_bv      : &otputil_const_defaults_k;
+      if ((*((char **)outvalue) = otputil_bvbase32(dflt_bv)) == NULL)
          return(OTPUTIL_ENOMEM);
       return(OTPUTIL_SUCCESS);
 
@@ -499,18 +494,6 @@ otputil_initialize(
    *tudp = tud;
 
    return(OTPUTIL_SUCCESS);
-}
-
-
-const otputil_bv_t *
-otputil_param_k(
-         otputil_t *                   tud )
-{
-   otputil_bv_t * k;
-   tud   = ((tud))         ? tud          : &otputil_defaults;
-   k     = ((tud->hotp_k)) ? tud->hotp_k  : otputil_defaults.hotp_k;
-   k     = ((k))           ? k            : &otputil_const_defaults_k;
-   return(k);
 }
 
 
@@ -747,18 +730,21 @@ int
 otputil_code(
          otputil_t *                   tud )
 {
-   const otputil_bv_t *    hotp_k;
+   const otputil_bv_t *    dflt_bv;
 
-   hotp_k   = otputil_param_k(tud);
    tud      = ((tud)) ? tud : &otputil_defaults;
 
    switch(tud->otp_method)
    {
       case OTPUTIL_METH_HOTP:
-      return(otputil_hotp_code(hotp_k, tud->hotp_c, (int)tud->hotp_hmac, (int)tud->hotp_digits));
+      dflt_bv = ((tud->hotp_k)) ? tud->hotp_k  : otputil_defaults.hotp_k;
+      dflt_bv = ((dflt_bv))     ? dflt_bv      : &otputil_const_defaults_k;
+      return(otputil_hotp_code(dflt_bv, tud->hotp_c, (int)tud->hotp_hmac, (int)tud->hotp_digits));
 
       case OTPUTIL_METH_TOTP:
-      return(otputil_totp_code(hotp_k, tud->totp_t0, tud->totp_tx, tud->totp_time, (int)tud->totp_hmac, (int)tud->totp_digits));
+      dflt_bv = ((tud->hotp_k)) ? tud->hotp_k  : otputil_defaults.hotp_k;
+      dflt_bv = ((dflt_bv))     ? dflt_bv      : &otputil_const_defaults_k;
+      return(otputil_totp_code(dflt_bv, tud->totp_t0, tud->totp_tx, tud->totp_time, (int)tud->totp_hmac, (int)tud->totp_digits));
 
       default:
       break;
