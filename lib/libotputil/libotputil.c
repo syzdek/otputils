@@ -439,7 +439,42 @@ otputil_initialize(
       return(OTPUTIL_ENOMEM);
    memset(tud, 0, sizeof(otputil_t));
 
+   // defaults for general options
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_DESC, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_METHOD, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_DIGITS, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_HMAC, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+
+   // defaults for HOTP options
    if ((rc = otputil_set_param(tud, OTPUTIL_OPT_HOTP_K, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_HOTP_C, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+
+   // defaults for TOTP options
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_TOTP_K, NULL)) != OTPUTIL_SUCCESS)
    {
       otputil_free(tud);
       return(rc);
