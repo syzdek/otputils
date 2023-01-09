@@ -342,6 +342,12 @@ otputil_arguments(
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
+         if (otputil_set_param(NULL, OTPUTIL_OPT_TOTP_KSTR, optarg) != 0)
+         {
+            fprintf(stderr, "%s: invalid value for `-k'\n", PROGRAM_NAME);
+            fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
          break;
 
          case 'm':

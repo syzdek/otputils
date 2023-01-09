@@ -77,6 +77,7 @@ struct _otputil_secret
    int8_t                  totp_digits;
    int8_t                  totp_hmac;
    char *                  otp_desc;      // description of secret
+   otputil_bv_t *          totp_k;
    otputil_bv_t *          hotp_k;
    uint64_t                hotp_c;
    uint64_t                totp_time;     // current Unix time
