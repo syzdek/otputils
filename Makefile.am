@@ -84,6 +84,7 @@ EXTRA_PROGRAMS				= examples/totp-example \
 					  src/otputil \
 					  tests/test-dict-otp \
 					  tests/test-hotp \
+					  tests/test-otp-decode \
 					  tests/test-otp-encode \
 					  tests/test-totp
 EXTRA					= include/otputil.h \
@@ -152,6 +153,7 @@ if ENABLE_TESTS
    TESTS				+= tests/test-otputil-hotp.sh
    TESTS				+= tests/test-otputil-totp.sh
    TESTS				+= tests/test-hotp
+   TESTS				+= tests/test-otp-decode
    TESTS				+= tests/test-otp-encode
    TESTS				+= tests/test-totp
 endif
@@ -215,6 +217,14 @@ tests_test_dict_otp_SOURCES		= tests/test-dict-otp.c \
 tests_test_hotp_DEPENDENCIES		= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
 tests_test_hotp_LDADD			= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
 tests_test_hotp_SOURCES			= tests/test-hotp.c
+
+
+# macros for tests/test-otp-decode
+tests_test_otp_decode_DEPENDENCIES	= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+tests_test_otp_decode_LDADD		= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+tests_test_otp_decode_SOURCES		= tests/test-otp-decode.c \
+					  tests/otp-data.c \
+					  tests/otp-data.h
 
 
 # macros for tests/test-otp-encode
