@@ -172,6 +172,8 @@ lib_libotputil_a_SOURCES		= $(noinst_HEADERS) \
 					  $(BINDLE_LIBBINDLE_SRCS) \
 					  lib/libotputil/libotputil.h \
 					  lib/libotputil/libotputil.c \
+					  lib/libotputil/lbv.c \
+					  lib/libotputil/lbv.h \
 					  lib/libotputil/ldict-rfc1760.c
 
 
