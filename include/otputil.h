@@ -138,6 +138,10 @@
 #define OTPUTIL_MD_MD5              7
 
 
+#define OTPUTIL_ENC_HEX             1
+#define OTPUTIL_ENC_SIXWORD         2
+
+
 #define OTPUTIL_METH_RFC4226        0x0001
 #define OTPUTIL_METH_RFC6238        0x0002
 #define OTPUTIL_METH_HOTP           OTPUTIL_METH_RFC4226
@@ -158,6 +162,8 @@
 
 
 #define OTPUTIL_MAX_CODE_SIZE       16
+#define OTPUTIL_MAX_ENCODE_SIZE     128
+#define OTPUTIL_MAX_DECODE_SIZE     128
 
 
 /////////////////
@@ -331,6 +337,14 @@ otputil_hotp_str(
 _OTPUTIL_F size_t
 otputil_otp_decode_len(
          const char *                  str );
+
+
+_OTPUTIL_F const char *
+otputil_otp_encode(
+         const otputil_bv_t *          bv,
+         char *                        dst,
+         size_t                        dstlen,
+         int                           methd );
 
 
 _OTPUTIL_F size_t
