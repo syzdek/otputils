@@ -31,7 +31,7 @@
  *  @file lib/libotputil/libotputil.c
  */
 #define _LIB_LDICT_RFC1760_C 1
-#include "libotputil.h"
+#include "ldict-rfc1760.h"
 
 
 /////////////////

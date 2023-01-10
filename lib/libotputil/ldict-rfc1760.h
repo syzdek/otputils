@@ -1,6 +1,6 @@
 /*
  *  OTP Utilities
- *  Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.
+ *  Copyright (C) 2022 David M. Syzdek <david@syzdek.net>.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are
@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file lib/libotputil/libotputil.h
+ *  @file lib/libotputil/ldict-rfc1760.h
  */
-#ifndef _LIB_LIBOTPUTIL_LIBOTPUTIL_H
-#define _LIB_LIBOTPUTIL_LIBOTPUTIL_H 1
+#ifndef _LIB_LIBOTPUTIL_LDICT_RFC1760_H
+#define _LIB_LIBOTPUTIL_LDICT_RFC1760_H 1
 
 
 ///////////////
@@ -41,66 +41,17 @@
 ///////////////
 #pragma mark - Headers
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <assert.h>
-#include <time.h>
-
-#include <otputil.h>
-
-#ifdef HAVE_BINDLE_PREFIX_H
-#   include <bindle_prefix.h>
-#else
-#   include <bindle.h>
-#endif
+#include "libotputil.h"
 
 
 /////////////////
 //             //
-//  Datatypes  //
+//  Variables  //
 //             //
 /////////////////
-#pragma mark - Datatypes
+#pragma mark - Variables
 
-// format of TOTP secret (RFC 6238)
-//   k:t0:tx:hmac:desc
-//
-// format of HOTP secret (RFC 4226)
-//   k:c:0:hmac:desc
-struct _otputil_secret
-{
-   int32_t                 otp_method;
-   int8_t                  hotp_digits;
-   int8_t                  hotp_hmac;
-   int8_t                  totp_digits;
-   int8_t                  totp_hmac;
-   char *                  otp_desc;      // description of secret
-   otputil_bv_t *          totp_k;
-   otputil_bv_t *          hotp_k;
-   uint64_t                hotp_c;
-   uint64_t                totp_time;     // current Unix time
-   uint64_t                totp_t0;       // Unix time from which to start counting time steps
-   uint64_t                totp_tx;       // step in seconds
-};
-
-
-typedef struct _otputil_map otputil_map_t;
-struct _otputil_map
-{
-   const char *            map_name;
-   int                     map_id;
-   int                     intpad;
-};
-
-
-//////////////////
-//              //
-//  Prototypes  //
-//              //
-//////////////////
-#pragma mark - Prototypes
+extern const char * otputil_dict_rfc1760[];
 
 
 #endif /* end of header file */
