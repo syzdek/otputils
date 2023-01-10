@@ -365,6 +365,16 @@ otputil_otp_encode_len(
          const otputil_bv_t *          bv );
 
 
+//----------------//
+// S/KEY functions //
+//----------------//
+#pragma mark S/KEY functions (RFC 1760)
+
+_OTPUTIL_F const char *
+otputil_skey_dict_word(
+         int                           value );
+
+
 //---------------//
 // TOTP functions //
 //---------------//

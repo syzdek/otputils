@@ -180,6 +180,8 @@ lib_libotputil_a_SOURCES		= $(noinst_HEADERS) \
 					  lib/libotputil/lcore.h \
 					  lib/libotputil/lmisc.c \
 					  lib/libotputil/lmisc.h \
+					  lib/libotputil/lrfc1760-skey.c \
+					  lib/libotputil/lrfc1760-skey.h \
 					  lib/libotputil/lrfc1760-skey-dict.c \
 					  lib/libotputil/lrfc1760-skey-dict.h \
 					  lib/libotputil/lrfc2289-otp.c \
