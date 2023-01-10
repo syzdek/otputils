@@ -174,6 +174,8 @@ lib_libotputil_a_SOURCES		= $(noinst_HEADERS) \
 					  lib/libotputil/libotputil.c \
 					  lib/libotputil/lbv.c \
 					  lib/libotputil/lbv.h \
+					  lib/libotputil/lhotp.c \
+					  lib/libotputil/lhotp.h \
 					  lib/libotputil/lmisc.c \
 					  lib/libotputil/lmisc.h \
 					  lib/libotputil/lotp.c \
