@@ -45,6 +45,7 @@
 #include <string.h>
 #include <strings.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 
@@ -979,8 +980,76 @@ otputil_hotp_str(
 //---------------//
 #pragma mark OTP functions (RFC 2289)
 
-//otputil_otp_decode
-//otputil_otp_encode
+otputil_bv_t *
+otputil_otp_decode(
+         const char *                  src,
+         otputil_bv_t *                dst )
+{
+   static otputil_bv_t  bv;
+   static uint8_t       buff[OTPUTIL_MAX_DECODE_SIZE];
+   uint8_t *            bv_val;
+   int                  method;
+   int                  i;
+   size_t               pos;
+   size_t               off;
+   size_t               len;
+   char                 word[OTPUTIL_MAX_WORD_SIZE];
+   char *               endptr;
+
+   assert(src != NULL);
+
+   if (!(dst))
+   {
+      dst = &bv;
+      dst->bv_len = sizeof(buff);
+      dst->bv_val = buff;
+   };
+   bv_val = dst->bv_val;
+
+   // checks for hexadecimal notation
+   method  = OTPUTIL_ENC_HEX;
+   word[1] = '\0';
+   for(pos = 0, off = 0; ( ((src[pos])) && (method == OTPUTIL_ENC_HEX) ); pos++)
+   {
+      if ((isspace(src[pos])))
+         continue;
+      if ((isxdigit(src[pos])))
+      {
+         off++;
+         continue;
+      };
+      method = 0;
+   };
+   if (method == OTPUTIL_ENC_HEX)
+   {
+      // generate length of binary output in bytes
+      len = (off/2) + (off%2);
+      if ( (len = (off/2) + (off%2)) > dst->bv_len )
+         return(NULL);
+      dst->bv_len = len;
+
+      // convert to binary output
+      for(pos = 0, off = 0; ((src[pos])); pos++)
+      {
+         word[0] = src[pos];
+         i       = (int)strtol(word, &endptr, 16);
+         if (endptr == word)
+            continue;
+         if ((off & 0x01) == 0)
+            bv_val[off/2] = (i << 4) & 0xf0;
+         if ((off & 0x01) == 1)
+            bv_val[off/2] |= (i << 0) & 0x0f;
+         off++;
+      };
+
+      return(dst);
+   };
+
+   // checks for six-word format with S/KEY dictionary
+
+   return(NULL);
+}
+
 
 size_t
 otputil_otp_decode_len(

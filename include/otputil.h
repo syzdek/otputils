@@ -164,6 +164,7 @@
 #define OTPUTIL_MAX_CODE_SIZE       16
 #define OTPUTIL_MAX_ENCODE_SIZE     128
 #define OTPUTIL_MAX_DECODE_SIZE     128
+#define OTPUTIL_MAX_WORD_SIZE       8
 
 
 /////////////////
@@ -339,6 +340,12 @@ otputil_hotp_str(
 // OTP functions //
 //---------------//
 #pragma mark OTP functions (RFC 2289)
+
+_OTPUTIL_F otputil_bv_t *
+otputil_otp_decode(
+         const char *                  src,
+         otputil_bv_t *                dst );
+
 
 _OTPUTIL_F size_t
 otputil_otp_decode_len(
