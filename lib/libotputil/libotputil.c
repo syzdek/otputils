@@ -50,6 +50,7 @@
 #include <openssl/hmac.h>
 
 #include "ldict-rfc1760.h"
+#include "lmisc.h"
 
 
 //////////////////
@@ -70,12 +71,6 @@ otputil_code2str(
          int                           code_digits,
          char *                        dst,
          size_t                        dstlen );
-
-
-static uintmax_t
-otputil_upow(
-         uintmax_t                     base,
-         uintmax_t                     exp );
 
 
 /////////////////
@@ -139,50 +134,12 @@ static otputil_t otputil_defaults =
 };
 
 
-#pragma mark otputil_md_list[]
-static const otputil_map_t otputil_md_list[] =
-{
-   { .map_name = "md4",             .map_id = OTPUTIL_MD_MD4 },
-   { .map_name = "md5",             .map_id = OTPUTIL_MD_MD5 },
-   { .map_name = "sha1",            .map_id = OTPUTIL_MD_SHA1 },
-   { .map_name = "sha256",          .map_id = OTPUTIL_MD_SHA256 },
-   { .map_name = "sha512",          .map_id = OTPUTIL_MD_SHA512 },
-   { .map_name = "sha3-256",        .map_id = OTPUTIL_MD_SHA256 },
-   { .map_name = "sha3-512",        .map_id = OTPUTIL_MD_SHA512 },
-   { .map_name = NULL,              .map_id = 0 },
-};
-
-
 /////////////////
 //             //
 //  Functions  //
 //             //
 /////////////////
 #pragma mark - Functions
-
-//-----------------//
-// error functions //
-//-----------------//
-#pragma mark error functions
-
-const char *
-otputil_err2string(
-         int                           err )
-{
-   switch(err)
-   {
-      case OTPUTIL_SUCCESS:         return("success");
-      case OTPUTIL_EBADDATA:        return("invalid data");
-      case OTPUTIL_ENOBUFS:         return("no buffer space available");
-      case OTPUTIL_ENOMEM:          return("out of virtual memory");
-      case OTPUTIL_ENOTSUP:         return("method or feature is not supported");
-      case OTPUTIL_EOPTION:         return("invalid option");
-      case OTPUTIL_EOPTVAL:         return("invalid option value");
-      default:                      break;
-   };
-   return("unknown error");
-}
-
 
 //------------------//
 // memory functions //
@@ -587,67 +544,6 @@ otputil_code2str(
    snprintf(dst, dstlen, "%0*i", code_digits, code);
 
    return(dst);
-}
-
-
-char *
-otputil_getpass(
-         const char *                  prompt,
-         char *                        pass,
-         size_t                        passlen )
-{
-   static char buff[BNDL_PASSWORD_LEN+1];
-   if (!(pass))
-   {
-      pass    = buff;
-      passlen = sizeof(buff);
-   };
-   return(bindle_getpass_r(prompt, pass, passlen));
-}
-
-
-const char *
-otputil_md2str(
-         int                           md )
-{
-   int x;
-   for(x = 0; ((otputil_md_list[x].map_id)); x++)
-      if (md == otputil_md_list[x].map_id)
-         return(otputil_md_list[x].map_name);
-   return(NULL);
-}
-
-
-int
-otputil_str2md(
-         const char *                  str )
-{
-   int x;
-   assert(str != NULL);
-   for(x = 0; ((otputil_md_list[x].map_name)); x++)
-      if (!(strcasecmp(str, otputil_md_list[x].map_name)))
-         return(otputil_md_list[x].map_id);
-   return(-1);
-}
-
-
-uintmax_t
-otputil_upow(
-         uintmax_t                     base,
-         uintmax_t                     exp )
-{
-   uintmax_t result;
-   result = 1;
-   while(1)
-   {
-      if (exp & 1)
-         result *= base;
-      exp >>= 1;
-      if (!(exp))
-         return(result);
-      base *= base;
-   }
-   return(0);
 }
 
 
