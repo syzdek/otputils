@@ -41,6 +41,7 @@
 ///////////////
 #pragma mark - Headers
 
+#include <otputil_compat.h>
 #include <otputil.h>
 
 
