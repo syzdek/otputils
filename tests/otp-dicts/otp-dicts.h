@@ -40,6 +40,8 @@
 ///////////////
 #pragma mark - Headers
 
+#include <otputil_compat.h>
+
 #include <stdio.h>
 
 
