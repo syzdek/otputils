@@ -220,10 +220,10 @@ int main(int argc, char * argv[])
 
    // dynamically truncates hash
    offset   = hmac_result[19] & 0x0f;
-   bin_code = (hmac_result[offset]  & 0x7f) << 24
-           | (hmac_result[offset+1] & 0xff) << 16
-           | (hmac_result[offset+2] & 0xff) <<  8
-           | (hmac_result[offset+3] & 0xff) ;
+   bin_code = (hmac_result[offset]   & 0x7f) << 24
+            | (hmac_result[offset+1] & 0xff) << 16
+            | (hmac_result[offset+2] & 0xff) <<  8
+            | (hmac_result[offset+3] & 0xff) ;
 
    // truncates code to 6 digits
    totp = bin_code % 1000000;
