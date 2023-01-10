@@ -95,6 +95,26 @@ struct _otputil_map
 };
 
 
+/////////////////
+//             //
+//  Variables  //
+//             //
+/////////////////
+#pragma mark - Variables
+
+#pragma mark otputil_const_defaults_k_val[]
+extern uint8_t otputil_const_defaults_k_val[1];
+
+#pragma mark otputil_const_defaults_k
+extern otputil_bv_t otputil_const_defaults_k;
+
+#pragma mark otputil_const_defaults
+extern const otputil_t otputil_const_defaults;
+
+#pragma mark otputil_defaults
+extern otputil_t otputil_defaults;
+
+
 //////////////////
 //              //
 //  Prototypes  //

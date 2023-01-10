@@ -81,11 +81,11 @@ otputil_code2str(
 #pragma mark - Variables
 
 #pragma mark otputil_const_defaults_k_val[]
-static uint8_t otputil_const_defaults_k_val[1] = { 0 };
+uint8_t otputil_const_defaults_k_val[1] = { 0 };
 
 
 #pragma mark otputil_const_defaults_k
-static otputil_bv_t otputil_const_defaults_k =
+otputil_bv_t otputil_const_defaults_k =
 {
    .bv_val                 = otputil_const_defaults_k_val,
    .bv_len                 = sizeof(otputil_const_defaults_k_val),
@@ -114,7 +114,7 @@ const otputil_t otputil_const_defaults =
 
 
 #pragma mark otputil_defaults
-static otputil_t otputil_defaults =
+otputil_t otputil_defaults =
 {
    // general options
    .otp_desc               = NULL,
