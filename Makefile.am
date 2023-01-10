@@ -108,6 +108,8 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  include/otputil.h \
 					  include/otputil_compat.h \
 					  lib/libotputil/libotputil.sym \
+					  lib/libotputil/lrfc6238-totp.h \
+					  lib/libotputil/lrfc6238-totp.c \
 					  tests/otp-dicts/otp-dicts.h \
 					  tests/test-otputil-hotp.sh \
 					  tests/test-otputil-totp.sh
