@@ -239,7 +239,7 @@ otputil_otp_encode(
          // byte 1: ( 00000000111  11111------ )
          case 8:
          val |= (bv_val[pos] >> 5) & 0x0007;
-         if (otputil_otp_encode_word(dst, otputil_dict_rfc1760[val], dstlen, " ") == -1)
+         if (otputil_otp_encode_word(dst, otputil_skey_rfc1760_dict[val], dstlen, " ") == -1)
             return(NULL);
          val = (bv_val[pos] << 6) & 0x7C0;
          break;
@@ -247,7 +247,7 @@ otputil_otp_encode(
          // byte 2: ( 11111222222 22--------- )
          case 5:
          val |= (bv_val[pos] >> 2) & 0x003f;
-         if (otputil_otp_encode_word(dst, otputil_dict_rfc1760[val], dstlen, " ") == -1)
+         if (otputil_otp_encode_word(dst, otputil_skey_rfc1760_dict[val], dstlen, " ") == -1)
             return(NULL);
          val = (bv_val[pos] << 9) & 0x07C0;
          break;
@@ -260,7 +260,7 @@ otputil_otp_encode(
          // byte 4: ( 22333333334 4444444---- )
          case 10:
          val |= (bv_val[pos] >> 7) & 0x0001;
-         if (otputil_otp_encode_word(dst, otputil_dict_rfc1760[val], dstlen, " ") == -1)
+         if (otputil_otp_encode_word(dst, otputil_skey_rfc1760_dict[val], dstlen, " ") == -1)
             return(NULL);
          val = (bv_val[pos] << 4) & 0x07F0;
          break;
@@ -268,7 +268,7 @@ otputil_otp_encode(
          // byte 5: ( 44444445555 5555------- )
          case 7:
          val |= (bv_val[pos] >> 4) & 0x000f;
-         if (otputil_otp_encode_word(dst, otputil_dict_rfc1760[val], dstlen, " ") == -1)
+         if (otputil_otp_encode_word(dst, otputil_skey_rfc1760_dict[val], dstlen, " ") == -1)
             return(NULL);
          val = (bv_val[pos] << 7) & 0x0780;
          break;
@@ -276,7 +276,7 @@ otputil_otp_encode(
          // byte 6: ( 55556666666 6---------- )
          case 4:
          val |= (bv_val[pos] >> 1) & 0x007f;
-         if (otputil_otp_encode_word(dst, otputil_dict_rfc1760[val], dstlen, " ") == -1)
+         if (otputil_otp_encode_word(dst, otputil_skey_rfc1760_dict[val], dstlen, " ") == -1)
             return(NULL);
          val = (bv_val[pos] << 10) & 0x0400;
          break;
@@ -289,7 +289,7 @@ otputil_otp_encode(
          // byte 8: ( 67777777788 888888----- )
          case 9:
          val |= (bv_val[pos] >> 6) & 0x0003;
-         if (otputil_otp_encode_word(dst, otputil_dict_rfc1760[val], dstlen, " ") == -1)
+         if (otputil_otp_encode_word(dst, otputil_skey_rfc1760_dict[val], dstlen, " ") == -1)
             return(NULL);
          val = (bv_val[pos] << 5) & 0x07e0;
          break;
@@ -297,7 +297,7 @@ otputil_otp_encode(
          // byte 9: ( 88888899999 999-------- )
          case 6:
          val |= (bv_val[pos] >> 3) & 0x001f;
-         if (otputil_otp_encode_word(dst, otputil_dict_rfc1760[val], dstlen, " ") == -1)
+         if (otputil_otp_encode_word(dst, otputil_skey_rfc1760_dict[val], dstlen, " ") == -1)
             return(NULL);
          val = (bv_val[pos] << 8) & 0x0700;
          break;
@@ -305,7 +305,7 @@ otputil_otp_encode(
          // byte 10: ( 999aaaaaaaa ----------- )
          case 3:
          val |= bv_val[pos] & 0x00ff;
-         if (otputil_otp_encode_word(dst, otputil_dict_rfc1760[val], dstlen, " ") == -1)
+         if (otputil_otp_encode_word(dst, otputil_skey_rfc1760_dict[val], dstlen, " ") == -1)
             return(NULL);
          break;
 
@@ -340,7 +340,7 @@ otputil_otp_encode(
       // byte 4: ( 2233333333x x---------- )
       case 10:
       val |= (checksum >> 1) & 0x0001;
-      if (otputil_otp_encode_word(dst, otputil_dict_rfc1760[val], dstlen, " ") == -1)
+      if (otputil_otp_encode_word(dst, otputil_skey_rfc1760_dict[val], dstlen, " ") == -1)
          return(NULL);
       val = (checksum << 10) & 0x0400;
       break;
@@ -378,7 +378,7 @@ otputil_otp_encode(
       default:
       break;
    };
-   if (otputil_otp_encode_word(dst, otputil_dict_rfc1760[val], dstlen, NULL) == -1)
+   if (otputil_otp_encode_word(dst, otputil_skey_rfc1760_dict[val], dstlen, NULL) == -1)
       return(NULL);
 
    return(dst);

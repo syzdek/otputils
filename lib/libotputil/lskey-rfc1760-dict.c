@@ -41,8 +41,8 @@
 /////////////////
 #pragma mark - Variables
 
-#pragma mark otputil_dict_rfc1760[]
-const char * otputil_dict_rfc1760[] =
+#pragma mark otputil_skey_rfc1760_dict[]
+const char * otputil_skey_rfc1760_dict[] =
 {
    //
    // Haller                                                          [Page 6]

@@ -53,7 +53,7 @@
 #      libtool --mode=clean rm -f libotputil.la libotputil.lo
 #
 # variables
-otputil_dict_rfc1760
+otputil_skey_rfc1760_dict
 #
 # BER functions
 otputil_base32bv

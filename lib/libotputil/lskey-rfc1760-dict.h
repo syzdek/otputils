@@ -51,7 +51,7 @@
 /////////////////
 #pragma mark - Variables
 
-extern const char * otputil_dict_rfc1760[];
+extern const char * otputil_skey_rfc1760_dict[];
 
 
 #endif /* end of header file */
