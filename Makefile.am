@@ -176,7 +176,8 @@ lib_libotputil_a_SOURCES		= $(noinst_HEADERS) \
 					  lib/libotputil/lbv.h \
 					  lib/libotputil/lotp.c \
 					  lib/libotputil/lotp.h \
-					  lib/libotputil/ldict-rfc1760.c
+					  lib/libotputil/ldict-rfc1760.c \
+					  lib/libotputil/ldict-rfc1760.h
 
 
 # macros for lib/libotputil.la
