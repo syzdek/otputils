@@ -49,7 +49,7 @@
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 
-#include "lskey-rfc1760-dict.h"
+#include "lrfc1760-skey-dict.h"
 
 
 //////////////////

@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file lib/libotputil/lskey-rfc1760-dict.c
+ *  @file lib/libotputil/lrfc1760-skey-dict.c
  */
-#define _LIB_LIBOTPUTIL_LSKEY_RFC1760_DICT_C 1
-#include "lskey-rfc1760-dict.h"
+#define _LIB_LIBOTPUTIL_LRFC1760_SKEY_DICT_C 1
+#include "lrfc1760-skey-dict.h"
 
 
 /////////////////
