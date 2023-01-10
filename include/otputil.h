@@ -213,6 +213,12 @@ otputil_bvbase32(
          const otputil_bv_t *          bv );
 
 
+_OTPUTIL_F int
+otputil_bvcmp(
+         const void *                  a,
+         const void *                  b );
+
+
 _OTPUTIL_F otputil_bv_t *
 otputil_bvdup(
          const otputil_bv_t *          bv );

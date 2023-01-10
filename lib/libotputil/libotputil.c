@@ -262,6 +262,45 @@ otputil_bvbase32(
 }
 
 
+int
+otputil_bvcmp(
+         const void *                  a,
+         const void *                  b )
+{
+   const otputil_bv_t *    x;
+   const otputil_bv_t *    y;
+   const uint8_t *         x_val;
+   const uint8_t *         y_val;
+   size_t                  pos;
+   size_t                  len;
+
+   x = *((const otputil_bv_t * const *)a);
+   y = *((const otputil_bv_t * const *)b);
+
+   // compare pointers
+   if ( (!(x)) && (!(y)) )
+      return(0);
+   if (!(x))
+      return(-1);
+   if (!(y))
+      return(1);
+
+   x_val = x->bv_val;
+   y_val = y->bv_val;
+   len   = (x->bv_len < y->bv_len) ? x->bv_len : y->bv_len;
+   for(pos = 0; (pos < len); pos++)
+   {
+      if (x_val[pos] == y_val[pos])
+         continue;
+      return( (x_val[pos] < y_val[pos]) ? -1 : 1 );
+   };
+
+   if (x->bv_len == y->bv_len)
+      return(0);
+   return( (x->bv_len < y->bv_len) ? -1 : 1 );
+}
+
+
 otputil_bv_t *
 otputil_bvdup(
          const otputil_bv_t *          bv )
