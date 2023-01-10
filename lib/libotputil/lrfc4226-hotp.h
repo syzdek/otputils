@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file lib/libotputil/lhotp.h
+ *  @file lib/libotputil/lrfc4226-hotp.h
  */
-#ifndef _LIB_LIBOTPUTIL_LHOTP_H
-#define _LIB_LIBOTPUTIL_LHOTP_H 1
+#ifndef _LIB_LIBOTPUTIL_LRFC4226_HOTP_H
+#define _LIB_LIBOTPUTIL_LRFC4226_HOTP_H 1
 
 
 ///////////////

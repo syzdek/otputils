@@ -176,14 +176,14 @@ lib_libotputil_a_SOURCES		= $(noinst_HEADERS) \
 					  lib/libotputil/lbv.h \
 					  lib/libotputil/lcore.c \
 					  lib/libotputil/lcore.h \
-					  lib/libotputil/lhotp.c \
-					  lib/libotputil/lhotp.h \
 					  lib/libotputil/lmisc.c \
 					  lib/libotputil/lmisc.h \
 					  lib/libotputil/lotp-rfc2289.c \
 					  lib/libotputil/lotp-rfc2289.h \
 					  lib/libotputil/lskey-rfc1760-dict.c \
-					  lib/libotputil/lskey-rfc1760-dict.h
+					  lib/libotputil/lskey-rfc1760-dict.h \
+					  lib/libotputil/lrfc4226-hotp.c \
+					  lib/libotputil/lrfc4226-hotp.h
 
 
 # macros for lib/libotputil.la
