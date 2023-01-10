@@ -370,6 +370,11 @@ otputil_otp_encode_len(
 //----------------//
 #pragma mark S/KEY functions (RFC 1760)
 
+_OTPUTIL_F int
+otputil_skey_dict_value(
+         const char *                  word );
+
+
 _OTPUTIL_F const char *
 otputil_skey_dict_word(
          int                           value );

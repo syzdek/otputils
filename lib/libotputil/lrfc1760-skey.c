@@ -47,12 +47,82 @@
 #include "lrfc1760-skey-dict.h"
 
 
+//////////////////
+//              //
+//  Prototypes  //
+//              //
+//////////////////
+#pragma mark - Prototypes
+
+//-----------------------//
+// dictionary prototypes //
+//-----------------------//
+#pragma mark dictionary prototypes
+
+static int
+otputil_skey_cmp(
+         const void *                  a,
+         const void *                  b );
+
+
+static int
+otputil_skey_cmp_key(
+         const void *                  a,
+         const void *                  b );
+
+
 /////////////////
 //             //
 //  Functions  //
 //             //
 /////////////////
 #pragma mark - Functions
+
+//----------------------//
+// dictionary functions //
+//----------------------//
+#pragma mark dictionary functions
+
+int
+otputil_skey_cmp(
+         const void *                  a,
+         const void *                  b )
+{
+   const char *      x     = *((const char * const *)a);
+   const char *      y     = *((const char * const *)b);
+   size_t            x_len = ((x)) ? strlen(x) : 0;
+   size_t            y_len = ((y)) ? strlen(y) : 0;
+
+   if ( ((x)) && (!(y)) )
+      return(-1);
+   if ( (!(x)) && ((y)) )
+      return(1);
+
+   if ((x_len < 4) && (y_len > 3))
+      return(-1);
+   if ((x_len > 3) && (y_len < 4))
+      return(1);
+
+   return(strcasecmp(x, y));
+}
+
+
+int
+otputil_skey_cmp_key(
+         const void *                  a,
+         const void *                  b )
+{
+   return(otputil_skey_cmp(&a, b));
+}
+
+
+int
+otputil_skey_dict_value(
+         const char *                  word )
+{
+   return((int)bindle_bindex(word, otputil_skey_rfc1760_dict, 2048, sizeof(char *), 0, NULL, &otputil_skey_cmp_key));
+}
+
 
 const char *
 otputil_skey_dict_word(
