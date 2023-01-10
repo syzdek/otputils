@@ -178,10 +178,10 @@ lib_libotputil_a_SOURCES		= $(noinst_HEADERS) \
 					  lib/libotputil/lcore.h \
 					  lib/libotputil/lmisc.c \
 					  lib/libotputil/lmisc.h \
-					  lib/libotputil/lotp-rfc2289.c \
-					  lib/libotputil/lotp-rfc2289.h \
 					  lib/libotputil/lrfc1760-skey-dict.c \
 					  lib/libotputil/lrfc1760-skey-dict.h \
+					  lib/libotputil/lrfc2289-otp.c \
+					  lib/libotputil/lrfc2289-otp.h \
 					  lib/libotputil/lrfc4226-hotp.c \
 					  lib/libotputil/lrfc4226-hotp.h
 

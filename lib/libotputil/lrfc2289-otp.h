@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file lib/libotputil/lotp-rfc2289.h
+ *  @file lib/libotputil/lrfc2289-otp.h
  */
-#ifndef _LIB_LIBOTPUTIL_LOTP_RFC2289_H
-#define _LIB_LIBOTPUTIL_LOTP_RFC2289_H 1
+#ifndef _LIB_LIBOTPUTIL_LRFC2289_OTP_H
+#define _LIB_LIBOTPUTIL_LRFC2289_OTP_H 1
 
 
 ///////////////
