@@ -72,7 +72,7 @@ man_MANS				=
 info_TEXINFOS				=
 noinst_LTLIBRARIES			=
 noinst_LIBRARIES			=
-noinst_HEADERS				=
+noinst_HEADERS				= include/otputil_compat.h
 noinst_PROGRAMS				=
 bin_PROGRAMS				=
 bin_SCRIPTS				=
@@ -106,6 +106,7 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  README.md \
 					  TODO.md \
 					  include/otputil.h \
+					  include/otputil_compat.h \
 					  lib/libotputil/libotputil.sym \
 					  tests/otp-dicts/otp-dicts.h \
 					  tests/test-otputil-hotp.sh \
