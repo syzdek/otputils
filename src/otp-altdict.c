@@ -221,12 +221,6 @@ my_verbose(
 
 
 static int
-my_word_cmp_key(
-         const void *                  a,
-         const void *                  b );
-
-
-static int
 my_word_cmp_obj(
          const void *                  a,
          const void *                  b );
@@ -588,7 +582,7 @@ my_buff_process_word(
    // search for S/KEY dictionary word
    if (!(cnf->allow_dups))
    {
-      if (bindle_bindex(word, otputil_skey_rfc1760_dict, 2048, sizeof(char *), 0, NULL, my_word_cmp_key) != -1)
+      if (otputil_skey_dict_value(word) != -1)
       {
          my_verbose(cnf, "word '%s': is contained in S/KEY dictionary\n", word);
          return(0);
@@ -913,19 +907,6 @@ my_verbose(
    vprintf(fmt, args);
    va_end(args);
    return;
-}
-
-
-int
-my_word_cmp_key(
-         const void *                  a,
-         const void *                  b )
-{
-   const char * const * obj;
-   const char *         key;
-   key = a;
-   obj = b;
-   return(strcasecmp(key, *obj));
 }
 
 
