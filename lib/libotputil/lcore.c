@@ -49,7 +49,7 @@
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 
-#include "ldict-rfc1760.h"
+#include "lskey-rfc1760-dict.h"
 #include "lmisc.h"
 #include "lhotp.h"
 

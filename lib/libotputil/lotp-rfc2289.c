@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file lib/libotputil/libotputil.c
+ *  @file lib/libotputil/lotp-rfc2289.c
  */
-#define _LIB_LIBOTPUTIL_LOTP_C 1
-#include "lotp.h"
+#define _LIB_LIBOTPUTIL_LOTP_RFC2289_H 1
+#include "lotp-rfc2289.h"
 
 ///////////////
 //           //
@@ -49,7 +49,7 @@
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 
-#include "ldict-rfc1760.h"
+#include "lskey-rfc1760-dict.h"
 
 
 //////////////////

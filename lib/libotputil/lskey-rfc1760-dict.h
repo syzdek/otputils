@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file lib/libotputil/ldict-rfc1760.h
+ *  @file lib/libotputil/_LIB_LSKEY_RFC1760_DICT_C.h
  */
-#ifndef _LIB_LIBOTPUTIL_LDICT_RFC1760_H
-#define _LIB_LIBOTPUTIL_LDICT_RFC1760_H 1
+#ifndef _LIB_LIBOTPUTIL_LSKEY_RFC1760_DICT_H
+#define _LIB_LIBOTPUTIL_LSKEY_RFC1760_DICT_H 1
 
 
 ///////////////
