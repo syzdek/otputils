@@ -1,6 +1,6 @@
 /*
  *  OTP Utilities
- *  Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.
+ *  Copyright (C) 2022 David M. Syzdek <david@syzdek.net>.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are
@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file lib/libotputil/libotputil.c
+ *  @file lib/libotputil/lcore.c
  */
-#define _LIB_LIBOTPUTIL_C 1
-#include "libotputil.h"
+#define _LIB_LIBOTPUTIL_LCORE_C 1
+#include "lcore.h"
 
 ///////////////
 //           //
@@ -52,14 +52,6 @@
 #include "ldict-rfc1760.h"
 #include "lmisc.h"
 #include "lhotp.h"
-
-
-//////////////////
-//              //
-//  Prototypes  //
-//              //
-//////////////////
-#pragma mark - Prototypes
 
 
 /////////////////
