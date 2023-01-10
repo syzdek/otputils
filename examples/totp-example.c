@@ -90,30 +90,15 @@ int main(int argc, char * argv[])
    uint32_t   totp;
    uint8_t  * k;       // user's secret key
 
-   x  = 30;
-   t0 = 0;
-
-   switch(argc)
+   if ((argc > 4) || (argc < 2))
    {
-      case 4:
-      t0 = strtoll(argv[3], NULL, 0);
-
-      case 3:
-      x  = strtoll(argv[2], NULL, 0);
-
-      case 2:
-      k  = (uint8_t *)argv[1];
-      break;
-
-      default:
       fprintf(stderr, "Usage: %s <b32_key> [ <interval> [ <start> ] ]\n", argv[0]);
       return(1);
-      break;
    };
-
-
+   k   = (uint8_t *)argv[1];
    len = strlen(argv[1]);
-
+   x   = (argc > 2) ? strtoll(argv[2], NULL, 0) : 30;
+   t0  = (argc > 3) ? strtoll(argv[3], NULL, 0) : 0;
 
    // validates base32 key
    if (((len & 0xF) != 0) && ((len & 0xF) != 8))
