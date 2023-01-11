@@ -60,6 +60,12 @@
 #pragma mark - Prototypes
 
 static int
+otputil_otp_decode_hex(
+         const char *                  src,
+         otputil_bv_t *                dst );
+
+
+static int
 otputil_otp_encode_word(
          char *                        dst,
          int                           value,
@@ -86,69 +92,78 @@ otputil_otp_decode(
 {
    static otputil_bv_t  bv;
    static uint8_t       buff[OTPUTIL_MAX_DECODE_SIZE];
-   uint8_t *            bv_val;
-   int                  method;
-   int                  i;
-   size_t               pos;
-   size_t               off;
-   size_t               len;
-   char                 word[OTPUTIL_MAX_WORD_SIZE];
-   char *               endptr;
+   int                  rc;
 
    assert(src != NULL);
 
+   // set default buffer
    if (!(dst))
    {
       dst = &bv;
       dst->bv_len = sizeof(buff);
       dst->bv_val = buff;
    };
-   bv_val = dst->bv_val;
 
    // checks for hexadecimal notation
-   method  = OTPUTIL_ENC_HEX;
-   word[1] = '\0';
-   for(pos = 0, off = 0; ( ((src[pos])) && (method == OTPUTIL_ENC_HEX) ); pos++)
-   {
-      if ((isspace(src[pos])))
-         continue;
-      if ((isxdigit(src[pos])))
-      {
-         off++;
-         continue;
-      };
-      method = 0;
-   };
-   if (method == OTPUTIL_ENC_HEX)
-   {
-      // generate length of binary output in bytes
-      len = (off/2) + (off%2);
-      if ( (len = (off/2) + (off%2)) > dst->bv_len )
-         return(NULL);
-      dst->bv_len = len;
-
-      // convert to binary output
-      for(pos = 0, off = 0; ((src[pos])); pos++)
-      {
-         word[0] = src[pos];
-         i       = (int)strtol(word, &endptr, 16);
-         if (endptr == word)
-            continue;
-         if ((off & 0x01) == 0)
-            bv_val[off/2] = (i << 4) & 0xf0;
-         if ((off & 0x01) == 1)
-            bv_val[off/2] |= (i << 0) & 0x0f;
-         off++;
-      };
-
+   if ((rc = otputil_otp_decode_hex(src, dst)) == 0)
       return(dst);
-   };
+   if (rc == -1)
+      return(NULL);
 
    // checks for six-word format with S/KEY dictionary
 
    return(NULL);
 }
 
+
+int
+otputil_otp_decode_hex(
+         const char *                  src,
+         otputil_bv_t *                dst )
+{
+   uint8_t *            bv_val;
+   int                  i;
+   size_t               count;
+   size_t               pos;
+   size_t               off;
+   size_t               len;
+   char                 digit[2];
+   char *               endptr;
+
+   bv_val   = dst->bv_val;
+   digit[1] = '\0';
+
+   // checks for hexadecimal notation
+   for(pos = 0, count = 0; ((src[pos])); pos++)
+   {
+      if ((isspace(src[pos])))
+         continue;
+      if (!(isxdigit(src[pos])))
+         return(1);
+      count++;
+   };
+
+   // generate length of binary output in bytes
+   if ( (len = (count/2) + (count%2)) > dst->bv_len )
+      return(-1);
+   dst->bv_len = len;
+
+   // convert to binary output
+   for(pos = 0, off = 0; ((src[pos])); pos++)
+   {
+      digit[0] = src[pos];
+      i        = (int)strtol(digit, &endptr, 16);
+      if (endptr == digit)
+         continue;
+      if ((off & 0x01) == 0)
+         bv_val[off/2] = (i << 4) & 0xf0;
+      if ((off & 0x01) == 1)
+         bv_val[off/2] |= (i << 0) & 0x0f;
+      off++;
+   };
+
+   return(0);
+}
 
 size_t
 otputil_otp_decode_len(
