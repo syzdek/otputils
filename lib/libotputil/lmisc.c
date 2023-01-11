@@ -63,8 +63,8 @@ static const otputil_map_t otputil_md_list[] =
    { .map_name = "sha1",            .map_id = OTPUTIL_MD_SHA1 },
    { .map_name = "sha256",          .map_id = OTPUTIL_MD_SHA256 },
    { .map_name = "sha512",          .map_id = OTPUTIL_MD_SHA512 },
-   { .map_name = "sha3-256",        .map_id = OTPUTIL_MD_SHA256 },
-   { .map_name = "sha3-512",        .map_id = OTPUTIL_MD_SHA512 },
+   { .map_name = "sha3-256",        .map_id = OTPUTIL_MD_SHA3_256 },
+   { .map_name = "sha3-512",        .map_id = OTPUTIL_MD_SHA3_512 },
    { .map_name = NULL,              .map_id = 0 },
 };
 
