@@ -62,31 +62,38 @@ otputil_bvbase32
 otputil_bvcmp
 otputil_bvdup
 otputil_bvfree
+#
 # memory functions
 otputil_free
 otputil_get_param
 otputil_initialize
 otputil_set_param
+#
 # misc functions
 otputil_err2string
 otputil_getpass
 otputil_md2str
 otputil_str2md
+#
 # front-end functions
 otputil_code
 otputil_str
 otputil_timer
+#
 # HOTP functions (RFC 4226)
 otputil_hotp_code
 otputil_hotp_str
+#
 # OTP functions (RFC 2289)
 otputil_otp_decode
 otputil_otp_decode_len
 otputil_otp_encode
 otputil_otp_encode_len
+#
 # S/KEY functions (RFC 1760)
 otputil_skey_dict_value
 otputil_skey_dict_word
+#
 # TOTP functions (RFC 6238)
 otputil_totp_code
 otputil_totp_str

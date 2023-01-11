@@ -74,10 +74,10 @@ otputil_otp_encode_word(
 /////////////////
 #pragma mark - Functions
 
-//---------------//
-// OTP functions //
-//---------------//
-#pragma mark OTP functions (RFC 2289)
+//--------------------//
+// encoding functions //
+//--------------------//
+#pragma mark encoding functions
 
 otputil_bv_t *
 otputil_otp_decode(
