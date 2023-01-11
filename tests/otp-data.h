@@ -67,6 +67,9 @@ struct _otp_test_data
    const char *      six;
    const char *      seed;
    const char *      pass;
+   const char *      alt_md4;
+   const char *      alt_md5;
+   const char *      alt_sha1;
 };
 
 
