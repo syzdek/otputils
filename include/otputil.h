@@ -129,6 +129,7 @@
 #define OTPUTIL_OPT_TOTP_HMAC       0x0206   // (int *)
 
 
+#define OTPUTIL_MD_NONE             0
 #define OTPUTIL_MD_SHA1             1
 #define OTPUTIL_MD_SHA256           2
 #define OTPUTIL_MD_SHA512           3
