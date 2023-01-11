@@ -93,6 +93,8 @@ otputil_skey_cmp(
    size_t            x_len = ((x)) ? strlen(x) : 0;
    size_t            y_len = ((y)) ? strlen(y) : 0;
 
+   if ( (!(x)) && (!(y)) )
+      return(0);
    if ( ((x)) && (!(y)) )
       return(-1);
    if ( (!(x)) && ((y)) )
