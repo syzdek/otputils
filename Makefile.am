@@ -82,6 +82,7 @@ sbin_PROGRAMS				=
 EXTRA_PROGRAMS				= examples/totp-example \
 					  src/otp-altdict \
 					  src/otputil \
+					  tests/otp-data-convert \
 					  tests/test-dict-otp \
 					  tests/test-hotp \
 					  tests/test-otp-decode \
@@ -137,6 +138,7 @@ DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
 # conditional build
 if ENABLE_MAINTAINER
    noinst_PROGRAMS			+= src/otp-altdict
+   noinst_PROGRAMS			+= tests/otp-data-convert
 endif
 if ENABLE_EXAMPLES
    noinst_PROGRAMS			+= examples/totp-example
@@ -214,6 +216,18 @@ src_otputil_SOURCES			= src/otputil.c \
 					  src/otputil.h \
 					  src/widget-hotp.c \
 					  src/widget-totp.c
+
+
+# macros for tests/otp-data-convert
+tests_otp_data_convert_DEPENDENCIES	= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+tests_otp_data_convert_LDADD		= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+tests_otp_data_convert_SOURCES		= tests/otp-data-convert.c \
+					  tests/otp-dicts/otp-md4.c \
+					  tests/otp-dicts/otp-md5.c \
+					  tests/otp-dicts/otp-sha1.c \
+					  tests/otp-dicts/rfc2289-md4.c \
+					  tests/otp-dicts/rfc2289-md5.c \
+					  tests/otp-dicts/rfc2289-sha1.c
 
 
 # macros for tests/test-dict-otp
