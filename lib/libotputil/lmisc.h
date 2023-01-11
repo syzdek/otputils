@@ -41,6 +41,9 @@
 ///////////////
 #pragma mark - Headers
 
+#include <openssl/evp.h>
+#include <openssl/hmac.h>
+
 #include "libotputil.h"
 
 
@@ -50,6 +53,11 @@
 //              //
 //////////////////
 #pragma mark - Prototypes
+
+extern const EVP_MD *
+otputil_evp_md(
+         int                           id );
+
 
 extern uintmax_t
 otputil_upow(

@@ -95,6 +95,25 @@ otputil_err2string(
 }
 
 
+const EVP_MD *
+otputil_evp_md(
+         int                           id )
+{
+   switch(id)
+   {
+      case OTPUTIL_MD_MD4:       return(EVP_md4());
+      case OTPUTIL_MD_MD5:       return(EVP_md5());
+      case OTPUTIL_MD_SHA1:      return(EVP_sha1());
+      case OTPUTIL_MD_SHA256:    return(EVP_sha256());
+      case OTPUTIL_MD_SHA512:    return(EVP_sha512());
+      case OTPUTIL_MD_SHA3_256:  return(EVP_sha3_256());
+      case OTPUTIL_MD_SHA3_512:  return(EVP_sha3_512());
+      default: break;
+   };
+   return(NULL);
+}
+
+
 char *
 otputil_getpass(
          const char *                  prompt,
