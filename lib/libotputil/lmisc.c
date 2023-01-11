@@ -136,7 +136,7 @@ otputil_md2str(
          int                           md )
 {
    int x;
-   for(x = 0; ((otputil_md_list[x].map_id)); x++)
+   for(x = 0; ((otputil_md_list[x].map_name)); x++)
       if (md == otputil_md_list[x].map_id)
          return(otputil_md_list[x].map_name);
    return(NULL);
