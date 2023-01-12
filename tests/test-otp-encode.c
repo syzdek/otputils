@@ -199,8 +199,8 @@ main(
       if (!(quiet))
       {
          printf("%-5s ",   otputil_md2str(rec->method));
-         printf("%-17s ",  rec->pass);
-         printf("%-9s ",   rec->seed);
+         printf("%-20s ",  rec->pass);
+         printf("%-11s ",  rec->seed);
          printf("%2i  ",   rec->count);
          printf("%-20s  ", rec->hex);
          printf("%s\n",    rec->six);
