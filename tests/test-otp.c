@@ -190,8 +190,8 @@ main(
 
    if (!(quiet))
    {
-      printf("Hash  Pass Phrase       Seed     Cnt  Hex                   Six Word Format\n");
-      printf("=========================================================================================\n");
+      printf("Hash  Pass Phrase          Seed       Cnt  Hex                   Six Word Format\n");
+      printf("==============================================================================================\n");
    };
    for(pos = 0; ((otp_test_data[pos].hex)); pos++)
    {
@@ -211,8 +211,8 @@ main(
       if (!(quiet))
       {
          printf("%-5s ",   otputil_md2str(rec->method));
-         printf("%-17s ",  rec->pass);
-         printf("%-9s ",   rec->seed);
+         printf("%-20s ",  rec->pass);
+         printf("%-11s ",  rec->seed);
          printf("%2i  ",   rec->count);
          printf("%-20s  ", rec->hex);
          printf("%s\n",    rec->six);
