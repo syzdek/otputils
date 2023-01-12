@@ -129,6 +129,10 @@ otputil_otp_code(
          break;
 
          case OTPUTIL_MD_MD5:
+         for(u = 0; (u < 8); u++)
+            md[u] ^= md[u+8];
+         memcpy(secret, md, 8);
+         secret_len = 8;
          break;
 
          case OTPUTIL_MD_SHA1:
