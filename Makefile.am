@@ -187,8 +187,8 @@ lib_libotputil_a_SOURCES		= $(noinst_HEADERS) \
 					  lib/libotputil/lrfc1760-skey.h \
 					  lib/libotputil/lrfc1760-skey-dict.c \
 					  lib/libotputil/lrfc1760-skey-dict.h \
-					  lib/libotputil/lrfc2289-otp.c \
-					  lib/libotputil/lrfc2289-otp.h \
+					  lib/libotputil/lrfc2289-otp-dict.c \
+					  lib/libotputil/lrfc2289-otp-dict.h \
 					  lib/libotputil/lrfc4226-hotp.c \
 					  lib/libotputil/lrfc4226-hotp.h
 

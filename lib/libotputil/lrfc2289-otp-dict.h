@@ -28,10 +28,10 @@
  *  SUCH DAMAGE.
  */
 /*
- *  @file lib/libotputil/lrfc2289-otp.h
+ *  @file lib/libotputil/lrfc2289-otp-dict.h
  */
-#ifndef _LIB_LIBOTPUTIL_LRFC2289_OTP_H
-#define _LIB_LIBOTPUTIL_LRFC2289_OTP_H 1
+#ifndef _LIB_LIBOTPUTIL_LRFC2289_OTP_DICT_H
+#define _LIB_LIBOTPUTIL_LRFC2289_OTP_DICT_H 1
 
 
 ///////////////
