@@ -64,8 +64,12 @@ static const otputil_map_t otputil_md_list[] =
    { .map_name = "sha1",            .map_id = OTPUTIL_MD_SHA1 },
    { .map_name = "sha256",          .map_id = OTPUTIL_MD_SHA256 },
    { .map_name = "sha512",          .map_id = OTPUTIL_MD_SHA512 },
+#ifdef HAVE_EVP_SHA3_256
    { .map_name = "sha3-256",        .map_id = OTPUTIL_MD_SHA3_256 },
+#endif
+#ifdef HAVE_EVP_SHA3_512
    { .map_name = "sha3-512",        .map_id = OTPUTIL_MD_SHA3_512 },
+#endif
    { .map_name = NULL,              .map_id = 0 },
 };
 
@@ -107,8 +111,12 @@ otputil_evp_md(
       case OTPUTIL_MD_SHA1:      return(EVP_sha1());
       case OTPUTIL_MD_SHA256:    return(EVP_sha256());
       case OTPUTIL_MD_SHA512:    return(EVP_sha512());
+#ifdef HAVE_EVP_SHA3_256
       case OTPUTIL_MD_SHA3_256:  return(EVP_sha3_256());
+#endif
+#ifdef HAVE_EVP_SHA3_512
       case OTPUTIL_MD_SHA3_512:  return(EVP_sha3_512());
+#endif
       default: break;
    };
    return(NULL);
