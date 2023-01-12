@@ -216,7 +216,7 @@ main(
       };
 
       // test HEX decoding
-      if ((bv = otputil_otp_decode(rec->hex, NULL)) == NULL)
+      if ((bv = otputil_otp_decode(rec->hex, NULL, 0)) == NULL)
       {
          printf("%s: unable to decode\n", rec->hex);
          if (!(ignore_errors))

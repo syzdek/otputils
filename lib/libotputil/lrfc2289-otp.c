@@ -49,6 +49,7 @@
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 
+#include "lmisc.h"
 #include "lrfc1760-skey-dict.h"
 
 
@@ -63,6 +64,33 @@ static int
 otputil_otp_decode_hex(
          const char *                  src,
          otputil_bv_t *                dst );
+
+
+static int
+otputil_otp_decode_value(
+         int                           val,
+         int *                         wordcount,
+         otputil_bv_t *                dst,
+         size_t                        maxlen );
+
+
+static int
+otputil_otp_decode_verify(
+         int                           wordcount,
+         otputil_bv_t *                dst );
+
+
+static int
+otputil_otp_decode_word(
+         const char *                  word,
+         int *                         methodp,
+         const EVP_MD *                evp_md );
+
+
+static int
+otputil_otp_dict_value(
+         const char *                  word,
+         const EVP_MD *                evp_md );
 
 
 static int
@@ -88,11 +116,21 @@ otputil_otp_encode_word(
 otputil_bv_t *
 otputil_otp_decode(
          const char *                  src,
-         otputil_bv_t *                dst )
+         otputil_bv_t *                dst,
+         int                           altdict_hash )
 {
    static otputil_bv_t  bv;
    static uint8_t       buff[OTPUTIL_MAX_DECODE_SIZE];
+   char                 word[OTPUTIL_MAX_WORD_SIZE];
+   int                  wlen;
    int                  rc;
+   int                  method;
+   int                  pos;
+   int                  len;
+   int                  val;
+   int                  wordcount;
+   size_t               bv_len;
+   const EVP_MD *       evp_md;
 
    assert(src != NULL);
 
@@ -110,9 +148,49 @@ otputil_otp_decode(
    if (rc == -1)
       return(NULL);
 
-   // checks for six-word format with S/KEY dictionary
+   // determine message digest
+   evp_md = (!(altdict_hash)) ? NULL : otputil_evp_md(altdict_hash);
+   if ( ((altdict_hash)) && (!(evp_md)) )
+      return(NULL);
 
-   return(NULL);
+   // checks for six-word format with S/KEY dictionary
+   method      = 0;
+   len         = -1;
+   bv_len      = dst->bv_len;
+   dst->bv_len = 0;
+   wordcount   = 0;
+   for(pos = 0; ((src[pos])); pos++)
+   {
+      // skip white space
+      if ((isspace(src[pos])))
+         continue;
+
+      // check for invalid character
+      if (!(isalnum(src[pos])))
+         return(NULL);
+
+      // process word
+      for(wlen = 0; ( ((isalnum(src[pos+wlen])) && (wlen < (int)sizeof(word))) ); wlen++)
+         word[wlen] = src[pos+wlen];
+      if (wlen >= (int)sizeof(word))
+         return(NULL);
+      word[wlen]  = '\0';
+      pos        += wlen - 1;
+
+      // decode word
+      if ((val = otputil_otp_decode_word(word, &method, evp_md)) == -1)
+         return(NULL);
+
+      // add value to buffer
+      if (otputil_otp_decode_value(val, &wordcount, dst, bv_len) == -1)
+         return(NULL);
+   };
+
+   // verify checksum of six-word encoding
+   if (otputil_otp_decode_verify(wordcount, dst) == -1)
+      return(NULL);
+
+   return(dst);
 }
 
 
@@ -165,6 +243,194 @@ otputil_otp_decode_hex(
    return(0);
 }
 
+
+int
+otputil_otp_decode_value(
+         int                           val,
+         int *                         wordcount,
+         otputil_bv_t *                dst,
+         size_t                        maxlen )
+{
+   int8_t * bytes;
+
+   if ((val & ~0x07FF))
+      return(-1);
+   if ((dst->bv_len+2) > maxlen)
+      return(-1);
+
+   bytes = dst->bv_val;
+
+   switch(*wordcount % 8)
+   {
+      case 0: // word 0: ( 00000000 000----- -------- )
+      bytes[dst->bv_len++]  = (val >>  3) & 0xff;
+      bytes[dst->bv_len++]  = (val <<  5) & 0xe0;
+      break;
+
+      case 1: // word 1: ( 00011111 111111-- -------- )
+      bytes[dst->bv_len-1] |= (val >>  6) & 0x1f;
+      bytes[dst->bv_len++]  = (val <<  2) & 0xfc;
+      break;
+
+      case 2: // word 2: ( 11111122 22222222 2------- )
+      if ((dst->bv_len+2) > maxlen)
+         return(-1);
+      bytes[dst->bv_len-1] |= (val >>  9) & 0x03;
+      bytes[dst->bv_len++]  = (val >>  1) & 0xff;
+      bytes[dst->bv_len++]  = (val <<  7) & 0x80;
+      break;
+
+      case 3: // word 3: ( 23333333 3333---- -------- )
+      bytes[dst->bv_len-1] |= (val >>  4) & 0x7f;
+      bytes[dst->bv_len++]  = (val <<  4) & 0xf0;
+      break;
+
+      case 4: // word 4: ( 33334444 4444444- -------- )
+      bytes[dst->bv_len-1] |= (val >>  7) & 0x0f;
+      bytes[dst->bv_len++]  = (val <<  1) & 0xfe;
+      break;
+
+      case 5: // word 5: ( 44444445 55555555 55------ )
+      if ((dst->bv_len+2) > maxlen)
+         return(-1);
+      bytes[dst->bv_len-1] |= (val >> 10) & 0x01;
+      bytes[dst->bv_len++]  = (val >>  2) & 0xff;
+      bytes[dst->bv_len++]  = (val <<  6) & 0xc0;
+      break;
+
+      case 6: // word 6: ( 55666666 66666--- -------- )
+      bytes[dst->bv_len-1] |= (val >>  5) & 0x3f;
+      bytes[dst->bv_len++]  = (val <<  3) & 0xf8;
+      break;
+
+      case 7: // word 7: ( 66666777 77777777 -------- )
+      bytes[dst->bv_len-1] |= (val >>  8) & 0xe0;
+      bytes[dst->bv_len++]  = (val <<  0) & 0x0f;
+      break;
+
+      default:
+      break;
+   };
+
+   (*wordcount)++;
+
+   return(0);
+}
+
+
+int
+otputil_otp_decode_verify(
+         int                           wordcount,
+         otputil_bv_t *                dst )
+{
+   size_t      pos;
+   int8_t *    bytes;
+   int         checksum;
+   int         sum;
+
+   if (!(wordcount))
+      return(0);
+
+   bytes = dst->bv_val;
+
+   // finish checksum
+   // Mappings:
+   //    0        1        2        3        4        5        6        7        8        9        a
+   //    00000000 00011111 11111122 22222222 23333333 33334444 44444445 55555555 55666666 66666777 77777777
+   switch(wordcount % 8)
+   {
+      case 1: // word 0: bytes 1: ( 00000000 000----- -------- )
+      checksum = (bytes[dst->bv_len-1] >> 6) & 0x03;
+      dst->bv_len--;
+      break;
+
+      case 2: // word 1: bytes 1: ( 00011111 111111-- -------- )
+      return(-1);
+
+      case 3: // word 2: bytes 2: ( 11111122 22222222 2------- )
+      checksum = (bytes[dst->bv_len-2] >> 6) & 0x03;
+      dst->bv_len -= 2;
+      break;
+
+      case 4: // word 3: bytes 3: ( 23333333 3333---- -------- )
+      checksum = (bytes[dst->bv_len-1] >> 6) & 0x03;
+      dst->bv_len--;
+      break;
+
+      case 5: // word 4: bytes 4: ( 33334444 4444444- -------- )
+      checksum = (bytes[dst->bv_len-1] >> 6) & 0x03;
+      dst->bv_len--;
+      break;
+
+      case 6: // word 5: bytes 5: ( 44444445 55555555 55------ )
+      checksum = (bytes[dst->bv_len-1] >> 6) & 0x03;
+      dst->bv_len--;
+      break;
+
+      case 7: // word 6: bytes 6: ( 55666666 66666--- -------- )
+      checksum = (bytes[dst->bv_len-1] >> 6) & 0x03;
+      dst->bv_len--;
+      break;
+
+      case 0: // word 7: bytes 7: ( 66666777 77777777 -------- )
+      checksum = (bytes[dst->bv_len-1] >> 6) & 0x03;
+      dst->bv_len--;
+      break;
+
+      default:
+      return(-1);
+   };
+
+   // start generating checksum
+   for(pos = 0, sum = 0; (pos < dst->bv_len); pos++)
+   {
+      sum += (bytes[pos] >> 6) & 0x03;
+      sum += (bytes[pos] >> 4) & 0x03;
+      sum += (bytes[pos] >> 2) & 0x03;
+      sum += (bytes[pos] >> 0) & 0x03;
+      sum &= 0x03;
+   };
+   if (sum != checksum)
+      return(-1);
+
+   return(0);
+}
+
+
+int
+otputil_otp_decode_word(
+         const char *                  word,
+         int *                         methodp,
+         const EVP_MD *                evp_md )
+{
+   int                  val;
+
+   switch(*methodp)
+   {
+      case OTPUTIL_ENC_SIXWORD:
+      return(otputil_skey_dict_value(word));
+
+      case OTPUTIL_ENC_ALTDICT:
+      return(otputil_otp_dict_value(word, evp_md));
+
+      default:
+      if ((val = otputil_skey_dict_value(word)) != -1)
+      {
+         *methodp = OTPUTIL_ENC_SIXWORD;
+         return(val);
+      };
+      if ((val = otputil_otp_dict_value(word, evp_md)) != -1)
+      {
+         *methodp = OTPUTIL_ENC_ALTDICT;
+         return(val);
+      };
+      break;
+   };
+
+   return(-1);
+}
+
+
 size_t
 otputil_otp_decode_len(
          const char *                  str )
@@ -179,6 +445,30 @@ otputil_otp_decode_len(
    bytes++;
 
    return(bytes);
+}
+
+
+int
+otputil_otp_dict_value(
+         const char *                  word,
+         const EVP_MD *                evp_md )
+{
+   unsigned char     md[EVP_MAX_MD_SIZE];
+   unsigned          md_len;
+   int               val;
+
+   if (!(evp_md))
+      return(-1);
+
+   md_len = sizeof(md);
+   if (!(EVP_Digest(word, strlen(word), md, &md_len, evp_md, NULL)))
+      return(-1);
+
+   val  = 0;
+   val |= (md[md_len-1] & 0xff) << 0;
+   val |= (md[md_len-2] & 0x07) << 8;
+
+   return(val);
 }
 
 

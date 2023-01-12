@@ -141,6 +141,7 @@
 
 #define OTPUTIL_ENC_HEX             1
 #define OTPUTIL_ENC_SIXWORD         2
+#define OTPUTIL_ENC_ALTDICT         3
 
 
 #define OTPUTIL_METH_RFC4226        0x0001
@@ -345,7 +346,8 @@ otputil_hotp_str(
 _OTPUTIL_F otputil_bv_t *
 otputil_otp_decode(
          const char *                  src,
-         otputil_bv_t *                dst );
+         otputil_bv_t *                dst,
+         int                           altdict_hash );
 
 
 _OTPUTIL_F size_t
