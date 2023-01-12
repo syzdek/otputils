@@ -75,7 +75,7 @@ otputil_otp_code(
          int                           otp_hash,
          uint64_t *                    otp_resultp )
 {
-   char              secret[OTPUTIL_OTP_PASS_MAX_LEN+OTPUTIL_OTP_SEED_MAX_LEN+1];
+   unsigned char     secret[OTPUTIL_OTP_PASS_MAX_LEN+OTPUTIL_OTP_SEED_MAX_LEN+1];
    size_t            len;
    const EVP_MD *    evp_md;
    unsigned char     md[EVP_MAX_MD_SIZE];
@@ -110,8 +110,8 @@ otputil_otp_code(
       return(-1);
 
    // generate secret
-   bindle_strlcat(secret, otp_pass, sizeof(secret));
-   secret_len = (unsigned)strlen(secret);
+   bindle_strlcat((char *)secret, otp_pass, sizeof(secret));
+   secret_len = (unsigned)strlen((char *)secret);
 
    // generate hashes
    for(pos = 0; (pos <= otp_seq); pos++)
@@ -119,34 +119,26 @@ otputil_otp_code(
       md_len = sizeof(md);
       if (!(EVP_Digest(secret, secret_len, md, &md_len, evp_md, NULL)))
          return(-1);
-      switch(otp_hash)
+      if ((otp_hash == OTPUTIL_MD_MD4) || (otp_hash == OTPUTIL_MD_MD5))
       {
-         case OTPUTIL_MD_MD4:
          for(u = 0; (u < 8); u++)
             md[u] ^= md[u+8];
          memcpy(secret, md, 8);
          secret_len = 8;
-         break;
-
-         case OTPUTIL_MD_MD5:
-         for(u = 0; (u < 8); u++)
-            md[u] ^= md[u+8];
-         memcpy(secret, md, 8);
+      } else
+      {
+         for(u = 8; (u < md_len); u++)
+            md[u%8] ^= md[u];
+         secret[0] = md[3];  secret[1] = md[2];  secret[2] = md[1];  secret[3] = md[0];
+         secret[4] = md[7];  secret[5] = md[6];  secret[6] = md[5];  secret[7] = md[4];
          secret_len = 8;
-         break;
-
-         case OTPUTIL_MD_SHA1:
-         break;
-
-         default:
-         return(-1);
       };
    };
 
-   *otp_resultp = ((uint64_t)md[0] << 56) | ((uint64_t)md[1] << 48)
-                | ((uint64_t)md[2] << 40) | ((uint64_t)md[3] << 32)
-                | ((uint64_t)md[4] << 24) | ((uint64_t)md[5] << 16)
-                | ((uint64_t)md[6] <<  8) | ((uint64_t)md[7] <<  0);
+   *otp_resultp = ((uint64_t)secret[0] << 56) | ((uint64_t)secret[1] << 48)
+                | ((uint64_t)secret[2] << 40) | ((uint64_t)secret[3] << 32)
+                | ((uint64_t)secret[4] << 24) | ((uint64_t)secret[5] << 16)
+                | ((uint64_t)secret[6] <<  8) | ((uint64_t)secret[7] <<  0);
 
    return(0);
 }
