@@ -168,6 +168,11 @@
 #define OTPUTIL_MAX_DECODE_SIZE     128
 #define OTPUTIL_MAX_WORD_SIZE       8
 
+#define OTPUTIL_OTP_PASS_MIN_LEN    10
+#define OTPUTIL_OTP_PASS_MAX_LEN    127
+#define OTPUTIL_OTP_SEED_MIN_LEN    1
+#define OTPUTIL_OTP_SEED_MAX_LEN    16
+
 
 /////////////////
 //             //
@@ -342,6 +347,14 @@ otputil_hotp_str(
 // OTP functions //
 //---------------//
 #pragma mark OTP functions (RFC 2289)
+
+_OTPUTIL_F uint64_t
+otputil_otp_code(
+         const char *                  otp_pass,
+         const char *                  otp_seed,
+         int                           otp_seq,
+         int                           otp_hash );
+
 
 _OTPUTIL_F otputil_bv_t *
 otputil_otp_decode(
