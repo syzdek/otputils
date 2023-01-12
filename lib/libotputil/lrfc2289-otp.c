@@ -87,24 +87,29 @@ otputil_otp_code(
    assert(otp_pass != NULL);
    assert(otp_seed != NULL);
 
+   // check otp_seed
+   for(len = 0; ((otp_seed[len])); len++)
+   {
+      if (len > OTPUTIL_OTP_SEED_MAX_LEN)
+         return(-1);
+      if (!(isalnum(otp_seed[len])))
+         return(-1);
+      secret[len] = tolower(otp_seed[len]);
+   };
+   secret[len] = '\0';
+   if (len < OTPUTIL_OTP_SEED_MIN_LEN)
+         return(-1);
+
    // check otp_pass
    len = strlen(otp_pass);
    if ((len > OTPUTIL_OTP_PASS_MAX_LEN) || (len < OTPUTIL_OTP_PASS_MIN_LEN))
       return(-1);
-
-   // check otp_seed
-   for(len = 0; ((otp_seed[len])); len++)
-      if (!(isalnum(otp_seed[len])))
-         return(-1);
-   if ((len > OTPUTIL_OTP_SEED_MAX_LEN) || (len < OTPUTIL_OTP_SEED_MIN_LEN))
-         return(-1);
 
    // check otp_hash
    if ((evp_md = otputil_evp_md(otp_hash)) == NULL)
       return(-1);
 
    // generate secret
-   bindle_strlcpy(secret, otp_seed, sizeof(secret));
    bindle_strlcat(secret, otp_pass, sizeof(secret));
    secret_len = (unsigned)strlen(secret);
 
