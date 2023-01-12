@@ -348,12 +348,13 @@ otputil_hotp_str(
 //---------------//
 #pragma mark OTP functions (RFC 2289)
 
-_OTPUTIL_F uint64_t
+_OTPUTIL_F int
 otputil_otp_code(
          const char *                  otp_pass,
          const char *                  otp_seed,
          int                           otp_seq,
-         int                           otp_hash );
+         int                           otp_hash,
+         uint64_t *                    otp_resultp );
 
 
 _OTPUTIL_F otputil_bv_t *

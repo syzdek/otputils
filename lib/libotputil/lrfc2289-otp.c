@@ -67,12 +67,13 @@
 /////////////////
 #pragma mark - Functions
 
-uint64_t
+int
 otputil_otp_code(
          const char *                  otp_pass,
          const char *                  otp_seed,
          int                           otp_seq,
-         int                           otp_hash )
+         int                           otp_hash,
+         uint64_t *                    otp_resultp )
 {
    char              secret[OTPUTIL_OTP_PASS_MAX_LEN+OTPUTIL_OTP_SEED_MAX_LEN+1];
    size_t            len;
@@ -86,41 +87,59 @@ otputil_otp_code(
    assert(otp_pass != NULL);
    assert(otp_seed != NULL);
 
-   // check input parameters
-   if (otp_seq == 0)
-      return(0);
-   if ((len = strlen(otp_pass)) > OTPUTIL_OTP_PASS_MAX_LEN)
-      return(0);
-   if (len < OTPUTIL_OTP_PASS_MIN_LEN)
-      return(0);
-   if ((len = strlen(otp_seed)) > OTPUTIL_OTP_SEED_MAX_LEN)
-      return(0);
-   if (len < OTPUTIL_OTP_SEED_MIN_LEN)
-      return(0);
+   // check otp_pass
+   len = strlen(otp_pass);
+   if ((len > OTPUTIL_OTP_PASS_MAX_LEN) || (len < OTPUTIL_OTP_PASS_MIN_LEN))
+      return(-1);
+
+   // check otp_seed
+   for(len = 0; ((otp_seed[len])); len++)
+      if (!(isalnum(otp_seed[len])))
+         return(-1);
+   if ((len > OTPUTIL_OTP_SEED_MAX_LEN) || (len < OTPUTIL_OTP_SEED_MIN_LEN))
+         return(-1);
+
+   // check otp_hash
    if ((evp_md = otputil_evp_md(otp_hash)) == NULL)
-      return(0);
+      return(-1);
 
    // generate secret
-   strncpy(secret, otp_pass, sizeof(secret));
-   strncat(secret, otp_seed, sizeof(secret)-1);
+   bindle_strlcpy(secret, otp_seed, sizeof(secret));
+   bindle_strlcat(secret, otp_pass, sizeof(secret));
    secret_len = (unsigned)strlen(secret);
 
    // generate hashes
-   for(pos = 0; (pos < otp_seq); pos++)
+   for(pos = 0; (pos <= otp_seq); pos++)
    {
       md_len = sizeof(md);
       if (!(EVP_Digest(secret, secret_len, md, &md_len, evp_md, NULL)))
-         return(0);
-      for(u = 8; (u < md_len); u += 8)
-         md[u%8] ^= md[u];
-      memcpy(secret, md, 8);
-      secret_len = 8;
+         return(-1);
+      switch(otp_hash)
+      {
+         case OTPUTIL_MD_MD4:
+         for(u = 0; (u < 8); u++)
+            md[u] ^= md[u+8];
+         memcpy(secret, md, 8);
+         secret_len = 8;
+         break;
+
+         case OTPUTIL_MD_MD5:
+         break;
+
+         case OTPUTIL_MD_SHA1:
+         break;
+
+         default:
+         return(-1);
+      };
    };
 
-   return( ((uint64_t)md[0] << 56) | ((uint64_t)md[1] << 48)
-         | ((uint64_t)md[2] << 40) | ((uint64_t)md[3] << 32)
-         | ((uint64_t)md[4] << 24) | ((uint64_t)md[5] << 16)
-         | ((uint64_t)md[6] <<  8) | ((uint64_t)md[7] <<  0) );
+   *otp_resultp = ((uint64_t)md[0] << 56) | ((uint64_t)md[1] << 48)
+                | ((uint64_t)md[2] << 40) | ((uint64_t)md[3] << 32)
+                | ((uint64_t)md[4] << 24) | ((uint64_t)md[5] << 16)
+                | ((uint64_t)md[6] <<  8) | ((uint64_t)md[7] <<  0);
+
+   return(0);
 }
 
 
@@ -143,7 +162,8 @@ otputil_otp_str(
    res.bv_val  = bv_val;
    res.bv_len  = sizeof(bv_val);
 
-   val = otputil_otp_code(otp_pass, otp_seed, otp_seq, otp_hash);
+   if (otputil_otp_code(otp_pass, otp_seed, otp_seq, otp_hash, &val) == -1)
+      return(NULL);
 
    bv_val[0] = (val >> 56) & 0xff;
    bv_val[1] = (val >> 48) & 0xff;
