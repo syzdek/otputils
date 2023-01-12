@@ -122,7 +122,6 @@ main(
    int                     c;
    int                     opt_index;
    int                     pos;
-   const otputil_bv_t *    dat;
    otptest_t *             rec;
    int                     errs;
    char *                  res;
@@ -196,7 +195,6 @@ main(
    for(pos = 0; ((otp_test_data[pos].hex)); pos++)
    {
       rec = &otp_test_data[pos];
-      dat = &rec->dat;
 
       if ( (!(rec->pass)) || (!(rec->seed)) )
          continue;
