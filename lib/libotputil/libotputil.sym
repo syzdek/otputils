@@ -90,6 +90,7 @@ otputil_otp_decode
 otputil_otp_decode_len
 otputil_otp_encode
 otputil_otp_encode_len
+otputil_otp_str
 #
 # S/KEY functions (RFC 1760)
 otputil_skey_dict_value

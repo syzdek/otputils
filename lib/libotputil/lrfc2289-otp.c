@@ -124,4 +124,39 @@ otputil_otp_code(
 }
 
 
+char *
+otputil_otp_str(
+         const char *                  otp_pass,
+         const char *                  otp_seed,
+         int                           otp_seq,
+         int                           otp_hash,
+         char *                        dst,
+         size_t                        dstlen )
+{
+   uint64_t          val;
+   otputil_bv_t      res;
+   uint8_t           bv_val[8];
+   static char       buff[32];
+
+   dstlen      = ((dst))         ? dstlen       : sizeof(buff);
+   dst         = ((dst))         ? dst          : buff;
+   res.bv_val  = bv_val;
+   res.bv_len  = sizeof(bv_val);
+
+   val = otputil_otp_code(otp_pass, otp_seed, otp_seq, otp_hash);
+
+   bv_val[0] = (val >> 56) & 0xff;
+   bv_val[1] = (val >> 48) & 0xff;
+   bv_val[2] = (val >> 40) & 0xff;
+   bv_val[3] = (val >> 32) & 0xff;
+   bv_val[4] = (val >> 24) & 0xff;
+   bv_val[5] = (val >> 16) & 0xff;
+   bv_val[6] = (val >>  8) & 0xff;
+   bv_val[7] = (val >>  0) & 0xff;
+   otputil_otp_encode(&res, dst, dstlen, OTPUTIL_ENC_SIXWORD);
+
+   return(dst);
+}
+
+
 /* end of source file */

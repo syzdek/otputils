@@ -381,6 +381,16 @@ otputil_otp_encode_len(
          const otputil_bv_t *          bv );
 
 
+_OTPUTIL_F char *
+otputil_otp_str(
+         const char *                  otp_pass,
+         const char *                  otp_seed,
+         int                           otp_seq,
+         int                           otp_hash,
+         char *                        dst,
+         size_t                        dstlen );
+
+
 //----------------//
 // S/KEY functions //
 //----------------//
