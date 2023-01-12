@@ -216,20 +216,93 @@ main(
       };
 
       // test HEX decoding
-      if ((bv = otputil_otp_decode(rec->hex, NULL, 0)) == NULL)
+      if ((rec->hex))
       {
-         printf("%s: unable to decode\n", rec->hex);
-         if (!(ignore_errors))
-            return(1);
-         errs++;
-         continue;
+         if ((bv = otputil_otp_decode(rec->hex, NULL, 0)) == NULL)
+         {
+            printf("unable to decode hex: %s\n", rec->hex);
+            if (!(ignore_errors))
+               return(1);
+            errs++;
+         } else if (otputil_bvcmp(&dat, &bv) != 0)
+         {
+            my_bverror("hex decoding", dat, bv);
+            if (!(ignore_errors))
+               return(1);
+            errs++;
+         };
       };
-      if (otputil_bvcmp(&dat, &bv) != 0)
+
+      // test six-word decoding
+      if ((rec->six))
       {
-         my_bverror("hex decoding", dat, bv);
-         if (!(ignore_errors))
-            return(1);
-         errs++;
+         if ((bv = otputil_otp_decode(rec->six, NULL, 0)) == NULL)
+         {
+            printf("unable to decode six-word S/KEY dictionary: %s\n", rec->six);
+            if (!(ignore_errors))
+               return(1);
+            errs++;
+         } else if (otputil_bvcmp(&dat, &bv) != 0)
+         {
+            my_bverror("six-word S/KEY dictionary decoding", dat, bv);
+            if (!(ignore_errors))
+               return(1);
+            errs++;
+         };
+      };
+
+      // test alt dictionary for md4 decoding
+      if ((rec->alt_md4))
+      {
+         if ((bv = otputil_otp_decode(rec->alt_md4, NULL, OTPUTIL_MD_MD4)) == NULL)
+         {
+            printf("unable to decode six-word alt dictionary (MD4): %s\n", rec->alt_md4);
+            if (!(ignore_errors))
+               return(1);
+            errs++;
+         } else if (otputil_bvcmp(&dat, &bv) != 0)
+         {
+            my_bverror("six-word alt dictionary (MD4) decoding", dat, bv);
+            if (!(ignore_errors))
+               return(1);
+            errs++;
+         };
+      };
+
+      // test alt dictionary for md5 decoding
+      if ((rec->alt_md5))
+      {
+         if ((bv = otputil_otp_decode(rec->alt_md5, NULL, OTPUTIL_MD_MD5)) == NULL)
+         {
+            printf("unable to decode six-word alt dictionary (MD5): %s\n", rec->alt_md5);
+            if (!(ignore_errors))
+               return(1);
+            errs++;
+         } else if (otputil_bvcmp(&dat, &bv) != 0)
+         {
+            my_bverror("six-word alt dictionary (MD5) decoding", dat, bv);
+            if (!(ignore_errors))
+               return(1);
+            errs++;
+         };
+      };
+
+      // test alt dictionary for sha1 decoding
+      if ((rec->alt_sha1))
+      {
+         if ((bv = otputil_otp_decode(rec->alt_sha1, NULL, OTPUTIL_MD_SHA1)) == NULL)
+         {
+            printf("unable to decode six-word alt dictionary (SHA1): %s\n", rec->alt_sha1);
+            if (!(ignore_errors))
+               return(1);
+            errs++;
+         } else if (otputil_bvcmp(&dat, &bv) != 0)
+         {
+            my_bverror("six-word alt dictionary (SHA1) decoding", dat, bv);
+            if (!(ignore_errors))
+               return(1);
+            errs++;
+         };
       };
    };
 
