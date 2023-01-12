@@ -126,7 +126,6 @@ otputil_otp_decode(
    int                  rc;
    int                  method;
    int                  pos;
-   int                  len;
    int                  val;
    int                  wordcount;
    size_t               bv_len;
@@ -155,7 +154,6 @@ otputil_otp_decode(
 
    // checks for six-word format with S/KEY dictionary
    method      = 0;
-   len         = -1;
    bv_len      = dst->bv_len;
    dst->bv_len = 0;
    wordcount   = 0;
