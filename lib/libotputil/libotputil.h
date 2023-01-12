@@ -73,7 +73,7 @@
 //   k:c:0:hmac:desc
 struct _otputil_secret
 {
-   int32_t                 otp_method;
+   int32_t                 util_method;
    int8_t                  hotp_digits;
    int8_t                  hotp_hmac;
    int8_t                  totp_digits;

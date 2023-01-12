@@ -78,7 +78,7 @@ const otputil_t otputil_const_defaults =
 {
    // general options
    .util_desc              = NULL,
-   .otp_method             = OTPUTIL_DFLT_METH,
+   .util_method            = OTPUTIL_DFLT_METH,
    // HOTP options
    .hotp_k                 = &otputil_const_defaults_k,
    .hotp_c                 = OTPUTIL_DFLT_HOTP_C,
@@ -99,7 +99,7 @@ otputil_t otputil_defaults =
 {
    // general options
    .util_desc              = NULL,
-   .otp_method             = OTPUTIL_DFLT_METH,
+   .util_method            = OTPUTIL_DFLT_METH,
    // HOTP options
    .hotp_k                 = NULL,
    .hotp_c                 = OTPUTIL_DFLT_HOTP_C,
@@ -185,7 +185,7 @@ otputil_get_param(
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_METHOD:
-      *((int *)outvalue) = (int)tud->otp_method;
+      *((int *)outvalue) = (int)tud->util_method;
       return(OTPUTIL_SUCCESS);
 
       ////////////////////////////
@@ -390,7 +390,7 @@ otputil_set_param(
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_METHOD:
-      tud->otp_method = (int32_t)_SET_INPUT_NUM(int, defaults->otp_method);
+      tud->util_method = (int32_t)_SET_INPUT_NUM(int, defaults->util_method);
       return(OTPUTIL_SUCCESS);
 
       ////////////////////////////
@@ -513,7 +513,7 @@ otputil_code(
 
    tud      = ((tud)) ? tud : &otputil_defaults;
 
-   switch(tud->otp_method)
+   switch(tud->util_method)
    {
       case OTPUTIL_METH_HOTP:
       dflt_bv = ((tud->hotp_k)) ? tud->hotp_k  : otputil_defaults.hotp_k;
@@ -549,7 +549,7 @@ otputil_str(
    if ((code = otputil_code(tud)) == -1)
       return(NULL);
 
-   switch(tud->otp_method)
+   switch(tud->util_method)
    {
       case OTPUTIL_METH_HOTP: return(otputil_code2str(code, (int)tud->hotp_digits, dst, dstlen));
       case OTPUTIL_METH_TOTP: return(otputil_code2str(code, (int)tud->totp_digits, dst, dstlen));
@@ -564,7 +564,7 @@ otputil_timer(
          otputil_t *                   tud )
 {
    tud = ((tud)) ? tud : &otputil_defaults;
-   switch(tud->otp_method)
+   switch(tud->util_method)
    {
       case OTPUTIL_METH_TOTP: return(otputil_totp_timer(tud->totp_t0, tud->totp_tx, tud->totp_time));
       default: break;
