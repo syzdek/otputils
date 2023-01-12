@@ -43,6 +43,8 @@
 #include <errno.h>
 #include <string.h>
 #include <strings.h>
+#include <openssl/evp.h>
+#include <openssl/hmac.h>
 
 #include "lrfc1760-skey-dict.h"
 
@@ -133,6 +135,91 @@ otputil_skey_dict_word(
    if ((value < 0) || (value > 2047))
       return(NULL);
    return(otputil_skey_rfc1760_dict[value]);
+}
+
+
+//---------------//
+// OTP functions //
+//---------------//
+#pragma mark OTP functions
+
+int
+otputil_skey_code(
+         const char *                  skey_pass,
+         int                           skey_seq,
+         uint64_t *                    skey_resultp )
+{
+   unsigned char     secret[OTPUTIL_SKEY_PASS_MAX_LEN+1];
+   const EVP_MD *    evp_md;
+   unsigned char     md[EVP_MAX_MD_SIZE];
+   unsigned          md_len;
+   unsigned          secret_len;
+   unsigned          u;
+   int               pos;
+
+   assert(skey_pass != NULL);
+
+   // generate secret
+   secret_len = (int)strlen(skey_pass);
+   if (secret_len > OTPUTIL_SKEY_PASS_MAX_LEN)
+      return(-1);
+   bindle_strlcpy((char *)secret, skey_pass, sizeof(secret));
+
+   // check otp_hash
+   evp_md = EVP_md4();
+
+   // generate hashes
+   for(pos = 0; (pos <= skey_seq); pos++)
+   {
+      md_len = sizeof(md);
+      if (!(EVP_Digest(secret, secret_len, md, &md_len, evp_md, NULL)))
+         return(-1);
+      for(u = 0; (u < 8); u++)
+         md[u] ^= md[u+8];
+      memcpy(secret, md, 8);
+      secret_len = 8;
+   };
+
+   *skey_resultp  = ((uint64_t)secret[0] << 56) | ((uint64_t)secret[1] << 48)
+                  | ((uint64_t)secret[2] << 40) | ((uint64_t)secret[3] << 32)
+                  | ((uint64_t)secret[4] << 24) | ((uint64_t)secret[5] << 16)
+                  | ((uint64_t)secret[6] <<  8) | ((uint64_t)secret[7] <<  0);
+
+   return(0);
+}
+
+
+char *
+otputil_skey_str(
+         const char *                  skey_pass,
+         int                           skey_seq,
+         char *                        dst,
+         size_t                        dstlen )
+{
+   uint64_t          val;
+   otputil_bv_t      res;
+   uint8_t           bv_val[8];
+   static char       buff[32];
+
+   dstlen      = ((dst))         ? dstlen       : sizeof(buff);
+   dst         = ((dst))         ? dst          : buff;
+   res.bv_val  = bv_val;
+   res.bv_len  = sizeof(bv_val);
+
+   if (otputil_skey_code(skey_pass, skey_seq, &val) == -1)
+      return(NULL);
+
+   bv_val[0] = (val >> 56) & 0xff;
+   bv_val[1] = (val >> 48) & 0xff;
+   bv_val[2] = (val >> 40) & 0xff;
+   bv_val[3] = (val >> 32) & 0xff;
+   bv_val[4] = (val >> 24) & 0xff;
+   bv_val[5] = (val >> 16) & 0xff;
+   bv_val[6] = (val >>  8) & 0xff;
+   bv_val[7] = (val >>  0) & 0xff;
+   otputil_otp_encode(&res, dst, dstlen, OTPUTIL_ENC_SIXWORD);
+
+   return(dst);
 }
 
 

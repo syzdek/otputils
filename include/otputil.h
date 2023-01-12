@@ -173,6 +173,8 @@
 #define OTPUTIL_OTP_SEED_MIN_LEN    1
 #define OTPUTIL_OTP_SEED_MAX_LEN    16
 
+#define OTPUTIL_SKEY_PASS_MAX_LEN   127
+
 
 /////////////////
 //             //
@@ -398,6 +400,13 @@ otputil_otp_str(
 #pragma mark S/KEY functions (RFC 1760)
 
 _OTPUTIL_F int
+otputil_skey_code(
+         const char *                  skey_pass,
+         int                           skey_seq,
+         uint64_t *                    skey_resultp );
+
+
+_OTPUTIL_F int
 otputil_skey_dict_value(
          const char *                  word );
 
@@ -405,6 +414,14 @@ otputil_skey_dict_value(
 _OTPUTIL_F const char *
 otputil_skey_dict_word(
          int                           value );
+
+
+_OTPUTIL_F char *
+otputil_skey_str(
+         const char *                  skey_pass,
+         int                           skey_seq,
+         char *                        dst,
+         size_t                        dstlen );
 
 
 //---------------//

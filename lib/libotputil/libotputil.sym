@@ -93,8 +93,10 @@ otputil_otp_encode_len
 otputil_otp_str
 #
 # S/KEY functions (RFC 1760)
+otputil_skey_code
 otputil_skey_dict_value
 otputil_skey_dict_word
+otputil_skey_str
 #
 # TOTP functions (RFC 6238)
 otputil_totp_code
