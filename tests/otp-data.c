@@ -61,6 +61,21 @@
 #pragma mark otp_test_data[]
 otptest_t otp_test_data[] =
 {
+   // RFC 2289 Appendix C - OTP Verification Examples: GENERAL CHECKS
+   {
+      .method           = OTPUTIL_MD_MD5,
+      .pass             = "A_Valid_Pass_Phrase",
+      .seed             = "AValidSeed",
+      .count            = 99,
+      .hex              = "85C4 3EE0 3857 765B",
+      .six              = "FOWL KID MASH DEAD DUAL OAF",
+      .alt_md4          = NULL,
+      .alt_md5          = NULL,
+      .alt_sha1         = NULL,
+      .dat.bv_val       = (uint8_t []){ 0x85, 0xc4, 0x3e, 0xe0, 0x38, 0x57, 0x76, 0x5b },
+      .dat.bv_len       = 8,
+   },
+
    // RFC 2289 Appendix C - OTP Verification Examples: MD4 ENCODINGS
    {
       .method           = OTPUTIL_MD_MD4,
