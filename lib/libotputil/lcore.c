@@ -77,7 +77,7 @@ otputil_bv_t otputil_const_defaults_k =
 const otputil_t otputil_const_defaults =
 {
    // general options
-   .otp_desc               = NULL,
+   .util_desc              = NULL,
    .otp_method             = OTPUTIL_DFLT_METH,
    // HOTP options
    .hotp_k                 = &otputil_const_defaults_k,
@@ -98,7 +98,7 @@ const otputil_t otputil_const_defaults =
 otputil_t otputil_defaults =
 {
    // general options
-   .otp_desc               = NULL,
+   .util_desc              = NULL,
    .otp_method             = OTPUTIL_DFLT_METH,
    // HOTP options
    .hotp_k                 = NULL,
@@ -136,8 +136,8 @@ otputil_free(
 
    if ((tud->hotp_k))
       otputil_bvfree(tud->hotp_k);
-   if ((tud->otp_desc))
-      free(tud->otp_desc);
+   if ((tud->util_desc))
+      free(tud->util_desc);
 
    memset(tud, 0, sizeof(otputil_t));
    free(tud);
@@ -167,8 +167,8 @@ otputil_get_param(
 
       case OTPUTIL_OPT_DESC:
       *((char **)outvalue) = NULL;
-      if ((tud->otp_desc))
-         if (( *((char **)outvalue) = bindle_strdup(tud->otp_desc)) == NULL)
+      if ((tud->util_desc))
+         if (( *((char **)outvalue) = bindle_strdup(tud->util_desc)) == NULL)
             return(OTPUTIL_ENOMEM);
       return(OTPUTIL_SUCCESS);
 
@@ -367,12 +367,12 @@ otputil_set_param(
 
       case OTPUTIL_OPT_DESC:
       ptr = NULL;
-      if ((invalue = ((invalue)) ? invalue : defaults->otp_desc) != NULL)
+      if ((invalue = ((invalue)) ? invalue : defaults->util_desc) != NULL)
          if ((ptr = bindle_strdup(((const char *)invalue))) == NULL)
             return(OTPUTIL_ENOMEM);
-      if ((tud->otp_desc))
-         free(tud->otp_desc);
-      tud->otp_desc = ptr;
+      if ((tud->util_desc))
+         free(tud->util_desc);
+      tud->util_desc = ptr;
       return(OTPUTIL_SUCCESS);
 
       case OTPUTIL_OPT_DIGITS:
