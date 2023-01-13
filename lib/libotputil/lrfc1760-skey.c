@@ -169,10 +169,10 @@ otputil_skey_str(
    uint8_t           bv_val[8];
    static char       buff[32];
 
-   dstlen      = ((dst))         ? dstlen       : sizeof(buff);
-   dst         = ((dst))         ? dst          : buff;
-   res.bv_val  = bv_val;
-   res.bv_len  = sizeof(bv_val);
+   dstlen        = ((dst))           ? dstlen        : sizeof(buff);
+   dst           = ((dst))           ? dst           : buff;
+   res.bv_val    = bv_val;
+   res.bv_len    = sizeof(bv_val);
 
    if (otputil_skey_code(skey_pass, skey_seq, 0, &val) == -1)
       return(NULL);
