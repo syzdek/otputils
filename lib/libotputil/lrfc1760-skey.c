@@ -147,45 +147,13 @@ int
 otputil_skey_code(
          const char *                  skey_pass,
          int                           skey_seq,
+         int                           skey_hash,
          uint64_t *                    skey_resultp )
 {
-   unsigned char     secret[OTPUTIL_SKEY_PASS_MAX_LEN+1];
-   const EVP_MD *    evp_md;
-   unsigned char     md[EVP_MAX_MD_SIZE];
-   unsigned          md_len;
-   unsigned          secret_len;
-   unsigned          u;
-   int               pos;
-
    assert(skey_pass != NULL);
-
-   // generate secret
-   secret_len = (int)strlen(skey_pass);
-   if (secret_len > OTPUTIL_SKEY_PASS_MAX_LEN)
-      return(-1);
-   bindle_strlcpy((char *)secret, skey_pass, sizeof(secret));
-
-   // check otp_hash
-   evp_md = EVP_md4();
-
-   // generate hashes
-   for(pos = 0; (pos <= skey_seq); pos++)
-   {
-      md_len = sizeof(md);
-      if (!(EVP_Digest(secret, secret_len, md, &md_len, evp_md, NULL)))
-         return(-1);
-      for(u = 0; (u < 8); u++)
-         md[u] ^= md[u+8];
-      memcpy(secret, md, 8);
-      secret_len = 8;
-   };
-
-   *skey_resultp  = ((uint64_t)secret[0] << 56) | ((uint64_t)secret[1] << 48)
-                  | ((uint64_t)secret[2] << 40) | ((uint64_t)secret[3] << 32)
-                  | ((uint64_t)secret[4] << 24) | ((uint64_t)secret[5] << 16)
-                  | ((uint64_t)secret[6] <<  8) | ((uint64_t)secret[7] <<  0);
-
-   return(0);
+   skey_seq    = (skey_seq >= 0) ? skey_seq  : otputil_defaults.skey_seq;
+   skey_hash   = ((skey_hash))   ? skey_hash : otputil_defaults.skey_hash;
+   return(otputil_otp_code(skey_pass, NULL, skey_seq, skey_hash, skey_resultp));
 }
 
 
@@ -206,7 +174,7 @@ otputil_skey_str(
    res.bv_val  = bv_val;
    res.bv_len  = sizeof(bv_val);
 
-   if (otputil_skey_code(skey_pass, skey_seq, &val) == -1)
+   if (otputil_skey_code(skey_pass, skey_seq, 0, &val) == -1)
       return(NULL);
 
    bv_val[0] = (val >> 56) & 0xff;

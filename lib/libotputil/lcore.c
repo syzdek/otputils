@@ -90,6 +90,11 @@ const otputil_t otputil_const_defaults =
    .otp_seq                = OTPUTIL_DFLT_OTP_SEQ,
    .otp_hash               = OTPUTIL_DFLT_OTP_HASH,
    .otp_encoding           = OTPUTIL_DFLT_OTP_ENCODE,
+   // S/KEY options
+   .skey_pass              = OTPUTIL_DFLT_SKEY_PASS,
+   .skey_seq               = OTPUTIL_DFLT_SKEY_SEQ,
+   .skey_hash              = OTPUTIL_DFLT_SKEY_HASH,
+   .skey_encoding          = OTPUTIL_DFLT_SKEY_ENCODE,
    // TOTP options
    .totp_k                 = &otputil_const_defaults_k,
    .totp_time              = OTPUTIL_DFLT_TOTP_TIME,
@@ -117,6 +122,11 @@ otputil_t otputil_defaults =
    .otp_seq                = OTPUTIL_DFLT_OTP_SEQ,
    .otp_hash               = OTPUTIL_DFLT_OTP_HASH,
    .otp_encoding           = OTPUTIL_DFLT_OTP_ENCODE,
+   // S/KEY options
+   .skey_pass              = OTPUTIL_DFLT_SKEY_PASS,
+   .skey_seq               = OTPUTIL_DFLT_SKEY_SEQ,
+   .skey_hash              = OTPUTIL_DFLT_SKEY_HASH,
+   .skey_encoding          = OTPUTIL_DFLT_SKEY_ENCODE,
    // TOTP options
    .totp_k                 = NULL,
    .totp_time              = OTPUTIL_DFLT_TOTP_TIME,
@@ -261,6 +271,29 @@ otputil_get_param(
       *((int *)outvalue) = (int)tud->otp_seq;
       return(OTPUTIL_SUCCESS);
 
+      /////////////////////////////
+      // S/KEY options (RFC1760) //
+      /////////////////////////////
+
+      case OTPUTIL_OPT_SKEY_ENCODE:
+      *((int *)outvalue) = (int)tud->skey_encoding;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_SKEY_HASH:
+      *((int *)outvalue) = (int)tud->skey_hash;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_SKEY_PASS:
+      *((char **)outvalue) = NULL;
+      if ((tud->skey_pass))
+         if (( *((char **)outvalue) = bindle_strdup(tud->skey_pass)) == NULL)
+            return(OTPUTIL_ENOMEM);
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_SKEY_SEQ:
+      *((int *)outvalue) = (int)tud->skey_seq;
+      return(OTPUTIL_SUCCESS);
+
       ////////////////////////////
       // TOTP options (RFC6238) //
       ////////////////////////////
@@ -378,6 +411,28 @@ otputil_initialize(
       return(rc);
    };
    if ((rc = otputil_set_param(tud, OTPUTIL_OPT_OTP_SEQ, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+
+   // defaults for S/KEY options
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_SKEY_ENCODE, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_SKEY_HASH, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_SKEY_PASS, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_SKEY_SEQ, NULL)) != OTPUTIL_SUCCESS)
    {
       otputil_free(tud);
       return(rc);
@@ -549,6 +604,41 @@ otputil_set_param(
       if (_SET_INPUT_NUM(int, defaults->otp_seq) < 0)
          return(OTPUTIL_EOPTVAL);
       tud->otp_seq = _SET_INPUT_NUM(int, defaults->otp_seq);
+      return(OTPUTIL_SUCCESS);
+
+      /////////////////////////////
+      // S/KEY options (RFC1760) //
+      /////////////////////////////
+
+      case OTPUTIL_OPT_SKEY_ENCODE:
+      switch (_SET_INPUT_NUM(int, defaults->skey_encoding))
+      {  case OTPUTIL_ENC_HEX:      break;
+         case OTPUTIL_ENC_SIXWORD:  break;
+         default: return(OTPUTIL_EOPTVAL);
+      };
+      tud->skey_encoding = _SET_INPUT_NUM(int, defaults->skey_encoding);
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_SKEY_HASH:
+      if (otputil_md2str(_SET_INPUT_NUM(int, defaults->skey_hash)) == NULL)
+         return(OTPUTIL_EOPTVAL);
+      tud->skey_hash = (int8_t)_SET_INPUT_NUM(int, defaults->skey_hash);
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_SKEY_PASS:
+      ptr = NULL;
+      if ((invalue = ((invalue)) ? invalue : defaults->skey_pass) != NULL)
+         if ((ptr = bindle_strdup(((const char *)invalue))) == NULL)
+            return(OTPUTIL_ENOMEM);
+      if ((tud->skey_pass))
+         free(tud->skey_pass);
+      tud->skey_pass = ptr;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_SKEY_SEQ:
+      if (_SET_INPUT_NUM(int, defaults->skey_seq) < 0)
+         return(OTPUTIL_EOPTVAL);
+      tud->skey_seq = _SET_INPUT_NUM(int, defaults->skey_seq);
       return(OTPUTIL_SUCCESS);
 
       ////////////////////////////

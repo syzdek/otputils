@@ -127,6 +127,11 @@
 #define OTPUTIL_OPT_TOTP_TIME       0x0204   // (uint64_t *) current UNIX time
 #define OTPUTIL_OPT_TOTP_DIGITS     0x0205   // (int *)
 #define OTPUTIL_OPT_TOTP_HMAC       0x0206   // (int *)
+// S/KEY options (RFC1760)
+#define OTPUTIL_OPT_SKEY_PASS       0x0300   // (char *)
+#define OTPUTIL_OPT_SKEY_SEQ        0x0301   // (int *)
+#define OTPUTIL_OPT_SKEY_HASH       0x0302   // (int *)
+#define OTPUTIL_OPT_SKEY_ENCODE     0x0303   // (int *)
 // OTP options (RFC2289)
 #define OTPUTIL_OPT_OTP_PASS        0x0400   // (char *)
 #define OTPUTIL_OPT_OTP_SEED        0x0401   // (char *)
@@ -152,9 +157,11 @@
 
 #define OTPUTIL_METH_RFC4226        0x0001
 #define OTPUTIL_METH_RFC6238        0x0002
+#define OTPUTIL_METH_RFC1760        0x0003
 #define OTPUTIL_METH_RFC2289        0x0004
 #define OTPUTIL_METH_HOTP           OTPUTIL_METH_RFC4226
 #define OTPUTIL_METH_OTP            OTPUTIL_METH_RFC2289
+#define OTPUTIL_METH_SKEY           OTPUTIL_METH_RFC1760
 #define OTPUTIL_METH_TOTP           OTPUTIL_METH_RFC6238
 
 
@@ -169,6 +176,11 @@
 #define OTPUTIL_DFLT_OTP_SEQ        1
 #define OTPUTIL_DFLT_OTP_HASH       OTPUTIL_MD_SHA1
 #define OTPUTIL_DFLT_OTP_ENCODE     OTPUTIL_ENC_SIXWORD
+// S/KEY defaults
+#define OTPUTIL_DFLT_SKEY_PASS      NULL
+#define OTPUTIL_DFLT_SKEY_SEQ       1
+#define OTPUTIL_DFLT_SKEY_HASH      OTPUTIL_MD_MD4
+#define OTPUTIL_DFLT_SKEY_ENCODE    OTPUTIL_ENC_SIXWORD
 // TOTP defaults
 #define OTPUTIL_DFLT_TOTP_T0        0ULL
 #define OTPUTIL_DFLT_TOTP_X         30ULL
@@ -417,6 +429,7 @@ _OTPUTIL_F int
 otputil_skey_code(
          const char *                  skey_pass,
          int                           skey_seq,
+         int                           skey_hash,
          uint64_t *                    skey_resultp );
 
 
