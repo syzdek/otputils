@@ -750,15 +750,28 @@ otputil_str(
    dstlen   = ((dst)) ? dstlen   : sizeof(buff);
    dst      = ((dst)) ? dst      : buff;
 
-   if ((code = otputil_code(tud)) == -1)
-      return(NULL);
-
    switch(tud->util_method)
    {
-      case OTPUTIL_METH_HOTP: return(otputil_code2str(code, (int)tud->hotp_digits, dst, dstlen));
-      case OTPUTIL_METH_TOTP: return(otputil_code2str(code, (int)tud->totp_digits, dst, dstlen));
-      default: break;
+      case OTPUTIL_METH_HOTP:
+      if ((code = otputil_code(tud)) == -1)
+         return(NULL);
+      return(otputil_code2str(code, (int)tud->hotp_digits, dst, dstlen));
+
+      case OTPUTIL_METH_OTP:
+      return(otputil_otp_str(tud->otp_pass, tud->otp_seed, tud->otp_seq, tud->otp_hash, tud->otp_encoding, dst, dstlen));
+
+      case OTPUTIL_METH_SKEY:
+      return(otputil_skey_str(tud->skey_pass, tud->skey_seq, tud->skey_hash, tud->skey_encoding, dst, dstlen));
+
+      case OTPUTIL_METH_TOTP:
+      if ((code = otputil_code(tud)) == -1)
+         return(NULL);
+      return(otputil_code2str(code, (int)tud->totp_digits, dst, dstlen));
+
+      default:
+      break;
    };
+
    return(NULL);
 }
 
