@@ -216,7 +216,7 @@ main(
          printf("%s\n",    rec->six);
       };
 
-      if ((res = otputil_otp_str(rec->pass, rec->seed, rec->count, rec->method, NULL, 0)) == NULL)
+      if ((res = otputil_otp_str(rec->pass, rec->seed, rec->count, rec->method, OTPUTIL_ENC_SIXWORD, NULL, 0)) == NULL)
       {
          printf("otputil_otp_str(): unknown error\n");
          if (!(ignore_errors))

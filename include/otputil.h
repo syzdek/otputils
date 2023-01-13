@@ -416,6 +416,7 @@ otputil_otp_str(
          const char *                  otp_seed,
          int                           otp_seq,
          int                           otp_hash,
+         int                           otp_encoding,
          char *                        dst,
          size_t                        dstlen );
 
