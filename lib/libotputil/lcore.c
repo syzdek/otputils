@@ -84,6 +84,12 @@ const otputil_t otputil_const_defaults =
    .hotp_c                 = OTPUTIL_DFLT_HOTP_C,
    .hotp_digits            = OTPUTIL_DFLT_HOTP_DIGITS,
    .hotp_hmac              = OTPUTIL_DFLT_HOTP_HMAC,
+   // OTP options
+   .otp_pass               = OTPUTIL_DFLT_OTP_PASS,
+   .otp_seed               = OTPUTIL_DFLT_OTP_SEED,
+   .otp_seq                = OTPUTIL_DFLT_OTP_SEQ,
+   .otp_hash               = OTPUTIL_DFLT_OTP_HASH,
+   .otp_encoding           = OTPUTIL_DFLT_OTP_ENCODE,
    // TOTP options
    .totp_k                 = &otputil_const_defaults_k,
    .totp_time              = OTPUTIL_DFLT_TOTP_TIME,
@@ -105,6 +111,12 @@ otputil_t otputil_defaults =
    .hotp_c                 = OTPUTIL_DFLT_HOTP_C,
    .hotp_digits            = OTPUTIL_DFLT_HOTP_DIGITS,
    .hotp_hmac              = OTPUTIL_DFLT_HOTP_HMAC,
+   // OTP options
+   .otp_pass               = OTPUTIL_DFLT_OTP_PASS,
+   .otp_seed               = OTPUTIL_DFLT_OTP_SEED,
+   .otp_seq                = OTPUTIL_DFLT_OTP_SEQ,
+   .otp_hash               = OTPUTIL_DFLT_OTP_HASH,
+   .otp_encoding           = OTPUTIL_DFLT_OTP_ENCODE,
    // TOTP options
    .totp_k                 = NULL,
    .totp_time              = OTPUTIL_DFLT_TOTP_TIME,
@@ -219,6 +231,36 @@ otputil_get_param(
          return(OTPUTIL_ENOMEM);
       return(OTPUTIL_SUCCESS);
 
+      ///////////////////////////
+      // OTP options (RFC2289) //
+      ///////////////////////////
+
+      case OTPUTIL_OPT_OTP_ENCODE:
+      *((int *)outvalue) = (int)tud->otp_encoding;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_OTP_HASH:
+      *((int *)outvalue) = (int)tud->otp_hash;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_OTP_PASS:
+      *((char **)outvalue) = NULL;
+      if ((tud->otp_pass))
+         if (( *((char **)outvalue) = bindle_strdup(tud->otp_pass)) == NULL)
+            return(OTPUTIL_ENOMEM);
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_OTP_SEED:
+      *((char **)outvalue) = NULL;
+      if ((tud->otp_seed))
+         if (( *((char **)outvalue) = bindle_strdup(tud->otp_seed)) == NULL)
+            return(OTPUTIL_ENOMEM);
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_OTP_SEQ:
+      *((int *)outvalue) = (int)tud->otp_seq;
+      return(OTPUTIL_SUCCESS);
+
       ////////////////////////////
       // TOTP options (RFC6238) //
       ////////////////////////////
@@ -309,6 +351,33 @@ otputil_initialize(
       return(rc);
    };
    if ((rc = otputil_set_param(tud, OTPUTIL_OPT_HOTP_C, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+
+   // defaults for OTP options
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_OTP_ENCODE, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_OTP_HASH, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_OTP_PASS, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_OTP_SEED, NULL)) != OTPUTIL_SUCCESS)
+   {
+      otputil_free(tud);
+      return(rc);
+   };
+   if ((rc = otputil_set_param(tud, OTPUTIL_OPT_OTP_SEQ, NULL)) != OTPUTIL_SUCCESS)
    {
       otputil_free(tud);
       return(rc);
@@ -435,6 +504,51 @@ otputil_set_param(
       if ((tud->hotp_k))
          otputil_bvfree(tud->hotp_k);
       tud->hotp_k = bv;
+      return(OTPUTIL_SUCCESS);
+
+      ///////////////////////////
+      // OTP options (RFC2289) //
+      ///////////////////////////
+
+      case OTPUTIL_OPT_OTP_ENCODE:
+      switch (_SET_INPUT_NUM(int, defaults->otp_encoding))
+      {  case OTPUTIL_ENC_HEX:      break;
+         case OTPUTIL_ENC_SIXWORD:  break;
+         default: return(OTPUTIL_EOPTVAL);
+      };
+      tud->otp_encoding = _SET_INPUT_NUM(int, defaults->otp_encoding);
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_OTP_HASH:
+      if (otputil_md2str(_SET_INPUT_NUM(int, defaults->otp_hash)) == NULL)
+         return(OTPUTIL_EOPTVAL);
+      tud->otp_hash = (int8_t)_SET_INPUT_NUM(int, defaults->otp_hash);
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_OTP_PASS:
+      ptr = NULL;
+      if ((invalue = ((invalue)) ? invalue : defaults->otp_pass) != NULL)
+         if ((ptr = bindle_strdup(((const char *)invalue))) == NULL)
+            return(OTPUTIL_ENOMEM);
+      if ((tud->otp_pass))
+         free(tud->otp_pass);
+      tud->otp_pass = ptr;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_OTP_SEED:
+      ptr = NULL;
+      if ((invalue = ((invalue)) ? invalue : defaults->otp_seed) != NULL)
+         if ((ptr = bindle_strdup(((const char *)invalue))) == NULL)
+            return(OTPUTIL_ENOMEM);
+      if ((tud->otp_seed))
+         free(tud->otp_seed);
+      tud->otp_seed = ptr;
+      return(OTPUTIL_SUCCESS);
+
+      case OTPUTIL_OPT_OTP_SEQ:
+      if (_SET_INPUT_NUM(int, defaults->otp_seq) < 0)
+         return(OTPUTIL_EOPTVAL);
+      tud->otp_seq = _SET_INPUT_NUM(int, defaults->otp_seq);
       return(OTPUTIL_SUCCESS);
 
       ////////////////////////////

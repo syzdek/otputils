@@ -86,6 +86,9 @@ otputil_otp_code(
 
    assert(otp_pass != NULL);
 
+   otp_seq  = (otp_seq >= 0) ? otp_seq  : otputil_defaults.otp_seq;
+   otp_hash = ((otp_hash))   ? otp_hash : otputil_defaults.otp_hash;
+
    // check otp_seed
    secret[0] = '\0';
    if ((otp_seed))

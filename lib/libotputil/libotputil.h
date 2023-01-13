@@ -73,11 +73,21 @@
 //   k:c:0:hmac:desc
 struct _otputil_secret
 {
-   int32_t                 util_method;
+   int                     util_method;
+   int                     otp_seq;
+   int                     skey_seq;
+   int                     padint;
    int8_t                  hotp_digits;
    int8_t                  hotp_hmac;
    int8_t                  totp_digits;
    int8_t                  totp_hmac;
+   int8_t                  otp_hash;
+   int8_t                  otp_encoding;
+   int8_t                  skey_hash;
+   int8_t                  skey_encoding;
+   char *                  skey_pass;
+   char *                  otp_pass;
+   char *                  otp_seed;
    char *                  util_desc;     // description of secret
    otputil_bv_t *          totp_k;
    otputil_bv_t *          hotp_k;
