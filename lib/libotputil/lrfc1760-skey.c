@@ -166,31 +166,17 @@ otputil_skey_str(
          char *                        dst,
          size_t                        dstlen )
 {
-   uint64_t          val;
-   otputil_bv_t      res;
-   uint8_t           bv_val[8];
-   static char       buff[32];
+   static char buff[32];
+
+   assert(skey_pass != NULL);
 
    dstlen        = ((dst))           ? dstlen        : sizeof(buff);
    dst           = ((dst))           ? dst           : buff;
+   skey_seq      = (skey_seq >= 0)   ? skey_seq      : otputil_defaults.skey_seq;
+   skey_hash     = ((skey_hash))     ? skey_hash     : otputil_defaults.skey_hash;
    skey_encoding = ((skey_encoding)) ? skey_encoding : otputil_defaults.skey_encoding;
-   res.bv_val    = bv_val;
-   res.bv_len    = sizeof(bv_val);
 
-   if (otputil_skey_code(skey_pass, skey_seq, skey_hash, &val) == -1)
-      return(NULL);
-
-   bv_val[0] = (val >> 56) & 0xff;
-   bv_val[1] = (val >> 48) & 0xff;
-   bv_val[2] = (val >> 40) & 0xff;
-   bv_val[3] = (val >> 32) & 0xff;
-   bv_val[4] = (val >> 24) & 0xff;
-   bv_val[5] = (val >> 16) & 0xff;
-   bv_val[6] = (val >>  8) & 0xff;
-   bv_val[7] = (val >>  0) & 0xff;
-   otputil_otp_encode(&res, dst, dstlen, skey_encoding);
-
-   return(dst);
+   return(otputil_otp_str(skey_pass, NULL, skey_seq, skey_hash, skey_encoding, dst, dstlen));
 }
 
 
