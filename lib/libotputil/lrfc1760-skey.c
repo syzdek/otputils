@@ -161,6 +161,8 @@ char *
 otputil_skey_str(
          const char *                  skey_pass,
          int                           skey_seq,
+         int                           skey_hash,
+         int                           skey_encoding,
          char *                        dst,
          size_t                        dstlen )
 {
@@ -171,10 +173,11 @@ otputil_skey_str(
 
    dstlen        = ((dst))           ? dstlen        : sizeof(buff);
    dst           = ((dst))           ? dst           : buff;
+   skey_encoding = ((skey_encoding)) ? skey_encoding : otputil_defaults.skey_encoding;
    res.bv_val    = bv_val;
    res.bv_len    = sizeof(bv_val);
 
-   if (otputil_skey_code(skey_pass, skey_seq, 0, &val) == -1)
+   if (otputil_skey_code(skey_pass, skey_seq, skey_hash, &val) == -1)
       return(NULL);
 
    bv_val[0] = (val >> 56) & 0xff;
@@ -185,7 +188,7 @@ otputil_skey_str(
    bv_val[5] = (val >> 16) & 0xff;
    bv_val[6] = (val >>  8) & 0xff;
    bv_val[7] = (val >>  0) & 0xff;
-   otputil_otp_encode(&res, dst, dstlen, OTPUTIL_ENC_SIXWORD);
+   otputil_otp_encode(&res, dst, dstlen, skey_encoding);
 
    return(dst);
 }

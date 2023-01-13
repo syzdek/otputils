@@ -448,6 +448,8 @@ _OTPUTIL_F char *
 otputil_skey_str(
          const char *                  skey_pass,
          int                           skey_seq,
+         int                           skey_hash,
+         int                           skey_encoding,
          char *                        dst,
          size_t                        dstlen );
 
