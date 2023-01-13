@@ -164,10 +164,10 @@ otputil_otp_str(
    uint8_t           bv_val[8];
    static char       buff[32];
 
-   dstlen      = ((dst))         ? dstlen       : sizeof(buff);
-   dst         = ((dst))         ? dst          : buff;
-   res.bv_val  = bv_val;
-   res.bv_len  = sizeof(bv_val);
+   dstlen       = ((dst))          ? dstlen        : sizeof(buff);
+   dst          = ((dst))          ? dst           : buff;
+   res.bv_val   = bv_val;
+   res.bv_len   = sizeof(bv_val);
 
    if (otputil_otp_code(otp_pass, otp_seed, otp_seq, otp_hash, &val) == -1)
       return(NULL);
