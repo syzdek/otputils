@@ -117,6 +117,11 @@ otputil_widget_lookup(
 #pragma mark widgets prototypes
 
 static int
+otputil_widget_debug(
+         otputil_config_t *            cnf );
+
+
+static int
 otputil_widget_usage(
          otputil_config_t *            cnf );
 
@@ -137,6 +142,18 @@ otputil_widget_version(
 #pragma mark otputil_widget_map[]
 static otputil_widget_t otputil_widget_map[] =
 {
+#ifdef USE_DEBUG
+   {  .name       = "debug",
+      .desc       = NULL,
+      .usage      = NULL,
+      .short_opt  = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+      .arg_min    = 0,
+      .arg_max    = 4096,
+      .aliases    = NULL,
+      .func_exec  = &otputil_widget_debug,
+      .func_usage = NULL,
+   },
+#endif
    {  .name       = "help",
       .desc       = "display help",
       .usage      = NULL,
@@ -549,6 +566,27 @@ otputil_widget_lookup(
 // widgets functions //
 //-------------------//
 #pragma mark widgets functions
+
+int
+otputil_widget_debug(
+         otputil_config_t *            cnf )
+{
+   int      rc;
+   int      pos;
+
+   // initial processing of cli arguments
+   if ((rc = otputil_arguments(cnf, cnf->argc, cnf->argv)) != 0)
+      return((rc == -1) ? 0 : 1);
+   if (optind != cnf->argc)
+   {
+      printf("Arguments:\n");
+      for(pos = optind; (pos < cnf->argc); pos++)
+         printf("   %2i: \"%s\"\n", pos, cnf->argv[pos]);
+   };
+
+   return(0);
+}
+
 
 /// displays usage information
 int
