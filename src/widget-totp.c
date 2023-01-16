@@ -115,15 +115,15 @@ otputil_widget_totp(
    // initial processing of cli arguments
    if ((rc = otputil_arguments(cnf, cnf->argc, cnf->argv)) != 0)
       return((rc == -1) ? 0 : 1);
-   if ( ((cnf->pass)) && (cnf->argc > optind) )
+   if ( ((cnf->otp_pass)) && (cnf->argc > optind) )
    {
       fprintf(stderr, "%s: cannot specify code and use `-p'\n", cnf->prog_name);
       fprintf(stderr, "Try `%s --help' for more information.\n", cnf->prog_name);
       return(1);
    };
-   cnf->pass = (cnf->argc > optind) ? cnf->argv[optind] : cnf->pass;
+   cnf->otp_pass = (cnf->argc > optind) ? cnf->argv[optind] : cnf->otp_pass;
 
-   if ((cnf->pass))
+   if ((cnf->otp_pass))
       return(otputil_widget_totp_verify(cnf));
 
    return(otputil_widget_totp_code(cnf));
@@ -201,8 +201,8 @@ otputil_widget_totp_verbose(
    printf("   UNIX Start Time:      %" PRIu64 "\n", totp_t0 );
    printf("   UNIX Current Time:    %" PRIu64 "\n", totp_time );
    printf("   Valid for:            %" PRIu64 "s\n", otputil_timer(NULL));
-   if ((cnf->pass))
-      printf("   Expected Code:        %s\n", cnf->pass );
+   if ((cnf->otp_pass))
+      printf("   Expected Code:        %s\n", cnf->otp_pass );
    printf("   Code:                 %s\n", code );
    if ((status))
       printf("   Status:               %s\n", status );
@@ -228,7 +228,7 @@ otputil_widget_totp_verify(
       return(1);
    };
 
-   rc = ((strcasecmp(cnf->pass, code))) ? 2 : 0;
+   rc = ((strcasecmp(cnf->otp_pass, code))) ? 2 : 0;
    status = ((rc)) ? "invalid code" : "valid code";
 
    if ((cnf->verbose))

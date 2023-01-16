@@ -377,7 +377,7 @@ otputil_arguments(
          break;
 
          case 'p':
-         cnf->pass = otputil_getpass("Enter code: ", NULL, 0);
+         cnf->otp_pass = otputil_getpass("Enter OTP password or code: ", NULL, 0);
          break;
 
          case 'q':

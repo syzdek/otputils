@@ -90,7 +90,7 @@ struct _otputil_cli_config
    int                        argc;
    char **                    argv;
    const char *               prog_name;
-   const char *               pass;
+   const char *               otp_pass;
    const otputil_widget_t *   widget;
 };
 

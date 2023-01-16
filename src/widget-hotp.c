@@ -114,15 +114,15 @@ otputil_widget_hotp(
    // initial processing of cli arguments
    if ((rc = otputil_arguments(cnf, cnf->argc, cnf->argv)) != 0)
       return((rc == -1) ? 0 : 1);
-   if ( ((cnf->pass)) && (cnf->argc > optind) )
+   if ( ((cnf->otp_pass)) && (cnf->argc > optind) )
    {
       fprintf(stderr, "%s: cannot specify code and use `-p'\n", cnf->prog_name);
       fprintf(stderr, "Try `%s --help' for more information.\n", cnf->prog_name);
       return(1);
    };
-   cnf->pass = (cnf->argc > optind) ? cnf->argv[optind] : cnf->pass;
+   cnf->otp_pass = (cnf->argc > optind) ? cnf->argv[optind] : cnf->otp_pass;
 
-   if ((cnf->pass))
+   if ((cnf->otp_pass))
       return(otputil_widget_hotp_verify(cnf));
 
    return(otputil_widget_hotp_code(cnf));
@@ -180,8 +180,8 @@ otputil_widget_hotp_verbose(
    printf("   HMAC Hash:            hmac-%s\n", otputil_md2str(hotp_hmac));
    printf("   Shared Key:           %s\n", otp_kstr );
    printf("   Counter:              %" PRIu64 "\n", hotp_c );
-   if ((cnf->pass))
-      printf("   Expected Code:        %s\n", cnf->pass );
+   if ((cnf->otp_pass))
+      printf("   Expected Code:        %s\n", cnf->otp_pass );
    printf("   Code:                 %s\n", code );
    if ((status))
       printf("   Status:               %s\n", status );
@@ -207,7 +207,7 @@ otputil_widget_hotp_verify(
       return(1);
    };
 
-   rc = ((strcasecmp(cnf->pass, code))) ? 2 : 0;
+   rc = ((strcasecmp(cnf->otp_pass, code))) ? 2 : 0;
    status = ((rc)) ? "invalid code" : "valid code";
 
    if ((cnf->verbose))
