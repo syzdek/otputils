@@ -584,6 +584,9 @@ otputil_widget_debug(
          printf("   %2i: \"%s\"\n", pos, cnf->argv[pos]);
    };
 
+   otputil_debug(NULL, stdout);
+   printf("\n");
+
    return(0);
 }
 
