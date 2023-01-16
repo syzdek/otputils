@@ -70,6 +70,7 @@ otputil_initialize
 otputil_set_param
 #
 # misc functions
+otputil_debug
 otputil_err2string
 otputil_getpass
 otputil_md2str

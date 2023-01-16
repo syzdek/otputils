@@ -81,6 +81,56 @@ static const otputil_map_t otputil_md_list[] =
 /////////////////
 #pragma mark - Functions
 
+void
+otputil_debug(
+         otputil_t *                   tud,
+         FILE *                        fs )
+{
+   const otputil_bv_t *    default_bv;
+
+   default_bv  = &otputil_const_defaults_k;
+   tud         = ((tud)) ? tud : &otputil_defaults;
+   fs          = ((fs))  ? fs  : stdout;
+
+   fprintf(fs, "OTPUtils Options:\n");
+   fprintf(fs, "   OTPUTIL_OPT_DESC:         %s\n", (((tud->util_desc)) ? tud->util_desc : "n/a"));
+   fprintf(fs, "   OTPUTIL_OPT_METHOD:       %i\n", tud->util_method);
+   fprintf(fs, "\n");
+
+   fprintf(fs, "HOTP (RFC 4226) Options:\n");
+   fprintf(fs, "   OTPUTIL_OPT_HOTP_C:       %" PRIu64 "\n", tud->hotp_c);
+   fprintf(fs, "   OTPUTIL_OPT_HOTP_DIGITS:  %i\n", tud->hotp_digits);
+   fprintf(fs, "   OTPUTIL_OPT_HOTP_HMAC:    %s\n", otputil_md2str(tud->hotp_hmac));
+   fprintf(fs, "   OTPUTIL_OPT_HOTP_KSTR:    %s\n", otputil_bvbase32(((tud->hotp_k)) ? tud->hotp_k : default_bv));
+   fprintf(fs, "\n");
+
+   fprintf(fs, "OTP (RFC 2289) Options:\n");
+   fprintf(fs, "   OTPUTIL_OPT_OTP_ENCODE:   %i\n", tud->otp_encoding);
+   fprintf(fs, "   OTPUTIL_OPT_OTP_HASH:     %s\n", otputil_md2str(tud->otp_hash));
+   fprintf(fs, "   OTPUTIL_OPT_OTP_PASS:     %s\n", (((tud->otp_pass)) ? tud->otp_pass : "n/a"));
+   fprintf(fs, "   OTPUTIL_OPT_OTP_SEED:     %s\n", (((tud->otp_seed)) ? tud->otp_seed : "n/a"));
+   fprintf(fs, "   OTPUTIL_OPT_OTP_SEQ:      %i\n", tud->otp_seq);
+   fprintf(fs, "\n");
+
+   fprintf(fs, "S/KEY (RFC 1760) Options:\n");
+   fprintf(fs, "   OTPUTIL_OPT_SKEY_ENCODE:  %i\n", tud->skey_encoding);
+   fprintf(fs, "   OTPUTIL_OPT_SKEY_HASH:    %s\n", otputil_md2str(tud->skey_hash));
+   fprintf(fs, "   OTPUTIL_OPT_SKEY_PASS:    %s\n", (((tud->skey_pass)) ? tud->skey_pass : "n/a"));
+   fprintf(fs, "   OTPUTIL_OPT_SKEY_SEQ:     %i\n", tud->skey_seq);
+   fprintf(fs, "\n");
+
+   fprintf(fs, "TOTP (RFC 6238) Options:\n");
+   fprintf(fs, "   OTPUTIL_OPT_TOTP_DIGITS:  %i\n", tud->totp_digits);
+   fprintf(fs, "   OTPUTIL_OPT_TOTP_HMAC:    %s\n", otputil_md2str(tud->totp_hmac));
+   fprintf(fs, "   OTPUTIL_OPT_TOTP_KSTR:    %s\n", otputil_bvbase32(((tud->totp_k)) ? tud->totp_k : default_bv));
+   fprintf(fs, "   OTPUTIL_OPT_TOTP_T0:      %" PRIu64 "\n", tud->totp_t0);
+   fprintf(fs, "   OTPUTIL_OPT_TOTP_TIME:    %" PRIu64 "\n", tud->totp_time);
+   fprintf(fs, "   OTPUTIL_OPT_TOTP_X:       %" PRIu64 "\n", tud->totp_tx);
+
+   return;
+}
+
+
 const char *
 otputil_err2string(
          int                           err )

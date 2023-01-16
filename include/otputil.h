@@ -309,6 +309,12 @@ otputil_set_param(
 //----------------//
 #pragma mark misc functions
 
+_OTPUTIL_F void
+otputil_debug(
+         otputil_t *                   tud,
+         FILE *                        fs );
+
+
 _OTPUTIL_F char *
 otputil_getpass(
          const char *                  prompt,
