@@ -236,7 +236,7 @@ otputil_widget_skey_verbose(
    otputil_get_param(NULL, OTPUTIL_OPT_DESC,       &util_desc);
 
    // print secret information
-   printf("S/KEY Secret:\n");
+   printf("OTP Secret:\n");
    printf("   Description:          %s\n", (((util_desc)) ? util_desc : "n/a") );
    printf("   Method:               S/KEY (RFC1760)\n");
    printf("   Hash:                 %s\n", otputil_md2str(skey_hash));

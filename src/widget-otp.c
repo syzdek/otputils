@@ -261,7 +261,7 @@ otputil_widget_otp_verbose(
    otputil_get_param(NULL, OTPUTIL_OPT_DESC,       &util_desc);
 
    // print secret information
-   printf("S/KEY Secret:\n");
+   printf("OTP Secret:\n");
    printf("   Description:          %s\n", (((util_desc)) ? util_desc : "n/a") );
    printf("   Method:               OTP (RFC2289)\n");
    printf("   Hash:                 %s\n", otputil_md2str(otp_hash));
