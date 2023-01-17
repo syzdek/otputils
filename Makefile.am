@@ -314,6 +314,16 @@ git-clean:
 
 
 # local targets
+install-exec-hook:
+	if test -x "$(DESTDIR)$(bindir)/otputil";then cd "$(DESTDIR)$(bindir)" && ln -sf "otputil$(EXEEXT)" "hotp$(EXEEXT)";fi
+	if test -x "$(DESTDIR)$(bindir)/otputil";then cd "$(DESTDIR)$(bindir)" && ln -sf "otputil$(EXEEXT)" "otp-md4$(EXEEXT)";fi
+	if test -x "$(DESTDIR)$(bindir)/otputil";then cd "$(DESTDIR)$(bindir)" && ln -sf "otputil$(EXEEXT)" "otp-md5$(EXEEXT)";fi
+	if test -x "$(DESTDIR)$(bindir)/otputil";then cd "$(DESTDIR)$(bindir)" && ln -sf "otputil$(EXEEXT)" "otp-sha1$(EXEEXT)";fi
+	if test -x "$(DESTDIR)$(bindir)/otputil";then cd "$(DESTDIR)$(bindir)" && ln -sf "otputil$(EXEEXT)" "skey-md4$(EXEEXT)";fi
+	if test -x "$(DESTDIR)$(bindir)/otputil";then cd "$(DESTDIR)$(bindir)" && ln -sf "otputil$(EXEEXT)" "skey-md5$(EXEEXT)";fi
+	if test -x "$(DESTDIR)$(bindir)/otputil";then cd "$(DESTDIR)$(bindir)" && ln -sf "otputil$(EXEEXT)" "skey-sha1$(EXEEXT)";fi
+	if test -x "$(DESTDIR)$(bindir)/otputil";then cd "$(DESTDIR)$(bindir)" && ln -sf "otputil$(EXEEXT)" "totp$(EXEEXT)";fi
+
 install-exec-local:
 
 install-data-local:
