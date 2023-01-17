@@ -132,14 +132,21 @@ otputil_widget_otp(
          fprintf(stderr, "%s: otputil_set_param(OTP_SEQ): %s\n", cnf->prog_name, otputil_err2string(rc));
          return(1);
       };
+      optind++;
    };
-   if (cnf->argc > (optind+1))
+   if (cnf->argc > optind)
    {
-      if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_OTP_SEED, cnf->argv[optind+1])) != OTPUTIL_SUCCESS)
+      if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_OTP_SEED, cnf->argv[optind])) != OTPUTIL_SUCCESS)
       {
          fprintf(stderr, "%s: otputil_set_param(OTP_SEED): %s\n", cnf->prog_name, otputil_err2string(rc));
          return(1);
       };
+      optind++;
+   };
+   if (cnf->argc > optind)
+   {
+      cnf->otp_pass = cnf->argv[optind];
+      optind++;
    };
 
    // verify password and seed were provided
