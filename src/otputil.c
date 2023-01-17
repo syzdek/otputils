@@ -211,6 +211,16 @@ static otputil_widget_t otputil_widget_map[] =
       .func_exec  = &otputil_widget_skey,
       .func_usage = &otputil_widget_skey_usage,
    },
+   {  .name       = "skey-md4",
+      .desc       = NULL,
+      .usage      = " [ sequence ]",
+      .short_opt  = (TOTP_SHORT_OPT "c:O:oP:p"),
+      .arg_min    = 0,
+      .arg_max    = 1,
+      .aliases    = (const char *[]){ "skey-md5", "skey-sha1", "skey-sha256", "skey-sha512", NULL },
+      .func_exec  = &otputil_widget_skey,
+      .func_usage = NULL,
+   },
 
    // TOTP widget and aliases
    {  .name       = "totp",
