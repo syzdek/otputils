@@ -143,10 +143,11 @@ otputil_widget_version(
 static otputil_widget_t otputil_widget_map[] =
 {
 #ifdef USE_DEBUG
+   // debug widget
    {  .name       = "debug",
       .desc       = NULL,
       .usage      = NULL,
-      .short_opt  = "0123456789abc:d:efghijk:lm:nopqrs:t:uvwx:yzABCDEFGHIJKLMNOP:QRST:UVWXYZ",
+      .short_opt  = "0123456789abc:d:efghijk:lm:nopqrs:t:uvwx:yzABCDEFGHIJKLMNO:P:QRST:UVWXYZ",
       .arg_min    = 0,
       .arg_max    = 4096,
       .aliases    = NULL,
