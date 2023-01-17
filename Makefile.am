@@ -220,6 +220,8 @@ src_otputil_LDADD			= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
 src_otputil_SOURCES			= src/otputil.c \
 					  src/otputil.h \
 					  src/widget-hotp.c \
+					  src/widget-otp.c \
+					  src/widget-skey.c \
 					  src/widget-totp.c
 
 

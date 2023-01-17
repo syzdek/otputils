@@ -117,7 +117,7 @@ otputil_widget_totp(
       return((rc == -1) ? 0 : 1);
    if ( ((cnf->otp_pass)) && (cnf->argc > optind) )
    {
-      fprintf(stderr, "%s: cannot specify code and use `-p'\n", cnf->prog_name);
+      fprintf(stderr, "%s: cannot specify code and use `-o'\n", cnf->prog_name);
       fprintf(stderr, "Try `%s --help' for more information.\n", cnf->prog_name);
       return(1);
    };

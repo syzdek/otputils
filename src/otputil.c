@@ -116,7 +116,7 @@ otputil_widget_lookup(
 //--------------------------//
 #pragma mark widgets prototypes
 
-static int
+extern int
 otputil_widget_debug(
          otputil_config_t *            cnf );
 
@@ -146,7 +146,7 @@ static otputil_widget_t otputil_widget_map[] =
    {  .name       = "debug",
       .desc       = NULL,
       .usage      = NULL,
-      .short_opt  = "0123456789abc:d:efghijk:lm:nopqrst:uvwx:yzABCDEFGHIJKLMNOPQRST:UVWXYZ",
+      .short_opt  = "0123456789abc:d:efghijk:lm:nopqrs:t:uvwx:yzABCDEFGHIJKLMNOP:QRST:UVWXYZ",
       .arg_min    = 0,
       .arg_max    = 4096,
       .aliases    = NULL,
@@ -165,17 +165,67 @@ static otputil_widget_t otputil_widget_map[] =
    {  .name       = "hotp",
       .desc       = "hotp tools (RFC 4226)",
       .usage      = " [ code ]",
-      .short_opt  = (TOTP_SHORT_OPT "c:d:k:m:p"),
+      .short_opt  = (TOTP_SHORT_OPT "c:d:k:m:o"),
       .arg_min    = 0,
       .arg_max    = 1,
       .aliases    = NULL,
       .func_exec  = &otputil_widget_hotp,
       .func_usage = NULL,
    },
+   {  .name       = "otp",
+      .desc       = "otp tools (RFC 2289)",
+      .usage      = " [ sequence ] seed ]",
+      .short_opt  = (TOTP_SHORT_OPT "c:m:oP:ps:"),
+      .arg_min    = 0,
+      .arg_max    = 2,
+      .aliases    = NULL,
+      .func_exec  = &otputil_widget_otp,
+      .func_usage = &otputil_widget_otp_usage,
+   },
+   {  .name       = "otp-md4",
+      .desc       = "otp alias for MD4",
+      .usage      = " [ sequence ] seed ]",
+      .short_opt  = (TOTP_SHORT_OPT "c:oP:ps:"),
+      .arg_min    = 0,
+      .arg_max    = 2,
+      .aliases    = NULL,
+      .func_exec  = &otputil_widget_otp_md4,
+      .func_usage = NULL,
+   },
+   {  .name       = "otp-md5",
+      .desc       = "otp alias for MD5",
+      .usage      = " [ sequence ] seed ]",
+      .short_opt  = (TOTP_SHORT_OPT "c:oP:ps:"),
+      .arg_min    = 0,
+      .arg_max    = 2,
+      .aliases    = NULL,
+      .func_exec  = &otputil_widget_otp_md5,
+      .func_usage = NULL,
+   },
+   {  .name       = "otp-sha1",
+      .desc       = "otp alias for SHA1",
+      .usage      = " [ sequence ] seed ]",
+      .short_opt  = (TOTP_SHORT_OPT "c:oP:ps:"),
+      .arg_min    = 0,
+      .arg_max    = 2,
+      .aliases    = NULL,
+      .func_exec  = &otputil_widget_otp_sha1,
+      .func_usage = NULL,
+   },
+   {  .name       = "skey",
+      .desc       = "s/key tools (RFC 1760)",
+      .usage      = " [ sequence ]",
+      .short_opt  = (TOTP_SHORT_OPT "c:m:oP:p"),
+      .arg_min    = 0,
+      .arg_max    = 1,
+      .aliases    = NULL,
+      .func_exec  = &otputil_widget_skey,
+      .func_usage = &otputil_widget_skey_usage,
+   },
    {  .name       = "totp",
       .desc       = "totp tools (RFC 6238)",
       .usage      = " [ code ]",
-      .short_opt  = (TOTP_SHORT_OPT "d:k:m:pT:t:x:"),
+      .short_opt  = (TOTP_SHORT_OPT "d:k:m:oT:t:x:"),
       .arg_min    = 0,
       .arg_max    = 1,
       .aliases    = NULL,
@@ -234,6 +284,7 @@ main(
       cnf->prog_name = &cnf->prog_name[1];
    if (!(cnf->prog_name))
       cnf->prog_name = argv[0];
+   otputil_set_param(NULL, OTPUTIL_OPT_DESC, cnf->prog_name);
 
 
    // skip argument processing if called via alias
@@ -288,6 +339,7 @@ otputil_arguments(
    char *         endptr;
    int            rc;
    int            i;
+   const char *   str;
 
    // getopt options
    static const char *  short_opt = "+" TOTP_SHORT_OPT;
@@ -317,17 +369,16 @@ otputil_arguments(
 
          case 'c':
          uval = strtoull(optarg, &endptr, 0);
+         i    = (int)uval;
          if ((optarg == endptr) || (endptr[0] != '\0'))
          {
             fprintf(stderr, "%s: invalid value for `-c'\n", PROGRAM_NAME);
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
-         if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_HOTP_C, &uval)) != OTPUTIL_SUCCESS)
-         {
-            fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_HOTP_C): %s\n", PROGRAM_NAME, otputil_err2string(rc));
-            return(1);
-         };
+         otputil_set_param(NULL, OTPUTIL_OPT_HOTP_C,   &uval);
+         otputil_set_param(NULL, OTPUTIL_OPT_OTP_SEQ,  &i);
+         otputil_set_param(NULL, OTPUTIL_OPT_SKEY_SEQ, &i);
          break;
 
          case 'd':
@@ -370,31 +421,29 @@ otputil_arguments(
          break;
 
          case 'm':
-         if ((i = otputil_str2md(optarg)) == -1)
+         str = (!(strncasecmp("otp-", optarg, 4))) ? &optarg[4] : optarg;
+         if ((i = otputil_str2md(str)) == -1)
          {
-            fprintf(stderr, "%s: message digest for `-m'\n", PROGRAM_NAME);
+            fprintf(stderr, "%s: %s: unknown message digest for `-m'\n", PROGRAM_NAME, str);
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
             return(1);
          };
-         if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_HMAC, &i)) != OTPUTIL_SUCCESS)
-         {
-            fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_HMAC): %s\n", PROGRAM_NAME, otputil_err2string(rc));
-            return(1);
-         };
+         otputil_set_param(NULL, OTPUTIL_OPT_HOTP_HMAC, &i);
+         otputil_set_param(NULL, OTPUTIL_OPT_OTP_HASH,  &i);
+         otputil_set_param(NULL, OTPUTIL_OPT_SKEY_HASH, &i);
+         otputil_set_param(NULL, OTPUTIL_OPT_TOTP_HMAC, &i);
          break;
 
-         case 's':
-         cnf->quiet = 1;
-         if ((cnf->verbose))
-         {
-            fprintf(stderr, "%s: incompatible options\n", PROGRAM_NAME);
-            fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
-            return(1);
-         };
+         case 'o':
+         cnf->prompt_otp_pass = 1;
+         break;
+
+         case 'P':
+         cnf->user_pass = optarg;
          break;
 
          case 'p':
-         cnf->otp_pass = otputil_getpass("Enter OTP password or code: ", NULL, 0);
+         cnf->prompt_user_pass = 1;
          break;
 
          case 'q':
@@ -403,6 +452,14 @@ otputil_arguments(
          {
             fprintf(stderr, "%s: incompatible options `-q' and `-v'\n", PROGRAM_NAME);
             fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+            return(1);
+         };
+         break;
+
+         case 's':
+         if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_OTP_SEED, optarg)) != OTPUTIL_SUCCESS)
+         {
+            fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_OTP_SEED): %s\n", PROGRAM_NAME, otputil_err2string(rc));
             return(1);
          };
          break;
@@ -492,6 +549,33 @@ otputil_arguments(
       fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
       return(1);
    };
+
+   // process user password
+   if ( ((cnf->user_pass)) && ((cnf->prompt_user_pass)) )
+   {
+      fprintf(stderr, "%s: incompatible options `-P' and `-p'\n", PROGRAM_NAME);
+      fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+      return(1);
+   };
+   if ((cnf->prompt_user_pass))
+      cnf->user_pass = otputil_getpass("Enter user's password: ", NULL, 0);
+   if ((cnf->user_pass))
+   {
+      if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_SKEY_PASS, cnf->user_pass)) != OTPUTIL_SUCCESS)
+      {
+         fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_SKEY_PASS): %s\n", PROGRAM_NAME, otputil_err2string(rc));
+         return(1);
+      };
+      if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_OTP_PASS, cnf->user_pass)) != OTPUTIL_SUCCESS)
+      {
+         fprintf(stderr, "%s: otputil_set_param(OTPUTIL_OPT_OTP_PASS): %s\n", PROGRAM_NAME, otputil_err2string(rc));
+         return(1);
+      };
+   };
+
+   // process OTP password
+   if ((cnf->prompt_otp_pass))
+      cnf->otp_pass = otputil_getpass("Enter OTP password or code: ", NULL, 0);
 
    return(0);
 }
@@ -615,12 +699,16 @@ otputil_widget_usage(
    printf("       %s-%s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
    printf("       %s%s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
    printf("OPTIONS:\n");
-   if ((strchr(short_opt, 'c'))) printf("  -c num                    counter value\n");
+   if ((strchr(short_opt, 'c'))) printf("  -c num                    counter/sequence value\n");
    if ((strchr(short_opt, 'd'))) printf("  -d num                    number of digits in code\n");
    if ((strchr(short_opt, 'k'))) printf("  -k string                 shared user key\n");
    if ((strchr(short_opt, 'h'))) printf("  -h, --help                print this help and exit\n");
    if ((strchr(short_opt, 'm'))) printf("  -m hash                   use message digest hash\n");
+   if ((strchr(short_opt, 'o'))) printf("  -o                        prompt for OTP password/code to verify\n");
+   if ((strchr(short_opt, 'P'))) printf("  -P str                    user password\n");
+   if ((strchr(short_opt, 'p'))) printf("  -p                        prompt for user password\n");
    if ((strchr(short_opt, 'q'))) printf("  -q, --quiet, --silent     do not print messages\n");
+   if ((strchr(short_opt, 's'))) printf("  -s seed                   OTP seed\n");
    if ((strchr(short_opt, 'T'))) printf("  -T seconds                current Unix time\n");
    if ((strchr(short_opt, 't'))) printf("  -t seconds                Unix time start of time steps\n");
    if ((strchr(short_opt, 'V'))) printf("  -V, --version             print version number and exit\n");

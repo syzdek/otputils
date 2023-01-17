@@ -87,10 +87,13 @@ struct _otputil_cli_config
    int                        quiet;
    int                        verbose;
    int                        opt_index;
+   int                        prompt_user_pass;
+   int                        prompt_otp_pass;
    int                        argc;
    char **                    argv;
    const char *               prog_name;
    const char *               otp_pass;
+   const char *               user_pass;
    const otputil_widget_t *   widget;
 };
 
@@ -121,6 +124,41 @@ otputil_arguments(
 
 extern int
 otputil_widget_hotp(
+         otputil_config_t *            cnf );
+
+
+extern int
+otputil_widget_otp(
+         otputil_config_t *            cnf );
+
+
+extern int
+otputil_widget_otp_md4(
+         otputil_config_t *            cnf );
+
+
+extern int
+otputil_widget_otp_md5(
+         otputil_config_t *            cnf );
+
+
+extern int
+otputil_widget_otp_sha1(
+         otputil_config_t *            cnf );
+
+
+extern int
+otputil_widget_otp_usage(
+         otputil_config_t *            cnf );
+
+
+extern int
+otputil_widget_skey(
+         otputil_config_t *            cnf );
+
+
+extern int
+otputil_widget_skey_usage(
          otputil_config_t *            cnf );
 
 
