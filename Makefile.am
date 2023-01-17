@@ -116,6 +116,7 @@ EXTRA_DIST				= $(noinst_HEADERS) \
 					  tests/otp-data-generate.sh \
 					  tests/otp-dicts/otp-dicts.h \
 					  tests/test-otputil-hotp.sh \
+					  tests/test-otputil-otp.sh \
 					  tests/test-otputil-totp.sh
 CLEANFILES				= $(builddir)/a.out   $(srcdir)/a.out \
 					  $(builddir)/*/a.out $(srcdir)/*/a.out \
