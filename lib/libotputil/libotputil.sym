@@ -71,10 +71,12 @@ otputil_set_param
 #
 # misc functions
 otputil_debug
+otputil_encoding2str
 otputil_err2string
 otputil_getpass
 otputil_md2str
 otputil_meth2str
+otputil_str2encoding
 otputil_str2md
 otputil_str2meth
 #

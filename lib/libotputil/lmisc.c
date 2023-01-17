@@ -55,10 +55,23 @@
 /////////////////
 #pragma mark - Variables
 
+#pragma mark otputil_encoding_list[]
+static const otputil_map_t otputil_encoding_list[] =
+{
+   { .map_name = "none",            .map_id = 0 },
+   { .map_name = "hex",             .map_id = OTPUTIL_ENC_HEX },
+   { .map_name = "six-word",        .map_id = OTPUTIL_ENC_SIXWORD },
+   { .map_name = "altdict",         .map_id = OTPUTIL_ENC_ALTDICT },
+   // duplicate names
+   { .map_name = "six",             .map_id = OTPUTIL_ENC_SIXWORD },
+   { .map_name = NULL,              .map_id = 0 },
+};
+
+
 #pragma mark otputil_md_list[]
 static const otputil_map_t otputil_md_list[] =
 {
-   { .map_name = "none",            .map_id = OTPUTIL_MD_NONE },
+   { .map_name = "none",            .map_id = 0 },
    { .map_name = "md4",             .map_id = OTPUTIL_MD_MD4 },
    { .map_name = "md5",             .map_id = OTPUTIL_MD_MD5 },
    { .map_name = "sha1",            .map_id = OTPUTIL_MD_SHA1 },
@@ -123,7 +136,7 @@ otputil_debug(
    fprintf(fs, "\n");
 
    fprintf(fs, "OTP (RFC 2289) Options:\n");
-   fprintf(fs, "   OTPUTIL_OPT_OTP_ENCODE:   %i\n", tud->otp_encoding);
+   fprintf(fs, "   OTPUTIL_OPT_OTP_ENCODE:   %s (%i)\n", otputil_encoding2str(tud->otp_encoding), tud->otp_encoding);
    fprintf(fs, "   OTPUTIL_OPT_OTP_HASH:     %s (%i)\n", otputil_md2str(tud->otp_hash), tud->otp_hash);
    fprintf(fs, "   OTPUTIL_OPT_OTP_PASS:     %s\n", (((tud->otp_pass)) ? tud->otp_pass : "n/a"));
    fprintf(fs, "   OTPUTIL_OPT_OTP_SEED:     %s\n", (((tud->otp_seed)) ? tud->otp_seed : "n/a"));
@@ -131,7 +144,7 @@ otputil_debug(
    fprintf(fs, "\n");
 
    fprintf(fs, "S/KEY (RFC 1760) Options:\n");
-   fprintf(fs, "   OTPUTIL_OPT_SKEY_ENCODE:  %i\n", tud->skey_encoding);
+   fprintf(fs, "   OTPUTIL_OPT_SKEY_ENCODE:  %s (%i)\n", otputil_encoding2str(tud->skey_encoding), tud->skey_encoding);
    fprintf(fs, "   OTPUTIL_OPT_SKEY_HASH:    %s (%i)\n", otputil_md2str(tud->skey_hash), tud->skey_hash);
    fprintf(fs, "   OTPUTIL_OPT_SKEY_PASS:    %s\n", (((tud->skey_pass)) ? tud->skey_pass : "n/a"));
    fprintf(fs, "   OTPUTIL_OPT_SKEY_SEQ:     %i\n", tud->skey_seq);
@@ -146,6 +159,18 @@ otputil_debug(
    fprintf(fs, "   OTPUTIL_OPT_TOTP_X:       %" PRIu64 "\n", tud->totp_tx);
 
    return;
+}
+
+
+const char *
+otputil_encoding2str(
+         int                           md )
+{
+   int x;
+   for(x = 0; ((otputil_encoding_list[x].map_name)); x++)
+      if (md == otputil_encoding_list[x].map_id)
+         return(otputil_encoding_list[x].map_name);
+   return(NULL);
 }
 
 
@@ -228,6 +253,19 @@ otputil_meth2str(
       if (md == otputil_meth_list[x].map_id)
          return(otputil_meth_list[x].map_name);
    return(NULL);
+}
+
+
+int
+otputil_str2encoding(
+         const char *                  str )
+{
+   int x;
+   assert(str != NULL);
+   for(x = 0; ((otputil_encoding_list[x].map_name)); x++)
+      if (!(strcasecmp(str, otputil_encoding_list[x].map_name)))
+         return(otputil_encoding_list[x].map_id);
+   return(-1);
 }
 
 

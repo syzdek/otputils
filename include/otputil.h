@@ -315,6 +315,11 @@ otputil_debug(
          FILE *                        fs );
 
 
+_OTPUTIL_F const char *
+otputil_encoding2str(
+         int                           hmac );
+
+
 _OTPUTIL_F char *
 otputil_getpass(
          const char *                  prompt,
@@ -330,6 +335,11 @@ otputil_md2str(
 _OTPUTIL_F const char *
 otputil_meth2str(
          int                           hmac );
+
+
+_OTPUTIL_F int
+otputil_str2encoding(
+         const char *                  str );
 
 
 _OTPUTIL_F int
