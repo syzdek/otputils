@@ -314,8 +314,9 @@ main(
    // skip argument processing if called via alias
    if ((cnf->widget = otputil_widget_lookup(cnf->prog_name, 1)) != NULL)
    {
-      cnf->argc = argc;
-      cnf->argv = argv;
+      cnf->argc      = argc;
+      cnf->argv      = argv;
+      cnf->symlinked = 1;
       return(cnf->widget->func_exec(cnf));
    };
 
@@ -614,8 +615,8 @@ otputil_widget_lookup(
          const char *                  wname,
          int                           exact )
 {
-   size_t                     x;
-   size_t                     y;
+   int                        x;
+   int                        y;
    size_t                     len;
    size_t                     wname_len;
    const char *               alias;
@@ -640,6 +641,7 @@ otputil_widget_lookup(
       widget = &otputil_widget_map[x];
       if (widget->func_exec == NULL)
          continue;
+      widget->alias_idx = -1;
 
       // compare widget name for match
       if (!(strncmp(widget->name, wname, wname_len)))
@@ -661,7 +663,10 @@ otputil_widget_lookup(
          if (!(strncmp(alias, wname, wname_len)))
          {
             if (alias[wname_len] == '\0')
+            {
+               widget->alias_idx = y;
                return(widget);
+            };
             if ( ((match)) && (match != widget) )
                return(NULL);
             if (exact == 0)
@@ -708,11 +713,11 @@ int
 otputil_widget_usage(
          otputil_config_t *            cnf )
 {
-   size_t               pos;
-   const char *         widget_name;
-   const char *         widget_help;
-   const char *         short_opt;
-   otputil_widget_t *   widget;
+   size_t                     pos;
+   const char *               widget_name;
+   const char *               widget_help;
+   const char *               short_opt;
+   const otputil_widget_t *   widget;
 
    assert(cnf != NULL);
 
@@ -723,9 +728,18 @@ otputil_widget_usage(
    if ((cnf->widget))
       widget_help = ((cnf->widget->usage)) ? cnf->widget->usage : "";
 
-   printf("Usage: %s [OPTIONS] %s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
-   printf("       %s-%s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
-   printf("       %s%s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
+   if ((widget = cnf->widget) == NULL)
+   {
+      printf("Usage: %s %s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
+      printf("       %s-%s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
+      printf("       %s%s [OPTIONS]%s\n",  PROGRAM_NAME, widget_name, widget_help);
+   } else if (cnf->symlinked == 0)
+   {
+      widget_name = (widget->alias_idx == -1) ? widget_name : widget->aliases[widget->alias_idx];
+      printf("Usage: %s %s [OPTIONS]%s\n", PROGRAM_NAME, widget_name, widget_help);
+   }
+   else
+      printf("Usage: %s [OPTIONS]%s\n", cnf->prog_name, widget_help);
    printf("OPTIONS:\n");
    if ((strchr(short_opt, 'c'))) printf("  -c num                    counter/sequence value\n");
    if ((strchr(short_opt, 'd'))) printf("  -d num                    number of digits in code\n");

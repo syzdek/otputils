@@ -77,6 +77,8 @@ struct _otputil_cli_widget
    const char * const *       aliases;
    int                        arg_min;
    int                        arg_max;
+   int                        alias_idx;
+   int                        padint;
    int  (*func_exec)(otputil_config_t * cnf);
    int  (*func_usage)(otputil_config_t * cnf);
 };
@@ -89,6 +91,8 @@ struct _otputil_cli_config
    int                        opt_index;
    int                        prompt_user_pass;
    int                        prompt_otp_pass;
+   int                        symlinked;
+   int                        padint;
    int                        argc;
    char **                    argv;
    const char *               prog_name;
