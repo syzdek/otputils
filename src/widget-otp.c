@@ -227,57 +227,6 @@ otputil_widget_otp(
 
 
 int
-otputil_widget_otp_md4(
-         otputil_config_t *            cnf )
-{
-   int rc;
-   int hash;
-   assert(cnf != NULL);
-   hash = OTPUTIL_MD_MD4;
-   if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_OTP_HASH, &hash)) == -1)
-   {
-      fprintf(stderr, "%s: otputil_set_param(OTP_HASH): %s\n", cnf->prog_name, otputil_err2string(rc));
-      return(1);
-   };
-   return(otputil_widget_otp(cnf));
-}
-
-
-int
-otputil_widget_otp_md5(
-         otputil_config_t *            cnf )
-{
-   int rc;
-   int hash;
-   assert(cnf != NULL);
-   hash = OTPUTIL_MD_MD5;
-   if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_OTP_HASH, &hash)) == -1)
-   {
-      fprintf(stderr, "%s: otputil_set_param(OTP_HASH): %s\n", cnf->prog_name, otputil_err2string(rc));
-      return(1);
-   };
-   return(otputil_widget_otp(cnf));
-}
-
-
-int
-otputil_widget_otp_sha1(
-         otputil_config_t *            cnf )
-{
-   int rc;
-   int hash;
-   assert(cnf != NULL);
-   hash = OTPUTIL_MD_SHA1;
-   if ((rc = otputil_set_param(NULL, OTPUTIL_OPT_OTP_HASH, &hash)) == -1)
-   {
-      fprintf(stderr, "%s: otputil_set_param(OTP_HASH): %s\n", cnf->prog_name, otputil_err2string(rc));
-      return(1);
-   };
-   return(otputil_widget_otp(cnf));
-}
-
-
-int
 otputil_widget_otp_usage(
          otputil_config_t *            cnf )
 {

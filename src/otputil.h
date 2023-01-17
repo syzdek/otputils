@@ -134,21 +134,6 @@ otputil_widget_otp(
 
 
 extern int
-otputil_widget_otp_md4(
-         otputil_config_t *            cnf );
-
-
-extern int
-otputil_widget_otp_md5(
-         otputil_config_t *            cnf );
-
-
-extern int
-otputil_widget_otp_sha1(
-         otputil_config_t *            cnf );
-
-
-extern int
 otputil_widget_otp_usage(
          otputil_config_t *            cnf );
 
