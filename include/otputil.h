@@ -327,8 +327,18 @@ otputil_md2str(
          int                           hmac );
 
 
+_OTPUTIL_F const char *
+otputil_meth2str(
+         int                           hmac );
+
+
 _OTPUTIL_F int
 otputil_str2md(
+         const char *                  str );
+
+
+_OTPUTIL_F int
+otputil_str2meth(
          const char *                  str );
 
 

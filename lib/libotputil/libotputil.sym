@@ -74,7 +74,9 @@ otputil_debug
 otputil_err2string
 otputil_getpass
 otputil_md2str
+otputil_meth2str
 otputil_str2md
+otputil_str2meth
 #
 # front-end functions
 otputil_code

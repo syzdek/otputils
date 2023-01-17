@@ -74,6 +74,24 @@ static const otputil_map_t otputil_md_list[] =
 };
 
 
+#pragma mark otputil_meth_list[]
+static const otputil_map_t otputil_meth_list[] =
+{
+   { .map_name = "none",            .map_id = 0 },
+   { .map_name = "HOTP",            .map_id = OTPUTIL_METH_HOTP },
+   { .map_name = "OTP",             .map_id = OTPUTIL_METH_OTP },
+   { .map_name = "S/KEY",           .map_id = OTPUTIL_METH_SKEY },
+   { .map_name = "TOTP",            .map_id = OTPUTIL_METH_TOTP },
+   // duplicates
+   { .map_name = "RFC1760",         .map_id = OTPUTIL_METH_RFC1760 },
+   { .map_name = "RFC2289",         .map_id = OTPUTIL_METH_RFC2289 },
+   { .map_name = "RFC4226",         .map_id = OTPUTIL_METH_RFC4226 },
+   { .map_name = "RFC6238",         .map_id = OTPUTIL_METH_RFC6238 },
+   { .map_name = "SKEY",            .map_id = OTPUTIL_METH_SKEY },
+   { .map_name = NULL,              .map_id = 0 },
+};
+
+
 /////////////////
 //             //
 //  Functions  //
@@ -94,19 +112,19 @@ otputil_debug(
 
    fprintf(fs, "OTPUtils Options:\n");
    fprintf(fs, "   OTPUTIL_OPT_DESC:         %s\n", (((tud->util_desc)) ? tud->util_desc : "n/a"));
-   fprintf(fs, "   OTPUTIL_OPT_METHOD:       %i\n", tud->util_method);
+   fprintf(fs, "   OTPUTIL_OPT_METHOD:       %s (%i)\n", otputil_meth2str(tud->util_method), tud->util_method);
    fprintf(fs, "\n");
 
    fprintf(fs, "HOTP (RFC 4226) Options:\n");
    fprintf(fs, "   OTPUTIL_OPT_HOTP_C:       %" PRIu64 "\n", tud->hotp_c);
    fprintf(fs, "   OTPUTIL_OPT_HOTP_DIGITS:  %i\n", tud->hotp_digits);
-   fprintf(fs, "   OTPUTIL_OPT_HOTP_HMAC:    %s\n", otputil_md2str(tud->hotp_hmac));
+   fprintf(fs, "   OTPUTIL_OPT_HOTP_HMAC:    %s (%i)\n", otputil_md2str(tud->hotp_hmac), tud->hotp_hmac);
    fprintf(fs, "   OTPUTIL_OPT_HOTP_KSTR:    %s\n", otputil_bvbase32(((tud->hotp_k)) ? tud->hotp_k : default_bv));
    fprintf(fs, "\n");
 
    fprintf(fs, "OTP (RFC 2289) Options:\n");
    fprintf(fs, "   OTPUTIL_OPT_OTP_ENCODE:   %i\n", tud->otp_encoding);
-   fprintf(fs, "   OTPUTIL_OPT_OTP_HASH:     %s\n", otputil_md2str(tud->otp_hash));
+   fprintf(fs, "   OTPUTIL_OPT_OTP_HASH:     %s (%i)\n", otputil_md2str(tud->otp_hash), tud->otp_hash);
    fprintf(fs, "   OTPUTIL_OPT_OTP_PASS:     %s\n", (((tud->otp_pass)) ? tud->otp_pass : "n/a"));
    fprintf(fs, "   OTPUTIL_OPT_OTP_SEED:     %s\n", (((tud->otp_seed)) ? tud->otp_seed : "n/a"));
    fprintf(fs, "   OTPUTIL_OPT_OTP_SEQ:      %i\n", tud->otp_seq);
@@ -114,14 +132,14 @@ otputil_debug(
 
    fprintf(fs, "S/KEY (RFC 1760) Options:\n");
    fprintf(fs, "   OTPUTIL_OPT_SKEY_ENCODE:  %i\n", tud->skey_encoding);
-   fprintf(fs, "   OTPUTIL_OPT_SKEY_HASH:    %s\n", otputil_md2str(tud->skey_hash));
+   fprintf(fs, "   OTPUTIL_OPT_SKEY_HASH:    %s (%i)\n", otputil_md2str(tud->skey_hash), tud->skey_hash);
    fprintf(fs, "   OTPUTIL_OPT_SKEY_PASS:    %s\n", (((tud->skey_pass)) ? tud->skey_pass : "n/a"));
    fprintf(fs, "   OTPUTIL_OPT_SKEY_SEQ:     %i\n", tud->skey_seq);
    fprintf(fs, "\n");
 
    fprintf(fs, "TOTP (RFC 6238) Options:\n");
    fprintf(fs, "   OTPUTIL_OPT_TOTP_DIGITS:  %i\n", tud->totp_digits);
-   fprintf(fs, "   OTPUTIL_OPT_TOTP_HMAC:    %s\n", otputil_md2str(tud->totp_hmac));
+   fprintf(fs, "   OTPUTIL_OPT_TOTP_HMAC:    %s (%i)\n", otputil_md2str(tud->totp_hmac), tud->totp_hmac);
    fprintf(fs, "   OTPUTIL_OPT_TOTP_KSTR:    %s\n", otputil_bvbase32(((tud->totp_k)) ? tud->totp_k : default_bv));
    fprintf(fs, "   OTPUTIL_OPT_TOTP_T0:      %" PRIu64 "\n", tud->totp_t0);
    fprintf(fs, "   OTPUTIL_OPT_TOTP_TIME:    %" PRIu64 "\n", tud->totp_time);
@@ -201,6 +219,18 @@ otputil_md2str(
 }
 
 
+const char *
+otputil_meth2str(
+         int                           md )
+{
+   int x;
+   for(x = 0; ((otputil_meth_list[x].map_name)); x++)
+      if (md == otputil_meth_list[x].map_id)
+         return(otputil_meth_list[x].map_name);
+   return(NULL);
+}
+
+
 int
 otputil_str2md(
          const char *                  str )
@@ -210,6 +240,19 @@ otputil_str2md(
    for(x = 0; ((otputil_md_list[x].map_name)); x++)
       if (!(strcasecmp(str, otputil_md_list[x].map_name)))
          return(otputil_md_list[x].map_id);
+   return(-1);
+}
+
+
+int
+otputil_str2meth(
+         const char *                  str )
+{
+   int x;
+   assert(str != NULL);
+   for(x = 0; ((otputil_meth_list[x].map_name)); x++)
+      if (!(strcasecmp(str, otputil_meth_list[x].map_name)))
+         return(otputil_meth_list[x].map_id);
    return(-1);
 }
 
