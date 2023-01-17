@@ -83,6 +83,7 @@ EXTRA_PROGRAMS				= examples/totp-example \
 					  src/otp-altdict \
 					  src/otputil \
 					  tests/otp-data-convert \
+					  tests/otp-data-dump \
 					  tests/test-dict-otp \
 					  tests/test-hotp \
 					  tests/test-otp \
@@ -141,6 +142,7 @@ DISTCHECK_CONFIGURE_FLAGS		= --enable-strictwarnings \
 if ENABLE_MAINTAINER
    noinst_PROGRAMS			+= src/otp-altdict
    noinst_PROGRAMS			+= tests/otp-data-convert
+   noinst_PROGRAMS			+= tests/otp-data-dump
 endif
 if ENABLE_EXAMPLES
    noinst_PROGRAMS			+= examples/totp-example
@@ -158,6 +160,7 @@ endif
 if ENABLE_TESTS
    TESTS				+= tests/test-dict-otp
    TESTS				+= tests/test-otputil-hotp.sh
+   TESTS				+= tests/test-otputil-otp.sh
    TESTS				+= tests/test-otputil-totp.sh
    TESTS				+= tests/test-hotp
    TESTS				+= tests/test-otp
@@ -235,6 +238,14 @@ tests_otp_data_convert_SOURCES		= tests/otp-data-convert.c \
 					  tests/otp-dicts/rfc2289-md4.c \
 					  tests/otp-dicts/rfc2289-md5.c \
 					  tests/otp-dicts/rfc2289-sha1.c
+
+
+# macros for tests/otp-data-dump
+tests_otp_data_dump_DEPENDENCIES	= Makefile $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+tests_otp_data_dump_LDADD		= $(AM_LIBS) $(noinst_LIBRARIES) $(lib_LTLIBRARIES)
+tests_otp_data_dump_SOURCES		= tests/otp-data.c \
+					  tests/otp-data.h \
+					  tests/otp-data-dump.c
 
 
 # macros for tests/test-dict-otp
