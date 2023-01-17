@@ -165,7 +165,7 @@ static otputil_widget_t otputil_widget_map[] =
    {  .name       = "hotp",
       .desc       = "hotp tools (RFC 4226)",
       .usage      = " [ code ]",
-      .short_opt  = (TOTP_SHORT_OPT "c:d:k:m:o"),
+      .short_opt  = (TOTP_SHORT_OPT "c:d:k:m:O:o"),
       .arg_min    = 0,
       .arg_max    = 1,
       .aliases    = NULL,
@@ -175,7 +175,7 @@ static otputil_widget_t otputil_widget_map[] =
    {  .name       = "otp",
       .desc       = "otp tools (RFC 2289)",
       .usage      = " [ sequence ] seed ]",
-      .short_opt  = (TOTP_SHORT_OPT "c:m:oP:ps:"),
+      .short_opt  = (TOTP_SHORT_OPT "c:m:O:oP:ps:"),
       .arg_min    = 0,
       .arg_max    = 2,
       .aliases    = NULL,
@@ -185,7 +185,7 @@ static otputil_widget_t otputil_widget_map[] =
    {  .name       = "otp-md4",
       .desc       = "otp alias for MD4",
       .usage      = " [ sequence ] seed ]",
-      .short_opt  = (TOTP_SHORT_OPT "c:oP:ps:"),
+      .short_opt  = (TOTP_SHORT_OPT "c:O:oP:ps:"),
       .arg_min    = 0,
       .arg_max    = 2,
       .aliases    = NULL,
@@ -195,7 +195,7 @@ static otputil_widget_t otputil_widget_map[] =
    {  .name       = "otp-md5",
       .desc       = "otp alias for MD5",
       .usage      = " [ sequence ] seed ]",
-      .short_opt  = (TOTP_SHORT_OPT "c:oP:ps:"),
+      .short_opt  = (TOTP_SHORT_OPT "c:O:oP:ps:"),
       .arg_min    = 0,
       .arg_max    = 2,
       .aliases    = NULL,
@@ -205,7 +205,7 @@ static otputil_widget_t otputil_widget_map[] =
    {  .name       = "otp-sha1",
       .desc       = "otp alias for SHA1",
       .usage      = " [ sequence ] seed ]",
-      .short_opt  = (TOTP_SHORT_OPT "c:oP:ps:"),
+      .short_opt  = (TOTP_SHORT_OPT "c:O:oP:ps:"),
       .arg_min    = 0,
       .arg_max    = 2,
       .aliases    = NULL,
@@ -215,7 +215,7 @@ static otputil_widget_t otputil_widget_map[] =
    {  .name       = "skey",
       .desc       = "s/key tools (RFC 1760)",
       .usage      = " [ sequence ]",
-      .short_opt  = (TOTP_SHORT_OPT "c:m:oP:p"),
+      .short_opt  = (TOTP_SHORT_OPT "c:m:O:oP:p"),
       .arg_min    = 0,
       .arg_max    = 1,
       .aliases    = NULL,
@@ -225,7 +225,7 @@ static otputil_widget_t otputil_widget_map[] =
    {  .name       = "totp",
       .desc       = "totp tools (RFC 6238)",
       .usage      = " [ code ]",
-      .short_opt  = (TOTP_SHORT_OPT "d:k:m:oT:t:x:"),
+      .short_opt  = (TOTP_SHORT_OPT "d:k:m:O:oT:t:x:"),
       .arg_min    = 0,
       .arg_max    = 1,
       .aliases    = NULL,
@@ -434,6 +434,10 @@ otputil_arguments(
          otputil_set_param(NULL, OTPUTIL_OPT_TOTP_HMAC, &i);
          break;
 
+         case 'O':
+         cnf->otp_pass = optarg;
+         break;
+
          case 'o':
          cnf->prompt_otp_pass = 1;
          break;
@@ -575,7 +579,7 @@ otputil_arguments(
 
    // process OTP password
    if ((cnf->prompt_otp_pass))
-      cnf->otp_pass = otputil_getpass("Enter OTP password or code: ", NULL, 0);
+      cnf->otp_pass = otputil_getpass("Enter OTP password or code: ", cnf->otp_pass_buff, sizeof(cnf->otp_pass_buff));
 
    return(0);
 }
@@ -704,6 +708,7 @@ otputil_widget_usage(
    if ((strchr(short_opt, 'k'))) printf("  -k string                 shared user key\n");
    if ((strchr(short_opt, 'h'))) printf("  -h, --help                print this help and exit\n");
    if ((strchr(short_opt, 'm'))) printf("  -m hash                   use message digest hash\n");
+   if ((strchr(short_opt, 'O'))) printf("  -O str                    OTP password/code to verify\n");
    if ((strchr(short_opt, 'o'))) printf("  -o                        prompt for OTP password/code to verify\n");
    if ((strchr(short_opt, 'P'))) printf("  -P str                    user password\n");
    if ((strchr(short_opt, 'p'))) printf("  -p                        prompt for user password\n");

@@ -95,6 +95,7 @@ struct _otputil_cli_config
    const char *               otp_pass;
    const char *               user_pass;
    const otputil_widget_t *   widget;
+   char                       otp_pass_buff[512];
 };
 
 
