@@ -51,6 +51,8 @@ my_payload()
    return 0;
 }
 
+test -x src/otputil || exit 77;
+
 REC_ERR=0;
 
 for REC in $(my_payload);do
