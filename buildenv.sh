@@ -44,7 +44,7 @@ fi
 case "${CMD}" in
    'configure')
    ${BUILDENVDIR}/configure \
-      --prefix=/tmp/totputils \
+      --prefix=/tmp/otputils \
       --enable-strictwarnings \
       --enable-utilities \
       --enable-debug \
