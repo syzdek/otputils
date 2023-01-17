@@ -177,6 +177,16 @@ static otputil_widget_t otputil_widget_map[] =
       .func_exec  = &otputil_widget_hotp,
       .func_usage = NULL,
    },
+   {  .name       = "hotp-sha1",
+      .desc       = NULL,
+      .usage      = " [ code ]",
+      .short_opt  = (TOTP_SHORT_OPT "c:d:k:O:o"),
+      .arg_min    = 0,
+      .arg_max    = 1,
+      .aliases    = (const char *[]){ "hotp-sha256", "hotp-sha512", NULL },
+      .func_exec  = &otputil_widget_hotp,
+      .func_usage = NULL,
+   },
 
    // OTP widget and aliases
    {  .name       = "otp",
