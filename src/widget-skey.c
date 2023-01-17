@@ -116,7 +116,7 @@ otputil_widget_skey(
    };
 
    // set default hash
-   if (!(strncasecmp(cnf->argv[0], "skey-", 4)))
+   if (!(strncasecmp(cnf->argv[0], "skey-", 5)))
    {
       if ((hash = otputil_str2md(&cnf->argv[0][5])) == -1)
       {
