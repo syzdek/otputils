@@ -115,6 +115,17 @@ otputil_widget_otp(
       return(1);
    };
 
+   // set default hash
+   if (!(strncasecmp(cnf->argv[0], "otp-", 4)))
+   {
+      if ((hash = otputil_str2md(&cnf->argv[0][4])) == -1)
+      {
+         fprintf(stderr, "%s: unsupported hash algorithm\n", cnf->prog_name);
+         return(1);
+      };
+      otputil_set_param(NULL, OTPUTIL_OPT_OTP_HASH, &hash);
+   };
+
    // initial processing of cli arguments
    if ((rc = otputil_arguments(cnf, cnf->argc, cnf->argv)) != 0)
       return((rc == -1) ? 0 : 1);
