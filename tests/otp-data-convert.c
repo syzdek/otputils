@@ -122,6 +122,7 @@ main(
    int               opt_index;
    int               method;
    int               val;
+   int               pos;
 
    // getopt options
    static const char *  short_opt = "hqVv";
@@ -176,12 +177,6 @@ main(
          return(1);
       };
    };
-   if (argc > 3)
-   {
-      fprintf(stderr, "%s: unknown argument -- `%s'\n", PROGRAM_NAME, argv[3]);
-      fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
-      return(1);
-   };
    if (argc < 3)
    {
       fprintf(stderr, "%s: missing required argument\n", PROGRAM_NAME);
@@ -194,24 +189,33 @@ main(
       fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
       return(1);
    };
-   if ((val = otputil_skey_dict_value(argv[2])) == -1)
+
+   for(pos = 2; (pos < argc); pos++)
    {
-      fprintf(stderr, "%s: unknown S/KEY dictionary word -- `%s'\n", PROGRAM_NAME, argv[2]);
-      fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
-      return(1);
+      if ((val = otputil_skey_dict_value(argv[pos])) == -1)
+      {
+         if (pos > 2)
+            printf("\n");
+         fprintf(stderr, "%s: unknown S/KEY dictionary word -- `%s'\n", PROGRAM_NAME, argv[pos]);
+         fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+         return(1);
+      };
+      switch(method)
+      {
+         case OTPUTIL_MD_MD4:  printf("%s ", otputil_dict_rfc2289_md4[val]); break;
+         case OTPUTIL_MD_MD5:  printf("%s ", otputil_dict_rfc2289_md5[val]); break;
+         case OTPUTIL_MD_SHA1: printf("%s ", otputil_dict_rfc2289_sha1[val]); break;
+
+         default:
+         if (pos > 2)
+            printf("\n");
+         fprintf(stderr, "%s: unknown supported hash -- `%s'\n", PROGRAM_NAME, argv[1]);
+         fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
+         return(1);
+      };
    };
 
-   switch(method)
-   {
-      case OTPUTIL_MD_MD4:  printf("%s\n", otputil_dict_rfc2289_md4[val]); break;
-      case OTPUTIL_MD_MD5:  printf("%s\n", otputil_dict_rfc2289_md5[val]); break;
-      case OTPUTIL_MD_SHA1: printf("%s\n", otputil_dict_rfc2289_sha1[val]); break;
-
-      default:
-      fprintf(stderr, "%s: unknown supported hash -- `%s'\n", PROGRAM_NAME, argv[1]);
-      fprintf(stderr, "Try `%s --help' for more information.\n", PROGRAM_NAME);
-      return(1);
-   };
+   printf("\n");
 
    return(0);
 }
