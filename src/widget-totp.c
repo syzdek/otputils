@@ -100,6 +100,7 @@ otputil_widget_totp(
          otputil_config_t *            cnf )
 {
    int            rc;
+   int            hash;
    uint64_t       meth;
 
    assert(cnf != NULL);
@@ -110,6 +111,17 @@ otputil_widget_totp(
    {
       fprintf(stderr, "%s: otputil_set_param(METHOD): %s\n", cnf->prog_name, otputil_err2string(rc));
       return(1);
+   };
+
+   // set default hash
+   if (!(strncasecmp(cnf->argv[0], "totp-", 5)))
+   {
+      if ((hash = otputil_str2md(&cnf->argv[0][5])) == -1)
+      {
+         fprintf(stderr, "%s: unsupported hash algorithm\n", cnf->prog_name);
+         return(1);
+      };
+      otputil_set_param(NULL, OTPUTIL_OPT_TOTP_HMAC, &hash);
    };
 
    // initial processing of cli arguments

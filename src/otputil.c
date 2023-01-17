@@ -233,6 +233,16 @@ static otputil_widget_t otputil_widget_map[] =
       .func_exec  = &otputil_widget_totp,
       .func_usage = NULL,
    },
+   {  .name       = "totp-sha1",
+      .desc       = NULL,
+      .usage      = " [ code ]",
+      .short_opt  = (TOTP_SHORT_OPT "d:k:O:oT:t:x:"),
+      .arg_min    = 0,
+      .arg_max    = 1,
+      .aliases    = (const char *[]){ "totp-sha256", "totp-sha512", NULL },
+      .func_exec  = &otputil_widget_totp,
+      .func_usage = NULL,
+   },
 
    // version widget
    {  .name       = "version",
