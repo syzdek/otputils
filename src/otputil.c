@@ -155,6 +155,8 @@ static otputil_widget_t otputil_widget_map[] =
       .func_usage = NULL,
    },
 #endif
+
+   // help widget
    {  .name       = "help",
       .desc       = "display help",
       .usage      = NULL,
@@ -163,6 +165,8 @@ static otputil_widget_t otputil_widget_map[] =
       .func_exec  = &otputil_widget_usage,
       .func_usage = NULL,
    },
+
+   // HOTP widget and aliases
    {  .name       = "hotp",
       .desc       = "hotp tools (RFC 4226)",
       .usage      = " [ code ]",
@@ -173,6 +177,8 @@ static otputil_widget_t otputil_widget_map[] =
       .func_exec  = &otputil_widget_hotp,
       .func_usage = NULL,
    },
+
+   // OTP widget and aliases
    {  .name       = "otp",
       .desc       = "otp tools (RFC 2289)",
       .usage      = " [ sequence [ seed [ code ]]]",
@@ -193,6 +199,8 @@ static otputil_widget_t otputil_widget_map[] =
       .func_exec  = &otputil_widget_otp,
       .func_usage = NULL,
    },
+
+   // S/KEY widget and aliases
    {  .name       = "skey",
       .desc       = "s/key tools (RFC 1760)",
       .usage      = " [ sequence ]",
@@ -203,6 +211,8 @@ static otputil_widget_t otputil_widget_map[] =
       .func_exec  = &otputil_widget_skey,
       .func_usage = &otputil_widget_skey_usage,
    },
+
+   // TOTP widget and aliases
    {  .name       = "totp",
       .desc       = "totp tools (RFC 6238)",
       .usage      = " [ code ]",
@@ -213,6 +223,8 @@ static otputil_widget_t otputil_widget_map[] =
       .func_exec  = &otputil_widget_totp,
       .func_usage = NULL,
    },
+
+   // version widget
    {  .name       = "version",
       .desc       = "display version",
       .usage      = NULL,
@@ -221,6 +233,7 @@ static otputil_widget_t otputil_widget_map[] =
       .func_exec  = &otputil_widget_version,
       .func_usage = NULL,
    },
+
    {  .name       = NULL,
       .desc       = NULL,
       .usage      = NULL,
