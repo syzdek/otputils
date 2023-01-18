@@ -2,7 +2,7 @@
 OTP Utilities
 =============
 
-Copyright (C) 2020 David M. Syzdek <david@syzdek.net>.
+Copyright (C) 2020, 2022 David M. Syzdek <david@syzdek.net>.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

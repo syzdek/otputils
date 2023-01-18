@@ -35,10 +35,10 @@ AC_PREREQ([2.65])
 
 AC_COPYRIGHT([Copyright (C) 2020, 2022 David M. Syzdek <david@syzdek.net>.])
 AC_REVISION(0.1)
-AC_INIT([OTP Utilities],[0.0],[david@syzdek.net],[otputils],[https://github.com/syzdek/otputils/])
+AC_INIT([OTP Utilities],[0.1],[david@syzdek.net],[otputils],[https://github.com/syzdek/otputils/])
 
 
-AC_SUBST([RELEASE_MONTH],["August 2020"])
+AC_SUBST([RELEASE_MONTH],["January 2022"])
 
 
 # directory locations
