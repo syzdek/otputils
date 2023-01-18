@@ -66,18 +66,18 @@ for REC in $(my_payload);do
 
    ./src/otputil -vv \
       "otp-${REC_HASH}" \
+      -P "${REC_PASS}" \
       "${REC_SEQ}" \
       "${REC_SEED}" \
       "${REC_HEX}" \
-      -P "${REC_PASS}" \
       || REC_ERR=$((${REC_ERR}+1))
 
    ./src/otputil -vv \
       "otp-${REC_HASH}" \
+      -P "${REC_PASS}" \
       "${REC_SEQ}" \
       "${REC_SEED}" \
       "${REC_SIX}" \
-      -P "${REC_PASS}" \
       || REC_ERR=$((${REC_ERR}+1))
 
    if test -z "${REC_ALT}";then
@@ -85,10 +85,10 @@ for REC in $(my_payload);do
    fi
    ./src/otputil -vv \
       "otp-${REC_HASH}" \
+      -P "${REC_PASS}" \
       "${REC_SEQ}" \
       "${REC_SEED}" \
       "${REC_ALT}" \
-      -P "${REC_PASS}" \
       || REC_ERR=$((${REC_ERR}+1))
 done
 
